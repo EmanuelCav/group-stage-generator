@@ -1,0 +1,154 @@
+import { useEffect } from "react";
+import { FlatList } from "react-native";
+import { Button, MD3Colors, Text, useTheme } from "react-native-paper";
+import { useRouter } from "expo-router";
+
+import { View } from "@/components/Themed";
+import TeamAdded from "@/components/create/TeamAdded";
+import AddTeam from "@/components/create/AddTeam";
+import HeaderCreate from "@/components/create/HeaderCreate";
+import FormCreateTeam from "@/components/create/FormCreateTeam";
+import GenerateButton from "@/components/create/GenerateButton";
+import AddButton from "@/components/general/AddButton";
+import SettingsFAB from "@/components/general/SettingsFAB";
+import Sure from "@/components/general/Sure";
+
+import { generalStyles } from "@/styles/general.styles";
+import { createStyles } from "@/styles/create.styles";
+
+import { ITeam } from "@/interface/Team";
+
+import { teamStore } from "@/store/team.store";
+import { groupStore } from "@/store/group.store";
+
+import { groupValue } from "@/utils/defaultGroup";
+import { groupGenerator } from "@/utils/generator";
+
+const Create = () => {
+
+  const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
+  const { createGroup, group, groups, createTeam, generateMatches, updateTeam, removeTeam } = groupStore()
+
+  const { colors } = useTheme()
+
+  const router = useRouter()
+
+  const generateGroups = () => {
+
+    const groupsMatches = groupGenerator(group)    
+    generateMatches(groupsMatches)
+  
+    for (let i = 0; i < groupsMatches.length; i++) {
+      
+      groupsMatches[i][0].forEach((gm) => {
+
+        updateTeam({
+          id: gm.local.team.id,
+          group: gm.local.team.group,
+          logo: gm.local.team.logo,
+          plot: group.teams.find(t => t.id === gm.local.team.id)?.plot,
+          name: gm.local.team.name,
+          points: gm.local.team.points
+        })
+
+        updateTeam({
+          id: gm.visitant.team.id,
+          group: gm.visitant.team.group,
+          logo: gm.visitant.team.logo,
+          plot: group.teams.find(t => t.id === gm.visitant.team.id)?.plot,
+          name: gm.visitant.team.name,
+          points: gm.visitant.team.points
+        })
+        
+      })
+    }
+
+    router.push("/(tabs)/groups")
+
+  }
+
+  const handleUpdate = (data: ITeam) => {
+    updateTeam(data)
+    getTeam({})
+  }
+
+  const handleUpdateTeam = (data: ITeam) => {
+    getTeam(data)
+    hideAndShowAddTeam(true)
+  }
+
+  const openSure = (data: ITeam) => {
+    getTeam(data)
+    sureRemoveTeam(true)
+  }
+
+  const handleRemoveTeam = () => {
+    sureRemoveTeam(false)
+    hideAndShowAddTeam(false)
+    removeTeam(team)
+    getTeam({})
+  }
+
+  const close = () => {
+    sureRemoveTeam(false)
+  }
+
+  const openCreateTeam = () => {
+    getTeam({})
+    hideAndShowAddTeam(true)
+  }
+
+  useEffect(() => {
+    hideAndShowAddTeam(false)
+    sureRemoveTeam(false)
+    getTeam({})
+  }, [])
+
+  useEffect(() => {
+    if (groups.length === 0) {
+      createGroup(groupValue(groups.length + 1))
+    }
+  }, [])
+
+  return (
+    <View style={{ flex: 1 }}>
+      {
+        isSure && <Sure func={handleRemoveTeam} text="Are you sure you want to delete?" close={close} />
+      }
+      {
+        showForm && <FormCreateTeam colors={colors} group={group} team={team} openSure={openSure}
+          hideAndShowAddTeam={hideAndShowAddTeam} createTeam={createTeam} updateTeam={handleUpdate} />
+      }
+      <HeaderCreate colors={colors} groups={groups} router={router} />
+      <View style={generalStyles.containerGeneral}>
+        {
+          group.teams.length > 0 ? <AddButton colors={colors} handleAdd={openCreateTeam} /> :
+            <AddTeam openForm={hideAndShowAddTeam} colors={colors} />
+        }
+        {
+          group.teams.length > 0 && <SettingsFAB colors={colors} />
+        }
+        {
+          group.teams.length > 0 ?
+            <FlatList
+              style={{ width: '100%' }}
+              data={group.teams}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={({ item }) => <TeamAdded team={item} handleUpdateTeam={handleUpdateTeam} />}
+            /> : <Text variant="bodyMedium" style={createStyles.advideText}>
+              Add teams to generate the group stage
+            </Text>
+        }
+      </View>
+      {
+        group.teams.length < 2 && <Text variant="bodySmall"
+          style={{ color: MD3Colors.error50, textAlign: 'center' }}>
+          Add 2 or more teams to generate
+        </Text>
+      }
+      <GenerateButton teams={group.teams} colors={colors} generateGroups={generateGroups} />
+    </View>
+  );
+};
+
+export default Create;
