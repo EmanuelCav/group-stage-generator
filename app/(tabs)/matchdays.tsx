@@ -21,7 +21,7 @@ const Matchdays = () => {
             {
                 group.isGeneratedAgain && <GenerateAgain colors={colors} />
             }
-            <Schedule group={group} />
+            <Schedule group={group} colors={colors} />
         </View>
     )
 }

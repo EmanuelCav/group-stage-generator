@@ -140,7 +140,8 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
                     team: j % 2 === 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
                 },
                 referee: "",
-                stadium: ""
+                stadium: "",
+                isEdit: false
             })
         }
 

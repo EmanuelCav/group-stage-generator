@@ -50,6 +50,7 @@ export interface IMatch {
     visitant: IMatchTeam;
     referee: string;
     stadium: string;
+    isEdit: boolean;
     date?: Date;
 }
 

@@ -66,7 +66,11 @@ export const generalStyles = StyleSheet.create({
     showGenerateAgain: {
         alignItems: 'center',
         marginTop: Dimensions.get("window").height / 24,
+    },
 
+    titleDataTable: {
+        marginLeft: Dimensions.get("window").width / 30, 
+        marginVertical: Dimensions.get("window").height / 106
     }
 
 })

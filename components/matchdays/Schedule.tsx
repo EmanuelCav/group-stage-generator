@@ -1,34 +1,48 @@
-import { View } from '../Themed';
+import { DataTable, Title } from 'react-native-paper';
+import { FlatList } from 'react-native';
+
+import Match from './components/Match';
 
 import { SchedulePropsType } from '@/types/matchdays.props';
 import { IMatch } from '@/interface/Group';
 
-const Schedule = ({ group }: SchedulePropsType) => {
-    
-    const maxLength = Math.max(...group.matches!.map((subgroup) => subgroup.length));
-    
-    let interleavedMatches: IMatch[][] = [];
+import { groupStyles } from '@/styles/group.styles';
+import { generalStyles } from '@/styles/general.styles';
 
-    for (let i = 0; i < maxLength; i++) {
-        group.matches!.forEach((subgroup) => {
-            if (subgroup[i]) {
-                interleavedMatches.push(subgroup[i]);
+import { getMatchdaysGroupState } from '@/utils/matchday';
+
+type RenderMatchday = {
+    item: IMatch[];
+    index: number;
+}
+
+const Schedule = ({ group, colors }: SchedulePropsType) => {
+
+    const renderMatchday = ({ item, index }: RenderMatchday) => (
+        <DataTable key={index}>
+            <Title style={[{ color: colors.primary,  }, generalStyles.titleDataTable]}>
+                Matchday {index+1}
+            </Title>
+            <DataTable.Header style={{ borderBottomColor: colors.primary }}>
+                <DataTable.Title style={groupStyles.rowContainer}>Local</DataTable.Title>
+                <DataTable.Title numeric style={groupStyles.rowContainer}>Score</DataTable.Title>
+                <DataTable.Title style={groupStyles.rowContainer}>Visitant</DataTable.Title>
+            </DataTable.Header>
+            {
+                item.map((match, index) => {
+                    return <Match match={match} colors={colors} key={index} />
+                })
             }
-        });
-    }
-
-    console.log(interleavedMatches[0][0]);
-    
+        </DataTable>
+    );
 
     return (
-        <View>
-            {interleavedMatches.map((match, index) => (
-                <View>
-
-                </View>
-            ))}
-        </View>
-    );
+        <FlatList
+            data={getMatchdaysGroupState(group.matches!)}
+            renderItem={renderMatchday}
+            keyExtractor={(_, index) => index.toString()}
+        />
+    )
 };
 
 export default Schedule;

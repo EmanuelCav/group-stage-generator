@@ -2,6 +2,8 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { PropsWithChildren } from "react";
 import { Router } from "expo-router";
 
+import { IMatch } from "@/interface/Group";
+
 export type Action = {
     type: string;
     payload: any;
@@ -25,4 +27,9 @@ export type SurePropsType = {
 
 export type GenerateAgainPropsType = {
     colors: MD3Colors;
+}
+
+export type MatchPropsType = {
+    colors: MD3Colors;
+    match: IMatch;
 }

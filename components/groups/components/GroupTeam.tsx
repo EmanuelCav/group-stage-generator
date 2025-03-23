@@ -9,7 +9,7 @@ import { groupStyles } from '@/styles/group.styles'
 
 const GroupTeam = ({ team, group, colors }: GroupTeamPropsType) => {
     return (
-        <DataTable.Row style={{ borderBottomColor: colors.secondary }} key={team.id}>
+        <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
             <DataTable.Cell style={groupStyles.rowContainer}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {team.logo ? (
