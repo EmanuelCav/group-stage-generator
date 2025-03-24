@@ -1,0 +1,100 @@
+import { useEffect } from "react";
+import { FlatList } from "react-native";
+import { Text, useTheme } from "react-native-paper";
+import { useRouter } from "expo-router";
+
+import { View } from "@/components/Themed";
+import HeaderGeneral from "@/components/general/HeaderGeneral";
+import AddAction from "@/components/general/AddAction";
+import FormCreateReferee from "@/components/referees/FormCreateReferee";
+import Referee from "@/components/referees/Referee";
+import AddButton from "@/components/general/AddButton";
+import Sure from "@/components/general/Sure";
+
+import { generalStyles } from "@/styles/general.styles";
+import { createStyles } from "@/styles/create.styles";
+
+import { IReferee } from "@/interface/Referee";
+
+import { groupStore } from "@/store/group.store";
+
+import { refereeStore } from "@/store/referee.store";
+
+const Referees = () => {
+
+    const { showForm, hideAndShowAddReferee, getReferee, referee, isSure, sureRemoveReferee } = refereeStore()
+    const { group, createReferee, updateReferee, removeReferee } = groupStore()
+
+    const { colors } = useTheme()
+
+    const router = useRouter()
+
+    const handleUpdate = (data: IReferee) => {
+        updateReferee(data)
+        getReferee({})
+    }
+
+    const handleUpdateReferee = (data: IReferee) => {
+        getReferee(data)
+        hideAndShowAddReferee(true)
+    }
+
+    const openSure = (data: IReferee) => {
+        getReferee(data)
+        sureRemoveReferee(true)
+    }
+
+    const handleRemoveReferee = () => {
+        sureRemoveReferee(false)
+        hideAndShowAddReferee(false)
+        removeReferee(referee)
+        getReferee({})
+    }
+
+    const close = () => {
+        sureRemoveReferee(false)
+    }
+
+    const openCreateReferee = () => {
+        getReferee({})
+        hideAndShowAddReferee(true)
+    }
+
+    useEffect(() => {
+        hideAndShowAddReferee(false)
+        sureRemoveReferee(false)
+        getReferee({})
+    }, [])
+
+    return (
+        <View style={{ flex: 1 }}>
+            {
+                isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} />
+            }
+            {
+                showForm && <FormCreateReferee colors={colors} referee={referee} openSure={openSure}
+                    hideAndShowAddReferee={hideAndShowAddReferee} createReferee={createReferee} updateReferee={handleUpdate} />
+            }
+            <HeaderGeneral colors={colors} router={router} title="Referees" />
+            <View style={generalStyles.containerGeneral}>
+                {
+                    group.referees!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :
+                        <AddAction openForm={hideAndShowAddReferee} colors={colors} text="ADD REFEREE" />
+                }
+                {
+                    group.referees!.length > 0 ?
+                        <FlatList
+                            style={{ width: '100%' }}
+                            data={group.referees!}
+                            keyExtractor={(_, index) => index.toString()}
+                            renderItem={({ item }) => <Referee referee={item} handleUpdateReferee={handleUpdateReferee} />}
+                        /> : <Text variant="bodyMedium" style={createStyles.advideText}>
+                            Add referees
+                        </Text>
+                }
+            </View>
+        </View>
+    );
+};
+
+export default Referees;

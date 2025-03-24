@@ -10,7 +10,7 @@ import { View } from "../Themed";
 import ContainerBackground from "../general/ContainerBackground";
 
 import { FormCreateTeamPropsType } from "@/types/create.types";
-import { ICreateTeam } from "@/interface/Team";
+import { ICreate } from "@/interface/Team";
 
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
@@ -46,7 +46,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   }
 
-  const handleAddTeam = (teamCreated: ICreateTeam) => {
+  const handleAddTeam = (teamCreated: ICreate) => {
 
     if (team.id) {
       updateTeam({

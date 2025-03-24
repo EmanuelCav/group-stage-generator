@@ -2,7 +2,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { PropsWithChildren } from "react";
 import { Router } from "expo-router";
 
-import { IMatch } from "@/interface/Group";
+import { IMatch } from "@/interface/Match";
 
 export type Action = {
     type: string;
@@ -32,4 +32,10 @@ export type GenerateAgainPropsType = {
 export type MatchPropsType = {
     colors: MD3Colors;
     match: IMatch;
+}
+
+export type AddActionPropsType = {
+    colors: MD3Colors;
+    openForm: (show: boolean) => void;
+    text: string;
 }

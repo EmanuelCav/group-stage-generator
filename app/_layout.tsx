@@ -47,6 +47,9 @@ function RootLayoutNav() {
         <Stack.Screen name="index" options={{ title: "Index", headerShown: false }} />
         <Stack.Screen name="create" options={{ title: "Create", headerShown: false }} />
         <Stack.Screen name="config" options={{ title: "Config", headerShown: false }} />
+        <Stack.Screen name="stadiums" options={{ title: "Stadiums", headerShown: false }} />
+        <Stack.Screen name="referees" options={{ title: "Referees", headerShown: false }} />
+        <Stack.Screen name="players" options={{ title: "Players", headerShown: false }} />
       </Stack>
     </PaperProvider>
   );

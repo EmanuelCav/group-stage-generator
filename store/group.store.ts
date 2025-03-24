@@ -1,8 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { IGroup, IGroupStore, IMatch } from "@/interface/Group";
+import { IMatch } from "@/interface/Match";
+import { IGroup, IGroupStore } from "@/interface/Group";
 import { ITeam } from "@/interface/Team";
+import { IReferee } from "@/interface/Referee";
+import { IStadium } from "@/interface/Stadium";
 
 export const groupStore = create(
     persist<IGroupStore>(
@@ -26,6 +29,14 @@ export const groupStore = create(
                 group: {...state.group, teams: [...state.group.teams, data]},
                 groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, teams: [...state.group.teams, data]} : g)
             })),
+            createReferee: (data: IReferee) => set((state) => ({
+                group: {...state.group, referees: [...state.group.referees!, data]},
+                groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, referees: [...state.group.referees!, data]} : g)
+            })),
+            createStadium: (data: IStadium) => set((state) => ({
+                group: {...state.group, stadiums: [...state.group.stadiums!, data]},
+                groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, stadiums: [...state.group.stadiums!, data]} : g)
+            })),
             generateMatches: (data: IMatch[][][]) => set((state) => ({
                 group: {...state.group, matches: data, isGenerated: true},
                 groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, groupsMatches: data, isGenerated: true} : g)
@@ -34,9 +45,25 @@ export const groupStore = create(
                 group: {...state.group, teams: state.group.teams.map((t) => t.id === data.id ? data : t)},
                 groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, teams: state.group.teams.map((t) => t.id === data.id ? data : t)} : g)
             })),
+            updateReferee: (data: IReferee) => set((state) => ({
+                group: {...state.group, referees: state.group.referees!.map((r) => r.name === data.name ? data : r)},
+                groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, referees: state.group.referees!.map((r) => r.name === data.name ? data : r)} : g)
+            })),
+            updateStadium: (data: IStadium) => set((state) => ({
+                group: {...state.group, stadiums: state.group.stadiums!.map((s) => s.name === data.name ? data : s)},
+                groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, stadiums: state.group.stadiums!.map((s) => s.name === data.name ? data : s)} : g)
+            })),
             removeTeam: (data: ITeam) => set((state) => ({
                 group: {...state.group, teams: state.group.teams.filter((t) => t.id !== data.id)},
                 groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, teams: state.group.teams.filter((t) => t.id !== data.id)} : g)
+            })),
+            removeReferee: (data: IReferee) => set((state) => ({
+                group: {...state.group, referees: state.group.referees!.filter((r) => r.name !== data.name)},
+                groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, referees: state.group.referees!.filter((r) => r.name !== data.name)} : g)
+            })),
+            removeStadium: (data: IStadium) => set((state) => ({
+                group: {...state.group, stadiums: state.group.stadiums!.filter((s) => s.name !== data.name)},
+                groups: state.groups.map((g) => g.id === state.group.id ? {...state.group, stadiums: state.group.stadiums!.filter((s) => s.name !== data.name)} : g)
             })),
             updateGenerateAgain: () => set((state) => ({
                 group: {...state.group, isGeneratedAgain: false},

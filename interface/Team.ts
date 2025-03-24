@@ -16,7 +16,7 @@ export interface ITeam {
     points?: IPoints;
 }
 
-export interface ICreateTeam {
+export interface ICreate {
     name: string;
 }
 

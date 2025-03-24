@@ -11,7 +11,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={18} style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
@@ -27,18 +27,38 @@ export default function TabLayout() {
         name="groups"
         options={{
           headerShown: false,
-          title: 'Groups',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Groups",
+          tabBarIcon: ({ color }) => <TabBarIcon name="th-large" color={color} />,
         }}
       />
+
       <Tabs.Screen
         name="matchdays"
         options={{
           headerShown: false,
-          title: 'Matchdays',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Matchdays",
+          tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
+
+      <Tabs.Screen
+        name="elimination"
+        options={{
+          headerShown: false,
+          title: "Elimination",
+          tabBarIcon: ({ color }) => <TabBarIcon name="sitemap" color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="statistics"
+        options={{
+          headerShown: false,
+          title: "Statistics",
+          tabBarIcon: ({ color }) => <TabBarIcon name="bar-chart" color={color} />,
+        }}
+      />
+
     </Tabs>
   );
 }
