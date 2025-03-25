@@ -8,5 +8,6 @@ export interface IStadiumStore {
 }
 
 export interface IStadium {
+    id?: number;
     name?: string;
 }

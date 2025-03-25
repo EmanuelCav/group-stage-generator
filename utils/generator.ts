@@ -1,4 +1,5 @@
-import { IGroup, IMatch } from "@/interface/Group"
+import { IGroup } from "@/interface/Group"
+import { IMatch } from "@/interface/Match"
 import { ITeam } from "@/interface/Team"
 
 export const groupGenerator = (group: IGroup): IMatch[][][] => {
@@ -7,17 +8,19 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
     let shuffledPlots: ITeam[][] = []
     let plots = verifyPlots(group.teams, group.teamsPerGroup!)
 
-    if (plots.length === 1) {
+    if (group.teamsPerGroup! === 1) {
         if (isPrime(plots[0].length)) {
-            shuffle(plots[0])
+            plots[0] = [...shuffle([...plots[0]])]
             shuffledPlots = [...plots]
         } else {
             const numberOfGroups = getMiddleElement(group.teams.length)
-            shuffle(plots[0])
+            plots[0] = [...shuffle([...plots[0]])]
+
             let index = 0
 
             for (let i = 0; i < numberOfGroups; i++) {
-                let arr = []
+
+                let arr: ITeam[] = []
 
                 for (let j = 0; j < group.teams.length / numberOfGroups; j++) {
                     arr.push(plots[0][index])
@@ -30,7 +33,7 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
         }
     } else {
         for (let i = 0; i < plots.length; i++) {
-            shuffle(plots[i])
+            plots[i] = [...shuffle([...plots[i]])]
         }
 
         shuffledPlots = [...plots]
@@ -46,8 +49,9 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
             plotSet.push({ ...shuffledPlots[i][j], plot: i + 1 })
         }
 
-        shuffle(plotSet)
-        plotsSet.push(plotSet)
+        const shuffledPlotSet = [...shuffle([...plotSet])]
+
+        plotsSet.push(shuffledPlotSet)
     }
 
     let groupsSorted: ITeam[][] = []
@@ -144,7 +148,7 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
                 isEdit: false
             })
         }
-
+        
         shuffle(matchs)
 
         matches.push(matchs)
@@ -163,7 +167,7 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
 }
 
-const shuffle = (array: any[]) => {
+const shuffle = (array: any[]): any[] => {
     let currentIndex = array.length;
 
     while (currentIndex != 0) {
@@ -174,6 +178,8 @@ const shuffle = (array: any[]) => {
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex], array[currentIndex]];
     }
+
+    return array
 }
 
 

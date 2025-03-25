@@ -4,40 +4,40 @@ import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-pap
 
 import ContainerBackground from "../general/ContainerBackground";
 
-import { FormCreateStadiumPropsType } from "@/types/stadiums.types";
 import { ICreate } from "@/interface/Team";
+import { FormCreatePlayerPropsType } from "@/types/player.types";
 
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
-import { stadiumSchema } from "@/schema/stadium.schema";
+import { playerSchema } from "@/schema/player.schema";
 
-const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure }: FormCreateStadiumPropsType) => {
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure }: FormCreatePlayerPropsType) => {
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
-        resolver: yupResolver(stadiumSchema),
+        resolver: yupResolver(playerSchema),
         defaultValues: {
-            name: stadium.name ? stadium.name : ""
+            name: player.name ? player.name : ""
         }
     })
 
-    const handleAddStadium = (stadiumCreated: ICreate) => {
+    const handleAddStadium = (playerCreated: ICreate) => {
 
-        if (stadium.name) {
-            updateStadium({
-                id: stadium.id,
-                name: stadiumCreated.name
+        if (player.name) {
+            updatePlayer({
+                id: player.id,
+                name: playerCreated.name
             })
         } else {
-            createStadium({
-                id: group.referees?.length as number + 1,
-                name: stadiumCreated.name
+            createPlayer({
+                id: group.players?.length as number + 1,
+                name: playerCreated.name
             })
 
             reset()
         }
 
-        hideAndShowAddStadium(false)
+        hideAndShowAddPlayer(false)
     }
 
     return (
@@ -47,7 +47,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                 style={generalStyles.buttonClose}
                 iconColor={MD3Colors.error50}
                 size={24}
-                onPress={() => hideAndShowAddStadium(false)}
+                onPress={() => hideAndShowAddPlayer(false)}
             />
             {
                 errors.name && <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
@@ -63,7 +63,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Stadium name"
+                        label="Referee name"
                         autoFocus
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
@@ -73,13 +73,13 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddStadium(data))}>
                 {
-                    stadium.name ? "UPDATE" : "ADD"
+                    player.name ? "UPDATE" : "ADD"
                 }
             </Button>
 
             {
-                stadium.name && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => openSure(stadium)}>
+                player.name && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }} onPress={() => openSure(player)}>
                     REMOVE
                 </Button>
             }
@@ -89,4 +89,4 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
     );
 };
 
-export default FormCreateStadium
+export default FormCreatePlayer

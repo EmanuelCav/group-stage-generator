@@ -23,7 +23,7 @@ import { stadiumStore } from "@/store/stadium.store";
 const Stadiums = () => {
 
   const { showForm, hideAndShowAddStadium, getStadium, stadium, isSure, sureRemoveStadium } = stadiumStore()
-  const { group, createStadium, updateStadium, removeStadium } = groupStore()
+  const { group, createStadium, updateStadium, removeStadium, getGroup } = groupStore()
 
   const { colors } = useTheme()
 
@@ -60,6 +60,10 @@ const Stadiums = () => {
     hideAndShowAddStadium(true)
   }
 
+  const goBack = () => {
+    router.replace("/(tabs)/groups")
+  }
+
   useEffect(() => {
     hideAndShowAddStadium(false)
     sureRemoveStadium(false)
@@ -72,10 +76,10 @@ const Stadiums = () => {
         isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} />
       }
       {
-        showForm && <FormCreateStadium colors={colors} stadium={stadium} openSure={openSure}
+        showForm && <FormCreateStadium group={group} colors={colors} stadium={stadium} openSure={openSure}
           hideAndShowAddStadium={hideAndShowAddStadium} createStadium={createStadium} updateStadium={handleUpdate} />
       }
-      <HeaderGeneral colors={colors} router={router} title="Stadiums" />
+      <HeaderGeneral colors={colors} router={router} title="Stadiums" goBack={goBack} />
       <View style={generalStyles.containerGeneral}>
         {
           group.stadiums!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateStadium} /> :
@@ -89,7 +93,7 @@ const Stadiums = () => {
               keyExtractor={(_, index) => index.toString()}
               renderItem={({ item }) => <Stadium stadium={item} handleUpdateStadium={handleUpdateStadium} />}
             /> : <Text variant="bodyMedium" style={createStyles.advideText}>
-              Add stadiums
+              Add stadiums to add to matches
             </Text>
         }
       </View>

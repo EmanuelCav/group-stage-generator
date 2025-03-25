@@ -44,6 +44,11 @@ export const createStyles = StyleSheet.create({
         backgroundColor: "#ffffff"
     },
 
+    inputGeneralCreate: {
+        marginTop: Dimensions.get("window").height / 28,
+        backgroundColor: "#ffffff"
+    },
+
     containTeamAdded: {
         width: '100%',
         marginVertical: Dimensions.get("window").height / 106,

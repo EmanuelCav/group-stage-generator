@@ -29,6 +29,7 @@ export type HeaderCreatePropsType = {
     colors: MD3Colors;
     groups: IGroup[];
     router: Router;
+    group: IGroup;
 }
 
 export type AddButtonPropsType = {

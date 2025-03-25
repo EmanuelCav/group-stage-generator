@@ -23,7 +23,7 @@ import { refereeStore } from "@/store/referee.store";
 const Referees = () => {
 
     const { showForm, hideAndShowAddReferee, getReferee, referee, isSure, sureRemoveReferee } = refereeStore()
-    const { group, createReferee, updateReferee, removeReferee } = groupStore()
+    const { group, createReferee, updateReferee, removeReferee, getGroup } = groupStore()
 
     const { colors } = useTheme()
 
@@ -60,6 +60,10 @@ const Referees = () => {
         hideAndShowAddReferee(true)
     }
 
+    const goBack = () => {
+        router.replace("/(tabs)/groups")
+    }
+
     useEffect(() => {
         hideAndShowAddReferee(false)
         sureRemoveReferee(false)
@@ -72,10 +76,10 @@ const Referees = () => {
                 isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} />
             }
             {
-                showForm && <FormCreateReferee colors={colors} referee={referee} openSure={openSure}
+                showForm && <FormCreateReferee group={group} colors={colors} referee={referee} openSure={openSure}
                     hideAndShowAddReferee={hideAndShowAddReferee} createReferee={createReferee} updateReferee={handleUpdate} />
             }
-            <HeaderGeneral colors={colors} router={router} title="Referees" />
+            <HeaderGeneral colors={colors} router={router} title="Referees" goBack={goBack} />
             <View style={generalStyles.containerGeneral}>
                 {
                     group.referees!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :
@@ -89,7 +93,7 @@ const Referees = () => {
                             keyExtractor={(_, index) => index.toString()}
                             renderItem={({ item }) => <Referee referee={item} handleUpdateReferee={handleUpdateReferee} />}
                         /> : <Text variant="bodyMedium" style={createStyles.advideText}>
-                            Add referees
+                            Add referees to add to matches
                         </Text>
                 }
             </View>

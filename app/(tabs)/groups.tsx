@@ -12,11 +12,19 @@ const Groups = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { group } = groupStore()
+    const { group, getGroup } = groupStore()
+
+    const goBack = () => {
+        getGroup({
+            teams: []
+        })
+
+        router.replace("/")
+    }
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderGeneral colors={colors} router={router} title='Groups' />
+            <HeaderGeneral colors={colors} router={router} title='Groups' goBack={goBack} />
             {
                 group.isGeneratedAgain && <GenerateAgain colors={colors} />
             }

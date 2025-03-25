@@ -1,4 +1,5 @@
 import { IMatch } from "./Match";
+import { IPlayer } from "./Player";
 import { IReferee } from "./Referee";
 import { IStadium } from "./Stadium";
 import { ITeam } from "./Team";
@@ -10,15 +11,18 @@ export interface IGroupStore {
     updateTeam: (data: ITeam) => void;
     updateReferee: (data: IReferee) => void;
     updateStadium: (data: IStadium) => void;
+    updatePlayer: (data: IPlayer) => void;
     getGroup: (data: IGroup) => void;
     createGroup: (data: IGroup) => void;
     updateGroup: (data: IGroup) => void;
     createTeam: (data: ITeam) => void;
     createReferee: (data: IReferee) => void;
     createStadium: (data: IStadium) => void;
+    createPlayer: (data: IPlayer) => void;
     removeTeam: (data: ITeam) => void;
     removeReferee: (data: IReferee) => void;
     removeStadium: (data: IStadium) => void;
+    removePlayer: (data: IPlayer) => void;
     updateGenerateAgain: () => void;
 }
 
@@ -30,6 +34,7 @@ export interface IGroup {
     teams: ITeam[]
     stadiums?: IStadium[];
     referees?: IReferee[];
+    players?: IPlayer[];
     isRoundTripGroupStage?: boolean;
     isRoundTripElimination?: boolean;
     amountClassified?: number;

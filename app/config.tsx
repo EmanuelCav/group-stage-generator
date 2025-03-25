@@ -9,6 +9,7 @@ import HeaderConfig from "@/components/config/HeaderConfig";
 import SwitchSettings from "@/components/config/SwitchSettings";
 import InputSettings from "@/components/config/InputSettings";
 import SettingsButton from "@/components/config/SettingsButton";
+import HeaderGeneral from "@/components/general/HeaderGeneral";
 
 import { IGroup, ISetting } from "@/interface/Group";
 
@@ -71,19 +72,26 @@ const Config = () => {
     }
 
     const comeBack = () => {
-        if(group.isGenerated) {
+        if (group.isGenerated) {
             router.replace("/(tabs)/matchdays")
         } else {
             router.replace("/create")
         }
     }
 
+    const goBack = () => {
+        router.replace("/(tabs)/groups")
+    }
+
     return (
         <View style={{ flex: 1 }}>
-            <HeaderConfig colors={colors} comeBack={comeBack} />
+            {
+                group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Settings" goBack={goBack} />
+                    : <HeaderConfig colors={colors} comeBack={comeBack} />
+            }
             <ScrollView style={configStyles.containerSettings}>
-                {errors.title && <Text variant='bodySmall' 
-                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}>
+                {errors.title && <Text variant='bodySmall'
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}>
                     {errors.title.message}
                 </Text>
                 }

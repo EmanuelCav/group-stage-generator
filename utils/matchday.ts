@@ -1,4 +1,4 @@
-import { IMatch } from "@/interface/Group"
+import { IMatch } from "@/interface/Match"
 
 export const getMatchdaysGroupState = (matches: IMatch[][][]): IMatch[][] => {
 

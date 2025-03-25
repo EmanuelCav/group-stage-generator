@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Appbar, Menu } from "react-native-paper";
+
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
-const HeaderGeneral = ({ colors, router, title }: HeaderGeneralPropsTypes) => {
+const HeaderGeneral = ({ colors, router, title, goBack }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
 
     return (
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
-            <Appbar.BackAction color="#ffffff" onPress={() => router.replace("/")} />
+            <Appbar.BackAction color="#ffffff" onPress={goBack} />
             <Appbar.Content title={title} color="#ffffff" />
 
             <Menu
@@ -43,9 +44,15 @@ const HeaderGeneral = ({ colors, router, title }: HeaderGeneralPropsTypes) => {
                 />
 
                 <Menu.Item
-                    onPress={() => { console.log("Opción 1 seleccionada") }}
+                    onPress={() => router.replace("/config")}
                     title="Settings"
                     leadingIcon="cog"
+                />
+
+                <Menu.Item
+                    onPress={() => { console.log("Opción 2 seleccionada") }}
+                    title="Restart"
+                    leadingIcon="restart"
                 />
 
                 <Menu.Item
@@ -55,7 +62,7 @@ const HeaderGeneral = ({ colors, router, title }: HeaderGeneralPropsTypes) => {
                 />
 
                 <Menu.Item
-                    onPress={() => { console.log("Opción 2 seleccionada") }}
+                    onPress={goBack}
                     title="Go back"
                     leadingIcon="arrow-left"
                 />

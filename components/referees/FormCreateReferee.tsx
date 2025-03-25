@@ -12,7 +12,7 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { refereeSchema } from "@/schema/referee.schema";
 
-const FormCreateReferee = ({ colors, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure }: FormCreateRefereePropsType) => {
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure }: FormCreateRefereePropsType) => {
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(refereeSchema),
@@ -25,10 +25,12 @@ const FormCreateReferee = ({ colors, hideAndShowAddReferee, createReferee, refer
 
         if (referee.name) {
             updateReferee({
+                id: referee.id,
                 name: stadiumCreated.name
             })
         } else {
             createReferee({
+                id: group.referees?.length as number + 1,
                 name: stadiumCreated.name
             })
 
@@ -64,7 +66,7 @@ const FormCreateReferee = ({ colors, hideAndShowAddReferee, createReferee, refer
                         label="Referee name"
                         autoFocus
                         mode="outlined"
-                        style={createStyles.inputAdd}
+                        style={createStyles.inputGeneralCreate}
                     />
                 )} />
 

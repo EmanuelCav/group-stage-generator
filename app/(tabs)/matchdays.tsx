@@ -12,12 +12,19 @@ const Matchdays = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
+    const { group, getGroup } = groupStore()
 
-    const { group } = groupStore()
+    const goBack = () => {
+        getGroup({
+            teams: []
+        })
+
+        router.replace("/")
+    }
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderGeneral colors={colors} router={router} title='Matchdays' />
+            <HeaderGeneral colors={colors} router={router} title='Matchdays' goBack={goBack} />
             {
                 group.isGeneratedAgain && <GenerateAgain colors={colors} />
             }

@@ -23,6 +23,7 @@ import { groupStore } from "@/store/group.store";
 
 import { groupValue } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
+import HeaderGeneral from "@/components/general/HeaderGeneral";
 
 const Create = () => {
 
@@ -35,11 +36,11 @@ const Create = () => {
 
   const generateGroups = () => {
 
-    const groupsMatches = groupGenerator(group)    
+    const groupsMatches = groupGenerator(group)
     generateMatches(groupsMatches)
-  
+
     for (let i = 0; i < groupsMatches.length; i++) {
-      
+
       groupsMatches[i][0].forEach((gm) => {
 
         updateTeam({
@@ -59,7 +60,7 @@ const Create = () => {
           name: gm.visitant.team.name,
           points: gm.visitant.team.points
         })
-        
+
       })
     }
 
@@ -98,6 +99,10 @@ const Create = () => {
     hideAndShowAddTeam(true)
   }
 
+  const goBack = () => {
+    router.replace("/(tabs)/groups")
+  }
+
   useEffect(() => {
     hideAndShowAddTeam(false)
     sureRemoveTeam(false)
@@ -119,14 +124,17 @@ const Create = () => {
         showForm && <FormCreateTeam colors={colors} group={group} team={team} openSure={openSure}
           hideAndShowAddTeam={hideAndShowAddTeam} createTeam={createTeam} updateTeam={handleUpdate} />
       }
-      <HeaderCreate colors={colors} groups={groups} router={router} />
+      {
+        group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Teams" goBack={goBack} />
+          : <HeaderCreate colors={colors} groups={groups} router={router} group={group} />
+      }
       <View style={generalStyles.containerGeneral}>
         {
           group.teams.length > 0 ? <AddButton colors={colors} handleAdd={openCreateTeam} /> :
             <AddTeam openForm={hideAndShowAddTeam} colors={colors} />
         }
         {
-          group.teams.length > 0 && <SettingsFAB colors={colors} />
+          group.teams.length  > 0 && !group.isGenerated && <SettingsFAB colors={colors} />
         }
         {
           group.teams.length > 0 ?
@@ -146,7 +154,10 @@ const Create = () => {
           Add 2 or more teams to generate
         </Text>
       }
-      <GenerateButton teams={group.teams} colors={colors} generateGroups={generateGroups} />
+      {
+        !group.isGenerated && <GenerateButton teams={group.teams} 
+        colors={colors} generateGroups={generateGroups} />
+      }
     </View>
   );
 };

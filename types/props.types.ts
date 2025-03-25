@@ -17,6 +17,7 @@ export type HeaderGeneralPropsTypes = {
     colors: MD3Colors;
     router: Router;
     title: string;
+    goBack: () => void;
 }
 
 export type SurePropsType = {
