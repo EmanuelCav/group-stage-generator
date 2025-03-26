@@ -10,6 +10,7 @@ import FormCreateReferee from "@/components/referees/FormCreateReferee";
 import Referee from "@/components/referees/Referee";
 import AddButton from "@/components/general/AddButton";
 import Sure from "@/components/general/Sure";
+import SureGeneral from "@/components/general/SureGeneral";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -23,7 +24,7 @@ import { refereeStore } from "@/store/referee.store";
 const Referees = () => {
 
     const { showForm, hideAndShowAddReferee, getReferee, referee, isSure, sureRemoveReferee } = refereeStore()
-    const { group, createReferee, updateReferee, removeReferee } = groupStore()
+    const { group, createReferee, updateReferee, removeReferee, sureRestartGroup, sureRemoveGroup } = groupStore()
 
     const { colors } = useTheme()
 
@@ -79,7 +80,9 @@ const Referees = () => {
                 showForm && <FormCreateReferee group={group} colors={colors} referee={referee} openSure={openSure}
                     hideAndShowAddReferee={hideAndShowAddReferee} createReferee={createReferee} updateReferee={handleUpdate} />
             }
-            <HeaderGeneral colors={colors} router={router} title="Referees" goBack={goBack} />
+            <HeaderGeneral colors={colors} router={router} title="Referees" goBack={goBack} 
+            sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+            <SureGeneral />
             <View style={generalStyles.containerGeneral}>
                 {
                     group.referees!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :

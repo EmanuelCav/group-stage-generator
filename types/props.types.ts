@@ -18,6 +18,8 @@ export type HeaderGeneralPropsTypes = {
     router: Router;
     title: string;
     goBack: () => void;
+    sureRemoveGroup: (sure: boolean) => void;
+    sureRestartGroup: (sure: boolean) => void;
 }
 
 export type SurePropsType = {

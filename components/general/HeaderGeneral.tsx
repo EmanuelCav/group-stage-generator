@@ -3,7 +3,7 @@ import { Appbar, Menu } from "react-native-paper";
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
-const HeaderGeneral = ({ colors, router, title, goBack }: HeaderGeneralPropsTypes) => {
+const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
 
@@ -11,7 +11,6 @@ const HeaderGeneral = ({ colors, router, title, goBack }: HeaderGeneralPropsType
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
             <Appbar.BackAction color="#ffffff" onPress={goBack} />
             <Appbar.Content title={title} color="#ffffff" />
-
             <Menu
                 visible={visible}
                 onDismiss={() => setVisible(false)}
@@ -50,13 +49,13 @@ const HeaderGeneral = ({ colors, router, title, goBack }: HeaderGeneralPropsType
                 />
 
                 <Menu.Item
-                    onPress={() => { console.log("Opción 2 seleccionada") }}
+                    onPress={() => sureRestartGroup(true)}
                     title="Restart"
                     leadingIcon="restart"
                 />
 
                 <Menu.Item
-                    onPress={() => { console.log("Opción 2 seleccionada") }}
+                    onPress={() => sureRemoveGroup(true)}
                     title="Remove"
                     leadingIcon="delete"
                 />

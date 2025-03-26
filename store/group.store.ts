@@ -15,6 +15,8 @@ export const groupStore = create(
                 teams: []
             },
             groups: [],
+            isSureRemove: false,
+            isSureRestart: false,
             getGroup: (data: IGroup) => set(() => ({
                 group: data
             })),
@@ -25,6 +27,12 @@ export const groupStore = create(
             updateGroup: (data: IGroup) => set((state) => ({
                 groups: state.groups.map((g) => g.id === data.id ? data : g),
                 group: data
+            })),
+            removeGroup: (data: IGroup) => set((state) => ({
+                groups: state.groups.filter(g => g.id !== data.id),
+                group: {
+                    teams: []
+                },
             })),
             createTeam: (data: ITeam) => set((state) => ({
                 group: { ...state.group, teams: [...state.group.teams, data] },
@@ -105,6 +113,12 @@ export const groupStore = create(
             updateGenerateAgain: () => set((state) => ({
                 group: { ...state.group, isGeneratedAgain: false },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGeneratedAgain: false } : g)
+            })),
+            sureRemoveGroup: (sure: boolean) => set(() => ({
+                isSureRemove: sure
+            })),
+            sureRestartGroup: (sure: boolean) => set(() => ({
+                isSureRestart: sure
             })),
         }),
         {

@@ -7,6 +7,10 @@ import { ITeam } from "./Team";
 export interface IGroupStore {
     groups: IGroup[];
     group: IGroup;
+    isSureRemove: boolean;
+    isSureRestart: boolean;
+    sureRemoveGroup: (sure: boolean) => void;
+    sureRestartGroup: (sure: boolean) => void;
     generateMatches: (data: IMatch[][][]) => void;
     updateTeam: (data: ITeam) => void;
     updateReferee: (data: IReferee) => void;
@@ -17,6 +21,7 @@ export interface IGroupStore {
     getGroup: (data: IGroup) => void;
     createGroup: (data: IGroup) => void;
     updateGroup: (data: IGroup) => void;
+    removeGroup: (data: IGroup) => void;
     createTeam: (data: ITeam) => void;
     createReferee: (data: IReferee) => void;
     createStadium: (data: IStadium) => void;

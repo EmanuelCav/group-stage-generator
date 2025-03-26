@@ -10,6 +10,7 @@ import Player from "@/components/players/Player";
 import AddAction from "@/components/general/AddAction";
 import AddButton from "@/components/general/AddButton";
 import Sure from "@/components/general/Sure";
+import SureGeneral from "@/components/general/SureGeneral";
 import FormCreateStatistic from "@/components/statistics/FormCreateStatistic";
 
 import { generalStyles } from "@/styles/general.styles";
@@ -23,9 +24,11 @@ import { playerStore } from "@/store/player.store";
 
 const Players = () => {
 
-    const { showForm, hideAndShowAddPlayer, getPlayer, player, isSure, isSureStatistic, sureRemovePlayer, sureRemoveStatistic,
-        hideAndShowAddStatistic, showFormStatistic, getStatistic, statistic, removePlayerStatisticValue, updatePlayerStatisticTitle, updatePlayerStatisticValue } = playerStore()
-    const { group, createPlayer, updatePlayer, removePlayer, createStatistic, updateStatisticTitle, updateStatisticValue, removeStatistic } = groupStore()
+    const { showForm, hideAndShowAddPlayer, getPlayer, player, isSure, isSureStatistic, sureRemovePlayer,
+        sureRemoveStatistic, hideAndShowAddStatistic, showFormStatistic, getStatistic, statistic, 
+        removePlayerStatisticValue, updatePlayerStatisticTitle, updatePlayerStatisticValue } = playerStore()
+    const { group, createPlayer, updatePlayer, removePlayer, createStatistic,
+        updateStatisticTitle, updateStatisticValue, removeStatistic, sureRestartGroup, sureRemoveGroup } = groupStore()
 
     const { colors } = useTheme()
 
@@ -120,7 +123,9 @@ const Players = () => {
                 showFormStatistic && <FormCreateStatistic group={group} colors={colors} statistic={statistic} handleUpdateTitleStatistic={handleUpdateTitleStatistic}
                     hideAndShowAddStatistic={hideAndShowAddStatistic} createStatistic={createStatistic} openSure={openSureStatistic} handleUpdateValueStatistic={handleUpdateValueStatistic} />
             }
-            <HeaderGeneral colors={colors} router={router} title="Players" goBack={goBack} />
+            <HeaderGeneral colors={colors} router={router} title="Players" goBack={goBack} 
+            sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+            <SureGeneral />
             <View style={generalStyles.containerGeneral}>
                 {
                     group.players!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :

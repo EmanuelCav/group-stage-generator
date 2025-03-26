@@ -10,6 +10,7 @@ import FormCreateStadium from "@/components/stadiums/FormCreateStadium";
 import Stadium from "@/components/stadiums/Stadium";
 import AddButton from "@/components/general/AddButton";
 import Sure from "@/components/general/Sure";
+import SureGeneral from "@/components/general/SureGeneral";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -23,7 +24,7 @@ import { stadiumStore } from "@/store/stadium.store";
 const Stadiums = () => {
 
   const { showForm, hideAndShowAddStadium, getStadium, stadium, isSure, sureRemoveStadium } = stadiumStore()
-  const { group, createStadium, updateStadium, removeStadium } = groupStore()
+  const { group, createStadium, updateStadium, removeStadium, sureRestartGroup, sureRemoveGroup } = groupStore()
 
   const { colors } = useTheme()
 
@@ -79,7 +80,9 @@ const Stadiums = () => {
         showForm && <FormCreateStadium group={group} colors={colors} stadium={stadium} openSure={openSure}
           hideAndShowAddStadium={hideAndShowAddStadium} createStadium={createStadium} updateStadium={handleUpdate} />
       }
-      <HeaderGeneral colors={colors} router={router} title="Stadiums" goBack={goBack} />
+      <HeaderGeneral colors={colors} router={router} title="Stadiums" goBack={goBack} 
+      sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+      <SureGeneral />
       <View style={generalStyles.containerGeneral}>
         {
           group.stadiums!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateStadium} /> :

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { FlatList } from "react-native";
-import { Button, MD3Colors, Text, useTheme } from "react-native-paper";
+import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 
 import { View } from "@/components/Themed";
@@ -12,6 +12,8 @@ import GenerateButton from "@/components/create/GenerateButton";
 import AddButton from "@/components/general/AddButton";
 import SettingsFAB from "@/components/general/SettingsFAB";
 import Sure from "@/components/general/Sure";
+import HeaderGeneral from "@/components/general/HeaderGeneral";
+import SureGeneral from "@/components/general/SureGeneral";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -23,12 +25,11 @@ import { groupStore } from "@/store/group.store";
 
 import { groupValue } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
-import HeaderGeneral from "@/components/general/HeaderGeneral";
 
 const Create = () => {
 
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
-  const { createGroup, group, groups, createTeam, generateMatches, updateTeam, removeTeam } = groupStore()
+  const { createGroup, group, groups, createTeam, generateMatches, updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
 
   const { colors } = useTheme()
 
@@ -125,9 +126,11 @@ const Create = () => {
           hideAndShowAddTeam={hideAndShowAddTeam} createTeam={createTeam} updateTeam={handleUpdate} />
       }
       {
-        group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Teams" goBack={goBack} />
+        group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Teams" goBack={goBack} 
+        sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
           : <HeaderCreate colors={colors} groups={groups} router={router} group={group} />
       }
+      <SureGeneral />
       <View style={generalStyles.containerGeneral}>
         {
           group.teams.length > 0 ? <AddButton colors={colors} handleAdd={openCreateTeam} /> :

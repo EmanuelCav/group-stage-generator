@@ -23,7 +23,7 @@ import { configSchema } from "@/schema/config.schema";
 const Config = () => {
 
     const { colors } = useTheme();
-    const { group, updateGroup } = groupStore();
+    const { group, updateGroup, sureRemoveGroup, sureRestartGroup } = groupStore();
 
     const router = useRouter()
 
@@ -86,7 +86,8 @@ const Config = () => {
     return (
         <View style={{ flex: 1 }}>
             {
-                group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Settings" goBack={goBack} />
+                group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Settings" goBack={goBack} 
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
                     : <HeaderConfig colors={colors} comeBack={comeBack} />
             }
             <ScrollView style={configStyles.containerSettings}>

@@ -5,6 +5,7 @@ import { View } from '@/components/Themed'
 import HeaderGeneral from '@/components/general/HeaderGeneral'
 import GroupsList from '@/components/groups/GroupsList'
 import GenerateAgain from '@/components/general/GenerateAgain'
+import SureGeneral from '@/components/general/SureGeneral'
 
 import { groupStore } from '@/store/group.store'
 
@@ -12,7 +13,7 @@ const Groups = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { group, getGroup } = groupStore()
+    const { group, getGroup, sureRemoveGroup, sureRestartGroup } = groupStore()
 
     const goBack = () => {
         getGroup({
@@ -24,7 +25,9 @@ const Groups = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderGeneral colors={colors} router={router} title='Groups' goBack={goBack} />
+            <HeaderGeneral colors={colors} router={router} title='Groups' goBack={goBack}
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+            <SureGeneral />
             {
                 group.isGeneratedAgain && <GenerateAgain colors={colors} />
             }
