@@ -1,5 +1,5 @@
 import { IMatch } from "./Match";
-import { IPlayer } from "./Player";
+import { IPlayer, IStatistic } from "./Player";
 import { IReferee } from "./Referee";
 import { IStadium } from "./Stadium";
 import { ITeam } from "./Team";
@@ -12,6 +12,8 @@ export interface IGroupStore {
     updateReferee: (data: IReferee) => void;
     updateStadium: (data: IStadium) => void;
     updatePlayer: (data: IPlayer) => void;
+    updateStatisticTitle: (data: IStatistic) => void;
+    updateStatisticValue: (data: IStatistic, player: IPlayer) => void;
     getGroup: (data: IGroup) => void;
     createGroup: (data: IGroup) => void;
     updateGroup: (data: IGroup) => void;
@@ -19,10 +21,12 @@ export interface IGroupStore {
     createReferee: (data: IReferee) => void;
     createStadium: (data: IStadium) => void;
     createPlayer: (data: IPlayer) => void;
+    createStatistic: (data: IStatistic) => void;
     removeTeam: (data: ITeam) => void;
     removeReferee: (data: IReferee) => void;
     removeStadium: (data: IStadium) => void;
     removePlayer: (data: IPlayer) => void;
+    removeStatistic: (data: IStatistic) => void;
     updateGenerateAgain: () => void;
 }
 

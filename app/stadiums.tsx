@@ -23,7 +23,7 @@ import { stadiumStore } from "@/store/stadium.store";
 const Stadiums = () => {
 
   const { showForm, hideAndShowAddStadium, getStadium, stadium, isSure, sureRemoveStadium } = stadiumStore()
-  const { group, createStadium, updateStadium, removeStadium, getGroup } = groupStore()
+  const { group, createStadium, updateStadium, removeStadium } = groupStore()
 
   const { colors } = useTheme()
 

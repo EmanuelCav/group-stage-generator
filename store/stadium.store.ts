@@ -20,7 +20,7 @@ export const stadiumStore = create(
             }))
         }),
         {
-            name: 'group_fase_stadium_generator_storage'
+            name: 'group_stage_stadium_generator_storage'
         }
     )
 )

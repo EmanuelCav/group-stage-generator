@@ -4,7 +4,7 @@ import { FlatList } from 'react-native';
 import Match from './components/Match';
 
 import { SchedulePropsType } from '@/types/matchdays.props';
-import { IMatch } from '@/interface/Group';
+import { IMatch } from '@/interface/Match';
 
 import { groupStyles } from '@/styles/group.styles';
 import { generalStyles } from '@/styles/general.styles';

@@ -46,7 +46,13 @@ export const createStyles = StyleSheet.create({
 
     inputGeneralCreate: {
         marginTop: Dimensions.get("window").height / 28,
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
+    },
+
+    inputNumberCreate: {
+        backgroundColor: "#ffffff",
+        width: Dimensions.get("window").width / 4,
+        textAlign: 'center'
     },
 
     containTeamAdded: {
@@ -82,11 +88,50 @@ export const createStyles = StyleSheet.create({
         marginVertical: Dimensions.get("window").height / 106
     },
 
+    selectInputDropdownContain: {
+        alignItems: "center",
+        justifyContent: 'space-between',
+        marginVertical: Dimensions.get("window").height / 74
+    },
+
     dropdown: {
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
         padding: Dimensions.get("window").width / 45,
+    },
+
+    dropdownComplete: {
+        borderColor: 'gray',
+        borderWidth: 0.5,
+        borderRadius: 8,
+        padding: Dimensions.get("window").width / 45,
+        width: '100%',
+        marginTop: Dimensions.get("window").height / 106
+    },
+
+    containerStatisticsPlayer: {
+        borderRadius: 4,
+        borderWidth: 0.5,
+        marginVertical: Dimensions.get("window").height / 106
+    },
+
+    statisticPlayer: {
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        paddingVertical: Dimensions.get("window").height / 106,
+        paddingHorizontal: Dimensions.get("window").width / 106
+    },
+
+    updateValue: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        justifyContent: 'space-around',
+        width: '100%',
+        marginBottom: Dimensions.get("window").height / 106,
     }
 
 })

@@ -20,9 +20,18 @@ export interface ICreate {
     name: string;
 }
 
+export interface ICreateStatistic {
+    title: string;
+}
+
 export interface IPlot {
     label: string;
     value: number;
+}
+
+export interface IDropdown {
+    label: string;
+    value: string;
 }
 
 export interface IPoints {

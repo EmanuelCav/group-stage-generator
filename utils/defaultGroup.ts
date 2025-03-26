@@ -1,5 +1,6 @@
 import { IGroup } from "@/interface/Group";
-import { IPlot, ITeam } from "@/interface/Team";
+import { IPlayer, IStatistic } from "@/interface/Player";
+import { IDropdown, IPlot, ITeam } from "@/interface/Team";
 
 export const groupValue = (id: number): IGroup => {
 
@@ -35,11 +36,11 @@ export const teamValue = (id: number, logo: string | undefined, name: string, pl
         name,
         plot,
         points: {
-            played:0,
+            played: 0,
             lost: 0,
             tied: 0,
             won: 0,
-            positive:0,
+            positive: 0,
             negative: 0
         }
     }
@@ -58,5 +59,39 @@ export const dataPlots = (teamsPerGroup: number): IPlot[] => {
     }
 
     return plots
+
+}
+
+export const getTeamsName = (teams: ITeam[]): IDropdown[] => {
+
+    let teamsName: IDropdown[] = []
+
+    for (let i = 0; i < teams.length; i++) {
+        teamsName.push({
+            value: teams[i].name!,
+            label: teams[i].name!
+        })
+    }
+
+    return teamsName
+
+}
+
+export const generateStatistic = (players: IPlayer[]): IStatistic[] => {
+
+    let statistics: IStatistic[] = []
+
+    if(players.length > 0) {
+        for (let i = 0; i < players[0].statistics!.length; i++) {
+            statistics.push({
+                id: players[0].statistics![i].id,
+                title: players[0].statistics![i].title,
+                value: players[0].statistics![i].defaultValue,
+                defaultValue: players[0].statistics![i].defaultValue,
+            })
+        }
+    }
+
+    return statistics
 
 }

@@ -20,7 +20,7 @@ export const teamStore = create(
             }))
         }),
         {
-            name: 'group_fase_team_generator_storage'
+            name: 'group_stage_team_generator_storage'
         }
     )
 )

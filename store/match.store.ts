@@ -16,7 +16,7 @@ export const matchStore = create(
             }))
         }),
         {
-            name: 'group_fase_match_generator_storage'
+            name: 'group_stage_match_generator_storage'
         }
     )
 )

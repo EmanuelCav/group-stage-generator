@@ -23,7 +23,7 @@ import { refereeStore } from "@/store/referee.store";
 const Referees = () => {
 
     const { showForm, hideAndShowAddReferee, getReferee, referee, isSure, sureRemoveReferee } = refereeStore()
-    const { group, createReferee, updateReferee, removeReferee, getGroup } = groupStore()
+    const { group, createReferee, updateReferee, removeReferee } = groupStore()
 
     const { colors } = useTheme()
 
