@@ -1,3 +1,5 @@
+import { useRouter } from "expo-router"
+
 import Sure from "./Sure"
 
 import { groupStore } from "@/store/group.store"
@@ -5,14 +7,17 @@ import { groupStore } from "@/store/group.store"
 const SureGeneral = () => {
 
     const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group } = groupStore()
+    const router = useRouter()
 
     const handleRestart = () => {
         sureRestartGroup(false)
+        router.replace("/(tabs)/matchdays")
     }
 
     const handleRemove = () => {
         sureRemoveGroup(false)
         removeGroup(group)
+        router.replace("/")
     }
 
     const close = () => {
@@ -25,12 +30,12 @@ const SureGeneral = () => {
             {
                 isSureRemove && <Sure func={handleRemove}
                     text="Are you sure you want to delete group stage?"
-                    close={close} />
+                    close={close} labelButton="REMOVE" />
             }
             {
                 isSureRestart && <Sure func={handleRestart}
                     text="Are you sure you want to restart group stage?"
-                    close={close} />
+                    close={close} labelButton="RESTART" />
             }
         </>
     )

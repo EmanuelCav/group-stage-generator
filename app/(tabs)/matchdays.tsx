@@ -7,13 +7,22 @@ import Schedule from '@/components/matchdays/Schedule'
 import GenerateAgain from '@/components/general/GenerateAgain'
 import SureGeneral from '@/components/general/SureGeneral'
 
+import { IGetMatch } from '@/interface/Match'
+
 import { groupStore } from '@/store/group.store'
+import { matchStore } from '@/store/match.store'
 
 const Matchdays = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
     const { group, getGroup, sureRemoveGroup, sureRestartGroup } = groupStore()
+    const { getMatch } = matchStore()
+
+    const handleGetMatch = (data: IGetMatch) => {
+        getMatch(data)
+        router.push("/match")
+    }
 
     const goBack = () => {
         getGroup({
@@ -31,7 +40,7 @@ const Matchdays = () => {
             {
                 group.isGeneratedAgain && <GenerateAgain colors={colors} />
             }
-            <Schedule group={group} colors={colors} />
+            <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} />
         </View>
     )
 }

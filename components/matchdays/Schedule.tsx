@@ -16,21 +16,22 @@ type RenderMatchday = {
     index: number;
 }
 
-const Schedule = ({ group, colors }: SchedulePropsType) => {
+const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
-            <Title style={[{ color: colors.primary,  }, generalStyles.titleDataTable]}>
-                Matchday {index+1}
+            <Title style={[{ color: colors.primary, }, generalStyles.titleDataTable]}>
+                Matchday {index + 1}
             </Title>
             <DataTable.Header style={{ borderBottomColor: colors.primary }}>
-                <DataTable.Title style={groupStyles.rowContainer}>Local</DataTable.Title>
+                <DataTable.Title style={groupStyles.rowStart}>Local</DataTable.Title>
                 <DataTable.Title numeric style={groupStyles.rowContainer}>Score</DataTable.Title>
-                <DataTable.Title style={groupStyles.rowContainer}>Visitant</DataTable.Title>
+                <DataTable.Title style={groupStyles.rowEnd}>Visitant</DataTable.Title>
             </DataTable.Header>
             {
-                item.map((match, index) => {
-                    return <Match match={match} colors={colors} key={index} />
+                item.map((match, indexItem) => {
+                    return <Match match={match} numberGroups={group.matches?.length!} matchdayNumber={index}
+                    colors={colors} index={indexItem} handleGetMatch={handleGetMatch} key={indexItem} />
                 })
             }
         </DataTable>

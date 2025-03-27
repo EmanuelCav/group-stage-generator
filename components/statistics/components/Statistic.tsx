@@ -7,7 +7,7 @@ import { groupStyles } from "@/styles/group.styles"
 const Statistic = ({ player, colors }: StatisticPropsType) => {
     return (
         <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
-            <DataTable.Cell style={groupStyles.rowContainer}>
+            <DataTable.Cell style={groupStyles.rowStart}>
                 {player.name}
             </DataTable.Cell>
             {
@@ -17,7 +17,7 @@ const Statistic = ({ player, colors }: StatisticPropsType) => {
                     </DataTable.Cell>
                 })
             }
-            <DataTable.Cell style={groupStyles.rowContainer}>
+            <DataTable.Cell style={groupStyles.rowEnd}>
                 {player.team?.name}
             </DataTable.Cell>
         </DataTable.Row>

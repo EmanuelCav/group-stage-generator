@@ -11,8 +11,8 @@ const SettingsButton = ({ colors, handleSumbit, handleConfig }: SettingsButtonPr
     return (
         <View style={createStyles.containerGenerateButton}>
             <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ backgroundColor: "#ffffff" }} onPress={handleSumbit((data) => handleConfig(data))}>
-                ACCEPT
+                labelStyle={{ color: "#ffffff" }} onPress={handleSumbit((data) => handleConfig(data))}>
+                APPLY CHANGES
             </Button>
         </View>
     )

@@ -136,16 +136,18 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
         for (let j = 0; j < Math.ceil(lengthArr / 2); j++) {
             matchs.push({
                 local: {
-                    score: 0,
+                    score: null,
                     team: j % 2 === 0 ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1],
                 },
                 visitant: {
-                    score: 0,
+                    score: null,
                     team: j % 2 === 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
                 },
                 referee: "",
                 stadium: "",
-                isEdit: false
+                isEdit: false,
+                statistics: [],
+                summary: []
             })
         }
         

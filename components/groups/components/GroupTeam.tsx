@@ -10,7 +10,7 @@ import { groupStyles } from '@/styles/group.styles'
 const GroupTeam = ({ team, group, colors }: GroupTeamPropsType) => {
     return (
         <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
-            <DataTable.Cell style={groupStyles.rowContainer}>
+            <DataTable.Cell style={groupStyles.rowStart}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {team.logo ? (
                         <Avatar.Image source={{ uri: team.logo }} size={24} />
@@ -20,13 +20,7 @@ const GroupTeam = ({ team, group, colors }: GroupTeamPropsType) => {
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{team.name}</Text>
                 </View>
             </DataTable.Cell>
-            <DataTable.Cell numeric style={groupStyles.rowContainer}>
-                {team.points?.played}
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={groupStyles.rowContainer}>
-                {(team.points?.positive as number) + (team.points?.negative as number)}
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={groupStyles.rowContainer}>
+            <DataTable.Cell numeric style={[groupStyles.rowEnd, { marginRight: Dimensions.get("window").width / 28 }]}>
                 {(Number(team.points?.won) * Number(group.pointsWin)) +
                     (Number(team.points?.tied) * Number(group.pointsDraw)) +
                     (Number(team.points?.lost) * Number(group.pointsLoss))}

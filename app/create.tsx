@@ -45,21 +45,21 @@ const Create = () => {
       groupsMatches[i][0].forEach((gm) => {
 
         updateTeam({
-          id: gm.local.team.id,
-          group: gm.local.team.group,
-          logo: gm.local.team.logo,
-          plot: group.teams.find(t => t.id === gm.local.team.id)?.plot,
-          name: gm.local.team.name,
-          points: gm.local.team.points
+          id: gm.local?.team.id,
+          group: gm.local?.team.group,
+          logo: gm.local?.team.logo,
+          plot: group.teams.find(t => t.id === gm.local?.team.id)?.plot,
+          name: gm.local?.team.name,
+          points: gm.local?.team.points
         })
 
         updateTeam({
-          id: gm.visitant.team.id,
-          group: gm.visitant.team.group,
-          logo: gm.visitant.team.logo,
-          plot: group.teams.find(t => t.id === gm.visitant.team.id)?.plot,
-          name: gm.visitant.team.name,
-          points: gm.visitant.team.points
+          id: gm.visitant?.team.id,
+          group: gm.visitant?.team.group,
+          logo: gm.visitant?.team.logo,
+          plot: group.teams.find(t => t.id === gm.visitant?.team.id)?.plot,
+          name: gm.visitant?.team.name,
+          points: gm.visitant?.team.points
         })
 
       })
@@ -119,7 +119,7 @@ const Create = () => {
   return (
     <View style={{ flex: 1 }}>
       {
-        isSure && <Sure func={handleRemoveTeam} text="Are you sure you want to delete?" close={close} />
+        isSure && <Sure func={handleRemoveTeam} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
       }
       {
         showForm && <FormCreateTeam colors={colors} group={group} team={team} openSure={openSure}

@@ -50,6 +50,7 @@ function RootLayoutNav() {
         <Stack.Screen name="stadiums" options={{ title: "Stadiums", headerShown: false }} />
         <Stack.Screen name="referees" options={{ title: "Referees", headerShown: false }} />
         <Stack.Screen name="players" options={{ title: "Players", headerShown: false }} />
+        <Stack.Screen name="match" options={{ title: "Match", headerShown: false }} />
       </Stack>
     </PaperProvider>
   );

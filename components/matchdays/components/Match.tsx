@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, Pressable } from 'react-native'
 import { Avatar, DataTable, Text } from 'react-native-paper'
 
 import { View } from '@/components/Themed'
@@ -7,36 +7,53 @@ import { MatchPropsType } from '@/types/props.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
-const Match = ({ match, colors }: MatchPropsType) => {
+const Match = ({ match, colors, index, numberGroups, handleGetMatch, matchdayNumber }: MatchPropsType) => {
+
     return (
-        <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
-            <DataTable.Cell style={groupStyles.rowContainer}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {match.local.team.logo ? (
-                        <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
-                    ) : (
-                        <Avatar.Icon icon="shield-outline" size={24} />
-                    )}
-                    <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{match.local.team.name}</Text>
-                </View>
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={groupStyles.rowContainer}>
-                {match.local.score}
-            </DataTable.Cell>
-            <DataTable.Cell numeric style={groupStyles.rowContainer}>
-                {match.visitant.score}
-            </DataTable.Cell>
-            <DataTable.Cell style={groupStyles.rowContainer}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {match.visitant.team.logo ? (
-                        <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
-                    ) : (
-                        <Avatar.Icon icon="shield-outline" size={24} />
-                    )}
-                    <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{match.visitant.team.name}</Text>
-                </View>
-            </DataTable.Cell>
-        </DataTable.Row>
+        <Pressable onPress={() => handleGetMatch({
+            match,
+            matchday: matchdayNumber + 1
+        })}>
+            {index % numberGroups === 0 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
+                Group {match.local.team.group}
+            </Text>
+            }
+            <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
+                <DataTable.Cell style={groupStyles.rowStart}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        {match.local.team.logo ? (
+                            <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
+                        ) : (
+                            <Avatar.Icon icon="shield-outline" size={24} />
+                        )}
+                        <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{match.local.team.name}</Text>
+                    </View>
+                </DataTable.Cell>
+                {
+                    match.isEdit ? <>
+                        <DataTable.Cell numeric style={groupStyles.rowContainer}>
+                            {match.local.score}
+                        </DataTable.Cell>
+                        <DataTable.Cell numeric style={groupStyles.rowContainer}>
+                            {match.visitant.score}
+                        </DataTable.Cell>
+                    </> :
+                        <DataTable.Cell numeric style={groupStyles.rowContainer}>
+                            vs
+                        </DataTable.Cell>
+                }
+                <DataTable.Cell style={groupStyles.rowEnd}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ marginRight: Dimensions.get("window").width / 36 }}>{match.visitant.team.name}</Text>
+                        {match.visitant.team.logo ? (
+                            <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
+                        ) : (
+                            <Avatar.Icon icon="shield-outline" size={24} />
+                        )}
+                    </View>
+                </DataTable.Cell>
+            </DataTable.Row>
+        </Pressable>
     )
 }
 

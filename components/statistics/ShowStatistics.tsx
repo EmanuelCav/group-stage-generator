@@ -25,7 +25,7 @@ const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisti
                     CREATE STATISTIC
                 </Button>
                 <DataTable.Header style={{ borderBottomColor: colors.primary }}>
-                    <DataTable.Title style={groupStyles.rowContainer}>Player</DataTable.Title>
+                    <DataTable.Title style={groupStyles.rowStart}>Player</DataTable.Title>
                     {
                         group.players![0].statistics?.slice(0, 2).map((statistic) => {
                             return <DataTable.Title key={statistic.id} style={groupStyles.rowContainer}>
@@ -33,7 +33,7 @@ const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisti
                             </DataTable.Title>
                         })
                     }
-                    <DataTable.Title style={groupStyles.rowContainer}>Team</DataTable.Title>
+                    <DataTable.Title style={groupStyles.rowEnd}>Team</DataTable.Title>
                 </DataTable.Header>
                 <FlatList
                     data={group.players as IPlayer[]}
@@ -43,7 +43,7 @@ const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisti
                 <Button mode="text" onPress={() => { }}
                     style={generalStyles.generateButton}
                     labelStyle={{ color: colors.primary }}>
-                    SHOW ALL TABLE ➤
+                    SHOW FULL TABLE ➤
                 </Button>
             </DataTable>
         </View>

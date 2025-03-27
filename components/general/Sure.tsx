@@ -7,7 +7,7 @@ import { generalStyles } from "@/styles/general.styles"
 
 import { SurePropsType } from "@/types/props.types"
 
-const Sure = ({ func, text, close }: SurePropsType) => {
+const Sure = ({ func, text, close, labelButton }: SurePropsType) => {
     return (
         <ContainerBackground zIndex={50}>
             <IconButton
@@ -20,7 +20,7 @@ const Sure = ({ func, text, close }: SurePropsType) => {
             <Text variant="titleSmall" style={{ marginTop: Dimensions.get("window").height / 24 }}>{text}</Text>
             <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} onPress={func}>
-                REMOVE
+                {labelButton}
             </Button>
         </ContainerBackground>
     )

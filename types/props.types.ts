@@ -2,7 +2,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { PropsWithChildren } from "react";
 import { Router } from "expo-router";
 
-import { IMatch } from "@/interface/Match";
+import { IGetMatch, IMatch } from "@/interface/Match";
 
 export type Action = {
     type: string;
@@ -26,6 +26,7 @@ export type SurePropsType = {
     func: () => void;
     text: string;
     close: () => void;
+    labelButton: string;
 }
 
 export type GenerateAgainPropsType = {
@@ -35,6 +36,10 @@ export type GenerateAgainPropsType = {
 export type MatchPropsType = {
     colors: MD3Colors;
     match: IMatch;
+    index: number;
+    numberGroups: number;
+    handleGetMatch: (data: IGetMatch) => void;
+    matchdayNumber: number;
 }
 
 export type AddActionPropsType = {

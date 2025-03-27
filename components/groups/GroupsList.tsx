@@ -16,10 +16,8 @@ const GroupsList = ({ group, colors }: GroupsListPropsType) => {
                 Group {i+1}
             </Title>
             <DataTable.Header style={{ borderBottomColor: colors.primary }}>
-                <DataTable.Title style={groupStyles.rowContainer}>Team</DataTable.Title>
-                <DataTable.Title numeric style={groupStyles.rowContainer}>Played</DataTable.Title>
-                <DataTable.Title numeric style={groupStyles.rowContainer}>+/-</DataTable.Title>
-                <DataTable.Title numeric style={groupStyles.rowContainer}>Points</DataTable.Title>
+                <DataTable.Title style={groupStyles.rowStart}>Team</DataTable.Title>
+                <DataTable.Title numeric style={groupStyles.rowEnd}>Points</DataTable.Title>
             </DataTable.Header>
             {group.teams.filter(t => t.group === (i + 1)).map((team) => (
                 <GroupTeam key={team.id} team={team} group={group} colors={colors} />
@@ -27,7 +25,7 @@ const GroupsList = ({ group, colors }: GroupsListPropsType) => {
             <Button mode="text" onPress={() => { }}
                 style={generalStyles.generateButton}
                 labelStyle={{ color: colors.primary }}>
-                SHOW ALL TABLE ➤
+                SHOW FULL TABLE ➤
             </Button>
         </DataTable>
     );

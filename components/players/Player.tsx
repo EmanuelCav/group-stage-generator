@@ -12,16 +12,9 @@ const Player = ({ player, handleUpdatePlayer }: PlayerPropsType) => {
             <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
                 {player.name?.slice(0, 15)}
             </Text>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {player.team!.logo ? (
-                    <Avatar.Image source={{ uri: player.team!.logo }} size={24} />
-                ) : (
-                    <Avatar.Icon icon="shield-outline" size={24} />
-                )}
-                <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
-                    {player.team!.name?.slice(0, 15)}
-                </Text>
-            </View>
+            <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
+                {player.team!.name?.slice(0, 15)}
+            </Text>
         </Pressable>
     )
 }

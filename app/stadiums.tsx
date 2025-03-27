@@ -74,7 +74,7 @@ const Stadiums = () => {
   return (
     <View style={{ flex: 1 }}>
       {
-        isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} />
+        isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
       }
       {
         showForm && <FormCreateStadium group={group} colors={colors} stadium={stadium} openSure={openSure}

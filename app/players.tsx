@@ -110,10 +110,10 @@ const Players = () => {
     return (
         <View style={{ flex: 1 }}>
             {
-                isSureStatistic && <Sure func={handleRemoveStatistic} text="Are you sure you want to delete?" close={close} />
+                isSureStatistic && <Sure func={handleRemoveStatistic} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
             }
             {
-                isSure && <Sure func={handleRemovePlayer} text="Are you sure you want to delete?" close={close} />
+                isSure && <Sure func={handleRemovePlayer} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
             }
             {
                 showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure} handleUpdateStatistic={handleUpdateStatistic}

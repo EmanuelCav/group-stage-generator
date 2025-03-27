@@ -74,7 +74,7 @@ const Referees = () => {
     return (
         <View style={{ flex: 1 }}>
             {
-                isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} />
+                isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
             }
             {
                 showForm && <FormCreateReferee group={group} colors={colors} referee={referee} openSure={openSure}

@@ -1,19 +1,18 @@
+import { IPlayer } from "./Player";
 import { ITeam } from "./Team";
 
 export interface IMatchStore {
     match: IGetMatch;
+    segmentedButton: string;
     showForm: boolean;
-    hideAndShowMatch: (show: boolean) => void;
-    getMatch: (data: IMatch) => void;
+    getMatch: (data: IGetMatch) => void;
+    handleSegmented: (data: string) => void;
+    hideAndShowUpdateMatch: (show: boolean) => void;
 }
 
 export interface IGetMatch {
-    local?: IMatchTeam;
-    visitant?: IMatchTeam;
-    referee?: string;
-    stadium?: string;
-    isEdit?: boolean;
-    date?: Date;
+    match?: IMatch;
+    matchday?: number;
 }
 
 export interface IMatch {
@@ -22,10 +21,29 @@ export interface IMatch {
     referee: string;
     stadium: string;
     isEdit: boolean;
+    summary: ISummary[];
+    statistics: IMatchStatistic[];
     date?: Date;
 }
 
 export interface IMatchTeam {
     team: ITeam;
-    score: number;
+    score: number | null;
+}
+
+export interface ISummary {
+    title: string;
+    player: IPlayer;
+    time: Date;
+}
+
+export interface IMatchStatistic {
+    title: string;
+    teamLocal: IMatchStatisticTeam;
+    teamVisitant: IMatchStatisticTeam;
+}
+
+export interface IMatchStatisticTeam {
+    team: ITeam;
+    value: number;
 }
