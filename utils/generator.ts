@@ -147,7 +147,8 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
                 stadium: "",
                 isEdit: false,
                 statistics: [],
-                summary: []
+                summary: [],
+                players: []
             })
         }
         

@@ -84,7 +84,7 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
 
             {
                 errors.title && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 148 }}>
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
                     {errors.title.message}
                 </Text>
             }

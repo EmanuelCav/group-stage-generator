@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
-import { SegmentedButtons, useTheme } from "react-native-paper"
+import { SegmentedButtons, Text, useTheme } from "react-native-paper"
 
 import { View } from "@/components/Themed"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
@@ -13,6 +13,10 @@ import Summary from "@/components/match/Summary"
 import StatisticMatch from "@/components/match/StatisticMatch"
 import FormUpdateMatch from "@/components/match/FormUpdateMatch"
 import PlayersMatch from "@/components/match/PlayersMatch"
+import AddAction from "@/components/general/AddAction"
+import FormLineUp from "@/components/match/FormLineUp"
+import FormStatisticsMatch from "@/components/match/FormStatisticsMatch"
+import FormSummary from "@/components/match/FormSummary"
 
 import { matchStyles } from "@/styles/match.styles"
 
@@ -24,7 +28,10 @@ const Match = () => {
     const { colors } = useTheme()
     const router = useRouter()
     const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup } = groupStore()
-    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch } = matchStore()
+    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic,
+        hideAndShowPlayers, hideAndShowStatistics, hideAndShowSummary, showFormPlayers, showFormStatistics, showFormSummary,
+        summary
+    } = matchStore()
 
     const goBack = () => {
         router.replace("/(tabs)/matchdays")
@@ -32,6 +39,9 @@ const Match = () => {
 
     useEffect(() => {
         hideAndShowUpdateMatch(false)
+        hideAndShowPlayers(false)
+        hideAndShowStatistics(false)
+        hideAndShowSummary(false)
     }, [])
 
     return (
@@ -42,8 +52,23 @@ const Match = () => {
             <SureGeneral />
 
             {
-                showForm && <FormUpdateMatch colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} 
-                match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} updateMatchGroup={updateMatchGroup} />
+                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers} 
+                match={match.match!} group={group}/>
+            }
+
+            {
+                showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} 
+                match={match.match!} group={group} statistic={statistic} />
+            }
+
+            {
+                showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} 
+                summary={summary} match={match.match!} group={group} />
+            }
+
+            {
+                showForm && <FormUpdateMatch colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch}
+                    match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} updateMatchGroup={updateMatchGroup} />
             }
 
             <View style={matchStyles.containerMatch}>
@@ -82,31 +107,57 @@ const Match = () => {
                         },
                     }}
                 />
+                {
+                    segmentedButton === "summary" &&
+                    <View style={{ flex: 1 }}>
+                        {
+                            match.match?.summary.length! > 0 ?
+                                <FlatList
+                                    style={{ width: '100%' }}
+                                    data={match.match?.summary}
+                                    keyExtractor={(_, index) => index.toString()}
+                                    renderItem={({ item }) => <Summary />}
+                                /> : <View style={matchStyles.containAdd}>
+                                    <Text variant="bodyMedium">Add a summary for the match</Text>
+                                    <AddAction openForm={hideAndShowSummary} colors={colors} text="ADD SUMMARY" />
+                                </View>
+                        }
+                    </View>
+                }
+                {
+                    segmentedButton === "players" &&
+                    <View style={{ flex: 1 }}>
+                        {
+                            match.match?.players.length! > 0 ?
+                                <FlatList
+                                    style={{ width: '100%' }}
+                                    data={match.match?.summary}
+                                    keyExtractor={(_, index) => index.toString()}
+                                    renderItem={({ item }) => <PlayersMatch />}
+                                /> : <View style={matchStyles.containAdd}>
+                                    <Text variant="bodyMedium">Add a lineup for the match</Text>
+                                    <AddAction openForm={hideAndShowPlayers} colors={colors} text="ADD LINEUP" />
+                                </View>
+                        }
+                    </View>
+                }
+                {
+                    segmentedButton === "statistics" &&
+                    <View style={{ flex: 1 }}>
+                        {
+                            match.match?.players.length! > 0 ? <FlatList
+                                style={{ width: '100%' }}
+                                data={match.match?.statistics}
+                                keyExtractor={(_, index) => index.toString()}
+                                renderItem={({ item }) => <StatisticMatch />}
+                            /> : <View style={matchStyles.containAdd}>
+                                <Text variant="bodyMedium">Add statistics for the match</Text>
+                                <AddAction openForm={hideAndShowStatistics} colors={colors} text="ADD STATISTIC" />
+                            </View>
+                        }
+                    </View>
+                }
             </View>
-            {
-                segmentedButton === "summary" && <FlatList
-                    style={{ width: '100%' }}
-                    data={match.match?.summary}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => <Summary />}
-                />
-            }
-            {
-                segmentedButton === "players" && <FlatList
-                    style={{ width: '100%' }}
-                    data={match.match?.summary}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => <PlayersMatch />}
-                />
-            }
-            {
-                segmentedButton === "statistics" && <FlatList
-                    style={{ width: '100%' }}
-                    data={match.match?.summary}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => <StatisticMatch />}
-                />
-            }
         </View>
     )
 }

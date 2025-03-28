@@ -3,11 +3,19 @@ import { ITeam } from "./Team";
 
 export interface IMatchStore {
     match: IGetMatch;
+    summary: ISummary;
+    statistic: IMatchStatistic;
     segmentedButton: string;
     showForm: boolean;
+    showFormPlayers: boolean;
+    showFormStatistics: boolean;
+    showFormSummary: boolean;
     getMatch: (data: IGetMatch) => void;
     handleSegmented: (data: string) => void;
     hideAndShowUpdateMatch: (show: boolean) => void;
+    hideAndShowPlayers: (show: boolean) => void;
+    hideAndShowStatistics: (show: boolean) => void;
+    hideAndShowSummary: (show: boolean) => void;
     updateMatch: (data: IGetMatch) => void;
 }
 
@@ -24,6 +32,7 @@ export interface IMatch {
     isEdit: boolean;
     summary: ISummary[];
     statistics: IMatchStatistic[];
+    players: IPlayer[];
     date?: Date;
 }
 
@@ -33,15 +42,16 @@ export interface IMatchTeam {
 }
 
 export interface ISummary {
-    title: string;
-    player: IPlayer;
-    time: Date;
+    id?: number;
+    title?: string;
+    player?: IPlayer;
+    time?: number;
 }
 
 export interface IMatchStatistic {
-    title: string;
-    teamLocal: IMatchStatisticTeam;
-    teamVisitant: IMatchStatisticTeam;
+    title?: string;
+    teamLocal?: IMatchStatisticTeam;
+    teamVisitant?: IMatchStatisticTeam;
 }
 
 export interface IMatchStatisticTeam {

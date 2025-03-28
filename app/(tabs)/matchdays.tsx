@@ -12,6 +12,8 @@ import { IGetMatch } from '@/interface/Match'
 import { groupStore } from '@/store/group.store'
 import { matchStore } from '@/store/match.store'
 
+import { evaluateGenerateAgain } from '@/utils/matchday'
+
 const Matchdays = () => {
 
     const { colors } = useTheme()
@@ -38,7 +40,7 @@ const Matchdays = () => {
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
             {
-                group.isGeneratedAgain && <GenerateAgain colors={colors} />
+                (group.isGeneratedAgain || evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />
             }
             <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} />
         </View>

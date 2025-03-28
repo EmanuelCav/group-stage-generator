@@ -109,6 +109,21 @@ export const getRefereeName = (referees: IReferee[]): IDropdown[] => {
 
 }
 
+export const getPlayerName = (players: IPlayer[]): IDropdown[] => {
+
+    let playersName: IDropdown[] = []
+
+    for (let i = 0; i < players.length; i++) {
+        playersName.push({
+            value: players[i].name!,
+            label: players[i].name!
+        })
+    }
+
+    return playersName
+
+}
+
 export const generateStatistic = (players: IPlayer[]): IStatistic[] => {
 
     let statistics: IStatistic[] = []

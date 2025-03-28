@@ -20,3 +20,20 @@ export const getMatchdaysGroupState = (matches: IMatch[][][]): IMatch[][] => {
     return schedule
 
 }
+
+export const evaluateGenerateAgain = (matches: IMatch[][][]): boolean => {
+
+    for (let i = 0; i < matches.length; i++) {
+        for (let j = 0; j < matches[i].length; j++) {
+            for (let k = 0; k < matches[i][j].length; k++) {
+                if (matches[i][j][k].isEdit) {
+                    return false
+                }
+            }
+        }
+
+    }
+
+    return false
+
+}

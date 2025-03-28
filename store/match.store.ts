@@ -7,8 +7,13 @@ export const matchStore = create(
     persist<IMatchStore>(
         (set) => ({
             match: {},
+            summary: {},
+            statistic: {},
             segmentedButton: "summary",
             showForm: false,
+            showFormPlayers: false,
+            showFormStatistics: false,
+            showFormSummary: false,
             getMatch: (data: IGetMatch) => set(() => ({
                 match: data
             })),
@@ -17,6 +22,15 @@ export const matchStore = create(
             })),
             hideAndShowUpdateMatch: (show: boolean) => set(() => ({
                 showForm: show
+            })),
+            hideAndShowPlayers: (show: boolean) => set(() => ({
+                showFormPlayers: show
+            })),
+            hideAndShowStatistics: (show: boolean) => set(() => ({
+                showFormStatistics: show
+            })),
+            hideAndShowSummary: (show: boolean) => set(() => ({
+                showFormSummary: show
             })),
             updateMatch: (data: IGetMatch) => set(() => ({
                 match: data

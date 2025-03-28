@@ -93,7 +93,8 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 )} />
 
             {
-                errors.name && <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
+                errors.name && <Text variant="labelMedium" 
+                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
                     {errors.name.message}
                 </Text>
             }
@@ -146,7 +147,6 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     REMOVE
                 </Button>
             }
-
 
         </ContainerBackground >
     );

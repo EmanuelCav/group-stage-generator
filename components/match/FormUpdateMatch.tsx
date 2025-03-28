@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
+// import { DatePickerModal } from 'react-native-paper-dates';
 
 import { View } from '../Themed'
 import ContainerBackground from '../general/ContainerBackground'
@@ -17,22 +18,24 @@ import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 
 const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday }: FormUpdateMatchPropsType) => {
 
-    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score): "0")
-    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score): "0")
+    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "0")
+    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "0")
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ? match.stadium : "")
-    const [refereSelected, setRefereeSelected] = useState<string>(match.referee ? match.referee : "")
+    const [referreSelected, setRefereeSelected] = useState<string>(match.referee ? match.referee : "")
     const [isFocusStadium, setIsFocusStadium] = useState<boolean>(false)
     const [isFocusReferee, setIsFocusReferee] = useState<boolean>(false)
-
+    const [date, setDate] = useState<Date | undefined>(match.date ? new Date(match.date) : undefined)
+    const [open, setOpen] = useState<boolean>(false)
 
     const handleUpdateMatch = () => {
 
         const dataUpdated: IMatch = {
             isEdit: true,
             local: { ...match.local, score: Number(scoreLocal) },
-            referee: refereSelected,
+            referee: referreSelected,
             stadium: stadiumSelected,
             statistics: match.statistics,
+            players: match.players,
             summary: match.summary,
             visitant: { ...match.visitant, score: Number(scoreVisitant) },
             date: match.date
@@ -59,7 +62,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
 
         updateMatch({
             matchday,
-            match: {...dataUpdated}
+            match: { ...dataUpdated }
         });
 
         hideAndShowUpdateMatch(false)
@@ -125,6 +128,29 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
+
+                <Text variant="labelLarge">Select the date's match</Text>
+                <TextInput
+                    label="Match Date"
+                    value={date ? date.toLocaleString() : "Select date"}
+                    onFocus={() => setOpen(true)}
+                    style={matchStyles.dateInput}
+                />
+
+                {/* <DatePickerModal
+                locale="en"
+                mode="single"
+                visible={open}
+                onDismiss={() => setOpen(false)}
+                date={date}
+                onConfirm={(params) => {
+                    setDate(params.date);
+                    setOpen(false);
+                }}
+            /> */}
+            </View>
+
+            <View style={createStyles.selectInputDropdownContain}>
                 <Text variant="labelLarge">Select the stadium's match</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusStadium && { borderColor: colors.primary }]}
@@ -155,8 +181,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                     maxHeight={Dimensions.get("window").height / 3.8}
                     labelField="label"
                     valueField="value"
-                    placeholder={String(refereSelected)}
-                    value={refereSelected}
+                    placeholder={String(referreSelected)}
+                    value={referreSelected}
                     onFocus={() => setIsFocusReferee(true)}
                     onBlur={() => setIsFocusReferee(false)}
                     onChange={item => {

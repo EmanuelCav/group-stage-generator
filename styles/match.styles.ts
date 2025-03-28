@@ -54,11 +54,31 @@ export const matchStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginVertical: Dimensions.get("window").height / 148
     },
 
     teamForm: {
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
+    },
+
+    containAdd: {
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
+        width: '100%'
+    },
+
+    containerLineUp: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+
+    dateInput: {
+        width: '60%',
+        backgroundColor: "#ffffff",
+        textAlign: 'center'
     }
 
 })
