@@ -87,6 +87,10 @@ export const groupStore = create(
                     ...state.group, players: state.group.players?.map((p) => player.id === p.id ? { ...p, statistics: p.statistics?.map((s) => s.id === data.id ? { ...s, value: data.value } : s) } : p)
                 } : g)
             })),
+            updateMatchGroup: (data: IMatch[][][]) => set((state) => ({
+                group: { ...state.group, matches: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: data } : g)
+            })),
             removeTeam: (data: ITeam) => set((state) => ({
                 group: { ...state.group, teams: state.group.teams.filter((t) => t.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, teams: state.group.teams.filter((t) => t.id !== data.id) } : g)

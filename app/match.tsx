@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
 import { SegmentedButtons, useTheme } from "react-native-paper"
@@ -17,14 +18,13 @@ import { matchStyles } from "@/styles/match.styles"
 
 import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
-import { useEffect } from "react"
 
 const Match = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { sureRemoveGroup, sureRestartGroup } = groupStore()
-    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, getMatch } = matchStore()
+    const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup } = groupStore()
+    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch } = matchStore()
 
     const goBack = () => {
         router.replace("/(tabs)/matchdays")
@@ -42,7 +42,8 @@ const Match = () => {
             <SureGeneral />
 
             {
-                showForm && <FormUpdateMatch colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} />
+                showForm && <FormUpdateMatch colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} 
+                match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} updateMatchGroup={updateMatchGroup} />
             }
 
             <View style={matchStyles.containerMatch}>

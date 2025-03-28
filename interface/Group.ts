@@ -18,6 +18,7 @@ export interface IGroupStore {
     updatePlayer: (data: IPlayer) => void;
     updateStatisticTitle: (data: IStatistic) => void;
     updateStatisticValue: (data: IStatistic, player: IPlayer) => void;
+    updateMatchGroup: (data: IMatch[][][]) => void;
     getGroup: (data: IGroup) => void;
     createGroup: (data: IGroup) => void;
     updateGroup: (data: IGroup) => void;

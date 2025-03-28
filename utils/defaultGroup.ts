@@ -1,5 +1,7 @@
 import { IGroup } from "@/interface/Group";
 import { IPlayer, IStatistic } from "@/interface/Player";
+import { IReferee } from "@/interface/Referee";
+import { IStadium } from "@/interface/Stadium";
 import { IDropdown, IPlot, ITeam } from "@/interface/Team";
 
 export const groupValue = (id: number): IGroup => {
@@ -74,6 +76,36 @@ export const getTeamsName = (teams: ITeam[]): IDropdown[] => {
     }
 
     return teamsName
+
+}
+
+export const getStadiumsName = (stadiums: IStadium[]): IDropdown[] => {
+
+    let stadiumsName: IDropdown[] = []
+
+    for (let i = 0; i < stadiums.length; i++) {
+        stadiumsName.push({
+            value: stadiums[i].name!,
+            label: stadiums[i].name!
+        })
+    }
+
+    return stadiumsName
+
+}
+
+export const getRefereeName = (referees: IReferee[]): IDropdown[] => {
+
+    let refereesName: IDropdown[] = []
+
+    for (let i = 0; i < referees.length; i++) {
+        refereesName.push({
+            value: referees[i].name!,
+            label: referees[i].name!
+        })
+    }
+
+    return refereesName
 
 }
 

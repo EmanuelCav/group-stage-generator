@@ -47,6 +47,18 @@ export const matchStyles = StyleSheet.create({
         width: '100%',
         padding: Dimensions.get("window").height / 106,
         borderBottomWidth: 1
+    },
+
+    scoreTeamForm: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+
+    teamForm: {
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start'
     }
 
 })

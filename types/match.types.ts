@@ -1,6 +1,7 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 import { IGetMatch, IMatch } from "@/interface/Match"
+import { IGroup } from "@/interface/Group";
 
 export type TitleMatchPropsType = {
     match: IGetMatch;
@@ -26,6 +27,11 @@ export type TagInformationPropsType = {
 export type FormUpdateMatchPropsType = {
     colors: MD3Colors;
     hideAndShowUpdateMatch: (show: boolean) => void;
+    updateMatch: (data: IGetMatch) => void;
+    updateMatchGroup: (data: IMatch[][][]) => void;
+    match: IMatch;
+    group: IGroup;
+    matchday: number;
 }
 
 export type TeamUpdateScorePropsType = {

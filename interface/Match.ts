@@ -8,6 +8,7 @@ export interface IMatchStore {
     getMatch: (data: IGetMatch) => void;
     handleSegmented: (data: string) => void;
     hideAndShowUpdateMatch: (show: boolean) => void;
+    updateMatch: (data: IGetMatch) => void;
 }
 
 export interface IGetMatch {

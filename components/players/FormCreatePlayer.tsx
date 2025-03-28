@@ -40,7 +40,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
     const renderStatistic = ({ item, index }: RenderStatistic) => {
         return (
             <StatisticPlayer statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic}
-            isLast={(index + 1) === player.statistics?.length} />
+                isLast={(index + 1) === player.statistics?.length} />
         )
     }
 
@@ -76,11 +76,6 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 size={24}
                 onPress={() => hideAndShowAddPlayer(false)}
             />
-            {
-                errors.name && <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
-                    {errors.name.message}
-                </Text>
-            }
             <Controller
                 name="name"
                 control={control}
@@ -97,8 +92,14 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     />
                 )} />
 
+            {
+                errors.name && <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
+                    {errors.name.message}
+                </Text>
+            }
+
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">select the player's team</Text>
+                <Text variant="labelLarge">Select the player's team</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocus && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}

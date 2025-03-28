@@ -17,6 +17,9 @@ export const matchStore = create(
             })),
             hideAndShowUpdateMatch: (show: boolean) => set(() => ({
                 showForm: show
+            })),
+            updateMatch: (data: IGetMatch) => set(() => ({
+                match: data
             }))
         }),
         {

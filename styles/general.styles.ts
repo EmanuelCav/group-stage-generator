@@ -19,12 +19,14 @@ export const generalStyles = StyleSheet.create({
         height: Dimensions.get("window").height,
         justifyContent: 'center',
         alignItems: 'center',
+        paddingHorizontal: Dimensions.get("window").width / 36,
         flex: 1,
     },
 
     cardBackground: {
         backgroundColor: '#ffffff',
         borderRadius: 8,
+        width: '100%',
         padding: Dimensions.get("window").width / 36,
         position: 'relative'
     },
