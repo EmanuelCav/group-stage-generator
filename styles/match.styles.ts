@@ -79,6 +79,66 @@ export const matchStyles = StyleSheet.create({
         width: '60%',
         backgroundColor: "#ffffff",
         textAlign: 'center'
+    },
+
+    summaryDesign: {
+        width: '100%',
+        borderTopWidth: 2,
+        borderBottomWidth: 2,
+        paddingHorizontal: Dimensions.get("window").height / 120,
+        paddingVertical: Dimensions.get("window").height / 106
+    },
+
+    containerSummary: {
+        width: '45%',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+    },
+
+    containerPlayersLineup: {
+        width: '100%',
+        paddingHorizontal: Dimensions.get("window").height / 120,
+        paddingVertical: Dimensions.get("window").height / 320,
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+
+    lineupContainLocal: {
+        width: '50%',
+        alignSelf: 'flex-start',
+        alignItems: 'flex-start',
+    },
+
+    lineupContainVisitant: {
+        width: '50%',
+        alignSelf: 'flex-end',
+        alignItems: 'flex-end'
+    },
+
+    containerStatisticMatch: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: Dimensions.get("window").height / 120,
+        paddingVertical: Dimensions.get("window").height / 320,
+        width: "100%",
+        flexDirection: "column",
+    },
+
+    containerBarStatisticMatch: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "100%",
+        flexDirection: "row",
+    },
+
+    containStatistic: {
+        flex: 1,
+        height: Dimensions.get("window").height / 185,
+        flexDirection: "row",
+        backgroundColor: "#dddddd",
+        marginHorizontal: Dimensions.get("window").width / 36,
+        borderRadius: 2,
     }
 
 })

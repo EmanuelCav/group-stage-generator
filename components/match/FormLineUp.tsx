@@ -4,14 +4,16 @@ import { Dimensions, ScrollView } from "react-native"
 
 import { View } from "../Themed"
 import ContainerBackground from "../general/ContainerBackground"
+import TeamView from "./components/TeamView"
 
 import { FormLineUpPropsType } from "@/types/match.types"
+import { IMatch } from "@/interface/Match"
+import { IPlayer } from "@/interface/Player"
 
 import { generalStyles } from "@/styles/general.styles"
 import { matchStyles } from "@/styles/match.styles"
-import TeamView from "./components/TeamView"
 
-const FormLineUp = ({ colors, hideAndShowPlayers, group, match }: FormLineUpPropsType) => {
+const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, updateMatch, updateMatchGroup }: FormLineUpPropsType) => {
 
     const [playersLocal, setPlayersLocal] = useState<Record<string, boolean>>({});
     const [playersVisitant, setPlayersVisitant] = useState<Record<string, boolean>>({});
@@ -31,8 +33,52 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match }: FormLineUpProp
     }
 
     const handleLineUp = () => {
-        console.log(playersLocal);
-        console.log(playersVisitant);
+
+        const arrPlayersLocal = Object.keys(playersLocal).map(Number)
+        const arrPlayersVisitant = Object.keys(playersVisitant).map(Number)
+        const concatArrPlayers = arrPlayersLocal.concat(arrPlayersVisitant)
+
+        let updatePlayers: IPlayer[] = []
+
+        for (let i = 0; i < concatArrPlayers.length; i++) {
+            updatePlayers.push(group.players?.find(p => p.id === concatArrPlayers[i])!)
+        }
+
+        const groupIndex = match.local.team.group! - 1;
+        const matchdayIndex = matchday - 1;
+
+        const editMatch: IMatch = {
+            isEdit: match.isEdit,
+            local: match.local,
+            referee: match.referee!,
+            stadium: match.stadium!,
+            statistics: match.statistics,
+            players: [...updatePlayers],
+            summary: match.summary,
+            visitant: match.visitant,
+            date: match.date
+        }
+
+        const updatedMatches = group.matches!.map((g, gi) =>
+            gi === groupIndex
+                ? g.map((m, mi) =>
+                    mi === matchdayIndex
+                        ? m.map((matchItem) =>
+                            matchItem.local.team.name === match.local.team.name
+                                ? { ...editMatch }
+                                : matchItem
+                        )
+                        : m
+                )
+                : g
+        );
+
+        updateMatchGroup(updatedMatches)
+
+        updateMatch({
+            match: { ...editMatch },
+            matchday
+        })
 
         hideAndShowPlayers(false)
     }

@@ -45,10 +45,11 @@ export interface ISummary {
     id?: number;
     title?: string;
     player?: IPlayer;
-    time?: number;
+    time?: string;
 }
 
 export interface IMatchStatistic {
+    id?: number;
     title?: string;
     teamLocal?: IMatchStatisticTeam;
     teamVisitant?: IMatchStatisticTeam;

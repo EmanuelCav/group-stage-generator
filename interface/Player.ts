@@ -22,6 +22,7 @@ export interface IPlayer {
     id?: number;
     name?: string;
     team?: ITeam;
+    position?: string;
     statistics?: IStatistic[];
 }
 
@@ -30,4 +31,9 @@ export interface IStatistic {
     title?: string;
     value?: number;
     defaultValue?: number;
+}
+
+export interface ILineup {
+    playersLocal?: IPlayer;
+    playersVisitant?: IPlayer;
 }

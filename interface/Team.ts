@@ -24,6 +24,11 @@ export interface ICreateStatistic {
     title: string;
 }
 
+export interface ICreateSummary {
+    time: string;
+    title: string;
+}
+
 export interface IPlot {
     label: string;
     value: number;

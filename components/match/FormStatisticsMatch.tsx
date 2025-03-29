@@ -9,6 +9,7 @@ import { FormStatisticsMatchPropsType } from "@/types/match.types"
 import { View } from "../Themed"
 import ContainerBackground from "../general/ContainerBackground"
 
+import { IMatch } from "@/interface/Match";
 import { ICreateStatistic } from "@/interface/Team";
 
 import { generalStyles } from "@/styles/general.styles"
@@ -17,7 +18,7 @@ import { createStyles } from "@/styles/create.styles"
 
 import { statisticSchema } from "@/schema/statistic.schema";
 
-const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic }: FormStatisticsMatchPropsType) => {
+const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup }: FormStatisticsMatchPropsType) => {
 
     const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "0")
     const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "0")
@@ -29,9 +30,100 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
         }
     })
 
-    const handleAddStatistic = (data: ICreateStatistic) => {
-
-    }
+    const handleAddStatistic = (statisticCreated: ICreateStatistic) => {
+    
+            const groupIndex = match.local.team.group! - 1;
+            const matchdayIndex = matchday - 1;
+    
+            if (statistic.id) {
+    
+                const editMatch: IMatch = {
+                    isEdit: match.isEdit,
+                    local: match.local,
+                    referee: match.referee!,
+                    stadium: match.stadium!,
+                    statistics: match.statistics.map((s) => s.id === statistic.id ?
+                        {
+                            ...statistic, title: statisticCreated.title
+                        } : s),
+                    players: match.players,
+                    summary: match.summary,
+                    visitant: match.visitant,
+                    date: match.date
+                }
+    
+                const updatedMatches = group.matches!.map((g, gi) =>
+                    gi === groupIndex
+                        ? g.map((m, mi) =>
+                            mi === matchdayIndex
+                                ? m.map((matchItem) =>
+                                    matchItem.local.team.name === match.local.team.name
+                                        ? { ...editMatch }
+                                        : matchItem
+                                )
+                                : m
+                        )
+                        : g
+                );
+    
+                updateMatchGroup(updatedMatches)
+    
+                updateMatch({
+                    match: { ...editMatch },
+                    matchday
+                })
+    
+            } else {
+    
+                const createMatch: IMatch = {
+                    isEdit: match.isEdit,
+                    local: match.local,
+                    referee: match.referee!,
+                    stadium: match.stadium!,
+                    summary: match.summary,
+                    players: match.players,
+                    statistics: [...match.statistics, {
+                        id: match.statistics.length + 1,
+                        title: statisticCreated.title,
+                        teamLocal: {
+                            team: match.local.team,
+                            value: Number(valueLocal)
+                        },
+                        teamVisitant: {
+                            team: match.visitant.team,
+                            value: Number(valueVisitant)
+                        }
+                    }],
+                    visitant: match.visitant,
+                    date: match.date
+                }
+    
+                const updatedMatches = group.matches!.map((g, gi) =>
+                    gi === groupIndex
+                        ? g.map((m, mi) =>
+                            mi === matchdayIndex
+                                ? m.map((matchItem) =>
+                                    matchItem.local.team.name === match.local.team.name
+                                        ? { ...createMatch }
+                                        : matchItem
+                                )
+                                : m
+                        )
+                        : g
+                );
+    
+                updateMatchGroup(updatedMatches)
+    
+                updateMatch({
+                    match: { ...createMatch },
+                    matchday
+                })
+    
+                reset()
+            }
+    
+            hideAndShowStatistics(false)
+        }
 
     return (
         <ContainerBackground zIndex={20}>

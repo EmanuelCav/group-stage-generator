@@ -25,10 +25,11 @@ const InputSettings = ({ text, name, control, error }: InputSettingsPropsType) =
                     />
                 )}
             />
-            {error && <Text variant='bodySmall' 
-            style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}>
+            {error && <Text variant='bodySmall'
+                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}>
                 {error}
-            </Text>}
+            </Text>
+            }
         </View>
     );
 };

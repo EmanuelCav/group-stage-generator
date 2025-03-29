@@ -1,4 +1,5 @@
 import { IMatch } from "@/interface/Match"
+import { ILineup, IPlayer } from "@/interface/Player"
 
 export const getMatchdaysGroupState = (matches: IMatch[][][]): IMatch[][] => {
 
@@ -35,5 +36,41 @@ export const evaluateGenerateAgain = (matches: IMatch[][][]): boolean => {
     }
 
     return false
+
+}
+
+export const lineupPlayers = (playersLocal: IPlayer[], playersVisitant: IPlayer[]): ILineup[] => {
+
+    let lineup: ILineup[] = []
+
+    let isMax = playersLocal.length > playersVisitant.length
+
+    for (let i = 0; i < (isMax ? playersLocal.length : playersVisitant.length); i++) {
+        if(isMax) {
+            if(playersVisitant[i]) {
+                lineup.push({
+                    playersLocal: playersLocal[i],
+                    playersVisitant: playersVisitant[i]
+                })
+            } else {
+                lineup.push({
+                    playersLocal: playersLocal[i]
+                })
+            }
+        } else {
+            if(playersLocal[i]) {
+                lineup.push({
+                    playersLocal: playersLocal[i],
+                    playersVisitant: playersVisitant[i]
+                })
+            } else {
+                lineup.push({
+                    playersVisitant: playersVisitant[i]
+                })
+            }
+        }
+    }
+
+    return lineup
 
 }

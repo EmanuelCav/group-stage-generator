@@ -2,6 +2,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 import { IGetMatch, IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
 import { IGroup } from "@/interface/Group";
+import { ILineup, IPlayer } from "@/interface/Player";
 
 export type TitleMatchPropsType = {
     match: IGetMatch;
@@ -43,6 +44,9 @@ export type FormLineUpPropsType = {
     hideAndShowPlayers: (show: boolean) => void;
     group: IGroup;
     match: IMatch;
+    updateMatch: (data: IGetMatch) => void;
+    updateMatchGroup: (data: IMatch[][][]) => void;
+    matchday: number;
 }
 
 export type FormStatisticsMatchPropsType = {
@@ -51,12 +55,34 @@ export type FormStatisticsMatchPropsType = {
     match: IMatch;
     group: IGroup;
     statistic: IMatchStatistic;
+    updateMatch: (data: IGetMatch) => void;
+    updateMatchGroup: (data: IMatch[][][]) => void;
+    matchday: number;
 }
 
 export type FormSummaryPropsType = {
     colors: MD3Colors;
     hideAndShowSummary: (show: boolean) => void;
+    updateMatch: (data: IGetMatch) => void;
+    updateMatchGroup: (data: IMatch[][][]) => void;
+    matchday: number;
     summary: ISummary;
     match: IMatch;
     group: IGroup;
+}
+
+export type SummaryPropsType = {
+    summary: ISummary;
+    match: IMatch;
+    colors: MD3Colors;
+}
+
+export type PlayersMatchPropsType = {
+    player: ILineup;
+    colors: MD3Colors;   
+}
+
+export type StatisticMatchPropsType = {
+    colors: MD3Colors;
+    statistic: IMatchStatistic;
 }

@@ -23,6 +23,8 @@ import { matchStyles } from "@/styles/match.styles"
 import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
 
+import { lineupPlayers } from "@/utils/matchday"
+
 const Match = () => {
 
     const { colors } = useTheme()
@@ -52,18 +54,18 @@ const Match = () => {
             <SureGeneral />
 
             {
-                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers} 
-                match={match.match!} group={group}/>
+                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers}
+                    match={match.match!} group={group} matchday={match.matchday!} updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} />
             }
 
             {
-                showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} 
-                match={match.match!} group={group} statistic={statistic} />
+                showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
+                    match={match.match!} group={group} statistic={statistic} updateMatch={updateMatch} matchday={match.matchday!} />
             }
 
             {
-                showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} 
-                summary={summary} match={match.match!} group={group} />
+                showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
+                    summary={summary} match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} />
             }
 
             {
@@ -88,7 +90,7 @@ const Match = () => {
                         },
                         {
                             value: 'players',
-                            label: 'Players',
+                            label: 'Lineup',
                             icon: 'account-group-outline',
                             checkedColor: "#ffffff"
                         },
@@ -109,14 +111,14 @@ const Match = () => {
                 />
                 {
                     segmentedButton === "summary" &&
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {
                             match.match?.summary.length! > 0 ?
                                 <FlatList
                                     style={{ width: '100%' }}
                                     data={match.match?.summary}
                                     keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) => <Summary />}
+                                    renderItem={({ item }) => <Summary summary={item} match={match.match!} colors={colors} />}
                                 /> : <View style={matchStyles.containAdd}>
                                     <Text variant="bodyMedium">Add a summary for the match</Text>
                                     <AddAction openForm={hideAndShowSummary} colors={colors} text="ADD SUMMARY" />
@@ -126,14 +128,15 @@ const Match = () => {
                 }
                 {
                     segmentedButton === "players" &&
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {
                             match.match?.players.length! > 0 ?
                                 <FlatList
                                     style={{ width: '100%' }}
-                                    data={match.match?.summary}
+                                    data={lineupPlayers(match.match?.players.filter(p => p.team?.id === match.match?.local.team.id)!,
+                                        match.match?.players.filter(p => p.team?.id === match.match?.visitant.team.id)!)}
                                     keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) => <PlayersMatch />}
+                                    renderItem={({ item }) => <PlayersMatch player={item} colors={colors} />}
                                 /> : <View style={matchStyles.containAdd}>
                                     <Text variant="bodyMedium">Add a lineup for the match</Text>
                                     <AddAction openForm={hideAndShowPlayers} colors={colors} text="ADD LINEUP" />
@@ -143,13 +146,13 @@ const Match = () => {
                 }
                 {
                     segmentedButton === "statistics" &&
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {
-                            match.match?.players.length! > 0 ? <FlatList
+                            match.match?.statistics.length! > 0 ? <FlatList
                                 style={{ width: '100%' }}
                                 data={match.match?.statistics}
                                 keyExtractor={(_, index) => index.toString()}
-                                renderItem={({ item }) => <StatisticMatch />}
+                                renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} />}
                             /> : <View style={matchStyles.containAdd}>
                                 <Text variant="bodyMedium">Add statistics for the match</Text>
                                 <AddAction openForm={hideAndShowStatistics} colors={colors} text="ADD STATISTIC" />
