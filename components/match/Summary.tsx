@@ -1,3 +1,4 @@
+import { Pressable } from "react-native"
 import { Text } from "react-native-paper"
 
 import { View } from "../Themed"
@@ -6,9 +7,10 @@ import { SummaryPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 
-const Summary = ({ summary, match, colors }: SummaryPropsType) => {
+const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsType) => {
     return (
-        <View style={[matchStyles.summaryDesign, { borderColor: "#ffffff", backgroundColor: colors.primary }]}>
+        <Pressable style={[matchStyles.summaryDesign, { borderColor: "#ffffff", backgroundColor: colors.primary }]}
+        onPress={() => handleUpdateSummary(summary)} >
             <View style={[matchStyles.containerSummary,
             { alignSelf: summary.player?.team?.name === match.local.team ? "flex-start" : "flex-end", backgroundColor: colors.primary }]}>
                 {
@@ -28,7 +30,7 @@ const Summary = ({ summary, match, colors }: SummaryPropsType) => {
                         </>
                 }
             </View>
-        </View>
+        </Pressable>
     )
 }
 

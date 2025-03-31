@@ -16,11 +16,11 @@ const Groups = () => {
     const { group, getGroup, sureRemoveGroup, sureRestartGroup } = groupStore()
 
     const goBack = () => {
+        router.replace("/")
+
         getGroup({
             teams: []
         })
-
-        router.replace("/")
     }
 
     return (

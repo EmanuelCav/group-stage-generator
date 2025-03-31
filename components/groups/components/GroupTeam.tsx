@@ -7,11 +7,12 @@ import { GroupTeamPropsType } from '@/types/groups.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
-const GroupTeam = ({ team, group, colors }: GroupTeamPropsType) => {
+const GroupTeam = ({ team, group, colors, index }: GroupTeamPropsType) => {
     return (
         <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
             <DataTable.Cell style={groupStyles.rowStart}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text variant='labelMedium'>{index}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: Dimensions.get("window").width / 45 }}>
                     {team.logo ? (
                         <Avatar.Image source={{ uri: team.logo }} size={24} />
                     ) : (

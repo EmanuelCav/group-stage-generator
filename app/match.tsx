@@ -17,6 +17,9 @@ import AddAction from "@/components/general/AddAction"
 import FormLineUp from "@/components/match/FormLineUp"
 import FormStatisticsMatch from "@/components/match/FormStatisticsMatch"
 import FormSummary from "@/components/match/FormSummary"
+import Sure from "@/components/general/Sure"
+
+import { IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
 
 import { matchStyles } from "@/styles/match.styles"
 
@@ -30,10 +33,105 @@ const Match = () => {
     const { colors } = useTheme()
     const router = useRouter()
     const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup } = groupStore()
-    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic,
+    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic, getSummary,
         hideAndShowPlayers, hideAndShowStatistics, hideAndShowSummary, showFormPlayers, showFormStatistics, showFormSummary,
-        summary
+        summary, isSureSummary, sureRemoveSummary, getStatistic, isSureStatistic, sureRemoveStatistic
     } = matchStore()
+
+    const handleUpdateSummary = (data: ISummary) => {
+        getSummary(data)
+        hideAndShowSummary(true)
+    }
+
+    const handleUpdateStatistic = (data: IMatchStatistic) => {
+        getStatistic(data)
+        hideAndShowStatistics(true)
+    }
+
+    const handleRemoveSummary = () => {
+        const groupIndex = match.match?.local.team.group! - 1;
+        const matchdayIndex = match.matchday! - 1;
+
+        const editMatch: IMatch = {
+            isEdit: match.match!.isEdit,
+            local: match.match!.local,
+            referee: match.match!.referee!,
+            stadium: match.match!.stadium!,
+            statistics: match.match!.statistics,
+            players: match.match!.players,
+            summary: match.match!.summary.filter((s) => s.id !== summary.id),
+            visitant: match.match!.visitant,
+            date: match.match!.date
+        }
+
+        const updatedMatches = group.matches!.map((g, gi) =>
+            gi === groupIndex
+                ? g.map((m, mi) =>
+                    mi === matchdayIndex
+                        ? m.map((matchItem) =>
+                            matchItem.local.team.name === match.match?.local.team.name
+                                ? { ...editMatch }
+                                : matchItem
+                        )
+                        : m
+                )
+                : g
+        );
+
+        updateMatchGroup(updatedMatches)
+
+        updateMatch({
+            match: { ...editMatch },
+            matchday: match.matchday
+        })
+
+        sureRemoveSummary(false)
+        hideAndShowSummary(false)
+        getSummary({})
+    }
+
+    const handleRemoveStatistic = () => {
+
+        const groupIndex = match.match?.local.team.group! - 1;
+        const matchdayIndex = match.matchday! - 1;
+
+        const editMatch: IMatch = {
+            isEdit: match.match!.isEdit,
+            local: match.match!.local,
+            referee: match.match!.referee,
+            stadium: match.match!.stadium,
+            statistics: match.match!.statistics.filter((s) => s.id !== statistic.id),
+            players: match.match!.players,
+            summary: match.match!.summary,
+            visitant: match.match!.visitant,
+            date: match.match!.date
+        }
+
+        const updatedMatches = group.matches!.map((g, gi) =>
+            gi === groupIndex
+                ? g.map((m, mi) =>
+                    mi === matchdayIndex
+                        ? m.map((matchItem) =>
+                            matchItem.local.team.name === match.match?.local.team.name
+                                ? { ...editMatch }
+                                : matchItem
+                        )
+                        : m
+                )
+                : g
+        );
+
+        updateMatchGroup(updatedMatches)
+
+        updateMatch({
+            match: { ...editMatch },
+            matchday: match.matchday
+        })
+
+        sureRemoveStatistic(false)
+        hideAndShowStatistics(false)
+        getStatistic({})
+    }
 
     const goBack = () => {
         router.replace("/(tabs)/matchdays")
@@ -44,6 +142,8 @@ const Match = () => {
         hideAndShowPlayers(false)
         hideAndShowStatistics(false)
         hideAndShowSummary(false)
+        sureRemoveStatistic(false)
+        sureRemoveSummary(false)
     }, [])
 
     return (
@@ -54,18 +154,28 @@ const Match = () => {
             <SureGeneral />
 
             {
+                isSureSummary && <Sure close={() => sureRemoveSummary(false)} text="Are you sure you want to delete?"
+                    labelButton="REMOVE" func={handleRemoveSummary} />
+            }
+
+            {
+                isSureStatistic && <Sure close={() => sureRemoveStatistic(false)} text="Are you sure you want to delete?"
+                    labelButton="REMOVE" func={handleRemoveStatistic} />
+            }
+
+            {
                 showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers}
                     match={match.match!} group={group} matchday={match.matchday!} updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} />
             }
 
             {
                 showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
-                    match={match.match!} group={group} statistic={statistic} updateMatch={updateMatch} matchday={match.matchday!} />
+                    match={match.match!} group={group} statistic={statistic} updateMatch={updateMatch} matchday={match.matchday!} sureRemoveStatistic={sureRemoveStatistic} />
             }
 
             {
                 showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
-                    summary={summary} match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} />
+                    summary={summary} match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} sureRemoveSummary={sureRemoveSummary} />
             }
 
             {
@@ -118,7 +228,8 @@ const Match = () => {
                                     style={{ width: '100%' }}
                                     data={match.match?.summary}
                                     keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) => <Summary summary={item} match={match.match!} colors={colors} />}
+                                    renderItem={({ item }) => <Summary summary={item} match={match.match!} colors={colors}
+                                        handleUpdateSummary={handleUpdateSummary} />}
                                 /> : <View style={matchStyles.containAdd}>
                                     <Text variant="bodyMedium">Add a summary for the match</Text>
                                     <AddAction openForm={hideAndShowSummary} colors={colors} text="ADD SUMMARY" />
@@ -136,7 +247,7 @@ const Match = () => {
                                     data={lineupPlayers(match.match?.players.filter(p => p.team?.id === match.match?.local.team.id)!,
                                         match.match?.players.filter(p => p.team?.id === match.match?.visitant.team.id)!)}
                                     keyExtractor={(_, index) => index.toString()}
-                                    renderItem={({ item }) => <PlayersMatch player={item} colors={colors} />}
+                                    renderItem={({ item }) => <PlayersMatch player={item} colors={colors} hideAndShowPlayers={hideAndShowPlayers} />}
                                 /> : <View style={matchStyles.containAdd}>
                                     <Text variant="bodyMedium">Add a lineup for the match</Text>
                                     <AddAction openForm={hideAndShowPlayers} colors={colors} text="ADD LINEUP" />
@@ -152,7 +263,7 @@ const Match = () => {
                                 style={{ width: '100%' }}
                                 data={match.match?.statistics}
                                 keyExtractor={(_, index) => index.toString()}
-                                renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} />}
+                                renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}
                             /> : <View style={matchStyles.containAdd}>
                                 <Text variant="bodyMedium">Add statistics for the match</Text>
                                 <AddAction openForm={hideAndShowStatistics} colors={colors} text="ADD STATISTIC" />

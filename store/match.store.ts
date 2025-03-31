@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { IGetMatch, IMatchStore } from "@/interface/Match";
+import { IGetMatch, IMatchStatistic, IMatchStore, ISummary } from "@/interface/Match";
 
 export const matchStore = create(
     persist<IMatchStore>(
@@ -10,12 +10,26 @@ export const matchStore = create(
             summary: {},
             statistic: {},
             segmentedButton: "summary",
+            isSureSummary: false,
+            isSureStatistic: false,
             showForm: false,
             showFormPlayers: false,
             showFormStatistics: false,
             showFormSummary: false,
             getMatch: (data: IGetMatch) => set(() => ({
                 match: data
+            })),
+            getSummary: (data: ISummary) => set(() => ({
+                summary: data
+            })),
+            getStatistic: (data: IMatchStatistic) => set(() => ({
+                statistic: data
+            })),
+            sureRemoveSummary: (show: boolean) => set(() => ({
+                isSureSummary: show
+            })),
+            sureRemoveStatistic: (show: boolean) => set(() => ({
+                isSureStatistic: show
             })),
             handleSegmented: (data: string) => set(() => ({
                 segmentedButton: data

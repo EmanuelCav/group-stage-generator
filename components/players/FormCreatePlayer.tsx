@@ -9,7 +9,7 @@ import { View } from "../Themed";
 import StatisticPlayer from "./components/StatisticPlayer";
 import ContainerBackground from "../general/ContainerBackground";
 
-import { ICreate } from "@/interface/Team";
+import { ICreate, ICreatePlayer } from "@/interface/Team";
 import { IStatistic } from "@/interface/Player";
 import { FormCreatePlayerPropsType } from "@/types/player.types";
 
@@ -33,7 +33,8 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(playerSchema),
         defaultValues: {
-            name: player.name ? player.name : ""
+            name: player.name ? player.name : "",
+            position: player.position ? player.position : "",
         }
     })
 
@@ -44,21 +45,23 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
         )
     }
 
-    const handleAddStadium = (playerCreated: ICreate) => {
+    const handleAddPlayer = (playerCreated: ICreatePlayer) => {
 
         if (player.name) {
             updatePlayer({
                 id: player.id,
                 name: playerCreated.name,
                 statistics: player.statistics,
-                team: group.teams.find((t) => t.name === teamSelected)
+                team: group.teams.find((t) => t.name === teamSelected),
+                position: playerCreated.position
             })
         } else {
             createPlayer({
                 id: group.players?.length as number + 1,
                 name: playerCreated.name,
                 statistics: generateStatistic(group.players!),
-                team: group.teams.find((t) => t.name === teamSelected)
+                team: group.teams.find((t) => t.name === teamSelected),
+                position: playerCreated.position
             })
 
             reset()
@@ -93,9 +96,31 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 )} />
 
             {
-                errors.name && <Text variant="labelMedium" 
-                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                errors.name && <Text variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
                     {errors.name.message}
+                </Text>
+            }
+
+            <Controller
+                name="position"
+                control={control}
+                render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                        value={value}
+                        onChangeText={onChange}
+                        autoCapitalize="none"
+                        onBlur={onBlur}
+                        label="Position (optional)"
+                        mode="outlined"
+                        style={createStyles.inputGeneralCreate}
+                    />
+                )} />
+
+            {
+                errors.position && <Text variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                    {errors.position.message}
                 </Text>
             }
 
@@ -135,7 +160,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
 
 
             <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddStadium(data))}>
+                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddPlayer(data))}>
                 {
                     player.name ? "UPDATE" : "ADD"
                 }

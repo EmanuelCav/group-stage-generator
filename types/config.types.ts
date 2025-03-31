@@ -1,5 +1,5 @@
 import { Control, UseFormHandleSubmit } from "react-hook-form";
-import { IGroup, ISetting } from "@/interface/Group";
+import { ISetting } from "@/interface/Group";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 export type SwitchSettingsPropsType = {

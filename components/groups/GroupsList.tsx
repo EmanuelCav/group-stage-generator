@@ -19,8 +19,8 @@ const GroupsList = ({ group, colors }: GroupsListPropsType) => {
                 <DataTable.Title style={groupStyles.rowStart}>Team</DataTable.Title>
                 <DataTable.Title numeric style={groupStyles.rowEnd}>Points</DataTable.Title>
             </DataTable.Header>
-            {group.teams.filter(t => t.group === (i + 1)).map((team) => (
-                <GroupTeam key={team.id} team={team} group={group} colors={colors} />
+            {group.teams.filter(t => t.group === (i + 1)).map((team, index) => (
+                <GroupTeam key={team.id} team={team} group={group} index={index + 1} colors={colors} />
             ))}
             <Button mode="text" onPress={() => { }}
                 style={generalStyles.generateButton}

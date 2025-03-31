@@ -12,4 +12,5 @@ export type GroupTeamPropsType = {
     team: ITeam;
     group: IGroup;
     colors: MD3Colors;
+    index: number;
 }

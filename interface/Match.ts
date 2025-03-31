@@ -1,4 +1,4 @@
-import { IPlayer } from "./Player";
+import { IPlayer, IStatistic } from "./Player";
 import { ITeam } from "./Team";
 
 export interface IMatchStore {
@@ -10,7 +10,13 @@ export interface IMatchStore {
     showFormPlayers: boolean;
     showFormStatistics: boolean;
     showFormSummary: boolean;
+    isSureSummary: boolean;
+    isSureStatistic: boolean;
     getMatch: (data: IGetMatch) => void;
+    getSummary: (data: ISummary) => void;
+    getStatistic: (data: IStatistic) => void;
+    sureRemoveSummary: (show: boolean) => void;
+    sureRemoveStatistic: (show: boolean) => void;
     handleSegmented: (data: string) => void;
     hideAndShowUpdateMatch: (show: boolean) => void;
     hideAndShowPlayers: (show: boolean) => void;

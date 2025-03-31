@@ -20,6 +20,11 @@ export interface ICreate {
     name: string;
 }
 
+export interface ICreatePlayer {
+    name: string;
+    position?: string;
+}
+
 export interface ICreateStatistic {
     title: string;
 }

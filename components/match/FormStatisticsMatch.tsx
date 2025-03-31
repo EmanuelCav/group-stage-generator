@@ -18,7 +18,7 @@ import { createStyles } from "@/styles/create.styles"
 
 import { statisticSchema } from "@/schema/statistic.schema";
 
-const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup }: FormStatisticsMatchPropsType) => {
+const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic }: FormStatisticsMatchPropsType) => {
 
     const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "0")
     const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "0")
@@ -208,8 +208,16 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
             <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddStatistic(data))}>
-                CREATE
+                {statistic.id ? "UPDATE" : "ADD"}
             </Button>
+
+            {
+                statistic.id && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }} onPress={() => sureRemoveStatistic(true)}>
+                    REMOVE
+                </Button>
+            }
+
         </ContainerBackground>
     )
 }

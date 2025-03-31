@@ -20,7 +20,7 @@ import { summarySchema } from "@/schema/match.schema";
 
 import { getTeamsName, getPlayerName } from "@/utils/defaultGroup";
 
-const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday }: FormSummaryPropsType) => {
+const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary }: FormSummaryPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>("")
     const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ? summary.player.name : "")
@@ -230,13 +230,13 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
             <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddSummary(data))}>
-                ACCEPT
+                {summary.id ? "UPDATE" : "CREATE"}
             </Button>
 
             {
                 summary.id && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => { }}>
-                    CREATE
+                    labelStyle={{ color: "#ffffff" }} onPress={() => sureRemoveSummary(true)}>
+                    REMOVE
                 </Button>
             }
 

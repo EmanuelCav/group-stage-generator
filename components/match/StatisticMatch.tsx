@@ -5,10 +5,11 @@ import { View } from "../Themed"
 import { StatisticMatchPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
+import { Pressable } from "react-native"
 
-const StatisticMatch = ({ statistic, colors }: StatisticMatchPropsType) => {
+const StatisticMatch = ({ statistic, colors, handleUpdateStatistic }: StatisticMatchPropsType) => {
     return (
-        <View style={matchStyles.containerStatisticMatch}>
+        <Pressable style={matchStyles.containerStatisticMatch} onPress={() => handleUpdateStatistic(statistic)}>
             <Text variant="bodyLarge">{statistic.title}</Text>
             <View style={matchStyles.containerBarStatisticMatch}>
                 <Text variant="bodyLarge">{statistic.teamLocal?.value}</Text>
@@ -20,7 +21,7 @@ const StatisticMatch = ({ statistic, colors }: StatisticMatchPropsType) => {
                 </View>
                 <Text variant="bodyLarge">{statistic.teamVisitant?.value}</Text>
             </View>
-        </View>
+        </Pressable>
     )
 }
 

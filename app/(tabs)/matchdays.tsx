@@ -27,11 +27,11 @@ const Matchdays = () => {
     }
 
     const goBack = () => {
+        router.replace("/")
+
         getGroup({
             teams: []
         })
-
-        router.replace("/")
     }
 
     return (

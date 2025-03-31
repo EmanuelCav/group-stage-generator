@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Checkbox, IconButton, MD3Colors, Text } from "react-native-paper"
 import { Dimensions, ScrollView } from "react-native"
 
@@ -82,6 +82,22 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
 
         hideAndShowPlayers(false)
     }
+
+    useEffect(() => {
+        let idsLocal: Record<string, boolean> = {};
+        let idsVisitant: Record<string, boolean> = {};
+
+        for (let i = 0; i < match.players.length; i++) {
+            if (group.players?.find(p => p.id === match.players[i].id)?.team?.id === match.local.team.id) {
+                idsLocal[match.players[i].id!] = true;
+            } else {
+                idsVisitant[match.players[i].id!] = true;
+            }
+        }
+
+        setPlayersLocal(idsLocal);
+        setPlayersVisitant(idsVisitant);
+    }, [])
 
     return (
         <ContainerBackground zIndex={20}>
