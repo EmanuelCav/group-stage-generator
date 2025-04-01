@@ -13,7 +13,6 @@ export interface ITeam {
     plot?: number;
     name?: string;
     group?: number;
-    points?: IPoints;
 }
 
 export interface ICreate {
@@ -45,10 +44,13 @@ export interface IDropdown {
 }
 
 export interface IPoints {
+    id: number;
+    name: string;
     won: number;
     tied: number;
     lost: number;
     played: number;
     positive: number;
     negative: number;
+    logo: string;
 }

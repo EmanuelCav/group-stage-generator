@@ -25,3 +25,8 @@ export type HeaderConfigPropsType = {
     colors: MD3Colors;
     comeBack: () => void;
 }
+
+export type ConfigButtonPropsType = {
+    text: string;
+    colors: MD3Colors;
+}

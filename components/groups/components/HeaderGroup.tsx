@@ -1,11 +1,39 @@
-import { DataTable } from "react-native-paper"
+import { Dimensions, FlatList } from "react-native"
+import { Avatar, Text } from "react-native-paper"
 
-const HeaderGroup = () => {
+import { View } from "@/components/Themed"
+
+import { HeaderGroupPropsType } from "@/types/groups.types"
+
+import { groupStyles } from "@/styles/group.styles"
+
+import { generatePoints, groupName } from "@/utils/points"
+
+const HeaderGroup = ({ group, groupNumber, colors }: HeaderGroupPropsType) => {
     return (
-        <DataTable.Header>
-            <DataTable.Title>Equipo</DataTable.Title>
-            <DataTable.Title numeric>Puntos</DataTable.Title>
-        </DataTable.Header>
+        <View>
+            <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                <Text variant='labelMedium' style={groupStyles.headerCellPosition}>#</Text>
+                <Text variant='labelMedium' style={groupStyles.headerCell}>Team</Text>
+            </View>
+            <FlatList
+                data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!)}
+                keyExtractor={(item) => String(item.id)}
+                renderItem={({ item, index }) => (
+                    <View style={groupStyles.row}>
+                        <Text variant="bodyMedium" style={groupStyles.cellPosition}>{index + 1}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            {item.logo ? (
+                                <Avatar.Image source={{ uri: item.logo }} size={Dimensions.get("window").width / 12} />
+                            ) : (
+                                <Avatar.Icon icon="shield-outline" size={Dimensions.get("window").width / 12} />
+                            )}
+                            <Text variant="bodyMedium" style={groupStyles.teamCell}>{groupName(item.name)}</Text>
+                        </View>
+                    </View>
+                )}
+            />
+        </View>
     )
 }
 

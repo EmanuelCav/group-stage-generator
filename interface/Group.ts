@@ -4,6 +4,8 @@ import { IReferee } from "./Referee";
 import { IStadium } from "./Stadium";
 import { ITeam } from "./Team";
 
+import { KeyTieBreakCriteriaPropsType } from "@/types/props.types";
+
 export interface IGroupStore {
     groups: IGroup[];
     group: IGroup;
@@ -23,6 +25,7 @@ export interface IGroupStore {
     createGroup: (data: IGroup) => void;
     updateGroup: (data: IGroup) => void;
     removeGroup: (data: IGroup) => void;
+    restartGroup: () => void;
     createTeam: (data: ITeam) => void;
     createReferee: (data: IReferee) => void;
     createStadium: (data: IStadium) => void;
@@ -45,6 +48,7 @@ export interface IGroup {
     stadiums?: IStadium[];
     referees?: IReferee[];
     players?: IPlayer[];
+    tie_breakCriteria?: KeyTieBreakCriteriaPropsType[],
     isRoundTripGroupStage?: boolean;
     isRoundTripElimination?: boolean;
     amountClassified?: number;

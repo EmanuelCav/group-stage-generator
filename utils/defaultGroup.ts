@@ -15,6 +15,7 @@ export const groupValue = (id: number): IGroup => {
         referees: [],
         stadiums: [],
         players: [],
+        tie_breakCriteria: ["points", "difference", "favor", "won"],
         isRoundTripElimination: false,
         isRoundTripGroupStage: false,
         teamsPerGroup: 1,
@@ -36,15 +37,7 @@ export const teamValue = (id: number, logo: string | undefined, name: string, pl
         id,
         logo,
         name,
-        plot,
-        points: {
-            played: 0,
-            lost: 0,
-            tied: 0,
-            won: 0,
-            positive: 0,
-            negative: 0
-        }
+        plot
     }
 
 }
@@ -128,7 +121,7 @@ export const generateStatistic = (players: IPlayer[]): IStatistic[] => {
 
     let statistics: IStatistic[] = []
 
-    if(players.length > 0) {
+    if (players.length > 0) {
         for (let i = 0; i < players[0].statistics!.length; i++) {
             statistics.push({
                 id: players[0].statistics![i].id,

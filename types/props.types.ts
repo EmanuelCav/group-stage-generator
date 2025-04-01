@@ -47,3 +47,5 @@ export type AddActionPropsType = {
     openForm: (show: boolean) => void;
     text: string;
 }
+
+export type KeyTieBreakCriteriaPropsType = 'points' | 'won' | 'difference' | 'favor'

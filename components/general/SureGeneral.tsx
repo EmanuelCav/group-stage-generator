@@ -6,12 +6,13 @@ import { groupStore } from "@/store/group.store"
 
 const SureGeneral = () => {
 
-    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group } = groupStore()
+    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup } = groupStore()
     const router = useRouter()
 
     const handleRestart = () => {
         sureRestartGroup(false)
-        router.replace("/(tabs)/matchdays")
+        restartGroup()
+        router.replace("/")
     }
 
     const handleRemove = () => {

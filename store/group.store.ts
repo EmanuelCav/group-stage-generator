@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 import { IMatch } from "@/interface/Match";
 import { IGroup, IGroupStore } from "@/interface/Group";
-import { ITeam } from "@/interface/Team";
+import { IPoints, ITeam } from "@/interface/Team";
 import { IReferee } from "@/interface/Referee";
 import { IStadium } from "@/interface/Stadium";
 import { IPlayer, IStatistic } from "@/interface/Player";
@@ -33,6 +33,16 @@ export const groupStore = create(
                 group: {
                     teams: []
                 },
+            })),
+            restartGroup: () => set((state) => ({
+                group: {
+                    ...state.group, isGeneratedAgain: true, isGenerated: false,
+                    matches: [], players: [], referees: [], stadiums: []
+                },
+                groups: state.groups.map((g) => g.id === state.group.id ? {
+                    ...state.group, isGeneratedAgain: true, isGenerated: false,
+                    matches: [], players: [], referees: [], stadiums: []
+                } : g)
             })),
             createTeam: (data: ITeam) => set((state) => ({
                 group: { ...state.group, teams: [...state.group.teams, data] },

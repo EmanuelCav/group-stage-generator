@@ -49,8 +49,7 @@ const Create = () => {
           group: gm.local?.team.group,
           logo: gm.local?.team.logo,
           plot: group.teams.find(t => t.id === gm.local?.team.id)?.plot,
-          name: gm.local?.team.name,
-          points: gm.local?.team.points
+          name: gm.local?.team.name
         })
 
         updateTeam({
@@ -58,8 +57,7 @@ const Create = () => {
           group: gm.visitant?.team.group,
           logo: gm.visitant?.team.logo,
           plot: group.teams.find(t => t.id === gm.visitant?.team.id)?.plot,
-          name: gm.visitant?.team.name,
-          points: gm.visitant?.team.points
+          name: gm.visitant?.team.name
         })
 
       })

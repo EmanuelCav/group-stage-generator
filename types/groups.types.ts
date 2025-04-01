@@ -9,8 +9,13 @@ export type GroupsListPropsType = {
 }
 
 export type GroupTeamPropsType = {
-    team: ITeam;
     group: IGroup;
     colors: MD3Colors;
-    index: number;
+    groupNumber: number;
+}
+
+export type HeaderGroupPropsType = {
+    group: IGroup; 
+    groupNumber: number; 
+    colors: MD3Colors;
 }

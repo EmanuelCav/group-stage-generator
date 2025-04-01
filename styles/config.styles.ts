@@ -24,6 +24,12 @@ export const configStyles = StyleSheet.create({
         height: Dimensions.get("window").height / 18.5,
         backgroundColor: '#ffffff',
         textAlign: 'center'
+    },
+
+    containerConfigButton: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginVertical: Dimensions.get("window").height / 106
     }
 
 })
