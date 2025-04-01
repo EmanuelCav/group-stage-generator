@@ -18,7 +18,7 @@ const Matchdays = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { group, getGroup, sureRemoveGroup, sureRestartGroup } = groupStore()
+    const { group, sureRemoveGroup, sureRestartGroup } = groupStore()
     const { getMatch } = matchStore()
 
     const handleGetMatch = (data: IGetMatch) => {
@@ -28,10 +28,6 @@ const Matchdays = () => {
 
     const goBack = () => {
         router.replace("/")
-
-        getGroup({
-            teams: []
-        })
     }
 
     return (

@@ -11,14 +11,10 @@ const Elimination = () => {
 
     const router = useRouter()
     const { colors } = useTheme()
-    const { getGroup, sureRemoveGroup, sureRestartGroup } = groupStore()
+    const { sureRemoveGroup, sureRestartGroup } = groupStore()
 
     const goBack = () => {
         router.replace("/")
-
-        getGroup({
-            teams: []
-        })
     }
 
     return (

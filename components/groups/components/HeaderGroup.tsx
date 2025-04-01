@@ -1,4 +1,4 @@
-import { Dimensions, FlatList } from "react-native"
+import { FlatList } from "react-native"
 import { Avatar, Text } from "react-native-paper"
 
 import { View } from "@/components/Themed"
@@ -24,9 +24,9 @@ const HeaderGroup = ({ group, groupNumber, colors }: HeaderGroupPropsType) => {
                         <Text variant="bodyMedium" style={groupStyles.cellPosition}>{index + 1}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             {item.logo ? (
-                                <Avatar.Image source={{ uri: item.logo }} size={Dimensions.get("window").width / 12} />
+                                <Avatar.Image source={{ uri: item.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={Dimensions.get("window").width / 12} />
+                                <Avatar.Icon icon="shield-outline" size={32} />
                             )}
                             <Text variant="bodyMedium" style={groupStyles.teamCell}>{groupName(item.name)}</Text>
                         </View>

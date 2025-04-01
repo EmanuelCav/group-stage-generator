@@ -1,3 +1,4 @@
+import { IAvoidingMatches } from "./Avoiding";
 import { IMatch } from "./Match";
 import { IPlayer, IStatistic } from "./Player";
 import { IReferee } from "./Referee";
@@ -18,6 +19,7 @@ export interface IGroupStore {
     updateReferee: (data: IReferee) => void;
     updateStadium: (data: IStadium) => void;
     updatePlayer: (data: IPlayer) => void;
+    updateAvoiding: (data: IAvoidingMatches) => void;
     updateStatisticTitle: (data: IStatistic) => void;
     updateStatisticValue: (data: IStatistic, player: IPlayer) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
@@ -31,11 +33,13 @@ export interface IGroupStore {
     createStadium: (data: IStadium) => void;
     createPlayer: (data: IPlayer) => void;
     createStatistic: (data: IStatistic) => void;
+    createAvoiding: (data: IAvoidingMatches) => void;
     removeTeam: (data: ITeam) => void;
     removeReferee: (data: IReferee) => void;
     removeStadium: (data: IStadium) => void;
     removePlayer: (data: IPlayer) => void;
     removeStatistic: (data: IStatistic) => void;
+    removeAvoiding: (data: IAvoidingMatches) => void;
     updateGenerateAgain: () => void;
 }
 
@@ -49,6 +53,7 @@ export interface IGroup {
     referees?: IReferee[];
     players?: IPlayer[];
     tie_breakCriteria?: KeyTieBreakCriteriaPropsType[],
+    avoidingMatches?: IAvoidingMatches[];
     isRoundTripGroupStage?: boolean;
     isRoundTripElimination?: boolean;
     amountClassified?: number;

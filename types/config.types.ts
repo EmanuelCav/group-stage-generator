@@ -1,6 +1,7 @@
 import { Control, UseFormHandleSubmit } from "react-hook-form";
-import { ISetting } from "@/interface/Group";
+import { IGroup, ISetting } from "@/interface/Group";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import { IAvoidingMatches } from "@/interface/Avoiding";
 
 export type SwitchSettingsPropsType = {
     text: string;
@@ -29,4 +30,38 @@ export type HeaderConfigPropsType = {
 export type ConfigButtonPropsType = {
     text: string;
     colors: MD3Colors;
+    func: () => void;
+}
+
+export type TieBreakCriteriaPropsType = {
+    initialData: { label: string, id: string }[];
+    setInitialData: React.Dispatch<React.SetStateAction<{
+        label: string;
+        id: string;
+    }[]>>;
+}
+
+export type AvoidingMatchesPropsType = {
+    group: IGroup;
+    colors: MD3Colors;
+    openCreateAvoiding: () => void;
+    handleUpdateAvoiding: (data: IAvoidingMatches) => void;
+    close: () => void;
+}
+
+export type FormCreateAvoidingPropsType = {
+    colors: MD3Colors;
+    hideAndShowAddAvoiding: (show: boolean) => void;
+    createAvoiding: (team: IAvoidingMatches) => void;
+    updateAvoiding: (data: IAvoidingMatches) => void;
+    openSure: (data: IAvoidingMatches) => void;
+    avoiding: IAvoidingMatches;
+    group: IGroup;
+    teamsAvoiding: Record<string, boolean>;
+    setTeamsAvoiding: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+}
+
+export type AvoidingPropsType = {
+    avoiding: IAvoidingMatches;
+    handleUpdateAvoiding: (avoiding: IAvoidingMatches) => void;
 }

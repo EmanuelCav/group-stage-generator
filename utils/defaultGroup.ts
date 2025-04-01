@@ -16,6 +16,7 @@ export const groupValue = (id: number): IGroup => {
         stadiums: [],
         players: [],
         tie_breakCriteria: ["points", "difference", "favor", "won"],
+        avoidingMatches: [],
         isRoundTripElimination: false,
         isRoundTripGroupStage: false,
         teamsPerGroup: 1,

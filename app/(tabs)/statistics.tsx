@@ -19,7 +19,7 @@ const Statistics = () => {
     const router = useRouter()
     const { colors } = useTheme()
     const { hideAndShowAddStatistic, showFormStatistic, statistic, getStatistic, updatePlayerStatisticTitle, updatePlayerStatisticValue, player, sureRemoveStatistic } = playerStore()
-    const { getGroup, group, createStatistic, sureRemoveGroup, sureRestartGroup, updateStatisticTitle, updateStatisticValue } = groupStore()
+    const { group, createStatistic, sureRemoveGroup, sureRestartGroup, updateStatisticTitle, updateStatisticValue } = groupStore()
 
     const handleUpdateTitleStatistic = (data: IStatistic) => {
         updateStatisticTitle(data)
@@ -40,10 +40,6 @@ const Statistics = () => {
 
     const goBack = () => {
         router.replace("/")
-        
-        getGroup({
-            teams: []
-        })
     }
 
     useEffect(() => {

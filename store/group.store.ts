@@ -3,10 +3,11 @@ import { persist } from "zustand/middleware";
 
 import { IMatch } from "@/interface/Match";
 import { IGroup, IGroupStore } from "@/interface/Group";
-import { IPoints, ITeam } from "@/interface/Team";
+import { ITeam } from "@/interface/Team";
 import { IReferee } from "@/interface/Referee";
 import { IStadium } from "@/interface/Stadium";
 import { IPlayer, IStatistic } from "@/interface/Player";
+import { IAvoidingMatches } from "@/interface/Avoiding";
 
 export const groupStore = create(
     persist<IGroupStore>(
@@ -64,6 +65,10 @@ export const groupStore = create(
                 group: { ...state.group, players: state.group.players?.map((p) => ({ ...p, statistics: [...p.statistics!, data] })) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: state.group.players?.map((p) => ({ ...p, statistics: [...p.statistics!, data] })) } : g)
             })),
+            createAvoiding: (data: IAvoidingMatches) => set((state) => ({
+                group: { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] } : g)
+            })),
             generateMatches: (data: IMatch[][][]) => set((state) => ({
                 group: { ...state.group, matches: data, isGenerated: true },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, groupsMatches: data, isGenerated: true } : g)
@@ -101,6 +106,10 @@ export const groupStore = create(
                 group: { ...state.group, matches: data, isGeneratedAgain: false },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: data, isGeneratedAgain: false } : g)
             })),
+            updateAvoiding: (data: IAvoidingMatches) => set((state) => ({
+                group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.map((am) => am.id === data.id ? data : am) },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: state.group.avoidingMatches!.map((am) => am.id === data.id ? data : am) } : g)
+            })),
             removeTeam: (data: ITeam) => set((state) => ({
                 group: { ...state.group, teams: state.group.teams.filter((t) => t.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, teams: state.group.teams.filter((t) => t.id !== data.id) } : g)
@@ -123,6 +132,10 @@ export const groupStore = create(
                     ...state.group, players: state.group.players?.map((p) => (
                         { ...p, statistics: p.statistics?.filter((s) => s.id !== data.id) }))
                 } : g)
+            })),
+            removeAvoiding: (data: IAvoidingMatches) => set((state) => ({
+                group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) } : g)
             })),
             updateGenerateAgain: () => set((state) => ({
                 group: { ...state.group, isGeneratedAgain: false },

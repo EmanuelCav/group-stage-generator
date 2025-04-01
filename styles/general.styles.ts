@@ -28,7 +28,8 @@ export const generalStyles = StyleSheet.create({
         borderRadius: 8,
         width: '100%',
         padding: Dimensions.get("window").width / 36,
-        position: 'relative'
+        position: 'relative',
+        maxHeight: Dimensions.get("window").height / 1.05
     },
 
     addButtonContain: {

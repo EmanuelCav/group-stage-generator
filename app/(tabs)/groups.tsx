@@ -13,14 +13,10 @@ const Groups = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { group, getGroup, sureRemoveGroup, sureRestartGroup } = groupStore()
+    const { group, sureRemoveGroup, sureRestartGroup } = groupStore()
 
     const goBack = () => {
         router.replace("/")
-
-        getGroup({
-            teams: []
-        })
     }
 
     return (

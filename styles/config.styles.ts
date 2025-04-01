@@ -30,6 +30,11 @@ export const configStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginVertical: Dimensions.get("window").height / 106
+    },
+
+    configStylesViewMatches: {
+        marginTop: Dimensions.get("window").height / 28,
+        width: '100%'
     }
 
 })
