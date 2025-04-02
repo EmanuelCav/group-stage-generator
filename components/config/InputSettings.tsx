@@ -17,8 +17,12 @@ const InputSettings = ({ text, name, control, error }: InputSettingsPropsType) =
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
+                        inputMode="numeric"
                         keyboardType="numeric"
-                        onChangeText={onChange}
+                        onChangeText={(text) => {
+                            const formattedText = text.replace(/\D/g, '');
+                            onChange(formattedText);
+                        }}
                         onBlur={onBlur}
                         value={value as string}
                         style={configStyles.inputSettingsNumber}
@@ -26,7 +30,7 @@ const InputSettings = ({ text, name, control, error }: InputSettingsPropsType) =
                 )}
             />
             {error && <Text variant='bodySmall'
-                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}>
+                style={{ color: MD3Colors.error50, textAlign: "center", marginTop: Dimensions.get("window").height / 185 }}>
                 {error}
             </Text>
             }

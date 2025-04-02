@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Dimensions, ScrollView } from "react-native";
-import { MD3Colors, Text, TextInput, useTheme } from "react-native-paper";
+import { MD3Colors, Switch, Text, TextInput, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
@@ -34,6 +34,9 @@ const Config = () => {
     const { group, updateGroup, sureRemoveGroup, sureRestartGroup, updateAvoiding, removeAvoiding, createAvoiding } = groupStore()
     const { avoiding, hideAndShowAddAvoiding, showForm, isSure, getAvoiding, sureRemoveAvoiding } = avoidingStore()
 
+    const [isManualConfiguration, setIsManuelConfiguration] = useState<boolean>(group.isManualConfiguration!)
+    const [isPoints, setIsPoints] = useState<boolean>(group.isPoints!)
+
     const [initialData, setInitialData] = useState<{ label: string, id: string }[]>(
         [{ label: "points", id: "1" },
         { label: "difference", id: "2" },
@@ -51,6 +54,7 @@ const Config = () => {
         defaultValues: {
             title: group.title,
             amountClassified: group.amountClassified,
+            teamsPerGroup: group.teamsPerGroup,
             amountGroups: group.amountGroups,
             isRoundTripElimination: group.isRoundTripElimination,
             isRoundTripGroupStage: group.isRoundTripGroupStage,
@@ -103,8 +107,16 @@ const Config = () => {
             pointsDraw: data.pointsDraw,
             pointsLoss: data.pointsLoss,
             isGenerated: group.isGenerated,
+            isPoints,
             isRoundTripElimination: data.isRoundTripElimination,
             isRoundTripGroupStage: data.isRoundTripGroupStage,
+            isManualConfiguration,
+            avoidingMatches: group.avoidingMatches,
+            isGeneratedAgain: group.isGeneratedAgain,
+            players: group.players,
+            referees: group.referees,
+            stadiums: group.stadiums,
+            tie_breakCriteria: group.tie_breakCriteria,
             amountGroups: data.amountGroups,
             amountClassified: data.amountClassified,
             teamsPerGroup: data.teamsPerGroup,
@@ -119,6 +131,14 @@ const Config = () => {
         } else {
             router.replace("/create")
         }
+    }
+
+    const handleChangeAutomatize = (v: boolean) => {
+        setIsManuelConfiguration(v)
+    }
+
+    const handleIsPoints = (v: boolean) => {
+        setIsPoints(v)
     }
 
     const comeBack = () => {
@@ -148,7 +168,7 @@ const Config = () => {
             }
             {
                 isAvoidingMatches && <AvoidingMatches group={group} colors={colors} handleUpdateAvoiding={handleUpdateAvoiding}
-                openCreateAvoiding={openCreateAvoiding} close={() => setIsAvoidingMatches(false)} />
+                    openCreateAvoiding={openCreateAvoiding} close={() => setIsAvoidingMatches(false)} />
             }
             {
                 isSure && <Sure func={handleRemoveAvoiding} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
@@ -178,19 +198,36 @@ const Config = () => {
                             autoCapitalize="none"
                             onBlur={onBlur}
                             label="Group Stage name"
-                            autoFocus
                             mode="outlined"
                             style={createStyles.inputAdd}
                         />
                     )} />
+                <View style={configStyles.labelSettings}>
+                    <Text variant="bodyLarge">Generate the group stage manually</Text>
+                    <Switch style={{ marginTop: Dimensions.get("window").height / 192 }}
+                        value={isManualConfiguration} onValueChange={(v) => handleChangeAutomatize(v)} />
+                </View>
+                {
+                    isManualConfiguration && <>
+                        <InputSettings text="Number of groups" name="amountGroups" control={control} error={errors.amountGroups?.message} />
+                        <InputSettings text="Number of teams per group" name="teamsPerGroup" control={control} error={errors.teamsPerGroup?.message} />
+                        <InputSettings text="Number of classifieds" name="amountClassified" control={control} error={errors.amountClassified?.message} />
+                    </>
+                }
+                <View style={configStyles.labelSettings}>
+                    <Text variant="bodyLarge">Show points</Text>
+                    <Switch style={{ marginTop: Dimensions.get("window").height / 192 }}
+                        value={isPoints} onValueChange={(v) => handleIsPoints(v)} />
+                </View>
+                {
+                    isPoints && <>
+                        <InputSettings text="Points to the winner" name="pointsWin" control={control} error={errors.pointsWin?.message} />
+                        <InputSettings text="Points to tie" name="pointsDraw" control={control} error={errors.pointsDraw?.message} />
+                        <InputSettings text="Points to the loser" name="pointsLoss" control={control} error={errors.pointsLoss?.message} />
+                    </>
+                }
                 <SwitchSettings text="Round trip in the group stage" name="isRoundTripGroupStage" control={control} />
                 <SwitchSettings text="Round trip in the elimination phase" name="isRoundTripElimination" control={control} />
-                <InputSettings text="Number of groups" name="amountGroups" control={control} error={errors.amountGroups?.message} />
-                <InputSettings text="Number of teams per group" name="teamsPerGroup" control={control} error={errors.teamsPerGroup?.message} />
-                <InputSettings text="Number of classifieds" name="amountClassified" control={control} error={errors.amountClassified?.message} />
-                <InputSettings text="Points to the winner" name="pointsWin" control={control} error={errors.pointsWin?.message} />
-                <InputSettings text="Points to tie" name="pointsDraw" control={control} error={errors.pointsDraw?.message} />
-                <InputSettings text="Points to the loser" name="pointsLoss" control={control} error={errors.pointsLoss?.message} />
                 <ConfigButton colors={colors} text="Tie-break criteria" func={() => setIsTieBreakCriteria(true)} />
                 <ConfigButton colors={colors} text="Avoiding matches" func={() => setIsAvoidingMatches(true)} />
             </ScrollView>

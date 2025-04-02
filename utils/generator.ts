@@ -8,12 +8,38 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
     let shuffledPlots: ITeam[][] = []
     let plots = verifyPlots(group.teams, group.teamsPerGroup!)
 
-    if (group.teamsPerGroup! === 1) {
-        if (isPrime(plots[0].length)) {
+    if (!group.isManualConfiguration) {
+
+        plots = [...[plots.flat()]]
+
+        if (isPrime(group.teams.length)) {
+
+            const numberOfGroups = getMiddleElement(group.teams.length - 1)
+
             plots[0] = [...shuffle([...plots[0]])]
-            shuffledPlots = [...plots]
+
+            let index = 0
+
+            for (let i = 0; i < numberOfGroups; i++) {
+
+                let arr: ITeam[] = []
+
+                for (let j = 0; j < (group.teams.length - 1) / numberOfGroups; j++) {
+                    arr.push(plots[0][index])
+                    index++
+                }
+
+                if (i === numberOfGroups - 1) {
+                    arr.push(plots[0][index])
+                }
+
+                shuffledPlots.push(arr)
+            }
+
         } else {
+
             const numberOfGroups = getMiddleElement(group.teams.length)
+
             plots[0] = [...shuffle([...plots[0]])]
 
             let index = 0
@@ -31,46 +57,113 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
             }
 
         }
+
+        let plotsSet: ITeam[][] = []
+
+        for (let i = 0; i < shuffledPlots.length; i++) {
+
+            let plotSet: ITeam[] = []
+
+            for (let j = 0; j < shuffledPlots[i].length; j++) {
+                plotSet.push({ ...shuffledPlots[i][j], plot: i + 1 })
+            }
+
+            const shuffledPlotSet = [...shuffle([...plotSet])]
+
+            plotsSet.push(shuffledPlotSet)
+        }
+
+        let groupsSorted: ITeam[][] = []
+
+        for (let i = 0; i < plotsSet[0].length; i++) {
+
+            let groupSorted: ITeam[] = []
+
+            for (let j = 0; j < plotsSet.length; j++) {
+                groupSorted.push({ ...plotsSet[j][i], group: i + 1 })
+            }
+
+            if (i === plotsSet[0].length - 1) {
+                groupSorted.push({ ...plotsSet[plotsSet.length - 1][i + 1], group: i + 1 })
+            }
+
+            groupsSorted.push(groupSorted)
+        }
+
+        for (let i = 0; i < groupsSorted.length; i++) {
+            const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
+            groupsMatches.push(matches)
+        }
+
     } else {
+
         for (let i = 0; i < plots.length; i++) {
             plots[i] = [...shuffle([...plots[i]])]
         }
 
-        shuffledPlots = [...plots]
-    }
+        for (let i = 0; i < group.teamsPerGroup!; i++) {
 
-    let plotsSet: ITeam[][] = []
+            let arr: ITeam[] = []
 
-    for (let i = 0; i < shuffledPlots.length; i++) {
+            for (let j = 0; j < group.teamsPerGroup! - (group.teamsPerGroup! - plots[i].length); j++) {
+                arr.push(plots[i][j])
+            }
 
-        let plotSet: ITeam[] = []
-
-        for (let j = 0; j < shuffledPlots[i].length; j++) {
-            plotSet.push({ ...shuffledPlots[i][j], plot: i + 1 })
+            shuffledPlots.push(arr)
         }
 
-        const shuffledPlotSet = [...shuffle([...plotSet])]
+        for (let i = 0; i < shuffledPlots.length; i++) {
+            if (shuffledPlots[i].length < group.amountGroups!) {
+                const largestArray = shuffledPlots.reduce((max, arr) =>
+                    (arr.length > max.length ? arr : max), shuffledPlots[0])
 
-        plotsSet.push(shuffledPlotSet)
-    }
-
-    let groupsSorted: ITeam[][] = []
-
-    for (let i = 0; i < plotsSet[0].length; i++) {
-
-        let groupSorted: ITeam[] = []
-
-        for (let j = 0; j < plotsSet.length; j++) {
-            groupSorted.push({ ...plotsSet[j][i], group: i + 1 })
+                for (let j = 0; j < (group.amountGroups! - plots[i].length); j++) {
+                    const lastElement = largestArray.pop()
+                    shuffledPlots[i].push(lastElement!)
+                }
+            }
         }
 
-        groupsSorted.push(groupSorted)
-    }
+        console.log(shuffledPlots);
+        
 
-    for (let i = 0; i < groupsSorted.length; i++) {
-        const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
-        groupsMatches.push(matches)
-    }
+        const mappedShuffledPlots = shuffledPlots.map(sp => sp.slice(0, group.amountGroups))
+
+        let plotsSet: ITeam[][] = []
+
+        for (let i = 0; i < mappedShuffledPlots.length; i++) {
+
+            let plotSet: ITeam[] = []
+
+            for (let j = 0; j < mappedShuffledPlots[i].length; j++) {
+                plotSet.push({ ...mappedShuffledPlots[i][j], plot: i + 1 })
+            }
+
+            const shuffledPlotSet = [...shuffle([...plotSet])]
+
+            plotsSet.push(shuffledPlotSet)
+        }
+
+        let groupsSorted: ITeam[][] = []
+
+        for (let i = 0; i < plotsSet[0].length; i++) {
+
+            let groupSorted: ITeam[] = []
+
+            for (let j = 0; j < plotsSet.length; j++) {
+                groupSorted.push({ ...plotsSet[j][i], group: i + 1 })
+            }
+
+            groupsSorted.push(groupSorted)
+        }
+
+
+        for (let i = 0; i < groupsSorted.length; i++) {
+            const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
+            groupsMatches.push(matches)
+        }
+
+    }    
 
     return groupsMatches
 }
@@ -129,29 +222,49 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
     const lengthArr = array.length % 2 === 0 ? (array.length - 1) : (array.length)
 
-    for (let i = 0; i < lengthArr; i++) {
+    for (let i = 0; i < (isTrip ? lengthArr * 2 : lengthArr); i++) {
 
         let matchs: IMatch[] = []
 
-        for (let j = 0; j < Math.ceil(lengthArr / 2); j++) {
-            matchs.push({
-                local: {
-                    score: null,
-                    team: j % 2 === 0 ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1],
-                },
-                visitant: {
-                    score: null,
-                    team: j % 2 === 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
-                },
-                referee: "",
-                stadium: "",
-                isEdit: false,
-                statistics: [],
-                summary: [],
-                players: []
-            })
+        for (let j = 0; j < (array.length === 2 ? 1 : array.length % 2 === 0 ? Math.ceil(lengthArr / 2) : Math.floor(lengthArr / 2)); j++) {
+
+            if (i > lengthArr - 1) {
+                matchs.push({
+                    local: {
+                        score: null,
+                        team: j % 2 !== 0 ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1],
+                    },
+                    visitant: {
+                        score: null,
+                        team: j % 2 !== 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
+                    },
+                    referee: "",
+                    stadium: "",
+                    isEdit: false,
+                    statistics: [],
+                    summary: [],
+                    players: []
+                })
+            } else {
+                matchs.push({
+                    local: {
+                        score: null,
+                        team: j % 2 === 0 ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1],
+                    },
+                    visitant: {
+                        score: null,
+                        team: j % 2 === 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
+                    },
+                    referee: "",
+                    stadium: "",
+                    isEdit: false,
+                    statistics: [],
+                    summary: [],
+                    players: []
+                })
+            }
         }
-        
+
         shuffle(matchs)
 
         matches.push(matchs)

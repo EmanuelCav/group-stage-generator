@@ -17,7 +17,7 @@ const Sure = ({ func, text, close, labelButton }: SurePropsType) => {
                 size={24}
                 onPress={close}
             />
-            <Text variant="titleSmall" style={{ marginTop: Dimensions.get("window").height / 24 }}>{text}</Text>
+            <Text variant="titleSmall" style={{ marginTop: Dimensions.get("window").height / 24, textAlign: "center" }}>{text}</Text>
             <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} onPress={func}>
                 {labelButton}

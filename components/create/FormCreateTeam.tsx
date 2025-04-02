@@ -54,7 +54,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         group: team.group,
         logo: image ? image : "",
         name: teamCreated.name.trim(),
-        plot: Number(plot[plot.length - 1])
+        plot: Number(plot)
       })
     } else {
       createTeam(
@@ -113,26 +113,29 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             style={createStyles.inputAdd}
           />
         )} />
-      <View style={createStyles.selectInputContain}>
-        <Text variant="labelLarge">Plot (optional):</Text>
-        <Dropdown
-          style={[createStyles.dropdown, isFocus && { borderColor: colors.primary }]}
-          placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-          selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-          data={dataPlots(group.teamsPerGroup!)}
-          maxHeight={Dimensions.get("window").height / 5}
-          labelField="label"
-          valueField="value"
-          placeholder={String(plot)}
-          value={plot}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setPlot(item.value)
-            setIsFocus(false)
-          }}
-        />
-      </View>
+        
+      {
+        group.isManualConfiguration && <View style={createStyles.selectInputContain}>
+          <Text variant="labelLarge">Plot (optional):</Text>
+          <Dropdown
+            style={[createStyles.dropdown, isFocus && { borderColor: colors.primary }]}
+            placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+            selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+            data={dataPlots(group.teamsPerGroup!)}
+            maxHeight={Dimensions.get("window").height / 5}
+            labelField="label"
+            valueField="value"
+            placeholder={String(plot)}
+            value={plot}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              setPlot(item.value)
+              setIsFocus(false)
+            }}
+          />
+        </View>
+      }
 
       <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
         labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddTeam(data))}>

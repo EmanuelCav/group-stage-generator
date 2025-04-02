@@ -54,8 +54,10 @@ export interface IGroup {
     players?: IPlayer[];
     tie_breakCriteria?: KeyTieBreakCriteriaPropsType[],
     avoidingMatches?: IAvoidingMatches[];
+    isManualConfiguration?: boolean;
     isRoundTripGroupStage?: boolean;
     isRoundTripElimination?: boolean;
+    isPoints?: boolean;
     amountClassified?: number;
     amountGroups?: number;
     teamsPerGroup?: number;

@@ -37,33 +37,47 @@ const Create = () => {
 
   const generateGroups = () => {
 
-    const groupsMatches = groupGenerator(group)
-    generateMatches(groupsMatches)
+    if(group.isManualConfiguration) {
+      if(Math.ceil(group.amountGroups! / 2) > group.teams.length) {
+        return
+      }
 
-    for (let i = 0; i < groupsMatches.length; i++) {
+      // if(group.teamsPerGroup! > ) {
 
-      groupsMatches[i][0].forEach((gm) => {
-
-        updateTeam({
-          id: gm.local?.team.id,
-          group: gm.local?.team.group,
-          logo: gm.local?.team.logo,
-          plot: group.teams.find(t => t.id === gm.local?.team.id)?.plot,
-          name: gm.local?.team.name
-        })
-
-        updateTeam({
-          id: gm.visitant?.team.id,
-          group: gm.visitant?.team.group,
-          logo: gm.visitant?.team.logo,
-          plot: group.teams.find(t => t.id === gm.visitant?.team.id)?.plot,
-          name: gm.visitant?.team.name
-        })
-
-      })
+      // }
     }
 
-    router.push("/(tabs)/groups")
+    const groupsMatches = groupGenerator(group)
+    console.log(groupsMatches);
+    
+    // console.log(groupsMatches);
+
+    // generateMatches(groupsMatches)
+
+    // for (let i = 0; i < groupsMatches.length; i++) {
+
+    //   groupsMatches[i][0].forEach((gm) => {
+
+    //     updateTeam({
+    //       id: gm.local?.team.id,
+    //       group: gm.local?.team.group,
+    //       logo: gm.local?.team.logo,
+    //       plot: group.teams.find(t => t.id === gm.local?.team.id)?.plot,
+    //       name: gm.local?.team.name
+    //     })
+
+    //     updateTeam({
+    //       id: gm.visitant?.team.id,
+    //       group: gm.visitant?.team.group,
+    //       logo: gm.visitant?.team.logo,
+    //       plot: group.teams.find(t => t.id === gm.visitant?.team.id)?.plot,
+    //       name: gm.visitant?.team.name
+    //     })
+
+    //   })
+    // }
+
+    // router.push("/(tabs)/groups")
 
   }
 
@@ -124,8 +138,8 @@ const Create = () => {
           hideAndShowAddTeam={hideAndShowAddTeam} createTeam={createTeam} updateTeam={handleUpdate} />
       }
       {
-        group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Teams" goBack={goBack} 
-        sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+        group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Teams" goBack={goBack}
+          sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
           : <HeaderCreate colors={colors} groups={groups} router={router} group={group} />
       }
       <SureGeneral />
@@ -135,7 +149,7 @@ const Create = () => {
             <AddTeam openForm={hideAndShowAddTeam} colors={colors} />
         }
         {
-          group.teams.length  > 0 && !group.isGenerated && <SettingsFAB colors={colors} />
+          group.teams.length > 0 && !group.isGenerated && <SettingsFAB colors={colors} />
         }
         {
           group.teams.length > 0 ?
@@ -156,8 +170,8 @@ const Create = () => {
         </Text>
       }
       {
-        !group.isGenerated && <GenerateButton teams={group.teams} 
-        colors={colors} generateGroups={generateGroups} />
+        <GenerateButton teams={group.teams}
+          colors={colors} generateGroups={generateGroups} />
       }
     </View>
   );

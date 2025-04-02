@@ -4,13 +4,13 @@ export const configSchema = object().shape({
     title: string().trim().required("Title field is required"),
     isRoundTripGroupStage: boolean(),
     isRoundTripElimination: boolean(),
-    teamsPerGroup: number()
-        .min(1, "Write the number of teams per group")
+    teamsPerGroup: number().typeError('Please complete with a number value')
+        .min(2, "Number of teams per group must be higher than 1")
         .required("This field is required"),
-    amountGroups: number()
+    amountGroups: number().typeError('Please complete with a number value')
         .min(1, "Write the number of groups")
         .required("This field is required"),
-    amountClassified: number()
+    amountClassified: number().typeError('Please complete with a number value')
         .min(1, "Write the number of classifieds")
         .required("This field is required")
         .test(
