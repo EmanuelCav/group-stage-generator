@@ -14,6 +14,7 @@ import SettingsFAB from "@/components/general/SettingsFAB";
 import Sure from "@/components/general/Sure";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
 import SureGeneral from "@/components/general/SureGeneral";
+import Loading from "@/components/general/Loading";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -22,6 +23,7 @@ import { ITeam } from "@/interface/Team";
 
 import { teamStore } from "@/store/team.store";
 import { groupStore } from "@/store/group.store";
+import { responseStore } from "@/store/response.store";
 
 import { groupValue } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
@@ -30,6 +32,7 @@ const Create = () => {
 
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
   const { createGroup, group, groups, createTeam, generateMatches, updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
+  const { isLoading, handleLoading } = responseStore()
 
   const { colors } = useTheme()
 
@@ -37,47 +40,55 @@ const Create = () => {
 
   const generateGroups = () => {
 
-    if(group.isManualConfiguration) {
-      if(Math.ceil(group.amountGroups! / 2) > group.teams.length) {
-        return
+    handleLoading(true)
+
+    try {
+
+      if (group.isManualConfiguration) {
+
+        if (group.teamsPerGroup === 1) {
+          return
+        }
+
+        if (Math.ceil(group.amountGroups! / 2) > group.teams.length) {
+          return
+        }
+
+        if ((group.amountGroups! * group.teamsPerGroup!) > group.teams.length) {
+          return
+        }
       }
 
-      // if(group.teamsPerGroup! > ) {
+      const groupsMatches = groupGenerator(group)
 
-      // }
+      if (group.isManualConfiguration) {
+        generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
+      } else {
+        const limitTeams = group.teams.length - (Math.ceil(group.teams.length / 2) / 2)
+        const power = Math.floor(Math.floor(limitTeams) / Math.floor(2))
+        const amountClassified = Math.pow(2, power)
+        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!, amountClassified)
+      }
+
+      for (let i = 0; i < groupsMatches.groupsSorted.length; i++) {
+        for (let j = 0; j < groupsMatches.groupsSorted[i].length; j++) {
+          updateTeam({
+            id: groupsMatches.groupsSorted[i][j].id,
+            group: groupsMatches.groupsSorted[i][j].group,
+            logo: groupsMatches.groupsSorted[i][j].logo,
+            plot: group.teams.find(t => t.id === groupsMatches.groupsSorted[i][j].id)?.plot,
+            name: groupsMatches.groupsSorted[i][j].name
+          })
+        }
+      }
+
+      router.push("/(tabs)/groups")
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      handleLoading(false)
     }
-
-    const groupsMatches = groupGenerator(group)
-    console.log(groupsMatches);
-    
-    // console.log(groupsMatches);
-
-    // generateMatches(groupsMatches)
-
-    // for (let i = 0; i < groupsMatches.length; i++) {
-
-    //   groupsMatches[i][0].forEach((gm) => {
-
-    //     updateTeam({
-    //       id: gm.local?.team.id,
-    //       group: gm.local?.team.group,
-    //       logo: gm.local?.team.logo,
-    //       plot: group.teams.find(t => t.id === gm.local?.team.id)?.plot,
-    //       name: gm.local?.team.name
-    //     })
-
-    //     updateTeam({
-    //       id: gm.visitant?.team.id,
-    //       group: gm.visitant?.team.group,
-    //       logo: gm.visitant?.team.logo,
-    //       plot: group.teams.find(t => t.id === gm.visitant?.team.id)?.plot,
-    //       name: gm.visitant?.team.name
-    //     })
-
-    //   })
-    // }
-
-    // router.push("/(tabs)/groups")
 
   }
 
@@ -131,6 +142,9 @@ const Create = () => {
   return (
     <View style={{ flex: 1 }}>
       {
+        isLoading && <Loading text="Generating..." />
+      }
+      {
         isSure && <Sure func={handleRemoveTeam} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
       }
       {
@@ -170,7 +184,7 @@ const Create = () => {
         </Text>
       }
       {
-        <GenerateButton teams={group.teams}
+        !group.isGenerated && <GenerateButton teams={group.teams}
           colors={colors} generateGroups={generateGroups} />
       }
     </View>

@@ -1,29 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Dimensions, ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button, Checkbox } from "react-native-paper";
 
+import { View } from "../Themed";
 import ContainerBackground from "../general/ContainerBackground";
 
 import { FormCreateAvoidingPropsType } from "@/types/config.types";
-import { ICreateStatistic, ITeam } from "@/interface/Team";
+import { ICreateAvoiding, ITeam } from "@/interface/Team";
 
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
+import { configStyles } from "@/styles/config.styles";
 
 import { avoidingSchema } from "@/schema/config.schema";
+
+import { generateAvoidingTeams } from "@/utils/defaultGroup";
 
 const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoiding, avoiding, updateAvoiding, openSure, teamsAvoiding, setTeamsAvoiding }: FormCreateAvoidingPropsType) => {
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(avoidingSchema),
         defaultValues: {
-            title: avoiding.title ? avoiding.title : ""
+            title: avoiding.title ?? "",
+            max: avoiding.max ?? 1
         }
     })
 
-    const handleAddAvoiding = (avoidingCreated: ICreateStatistic) => {
+    const handleAddAvoiding = (avoidingCreated: ICreateAvoiding) => {
 
         const arrTeamsAvoid = Object.keys(teamsAvoiding).map(Number)
 
@@ -37,13 +42,15 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
             updateAvoiding({
                 id: avoiding.id! + 1,
                 title: avoidingCreated.title,
-                teams: [...updateTeams]
+                teams: [...updateTeams],
+                max: Number(avoidingCreated.max)
             })
         } else {
             createAvoiding({
                 id: group.avoidingMatches?.length! + 1,
                 title: avoidingCreated.title,
-                teams: [...updateTeams]
+                teams: [...updateTeams],
+                max: Number(avoidingCreated.max)
             })
 
             reset()
@@ -61,15 +68,15 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
 
     useEffect(() => {
 
-        if(avoiding.id) {
+        if (avoiding.id) {
             let idsTeams: Record<string, boolean> = {};
-    
+
             for (let i = 0; i < group.teams.length; i++) {
                 if (group.avoidingMatches?.find(am => am.teams?.find(t => t.id === group.teams[i].id))) {
                     idsTeams[group.teams[i].id!] = true;
                 }
             }
-    
+
             setTeamsAvoiding(idsTeams);
         }
 
@@ -107,12 +114,35 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
                 </Text>
             }
 
+            <View style={configStyles.labelSettings}>
+                <Text variant="bodyLarge" style={{ textAlign: 'center', marginTop: Dimensions.get("window").height / 28 }}>
+                    Maximum number of these teams that can be integrated in a group
+                </Text>
+                <Controller
+                    name="max"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <TextInput
+                            inputMode="numeric"
+                            keyboardType="numeric"
+                            onChangeText={(text) => {
+                                const formattedText = text.replace(/\D/g, '');
+                                onChange(formattedText);
+                            }}
+                            onBlur={onBlur}
+                            value={String(value)}
+                            style={configStyles.inputSettingsNumber}
+                        />
+                    )}
+                />
+            </View>
+
             <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
                 Select teams:
             </Text>
 
             <ScrollView>
-                {group.teams?.map((team) => (
+                {generateAvoidingTeams(group, avoiding)?.map((team) => (
                     <Checkbox.Item
                         key={team.id}
                         label={team.name!}

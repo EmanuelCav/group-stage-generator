@@ -1,8 +1,8 @@
 import { IGroup } from "@/interface/Group"
-import { IMatch } from "@/interface/Match"
+import { IGenerateMatch, IMatch } from "@/interface/Match"
 import { ITeam } from "@/interface/Team"
 
-export const groupGenerator = (group: IGroup): IMatch[][][] => {
+export const groupGenerator = (group: IGroup): IGenerateMatch => {
 
     let groupsMatches: IMatch[][][] = []
     let shuffledPlots: ITeam[][] = []
@@ -95,6 +95,11 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
             groupsMatches.push(matches)
         }
 
+        return {
+            groupsMatches,
+            groupsSorted
+        }
+
     } else {
 
         for (let i = 0; i < plots.length; i++) {
@@ -114,29 +119,23 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
 
         for (let i = 0; i < shuffledPlots.length; i++) {
             if (shuffledPlots[i].length < group.amountGroups!) {
-                const largestArray = shuffledPlots.reduce((max, arr) =>
-                    (arr.length > max.length ? arr : max), shuffledPlots[0])
-
                 for (let j = 0; j < (group.amountGroups! - plots[i].length); j++) {
+                    const largestArray = shuffledPlots.reduce((max, arr) =>
+                        (arr.length > max.length ? arr : max), shuffledPlots[0])
                     const lastElement = largestArray.pop()
                     shuffledPlots[i].push(lastElement!)
                 }
             }
         }
 
-        console.log(shuffledPlots);
-        
-
-        const mappedShuffledPlots = shuffledPlots.map(sp => sp.slice(0, group.amountGroups))
-
         let plotsSet: ITeam[][] = []
 
-        for (let i = 0; i < mappedShuffledPlots.length; i++) {
+        for (let i = 0; i < shuffledPlots.length; i++) {
 
             let plotSet: ITeam[] = []
 
-            for (let j = 0; j < mappedShuffledPlots[i].length; j++) {
-                plotSet.push({ ...mappedShuffledPlots[i][j], plot: i + 1 })
+            for (let j = 0; j < shuffledPlots[i].length; j++) {
+                plotSet.push(shuffledPlots[i][j])
             }
 
             const shuffledPlotSet = [...shuffle([...plotSet])]
@@ -146,7 +145,7 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
 
         let groupsSorted: ITeam[][] = []
 
-        for (let i = 0; i < plotsSet[0].length; i++) {
+        for (let i = 0; i < group.amountGroups!; i++) {
 
             let groupSorted: ITeam[] = []
 
@@ -157,15 +156,32 @@ export const groupGenerator = (group: IGroup): IMatch[][][] => {
             groupsSorted.push(groupSorted)
         }
 
+        if (group.teamsPerGroup! * group.amountGroups! < group.teams.length) {
+
+            let indexGroup = 0
+
+            for (let i = 0; i < (group.teams.length - (group.teamsPerGroup! * group.amountGroups!)); i++) {
+                groupsSorted[indexGroup].push({ ...plotsSet[0][plotsSet[0].length - i - 1], group: indexGroup + 1 })
+
+                if (indexGroup === groupsSorted.length - 1) {
+                    indexGroup = 0
+                } else {
+                    indexGroup++
+                }
+            }
+        }
 
         for (let i = 0; i < groupsSorted.length; i++) {
             const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
             groupsMatches.push(matches)
         }
 
-    }    
+        return {
+            groupsMatches,
+            groupsSorted
+        }
+    }
 
-    return groupsMatches
 }
 
 const verifyPlots = (teams: ITeam[], teamsPerGroup: number): ITeam[][] => {

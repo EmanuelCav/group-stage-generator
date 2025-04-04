@@ -1,7 +1,8 @@
+import { IGroup } from "@/interface/Group";
 import { IMatch } from "@/interface/Match";
 import { IPoints, ITeam } from "@/interface/Team";
 
-export const generatePoints = (teams: ITeam[], matches: IMatch[][][]): IPoints[] => {
+export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGroup): IPoints[] => {
 
     let groupData: IPoints[] = []
 
@@ -79,12 +80,23 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][]): IPoints[]
             positive,
             name: teams[t].name!,
             id: teams[t].id!,
-            logo: teams[t].logo!
+            logo: teams[t].logo!,
+            group: teams[t].group!,
         })
 
     }
 
-    return groupData
+    switch (group.tie_breakCriteria![0]) {
+        case 'points':
+            return groupData.sort((a, b) =>
+                (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -
+                (a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!))
+
+        default:
+            return groupData.sort((a, b) =>
+                (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -
+                (a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!))
+    }
 }
 
 export const groupName = (name: string): string => {

@@ -5,39 +5,63 @@ import { generalStyles } from "@/styles/general.styles";
 import { GenerateAgainPropsType } from "@/types/props.types";
 
 import { groupStore } from "@/store/group.store";
+import { responseStore } from "@/store/response.store";
 
 import { groupGenerator } from "@/utils/generator";
 
 const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
     const { updateGenerateAgain, generateMatches, updateTeam, group } = groupStore()
+    const { handleLoading } = responseStore()
 
     const generateGroups = () => {
 
-        const groupsMatches = groupGenerator(group)
-        generateMatches(groupsMatches)
+        handleLoading(true)
 
-        for (let i = 0; i < groupsMatches.length; i++) {
+        try {
 
-            groupsMatches[i][0].forEach((gm) => {
+            if (group.isManualConfiguration) {
 
-                updateTeam({
-                    id: gm.local.team.id,
-                    group: gm.local.team.group,
-                    logo: gm.local.team.logo,
-                    plot: group.teams.find(t => t.id === gm.local.team.id)?.plot,
-                    name: gm.local.team.name
-                })
+                if (group.teamsPerGroup === 1) {
+                    return
+                }
 
-                updateTeam({
-                    id: gm.visitant.team.id,
-                    group: gm.visitant.team.group,
-                    logo: gm.visitant.team.logo,
-                    plot: group.teams.find(t => t.id === gm.visitant.team.id)?.plot,
-                    name: gm.visitant.team.name
-                })
+                if (Math.ceil(group.amountGroups! / 2) > group.teams.length) {
+                    return
+                }
 
-            })
+                if ((group.amountGroups! * group.teamsPerGroup!) > group.teams.length) {
+                    return
+                }
+            }
+
+            const groupsMatches = groupGenerator(group)
+
+            if (group.isManualConfiguration) {
+                generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
+            } else {
+                const limitTeams = group.teams.length - (Math.ceil(group.teams.length / 2) / 2)
+                const power = Math.floor(Math.floor(limitTeams) / Math.floor(2))
+                const amountClassified = Math.pow(power, 2)
+                generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!, amountClassified)
+            }
+
+            for (let i = 0; i < groupsMatches.groupsSorted.length; i++) {
+                for (let j = 0; j < groupsMatches.groupsSorted[i].length; j++) {
+                    updateTeam({
+                        id: groupsMatches.groupsSorted[i][j].id,
+                        group: groupsMatches.groupsSorted[i][j].group,
+                        logo: groupsMatches.groupsSorted[i][j].logo,
+                        plot: group.teams.find(t => t.id === groupsMatches.groupsSorted[i][j].id)?.plot,
+                        name: groupsMatches.groupsSorted[i][j].name
+                    })
+                }
+            }
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            handleLoading(false)
         }
 
     }

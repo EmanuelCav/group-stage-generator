@@ -65,3 +65,8 @@ export interface IMatchStatisticTeam {
     team: ITeam;
     value: number;
 }
+
+export interface IGenerateMatch {
+    groupsMatches: IMatch[][][];
+    groupsSorted: ITeam[][];
+}

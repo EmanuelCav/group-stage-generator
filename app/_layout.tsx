@@ -1,11 +1,12 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack,  } from 'expo-router';
+import { Stack, } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { PaperProvider } from 'react-native-paper';
+
+import { responseStore } from '@/store/response.store';
 
 import { theme } from '@/utils/theme';
 
@@ -39,7 +40,13 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  
+
+  const { handleLoading } = responseStore()
+
+  useEffect(() => {
+    handleLoading(false)
+  }, [])
+
   return (
     <PaperProvider theme={theme}>
       <Stack>

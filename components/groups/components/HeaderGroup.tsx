@@ -17,7 +17,7 @@ const HeaderGroup = ({ group, groupNumber, colors }: HeaderGroupPropsType) => {
                 <Text variant='labelMedium' style={groupStyles.headerCell}>Team</Text>
             </View>
             <FlatList
-                data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!)}
+                data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!, group)}
                 keyExtractor={(item) => String(item.id)}
                 renderItem={({ item, index }) => (
                     <View style={groupStyles.row}>

@@ -6,11 +6,13 @@ import HeaderGeneral from '@/components/general/HeaderGeneral'
 import Schedule from '@/components/matchdays/Schedule'
 import GenerateAgain from '@/components/general/GenerateAgain'
 import SureGeneral from '@/components/general/SureGeneral'
+import Loading from '@/components/general/Loading'
 
 import { IGetMatch } from '@/interface/Match'
 
 import { groupStore } from '@/store/group.store'
 import { matchStore } from '@/store/match.store'
+import { responseStore } from '@/store/response.store'
 
 import { evaluateGenerateAgain } from '@/utils/matchday'
 
@@ -19,6 +21,7 @@ const Matchdays = () => {
     const { colors } = useTheme()
     const router = useRouter()
     const { group, sureRemoveGroup, sureRestartGroup } = groupStore()
+    const { isLoading } = responseStore()
     const { getMatch } = matchStore()
 
     const handleGetMatch = (data: IGetMatch) => {
@@ -32,6 +35,9 @@ const Matchdays = () => {
 
     return (
         <View style={{ flex: 1 }}>
+            {
+                isLoading && <Loading text='Generating...' />
+            }
             <HeaderGeneral colors={colors} router={router} title='Matchdays' goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />

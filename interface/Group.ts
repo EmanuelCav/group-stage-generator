@@ -14,7 +14,7 @@ export interface IGroupStore {
     isSureRestart: boolean;
     sureRemoveGroup: (sure: boolean) => void;
     sureRestartGroup: (sure: boolean) => void;
-    generateMatches: (data: IMatch[][][]) => void;
+    generateMatches: (data: IMatch[][][], teamsPerGroup: number, amountGroups: number, amountClassified: number) => void;
     updateTeam: (data: ITeam) => void;
     updateReferee: (data: IReferee) => void;
     updateStadium: (data: IStadium) => void;

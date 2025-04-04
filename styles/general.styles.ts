@@ -72,8 +72,21 @@ export const generalStyles = StyleSheet.create({
     },
 
     titleDataTable: {
-        marginLeft: Dimensions.get("window").width / 30, 
+        marginLeft: Dimensions.get("window").width / 30,
         marginVertical: Dimensions.get("window").height / 106
+    },
+
+    containerLoading: {
+        position: 'absolute',
+        opacity: 0.9,
+        zIndex: 70,
+        top: 0,
+        left: 0,
+        height: Dimensions.get("window").height,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
     }
 
 })

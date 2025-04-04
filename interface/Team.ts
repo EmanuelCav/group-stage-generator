@@ -28,6 +28,11 @@ export interface ICreateStatistic {
     title: string;
 }
 
+export interface ICreateAvoiding {
+    title: string;
+    max: number;
+}
+
 export interface ICreateSummary {
     time: string;
     title: string;
@@ -53,4 +58,5 @@ export interface IPoints {
     positive: number;
     negative: number;
     logo: string;
+    group: number;
 }

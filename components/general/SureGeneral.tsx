@@ -12,7 +12,7 @@ const SureGeneral = () => {
     const handleRestart = () => {
         sureRestartGroup(false)
         restartGroup()
-        router.replace("/")
+        router.replace("/create")
     }
 
     const handleRemove = () => {

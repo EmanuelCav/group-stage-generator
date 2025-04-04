@@ -69,8 +69,8 @@ export const groupStore = create(
                 group: { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] } : g)
             })),
-            generateMatches: (data: IMatch[][][]) => set((state) => ({
-                group: { ...state.group, matches: data, isGenerated: true },
+            generateMatches: (data: IMatch[][][], teamsPerGroup: number, amountGroups: number, amountClassified: number) => set((state) => ({
+                group: { ...state.group, matches: data, isGenerated: true, teamsPerGroup, amountGroups, amountClassified },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, groupsMatches: data, isGenerated: true } : g)
             })),
             updateTeam: (data: ITeam) => set((state) => ({

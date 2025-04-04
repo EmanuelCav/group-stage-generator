@@ -24,7 +24,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     <Text variant='labelMedium' style={groupStyles.headerCell}>PTS</Text>
                 </View>
                 <FlatList
-                    data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!)}
+                    data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!, group)}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <View style={groupStyles.row}>

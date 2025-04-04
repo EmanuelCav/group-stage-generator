@@ -1,3 +1,4 @@
+import { IAvoidingMatches } from "@/interface/Avoiding";
 import { IGroup } from "@/interface/Group";
 import { IPlayer, IStatistic } from "@/interface/Player";
 import { IReferee } from "@/interface/Referee";
@@ -23,7 +24,7 @@ export const groupValue = (id: number): IGroup => {
         isPoints: true,
         teamsPerGroup: 2,
         amountGroups: 1,
-        amountClassified: 1,
+        amountClassified: 2,
         pointsWin: 3,
         pointsDraw: 1,
         pointsLoss: 0,
@@ -136,5 +137,23 @@ export const generateStatistic = (players: IPlayer[]): IStatistic[] => {
     }
 
     return statistics
+
+}
+
+export const generateAvoidingTeams = (group: IGroup, avoiding: IAvoidingMatches) => {
+
+    let teams: string[] = []
+
+    for (let i = 0; i < group.avoidingMatches?.length!; i++) {
+        for (let j = 0; j < group.avoidingMatches![i].teams?.length!; j++) {
+            teams.push(group.avoidingMatches![i].teams![j].name!)
+        }
+    }
+
+    if (avoiding.id) {
+        return avoiding.teams!.concat(group.teams.filter(t => !teams.includes(t.name!)))
+    }
+
+    return group.teams.filter(t => !teams.includes(t.name!))
 
 }

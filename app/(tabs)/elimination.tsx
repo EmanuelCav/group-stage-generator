@@ -4,6 +4,7 @@ import { useTheme } from "react-native-paper"
 import { View } from "@/components/Themed"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
 import SureGeneral from "@/components/general/SureGeneral"
+import EliminationStage from "@/components/elimination/EliminationStage"
 
 import { groupStore } from "@/store/group.store"
 
@@ -22,6 +23,7 @@ const Elimination = () => {
             <HeaderGeneral colors={colors} router={router} title='Elimination' goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
+            <EliminationStage />
         </View>
     )
 }

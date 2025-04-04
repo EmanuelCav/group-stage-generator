@@ -13,4 +13,5 @@ export interface IAvoidingMatches {
     id?: number;
     teams?: ITeam[];
     title?: string;
+    max?: number;
 }
