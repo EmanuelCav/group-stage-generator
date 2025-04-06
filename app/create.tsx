@@ -25,7 +25,7 @@ import { teamStore } from "@/store/team.store";
 import { groupStore } from "@/store/group.store";
 import { responseStore } from "@/store/response.store";
 
-import { groupValue } from "@/utils/defaultGroup";
+import { groupValue, powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
 
 const Create = () => {
@@ -64,10 +64,7 @@ const Create = () => {
       if (group.isManualConfiguration) {
         generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
       } else {
-        const limitTeams = group.teams.length - (Math.ceil(group.teams.length / 2) / 2)
-        const power = Math.floor(Math.floor(limitTeams) / Math.floor(2))
-        const amountClassified = Math.pow(2, power)
-        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!, amountClassified)
+        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!, powerRange(group.teams.length))
       }
 
       for (let i = 0; i < groupsMatches.groupsSorted.length; i++) {

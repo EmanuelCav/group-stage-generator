@@ -38,11 +38,11 @@ export const groupStore = create(
             restartGroup: () => set((state) => ({
                 group: {
                     ...state.group, isGeneratedAgain: true, isGenerated: false,
-                    matches: [], players: [], referees: [], stadiums: []
+                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: []
                 },
                 groups: state.groups.map((g) => g.id === state.group.id ? {
                     ...state.group, isGeneratedAgain: true, isGenerated: false,
-                    matches: [], players: [], referees: [], stadiums: []
+                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: []
                 } : g)
             })),
             createTeam: (data: ITeam) => set((state) => ({
@@ -71,7 +71,11 @@ export const groupStore = create(
             })),
             generateMatches: (data: IMatch[][][], teamsPerGroup: number, amountGroups: number, amountClassified: number) => set((state) => ({
                 group: { ...state.group, matches: data, isGenerated: true, teamsPerGroup, amountGroups, amountClassified },
-                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, groupsMatches: data, isGenerated: true } : g)
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: data, isGenerated: true, teamsPerGroup, amountGroups, amountClassified } : g)
+            })),
+            generateElimination: (data: IMatch[][]) => set((state) => ({
+                group: { ...state.group, eliminationMatches: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, eliminationMatches: data } : g)
             })),
             updateTeam: (data: ITeam) => set((state) => ({
                 group: { ...state.group, teams: state.group.teams.map((t) => t.id === data.id ? data : t) },

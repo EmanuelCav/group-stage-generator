@@ -17,6 +17,7 @@ export const groupValue = (id: number): IGroup => {
         stadiums: [],
         players: [],
         tie_breakCriteria: ["points", "difference", "favor", "won"],
+        eliminationMatches: [],
         avoidingMatches: [],
         isManualConfiguration: false,
         isRoundTripElimination: false,
@@ -156,4 +157,21 @@ export const generateAvoidingTeams = (group: IGroup, avoiding: IAvoidingMatches)
 
     return group.teams.filter(t => !teams.includes(t.name!))
 
+}
+
+export const powerRange = (num: number): number => {
+    if (num < 2) return 0;
+
+    let exp = 1;
+
+    let lower = Math.pow(2, exp + 1);
+    let upper = Math.pow(2, exp + 2) - 1
+
+    while (num >= lower && num <= upper) {
+        exp++
+        lower = Math.pow(2, exp + 1)
+        upper = Math.pow(2, exp + 2) - 1
+    }
+
+    return exp
 }

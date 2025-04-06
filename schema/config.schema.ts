@@ -20,18 +20,7 @@ export const configSchema = object().shape({
                 if (!value || value < 1) return false;
                 return (value & (value - 1)) === 0;
             }
-        )
-        .test(
-            "number of classifieds error",
-            "The number of classifieds must be less than or equal to the amount of teams",
-            function (value) {
-                const { amountGroups, teamsPerGroup } = this.parent;
-                return typeof value === "number" && typeof amountGroups === "number"
-                    ? value >= amountGroups * teamsPerGroup
-                    : true;
-            }
         ),
-
     pointsWin: number().min(0, "Write the number of points to the winner").required(),
     pointsDraw: number().min(0, "Write the number of points to tie").required(),
     pointsLoss: number().min(0, "Write the number of points to the loser").required()

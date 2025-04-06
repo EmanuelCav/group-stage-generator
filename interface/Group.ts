@@ -15,6 +15,7 @@ export interface IGroupStore {
     sureRemoveGroup: (sure: boolean) => void;
     sureRestartGroup: (sure: boolean) => void;
     generateMatches: (data: IMatch[][][], teamsPerGroup: number, amountGroups: number, amountClassified: number) => void;
+    generateElimination: (data: IMatch[][]) => void;
     updateTeam: (data: ITeam) => void;
     updateReferee: (data: IReferee) => void;
     updateStadium: (data: IStadium) => void;
@@ -54,6 +55,7 @@ export interface IGroup {
     players?: IPlayer[];
     tie_breakCriteria?: KeyTieBreakCriteriaPropsType[],
     avoidingMatches?: IAvoidingMatches[];
+    eliminationMatches?: IMatch[][];
     isManualConfiguration?: boolean;
     isRoundTripGroupStage?: boolean;
     isRoundTripElimination?: boolean;

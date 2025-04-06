@@ -30,7 +30,7 @@ const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
             </DataTable.Header>
             {
                 item.map((match, indexItem) => {
-                    return <Match match={match} numberGroups={group.matches?.length!} matchdayNumber={index}
+                    return <Match item={item} match={match} matchdayNumber={index}
                     colors={colors} index={indexItem} handleGetMatch={handleGetMatch} key={indexItem} />
                 })
             }

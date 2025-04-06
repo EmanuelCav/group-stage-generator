@@ -4,7 +4,9 @@ import { Text, TextInput } from "react-native-paper";
 
 import { View } from "@/components/Themed";
 
-const MatchElimination = ({ team1, team2 }: { team1: string; team2: string }) => {
+import { IMatch } from "@/interface/Match";
+
+const MatchElimination = ({ match }: { match: IMatch }) => {
 
     const [score1, setScore1] = useState('');
     const [score2, setScore2] = useState('');
@@ -12,7 +14,7 @@ const MatchElimination = ({ team1, team2 }: { team1: string; team2: string }) =>
     return (
         <View style={styles.match}>
             <View style={styles.teamRow}>
-                <Text style={styles.team}>{team1}</Text>
+                <Text style={styles.team}>{match.local.team.name}</Text>
                 <TextInput
                     style={styles.scoreInput}
                     value={score1}
@@ -22,7 +24,7 @@ const MatchElimination = ({ team1, team2 }: { team1: string; team2: string }) =>
                 />
             </View>
             <View style={styles.teamRow}>
-                <Text style={styles.team}>{team2}</Text>
+                <Text style={styles.team}>{match.visitant.team.name}</Text>
                 <TextInput
                     style={styles.scoreInput}
                     value={score2}

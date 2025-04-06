@@ -86,6 +86,11 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGr
 
     }
 
+    return orderPoints(group, groupData)
+}
+
+export const orderPoints = (group: IGroup, groupData: IPoints[]): IPoints[] => {
+
     switch (group.tie_breakCriteria![0]) {
         case 'points':
             return groupData.sort((a, b) =>
@@ -97,6 +102,7 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGr
                 (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -
                 (a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!))
     }
+
 }
 
 export const groupName = (name: string): string => {

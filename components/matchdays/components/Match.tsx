@@ -7,16 +7,22 @@ import { MatchPropsType } from '@/types/props.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
-const Match = ({ match, colors, index, numberGroups, handleGetMatch, matchdayNumber }: MatchPropsType) => {
+const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item }: MatchPropsType) => {
 
     return (
         <Pressable onPress={() => handleGetMatch({
             match,
             matchday: matchdayNumber + 1
         })}>
-            {index % numberGroups === 0 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
-                Group {match.local.team.group}
-            </Text>
+            {
+                index === 0 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
+                    Group {match.local.team.group}
+                </Text>
+            }
+            {index !== 0 && item[index - 1].local.team.group !== match.local.team.group &&
+                <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
+                    Group {match.local.team.group}
+                </Text>
             }
             <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
                 <DataTable.Cell style={groupStyles.rowStart}>

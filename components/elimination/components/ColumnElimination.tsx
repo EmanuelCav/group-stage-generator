@@ -4,12 +4,14 @@ import { Text } from "react-native-paper"
 import { View } from "@/components/Themed"
 import MatchElimination from "./components/MatchElimination";
 
-const ColumnElimination = ({ bracketData }: { bracketData: any[] }) => {
+import { ColumnEliminationPropsType } from "@/types/elimination.types";
+
+const ColumnElimination = ({ text, matches }: ColumnEliminationPropsType) => {
     return (
         <View style={styles.column}>
-            <Text style={styles.roundTitle}>Octavos</Text>
-            {bracketData.map((match) => (
-                <MatchElimination key={match.id} team1={match.team1} team2={match.team2} />
+            <Text style={styles.roundTitle}>{text}</Text>
+            {matches.map((match, index) => (
+                <MatchElimination match={match} key={index}  />
             ))}
         </View>
     )

@@ -35,9 +35,9 @@ export type GenerateAgainPropsType = {
 
 export type MatchPropsType = {
     colors: MD3Colors;
+    item: IMatch[];
     match: IMatch;
     index: number;
-    numberGroups: number;
     handleGetMatch: (data: IGetMatch) => void;
     matchdayNumber: number;
 }
