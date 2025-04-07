@@ -49,6 +49,13 @@ export const matchStyles = StyleSheet.create({
         borderBottomWidth: 1
     },
 
+    scoreTeamFormKnockout: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: Dimensions.get("window").height / 148
+    },
+
     scoreTeamForm: {
         width: '100%',
         flexDirection: 'row',
@@ -60,6 +67,11 @@ export const matchStyles = StyleSheet.create({
     teamForm: {
         alignItems: 'flex-start',
         justifyContent: 'flex-start'
+    },
+
+    teamFormKnockout: {
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     containAdd: {

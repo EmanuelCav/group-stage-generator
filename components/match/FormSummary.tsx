@@ -20,7 +20,7 @@ import { summarySchema } from "@/schema/match.schema";
 
 import { getTeamsName, getPlayerName } from "@/utils/defaultGroup";
 
-const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary }: FormSummaryPropsType) => {
+const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup }: FormSummaryPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>("")
     const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ? summary.player.name : "")
@@ -63,26 +63,45 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 date: match.date
             }
 
-            const updatedMatches = group.matches!.map((g, gi) =>
-                gi === groupIndex
-                    ? g.map((m, mi) =>
-                        mi === matchdayIndex
-                            ? m.map((matchItem) =>
-                                matchItem.local.team.name === match.local.team.name
-                                    ? { ...editMatch }
-                                    : matchItem
-                            )
-                            : m
-                    )
-                    : g
-            );
+            if (isKnockout) {
 
-            updateMatchGroup(updatedMatches)
+                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                    gi === round ? g.map((m) =>
+                        m.local.team.id === match.local.team.id ? { ...editMatch } : m
+                    ) : g
+                );
 
-            updateMatch({
-                match: { ...editMatch },
-                matchday
-            })
+                updateMatchKnockGroup(updatedMatches);
+
+                updateEliminationMatch({
+                    round,
+                    match: { ...editMatch }
+                });
+
+            } else {
+
+                const updatedMatches = group.matches!.map((g, gi) =>
+                    gi === groupIndex
+                        ? g.map((m, mi) =>
+                            mi === matchdayIndex
+                                ? m.map((matchItem) =>
+                                    matchItem.local.team.name === match.local.team.name
+                                        ? { ...editMatch }
+                                        : matchItem
+                                )
+                                : m
+                        )
+                        : g
+                );
+
+                updateMatchGroup(updatedMatches)
+
+                updateMatch({
+                    match: { ...editMatch },
+                    matchday
+                })
+
+            }
 
         } else {
 
@@ -103,26 +122,45 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 date: match.date
             }
 
-            const updatedMatches = group.matches!.map((g, gi) =>
-                gi === groupIndex
-                    ? g.map((m, mi) =>
-                        mi === matchdayIndex
-                            ? m.map((matchItem) =>
-                                matchItem.local.team.name === match.local.team.name
-                                    ? { ...createMatch }
-                                    : matchItem
-                            )
-                            : m
-                    )
-                    : g
-            );
+            if (isKnockout) {
 
-            updateMatchGroup(updatedMatches)
+                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                    gi === round ? g.map((m) =>
+                        m.local.team.id === match.local.team.id ? { ...createMatch } : m
+                    ) : g
+                );
 
-            updateMatch({
-                match: { ...createMatch },
-                matchday
-            })
+                updateMatchKnockGroup(updatedMatches);
+
+                updateEliminationMatch({
+                    round,
+                    match: { ...createMatch }
+                });
+
+            } else {
+
+                const updatedMatches = group.matches!.map((g, gi) =>
+                    gi === groupIndex
+                        ? g.map((m, mi) =>
+                            mi === matchdayIndex
+                                ? m.map((matchItem) =>
+                                    matchItem.local.team.name === match.local.team.name
+                                        ? { ...createMatch }
+                                        : matchItem
+                                )
+                                : m
+                        )
+                        : g
+                );
+
+                updateMatchGroup(updatedMatches)
+
+                updateMatch({
+                    match: { ...createMatch },
+                    matchday
+                })
+
+            }
 
             reset()
         }

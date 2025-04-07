@@ -1,6 +1,6 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
-import { IGetMatch, IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
+import { IGetMatch, IGetMatchKnockout, IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
 import { IGroup } from "@/interface/Group";
 import { ILineup } from "@/interface/Player";
 
@@ -46,7 +46,11 @@ export type FormLineUpPropsType = {
     match: IMatch;
     updateMatch: (data: IGetMatch) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
+    updateEliminationMatch: (data: IGetMatchKnockout) => void;
+    updateMatchKnockGroup: (data: IMatch[][]) => void;
     matchday: number;
+    round: number;
+    isKnockout: boolean;
 }
 
 export type FormStatisticsMatchPropsType = {
@@ -58,7 +62,11 @@ export type FormStatisticsMatchPropsType = {
     statistic: IMatchStatistic;
     updateMatch: (data: IGetMatch) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
+    updateEliminationMatch: (data: IGetMatchKnockout) => void;
+    updateMatchKnockGroup: (data: IMatch[][]) => void;
     matchday: number;
+    round: number;
+    isKnockout: boolean;
 }
 
 export type FormSummaryPropsType = {
@@ -67,10 +75,14 @@ export type FormSummaryPropsType = {
     updateMatch: (data: IGetMatch) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
     sureRemoveSummary: (data: boolean) => void;
+    updateEliminationMatch: (data: IGetMatchKnockout) => void;
+    updateMatchKnockGroup: (data: IMatch[][]) => void;
     matchday: number;
     summary: ISummary;
     match: IMatch;
     group: IGroup;
+    round: number;
+    isKnockout: boolean;
 }
 
 export type SummaryPropsType = {

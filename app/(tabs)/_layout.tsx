@@ -50,10 +50,10 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="elimination"
+        name="knockout"
         options={{
           headerShown: false,
-          title: "Elimination",
+          title: "Knockout",
           tabBarIcon: ({ color }) => <TabBarIcon name="sitemap" color={color} />,
         }}
       />

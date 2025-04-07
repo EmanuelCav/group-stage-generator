@@ -18,7 +18,7 @@ import { createStyles } from "@/styles/create.styles"
 
 import { statisticSchema } from "@/schema/statistic.schema";
 
-const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic }: FormStatisticsMatchPropsType) => {
+const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup }: FormStatisticsMatchPropsType) => {
 
     const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "0")
     const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "0")
@@ -31,27 +31,44 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
     })
 
     const handleAddStatistic = (statisticCreated: ICreateStatistic) => {
-    
-            const groupIndex = match.local.team.group! - 1;
-            const matchdayIndex = matchday - 1;
-    
-            if (statistic.id) {
-    
-                const editMatch: IMatch = {
-                    isEdit: match.isEdit,
-                    local: match.local,
-                    referee: match.referee!,
-                    stadium: match.stadium!,
-                    statistics: match.statistics.map((s) => s.id === statistic.id ?
-                        {
-                            ...statistic, title: statisticCreated.title
-                        } : s),
-                    players: match.players,
-                    summary: match.summary,
-                    visitant: match.visitant,
-                    date: match.date
-                }
-    
+
+        const groupIndex = match.local.team.group! - 1;
+        const matchdayIndex = matchday - 1;
+
+        if (statistic.id) {
+
+            const editMatch: IMatch = {
+                isEdit: match.isEdit,
+                local: match.local,
+                referee: match.referee!,
+                stadium: match.stadium!,
+                statistics: match.statistics.map((s) => s.id === statistic.id ?
+                    {
+                        ...statistic, title: statisticCreated.title
+                    } : s),
+                players: match.players,
+                summary: match.summary,
+                visitant: match.visitant,
+                date: match.date
+            }
+
+            if (isKnockout) {
+
+                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                    gi === round ? g.map((m) =>
+                        m.local.team.id === match.local.team.id ? { ...editMatch } : m
+                    ) : g
+                );
+
+                updateMatchKnockGroup(updatedMatches);
+
+                updateEliminationMatch({
+                    round,
+                    match: { ...editMatch }
+                });
+
+            } else {
+
                 const updatedMatches = group.matches!.map((g, gi) =>
                     gi === groupIndex
                         ? g.map((m, mi) =>
@@ -65,39 +82,58 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         )
                         : g
                 );
-    
+
                 updateMatchGroup(updatedMatches)
-    
+
                 updateMatch({
                     match: { ...editMatch },
                     matchday
                 })
-    
+
+            }
+
+        } else {
+
+            const createMatch: IMatch = {
+                isEdit: match.isEdit,
+                local: match.local,
+                referee: match.referee!,
+                stadium: match.stadium!,
+                summary: match.summary,
+                players: match.players,
+                statistics: [...match.statistics, {
+                    id: match.statistics.length + 1,
+                    title: statisticCreated.title,
+                    teamLocal: {
+                        team: match.local.team,
+                        value: Number(valueLocal)
+                    },
+                    teamVisitant: {
+                        team: match.visitant.team,
+                        value: Number(valueVisitant)
+                    }
+                }],
+                visitant: match.visitant,
+                date: match.date
+            }
+
+            if (isKnockout) {
+
+                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                    gi === round ? g.map((m) =>
+                        m.local.team.id === match.local.team.id ? { ...createMatch } : m
+                    ) : g
+                );
+
+                updateMatchKnockGroup(updatedMatches);
+
+                updateEliminationMatch({
+                    round,
+                    match: { ...createMatch }
+                });
+
             } else {
-    
-                const createMatch: IMatch = {
-                    isEdit: match.isEdit,
-                    local: match.local,
-                    referee: match.referee!,
-                    stadium: match.stadium!,
-                    summary: match.summary,
-                    players: match.players,
-                    statistics: [...match.statistics, {
-                        id: match.statistics.length + 1,
-                        title: statisticCreated.title,
-                        teamLocal: {
-                            team: match.local.team,
-                            value: Number(valueLocal)
-                        },
-                        teamVisitant: {
-                            team: match.visitant.team,
-                            value: Number(valueVisitant)
-                        }
-                    }],
-                    visitant: match.visitant,
-                    date: match.date
-                }
-    
+
                 const updatedMatches = group.matches!.map((g, gi) =>
                     gi === groupIndex
                         ? g.map((m, mi) =>
@@ -111,19 +147,20 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         )
                         : g
                 );
-    
+
                 updateMatchGroup(updatedMatches)
-    
+
                 updateMatch({
                     match: { ...createMatch },
                     matchday
                 })
-    
-                reset()
             }
-    
-            hideAndShowStatistics(false)
+
+            reset()
         }
+
+        hideAndShowStatistics(false)
+    }
 
     return (
         <ContainerBackground zIndex={20}>
@@ -152,8 +189,8 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 )} />
 
             {
-                errors.title?.message && <Text variant="labelMedium" 
-                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                errors.title?.message && <Text variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
                     {errors.title.message}
                 </Text>
             }

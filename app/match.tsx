@@ -32,10 +32,10 @@ const Match = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup } = groupStore()
-    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic, getSummary,
+    const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup, updateMatchKnockGroup } = groupStore()
+    const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic, getSummary, matchknockout,
         hideAndShowPlayers, hideAndShowStatistics, hideAndShowSummary, showFormPlayers, showFormStatistics, showFormSummary,
-        summary, isSureSummary, sureRemoveSummary, getStatistic, isSureStatistic, sureRemoveStatistic
+        summary, isSureSummary, sureRemoveSummary, getStatistic, isSureStatistic, sureRemoveStatistic, updateEliminationMatch
     } = matchStore()
 
     const handleUpdateSummary = (data: ISummary) => {
@@ -164,18 +164,21 @@ const Match = () => {
             }
 
             {
-                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers}
-                    match={match.match!} group={group} matchday={match.matchday!} updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} />
+                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers} round={matchknockout.round!}
+                    match={match.match!} group={group} matchday={match.matchday!} updateMatch={updateMatch} updateMatchGroup={updateMatchGroup}
+                    isKnockout={false} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {
-                showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
-                    match={match.match!} group={group} statistic={statistic} updateMatch={updateMatch} matchday={match.matchday!} sureRemoveStatistic={sureRemoveStatistic} />
+                showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup} round={matchknockout.round!}
+                    match={match.match!} group={group} statistic={statistic} updateMatch={updateMatch} matchday={match.matchday!} sureRemoveStatistic={sureRemoveStatistic}
+                    isKnockout={false} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {
-                showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
-                    summary={summary} match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} sureRemoveSummary={sureRemoveSummary} />
+                showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup} round={matchknockout.round!}
+                    summary={summary} match={match.match!} group={group} updateMatch={updateMatch} matchday={match.matchday!} sureRemoveSummary={sureRemoveSummary}
+                    isKnockout={false} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {

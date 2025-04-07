@@ -37,11 +37,11 @@ export const groupStore = create(
             })),
             restartGroup: () => set((state) => ({
                 group: {
-                    ...state.group, isGeneratedAgain: true, isGenerated: false,
+                    ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false,
                     matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: []
                 },
                 groups: state.groups.map((g) => g.id === state.group.id ? {
-                    ...state.group, isGeneratedAgain: true, isGenerated: false,
+                    ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false,
                     matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: []
                 } : g)
             })),
@@ -110,6 +110,10 @@ export const groupStore = create(
                 group: { ...state.group, matches: data, isGeneratedAgain: false },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: data, isGeneratedAgain: false } : g)
             })),
+            updateMatchKnockGroup: (data: IMatch[][]) => set((state) => ({
+                group: { ...state.group, eliminationMatches: data, isDrawed: true },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, eliminationMatches: data, isDrawed: true } : g)
+            })),
             updateAvoiding: (data: IAvoidingMatches) => set((state) => ({
                 group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.map((am) => am.id === data.id ? data : am) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: state.group.avoidingMatches!.map((am) => am.id === data.id ? data : am) } : g)
@@ -144,6 +148,10 @@ export const groupStore = create(
             updateGenerateAgain: () => set((state) => ({
                 group: { ...state.group, isGeneratedAgain: false },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGeneratedAgain: false } : g)
+            })),
+            updateShuffledKnockout: () => set((state) => ({
+                group: { ...state.group, isDrawed: true },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isDrawed: true } : g)
             })),
             sureRemoveGroup: (sure: boolean) => set(() => ({
                 isSureRemove: sure

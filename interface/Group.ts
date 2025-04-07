@@ -24,6 +24,7 @@ export interface IGroupStore {
     updateStatisticTitle: (data: IStatistic) => void;
     updateStatisticValue: (data: IStatistic, player: IPlayer) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
+    updateMatchKnockGroup: (data: IMatch[][]) => void;
     getGroup: (data: IGroup) => void;
     createGroup: (data: IGroup) => void;
     updateGroup: (data: IGroup) => void;
@@ -42,6 +43,7 @@ export interface IGroupStore {
     removeStatistic: (data: IStatistic) => void;
     removeAvoiding: (data: IAvoidingMatches) => void;
     updateGenerateAgain: () => void;
+    updateShuffledKnockout: () => void;
 }
 
 export interface IGroup {
@@ -55,6 +57,7 @@ export interface IGroup {
     players?: IPlayer[];
     tie_breakCriteria?: KeyTieBreakCriteriaPropsType[],
     avoidingMatches?: IAvoidingMatches[];
+    isDrawed?: boolean;
     eliminationMatches?: IMatch[][];
     isManualConfiguration?: boolean;
     isRoundTripGroupStage?: boolean;

@@ -1,10 +1,11 @@
 import { generatePoints, orderPoints } from "./points";
+import { shuffle } from "./generator";
 
 import { IPoints } from "@/interface/Team";
 import { IGroup } from "@/interface/Group";
 import { IMatch } from "@/interface/Match";
 
-export const getElimationTeams = (group: IGroup): IMatch[][] => {
+export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][] => {
 
     let pointsGroup: IPoints[][] = []
 
@@ -55,6 +56,12 @@ export const getElimationTeams = (group: IGroup): IMatch[][] => {
             }
         }
 
+    }
+
+    if(isShuffled) {
+        for (let i = 0; i < positionGroup.length; i++) {
+            positionGroup[i] = [...shuffle([...positionGroup[i]])]
+        }
     }
 
     let first = 0
@@ -153,12 +160,12 @@ export const getElimationTeams = (group: IGroup): IMatch[][] => {
 
 export const columnTitle = (index: number, length: number): string => {
 
-    if (index === length) return "Final"
+    if (index === length - 1) return "Final"
 
-    if (index === length - 1) return "Semi-finals"
+    if (index === length - 2) return "Semi-finals"
 
-    if (index === length - 2) return "Quarter-finals"
+    if (index === length - 3) return "Quarter-finals"
 
-    return `Round of ${Math.pow(index, 2)}`
+    return `Round of ${Math.pow(2, index)}`
 
 }

@@ -83,7 +83,7 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
                 groupSorted.push({ ...plotsSet[j][i], group: i + 1 })
             }
 
-            if (i === plotsSet[0].length - 1) {
+            if ((i === plotsSet[0].length - 1) && isPrime(group.teams.length)) {
                 groupSorted.push({ ...plotsSet[plotsSet.length - 1][i + 1], group: i + 1 })
             }
 
@@ -299,7 +299,7 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
 }
 
-const shuffle = (array: any[]): any[] => {
+export const shuffle = (array: any[]): any[] => {
     let currentIndex = array.length;
 
     while (currentIndex != 0) {

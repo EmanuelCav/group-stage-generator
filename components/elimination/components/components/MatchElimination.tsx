@@ -1,85 +1,56 @@
-import { useState } from "react";
-import { StyleSheet } from "react-native";
-import { Text, TextInput } from "react-native-paper";
+import { Dimensions, Pressable } from "react-native";
+import { Avatar, Text } from "react-native-paper";
 
 import { View } from "@/components/Themed";
 
-import { IMatch } from "@/interface/Match";
+import { MatchEliminationPropsType } from "@/types/elimination.types";
 
-const MatchElimination = ({ match }: { match: IMatch }) => {
+import { eliminationStyles } from "@/styles/elimination.styles";
 
-    const [score1, setScore1] = useState('');
-    const [score2, setScore2] = useState('');
+const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, group }: MatchEliminationPropsType) => {
 
     return (
-        <View style={styles.match}>
-            <View style={styles.teamRow}>
-                <Text style={styles.team}>{match.local.team.name}</Text>
-                <TextInput
-                    style={styles.scoreInput}
-                    value={score1}
-                    onChangeText={setScore1}
-                    keyboardType="numeric"
-                    placeholder="0"
-                />
+        <Pressable style={[eliminationStyles.match, { borderColor: colors.primary }]} onPress={() => handleGetMatch({ match, round: indexElimination })}>
+            <View style={eliminationStyles.teamRow}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                    {match.local.team.logo ? (
+                        <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
+                    ) : (
+                        <Avatar.Icon icon="shield-outline" size={24} />
+                    )}
+                    <Text style={{ marginLeft: Dimensions.get("window").width / 36 }} variant="bodyMedium">{match.local.team.name}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text variant="labelLarge">{match.local.score && match.local.score}</Text>
+                    {
+                        group.isRoundTripElimination && match.local.scoreTrip && <Text variant="labelLarge">{match.local.scoreTrip}</Text>
+                    }
+                    {
+                        match.local.scoreTieBreaker && <Text variant="labelLarge">{match.local.scoreTieBreaker}</Text>
+                    }
+                </View>
             </View>
-            <View style={styles.teamRow}>
-                <Text style={styles.team}>{match.visitant.team.name}</Text>
-                <TextInput
-                    style={styles.scoreInput}
-                    value={score2}
-                    onChangeText={setScore2}
-                    keyboardType="numeric"
-                    placeholder="0"
-                />
+            <View style={eliminationStyles.teamRow}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {match.visitant.team.logo ? (
+                        <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
+                    ) : (
+                        <Avatar.Icon icon="shield-outline" size={24} />
+                    )}
+                    <Text style={{ marginLeft: Dimensions.get("window").width / 36, }} variant="bodyMedium">{match.visitant.team.name}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text variant="labelLarge">{match.visitant.score && match.visitant.score}</Text>
+                    {
+                        group.isRoundTripElimination && match.visitant.scoreTrip && <Text variant="labelLarge">{match.visitant.scoreTrip}</Text>
+                    }
+                    {
+                        match.visitant.scoreTieBreaker && <Text variant="labelLarge">{match.visitant.scoreTieBreaker}</Text>
+                    }
+                </View>
             </View>
-        </View>
-    );
-};
-
-const styles = StyleSheet.create({
-    scrollContainer: {
-        flexDirection: 'row',
-        padding: 20,
-    },
-    column: {
-        marginRight: 40,
-        alignItems: 'center',
-    },
-    roundTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    match: {
-        width: 250,
-        backgroundColor: '#f0f0f0',
-        padding: 12,
-        marginVertical: 25,
-        borderRadius: 8,
-        justifyContent: 'center',
-        gap: 10,
-    },
-    teamRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 6,
-    },
-    team: {
-        fontSize: 14,
-        flex: 1,
-        color: '#333',
-    },
-    scoreInput: {
-        width: 45,
-        height: 30,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-        textAlign: 'center',
-        backgroundColor: '#fff',
-    },
-});
+        </Pressable>
+    )
+}
 
 export default MatchElimination

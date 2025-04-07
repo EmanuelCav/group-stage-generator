@@ -3,6 +3,7 @@ import { ITeam } from "./Team";
 
 export interface IMatchStore {
     match: IGetMatch;
+    matchknockout: IGetMatchKnockout;
     summary: ISummary;
     statistic: IMatchStatistic;
     segmentedButton: string;
@@ -13,6 +14,7 @@ export interface IMatchStore {
     isSureSummary: boolean;
     isSureStatistic: boolean;
     getMatch: (data: IGetMatch) => void;
+    getMatchKnockout: (data: IGetMatchKnockout) => void;
     getSummary: (data: ISummary) => void;
     getStatistic: (data: IStatistic) => void;
     sureRemoveSummary: (show: boolean) => void;
@@ -23,11 +25,17 @@ export interface IMatchStore {
     hideAndShowStatistics: (show: boolean) => void;
     hideAndShowSummary: (show: boolean) => void;
     updateMatch: (data: IGetMatch) => void;
+    updateEliminationMatch: (data: IGetMatchKnockout) => void;
 }
 
 export interface IGetMatch {
     match?: IMatch;
     matchday?: number;
+}
+
+export interface IGetMatchKnockout {
+    match?: IMatch;
+    round?: number;
 }
 
 export interface IMatch {
@@ -45,6 +53,8 @@ export interface IMatch {
 export interface IMatchTeam {
     team: ITeam;
     score: number | null;
+    scoreTrip?: number;
+    scoreTieBreaker?: number;
 }
 
 export interface ISummary {

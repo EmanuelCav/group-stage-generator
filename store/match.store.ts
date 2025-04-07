@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { IGetMatch, IMatchStatistic, IMatchStore, ISummary } from "@/interface/Match";
+import { IGetMatch, IGetMatchKnockout, IMatchStatistic, IMatchStore, ISummary } from "@/interface/Match";
 
 export const matchStore = create(
     persist<IMatchStore>(
         (set) => ({
             match: {},
+            matchknockout: {},
             summary: {},
             statistic: {},
             segmentedButton: "summary",
@@ -18,6 +19,9 @@ export const matchStore = create(
             showFormSummary: false,
             getMatch: (data: IGetMatch) => set(() => ({
                 match: data
+            })),
+            getMatchKnockout: (data: IGetMatchKnockout) => set(() => ({
+                matchknockout: data
             })),
             getSummary: (data: ISummary) => set(() => ({
                 summary: data
@@ -48,6 +52,9 @@ export const matchStore = create(
             })),
             updateMatch: (data: IGetMatch) => set(() => ({
                 match: data
+            })),
+            updateEliminationMatch: (data: IGetMatchKnockout) => set(() => ({
+                matchknockout: data
             }))
         }),
         {

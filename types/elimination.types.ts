@@ -1,15 +1,45 @@
+import { MD3Colors } from "react-native-paper/lib/typescript/types";
+
 import { IGroup } from "@/interface/Group"
-import { IMatch } from "@/interface/Match";
+import { IGetMatchKnockout, IMatch } from "@/interface/Match";
 
 export type EliminationStagePropsType = {
     group: IGroup;
+    colors: MD3Colors;
+    handleGetMatch: (data: IGetMatchKnockout) => void;
 }
 
 export type ColumnEliminationPropsType = {
     text: string;
     matches: IMatch[];
+    colors: MD3Colors;
+    group: IGroup;
+    indexElimination: number;
+    handleGetMatch: (data: IGetMatchKnockout) => void;
 }
 
 export type MatchEliminationPropsType = {
-    
+    colors: MD3Colors;
+    group: IGroup;
+    indexElimination: number;
+    match: IMatch;
+    handleGetMatch: (data: IGetMatchKnockout) => void;
+}
+
+export type ShuffleAgainPropsType = {
+    colors: MD3Colors;
+    handleLoading: (data: boolean) => void;
+    updateShuffledKnockout: () => void;
+    generateElimination: (data: IMatch[][]) => void;
+    group: IGroup;
+}
+
+export type FormEliminationMatchPropsType = {
+    colors: MD3Colors;
+    hideAndShowUpdateMatch: (show: boolean) => void;
+    updateEliminationMatch: (data: IGetMatchKnockout) => void;
+    updateMatchKnockGroup: (data: IMatch[][]) => void;
+    match: IMatch;
+    group: IGroup;
+    round: number;
 }

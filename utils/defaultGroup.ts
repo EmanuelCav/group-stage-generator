@@ -22,6 +22,7 @@ export const groupValue = (id: number): IGroup => {
         isManualConfiguration: false,
         isRoundTripElimination: false,
         isRoundTripGroupStage: false,
+        isDrawed: false,
         isPoints: true,
         teamsPerGroup: 2,
         amountGroups: 1,
@@ -160,18 +161,13 @@ export const generateAvoidingTeams = (group: IGroup, avoiding: IAvoidingMatches)
 }
 
 export const powerRange = (num: number): number => {
-    if (num < 2) return 0;
 
-    let exp = 1;
+    const numLog = Math.log(num) / Math.log(2)
+    const power = Math.floor(Math.log(num) / Math.log(2))
+    const decimal = numLog - Math.floor(numLog);
 
-    let lower = Math.pow(2, exp + 1);
-    let upper = Math.pow(2, exp + 2) - 1
+    const lower = Math.pow(2, power) - (Math.pow(2, power) / 2)
+    const upper = Math.pow(2, power + 1) - (Math.pow(2, power + 1) / 2) - 1
 
-    while (num >= lower && num <= upper) {
-        exp++
-        lower = Math.pow(2, exp + 1)
-        upper = Math.pow(2, exp + 2) - 1
-    }
-
-    return exp
+    return Math.abs(num - lower) <= Math.abs(num - upper) ? (decimal > 0.5 ? power : power - 1) : (decimal > 0.5 ? power : power - 1)
 }

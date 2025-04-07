@@ -1,0 +1,48 @@
+import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
+
+import { ShuffleAgainPropsType } from "@/types/elimination.types";
+
+import { generalStyles } from "@/styles/general.styles";
+
+import { getElimationTeams } from "@/utils/elimination";
+
+const ShuffleAgain = ({ colors, handleLoading, group, generateElimination, updateShuffledKnockout }: ShuffleAgainPropsType) => {
+
+    const generateKnockoutStage = () => {
+
+        handleLoading(true)
+
+        try {
+
+            generateElimination(getElimationTeams(group, true))
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            handleLoading(false)
+        }
+
+    }
+
+    return (
+        <Card style={generalStyles.containerGenerateAgain}>
+            <IconButton
+                icon="close"
+                style={generalStyles.buttonClose}
+                iconColor={MD3Colors.error50}
+                size={24}
+                onPress={updateShuffledKnockout}
+            />
+            <Card.Content style={generalStyles.showGenerateAgain}>
+                <Text variant="titleSmall" style={{ textAlign: 'center' }}>Do you want to draw the knockout stage?</Text>
+                <Button mode="contained" onPress={generateKnockoutStage}
+                    style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }} >
+                    DRAW
+                </Button>
+            </Card.Content>
+        </Card>
+    );
+};
+
+export default ShuffleAgain;
