@@ -34,13 +34,13 @@ const Elimination = () => {
     }
 
     useEffect(() => {
-        if(group.eliminationMatches?.length! === 0) { // Primera vez
+        if(group.eliminationMatches?.length! === 0) {
             generateElimination(getElimationTeams(group, false))
-        } else { // Obtener todos 
-            // detectChangesElimination()
+        } else {
+            const eliminationMatches = detectChangesElimination(group)
+            updateShuffledKnockout(!eliminationMatches.areChanges)
+            generateElimination(eliminationMatches.eliminationMatches)
         }
-
-
     }, [])
 
     return (
@@ -48,8 +48,11 @@ const Elimination = () => {
             <HeaderGeneral colors={colors} router={router} title='Knockout' goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
-            <ShuffleAgain colors={colors} handleLoading={handleLoading} updateShuffledKnockout={updateShuffledKnockout}
-                group={group} generateElimination={generateElimination} />
+            {
+                !group.isDrawed &&
+                <ShuffleAgain colors={colors} handleLoading={handleLoading} updateShuffledKnockout={updateShuffledKnockout}
+                    group={group} generateElimination={generateElimination} />
+            }
             <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} />
         </View>
     )

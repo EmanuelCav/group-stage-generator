@@ -34,7 +34,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                             <Text variant="bodyMedium" style={groupStyles.cell}>{item.lost}</Text>
                             <Text variant="bodyMedium" style={groupStyles.cell}>{item.positive}</Text>
                             <Text variant="bodyMedium" style={groupStyles.cell}>{item.negative}</Text>
-                            <Text variant="bodyMedium" style={groupStyles.cell}>{item.negative + item.positive}</Text>
+                            <Text variant="bodyMedium" style={groupStyles.cell}>{item.positive - item.negative}</Text>
                             <Text variant="bodyMedium" style={groupStyles.mainCell}>
                                 {(item.won * group.pointsWin!) + (item.tied * group.pointsDraw!) + (item.lost * group.pointsLoss!)}
                             </Text>

@@ -19,12 +19,12 @@ import { isScoreElimination, winner } from '@/utils/elimination';
 
 const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round }: FormEliminationMatchPropsType) => {
 
-    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "0")
-    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "0")
-    const [scoreLocalTrip, setScoreLocalTrip] = useState<string>(match.local.scoreTrip ? String(match.local.scoreTrip) : "0")
-    const [scoreVisitantTrip, setScoreVisitantTrip] = useState<string>(match.visitant.scoreTrip ? String(match.visitant.scoreTrip) : "0")
-    const [scoreLocalTieBreaker, setScoreLocalTieBreaker] = useState<string>(match.local.scoreTieBreaker ? String(match.local.scoreTieBreaker) : "0")
-    const [scoreVisitantTieBreaker, setScoreVisitantTieBreaker] = useState<string>(match.visitant.scoreTieBreaker ? String(match.visitant.scoreTieBreaker) : "0")
+    const [scoreLocal, setScoreLocal] = useState<string>((match.local.score || match.local.score === 0) ? String(match.local.score) : "")
+    const [scoreVisitant, setScoreVisitant] = useState<string>((match.visitant.score || match.visitant.score === 0) ? String(match.visitant.score) : "")
+    const [scoreLocalTrip, setScoreLocalTrip] = useState<string>((match.local.scoreTrip || match.local.scoreTrip === 0) ? String(match.local.scoreTrip) : "")
+    const [scoreVisitantTrip, setScoreVisitantTrip] = useState<string>((match.visitant.scoreTrip || match.visitant.scoreTrip === 0) ? String(match.visitant.scoreTrip) : "")
+    const [scoreLocalTieBreaker, setScoreLocalTieBreaker] = useState<string>((match.local.scoreTieBreaker || match.local.scoreTieBreaker === 0) ? String(match.local.scoreTieBreaker) : "")
+    const [scoreVisitantTieBreaker, setScoreVisitantTieBreaker] = useState<string>((match.visitant.scoreTieBreaker || match.visitant.scoreTieBreaker === 0) ? String(match.visitant.scoreTieBreaker) : "")
 
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ? match.stadium : "")
     const [referreSelected, setRefereeSelected] = useState<string>(match.referee ? match.referee : "")
@@ -37,13 +37,13 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
 
         const dataUpdated: IMatch = {
             isEdit: true,
-            local: { ...match.local, score: Number(scoreLocal), scoreTrip: Number(scoreLocalTrip), scoreTieBreaker: Number(scoreLocalTieBreaker) },
+            local: { ...match.local, score: scoreLocal ? Number(scoreLocal) : 0, scoreTrip: scoreLocalTrip ? Number(scoreLocalTrip) : 0, scoreTieBreaker: scoreLocalTieBreaker ? Number(scoreLocalTieBreaker) : 0 },
             referee: referreSelected,
             stadium: stadiumSelected,
             statistics: match.statistics,
             players: match.players,
             summary: match.summary,
-            visitant: { ...match.visitant, score: Number(scoreVisitant), scoreTrip: Number(scoreVisitantTrip), scoreTieBreaker: Number(scoreVisitantTieBreaker) },
+            visitant: { ...match.visitant, score: scoreVisitant ? Number(scoreVisitant) : 0, scoreTrip: scoreVisitantTrip ? Number(scoreVisitantTrip) : 0, scoreTieBreaker: scoreVisitantTieBreaker ? Number(scoreVisitantTieBreaker) : 0 },
             date: match.date
         }
 
@@ -58,7 +58,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                     }
                     return m
                 });
-            } else if (gi === round + 1 && round < group.eliminationMatches!.length - 1 && isScoreElimination(match, group.isRoundTripElimination!)) {
+            } else if (gi === round + 1 && round < group.eliminationMatches!.length - 1 && isScoreElimination(dataUpdated, group.isRoundTripElimination!)) {
                 return g.map((m, mi) =>
                     indexMatch % 2 === 0
                         ? indexMatch / 2 === mi
@@ -66,7 +66,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 ...m,
                                 isEdit: false,
                                 local: {
-                                    team: winner(match, group.isRoundTripElimination!).team,
+                                    team: winner(dataUpdated, group.isRoundTripElimination!).team,
                                     score: null,
                                 },
                                 players: [],
@@ -88,7 +88,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 statistics: [],
                                 summary: [],
                                 visitant: {
-                                    team: winner(match, group.isRoundTripElimination!).team,
+                                    team: winner(dataUpdated, group.isRoundTripElimination!).team,
                                     score: null,
                                 }
                             }

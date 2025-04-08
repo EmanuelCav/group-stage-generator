@@ -34,7 +34,7 @@ export default function TabOneScreen() {
     getGroup(group)
 
     if(group.isGenerated) {
-      router.replace("/(tabs)/matchdays")
+      router.replace("/(tabs)/groups")
     } else {
       router.replace("/create")
     }

@@ -149,9 +149,9 @@ export const groupStore = create(
                 group: { ...state.group, isGeneratedAgain: false },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGeneratedAgain: false } : g)
             })),
-            updateShuffledKnockout: () => set((state) => ({
-                group: { ...state.group, isDrawed: true },
-                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isDrawed: true } : g)
+            updateShuffledKnockout: (data: boolean) => set((state) => ({
+                group: { ...state.group, isDrawed: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isDrawed: data } : g)
             })),
             sureRemoveGroup: (sure: boolean) => set(() => ({
                 isSureRemove: sure

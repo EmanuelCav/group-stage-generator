@@ -31,7 +31,7 @@ const ShuffleAgain = ({ colors, handleLoading, group, generateElimination, updat
                 style={generalStyles.buttonClose}
                 iconColor={MD3Colors.error50}
                 size={24}
-                onPress={updateShuffledKnockout}
+                onPress={() => updateShuffledKnockout(true)}
             />
             <Card.Content style={generalStyles.showGenerateAgain}>
                 <Text variant="titleSmall" style={{ textAlign: 'center' }}>Do you want to draw the knockout stage?</Text>

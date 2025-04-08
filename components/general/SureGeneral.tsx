@@ -16,9 +16,9 @@ const SureGeneral = () => {
     }
 
     const handleRemove = () => {
-        sureRemoveGroup(false)
         removeGroup(group)
-        router.replace("/")
+        sureRemoveGroup(false)
+        router.replace("/create")
     }
 
     const close = () => {

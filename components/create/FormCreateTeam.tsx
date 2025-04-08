@@ -54,7 +54,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         group: team.group,
         logo: image ? image : "",
         name: teamCreated.name.trim(),
-        plot: Number(plot)
+        plot: Number(plot[plot.length - 1])
       })
     } else {
       createTeam(

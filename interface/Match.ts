@@ -80,3 +80,8 @@ export interface IGenerateMatch {
     groupsMatches: IMatch[][][];
     groupsSorted: ITeam[][];
 }
+
+export interface IDetectChanges {
+    areChanges: boolean;
+    eliminationMatches: IMatch[][];
+}

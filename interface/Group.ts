@@ -43,7 +43,7 @@ export interface IGroupStore {
     removeStatistic: (data: IStatistic) => void;
     removeAvoiding: (data: IAvoidingMatches) => void;
     updateGenerateAgain: () => void;
-    updateShuffledKnockout: () => void;
+    updateShuffledKnockout: (data: boolean) => void;
 }
 
 export interface IGroup {
