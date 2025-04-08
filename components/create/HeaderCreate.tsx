@@ -8,7 +8,7 @@ const HeaderCreate = ({ colors, groups, router, group }: HeaderCreatePropsType) 
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
             {
                 groups.length > 0 && <Appbar.BackAction color="#ffffff" 
-                onPress={() => group.isGenerated ? router.replace("/") : router.back()} />
+                onPress={() => group.isGenerated ? router.replace("/(tabs)/groups") : router.replace("/")} />
             }
             <Appbar.Content title="Create" color="#ffffff" />
             <Appbar.Action icon="cog" color="#ffffff" onPress={() => router.replace("/config")} />

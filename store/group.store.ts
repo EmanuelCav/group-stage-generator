@@ -38,11 +38,11 @@ export const groupStore = create(
             restartGroup: () => set((state) => ({
                 group: {
                     ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false,
-                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: []
+                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: ["points", "difference", "favor", "won"],
                 },
                 groups: state.groups.map((g) => g.id === state.group.id ? {
                     ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false,
-                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: []
+                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: ["points", "difference", "favor", "won"],
                 } : g)
             })),
             createTeam: (data: ITeam) => set((state) => ({

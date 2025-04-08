@@ -3,7 +3,7 @@ import { shuffle } from "./generator";
 
 import { IPoints } from "@/interface/Team";
 import { IGroup } from "@/interface/Group";
-import { IMatch } from "@/interface/Match";
+import { IMatch, IMatchTeam } from "@/interface/Match";
 
 export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][] => {
 
@@ -58,7 +58,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
 
     }
 
-    if(isShuffled) {
+    if (isShuffled) {
         for (let i = 0; i < positionGroup.length; i++) {
             positionGroup[i] = [...shuffle([...positionGroup[i]])]
         }
@@ -70,9 +70,11 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
     let matchFirst = 0
     let matchSecond = 1
 
-    let match: IMatch[] = []
+    let match: IMatch[] = []    
 
-    for (let i = 0; i < positionGroup[0].length * (second - first); i++) {
+    let indexPositionGroupMatch = positionGroup[0].length * (second - first) === 0 ? 1 : positionGroup[0].length * (second - first)
+
+    for (let i = 0; i < indexPositionGroupMatch; i++) {
         match.push({
             local: {
                 score: null,
@@ -118,6 +120,8 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
 
     let matches: IMatch[][] = []
 
+    let winnerIndex = 1
+
     for (let i = 0; i < Math.log(group.amountClassified!) / Math.log(2); i++) {
         if (i === 0) {
             matches.push(match)
@@ -130,14 +134,14 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                     local: {
                         score: null,
                         team: {
-                            name: "Winner",
+                            name: `Winner ${winnerIndex}`,
                             logo: ""
                         },
                     },
                     visitant: {
                         score: null,
                         team: {
-                            name: "Winner",
+                            name: `Winner ${winnerIndex + 1}`,
                             logo: ""
                         },
                     },
@@ -148,6 +152,8 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                     summary: [],
                     players: []
                 })
+
+                winnerIndex+=2
             }
 
             matches.push(matchNextRound)
@@ -167,5 +173,54 @@ export const columnTitle = (index: number, length: number): string => {
     if (index === length - 3) return "Quarter-finals"
 
     return `Round of ${Math.pow(2, index)}`
+
+}
+
+export const isScoreElimination = (match: IMatch, isRoundTrip: boolean): boolean => {
+
+    if (!match.local.score || !match.visitant.score) return false
+
+    if (isRoundTrip) {
+        if (!match.local.scoreTrip || !match.visitant.scoreTrip) return false
+        if ((match.local.score + match.local.scoreTrip) === (match.visitant.score + match.visitant.scoreTrip)) return false
+    }
+
+    if ((match.local.scoreTieBreaker && match.visitant.scoreTieBreaker) || (match.local.score === match.visitant.score)) {
+        if (match.local.scoreTieBreaker === match.visitant.scoreTieBreaker) return false
+    }
+
+    return true
+
+}
+
+export const winner = (match: IMatch, isRoundTrip: boolean): IMatchTeam => {
+
+    if (match.local.scoreTieBreaker && match.visitant.scoreTieBreaker) {
+        if (match.local.scoreTieBreaker > match.visitant.scoreTieBreaker) {
+            return match.local
+        } else {
+            return match.visitant
+        }
+    }
+
+    if (isRoundTrip) {
+        if ((match.local.score! + match.local.scoreTrip!) > (match.visitant.score! + match.visitant.scoreTrip!)) {
+            return match.local
+        } else {
+            return match.visitant
+        }
+    } else {
+        if ((match.local.score!) > (match.visitant.score!)) {
+            return match.local
+        } else {
+            return match.visitant
+        }
+    }
+
+}
+
+export const detectChangesElimination = (group: IGroup) => {
+
+
 
 }

@@ -14,7 +14,7 @@ import { groupStore } from "@/store/group.store"
 import { responseStore } from "@/store/response.store"
 import { matchStore } from "@/store/match.store"
 
-import { getElimationTeams } from "@/utils/elimination"
+import { detectChangesElimination, getElimationTeams } from "@/utils/elimination"
 
 const Elimination = () => {
 
@@ -34,9 +34,13 @@ const Elimination = () => {
     }
 
     useEffect(() => {
-        if (group.eliminationMatches?.length! === 0) {
+        if(group.eliminationMatches?.length! === 0) { // Primera vez
             generateElimination(getElimationTeams(group, false))
+        } else { // Obtener todos 
+            // detectChangesElimination()
         }
+
+
     }, [])
 
     return (

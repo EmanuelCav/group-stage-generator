@@ -4,7 +4,7 @@ import { IPoints, ITeam } from "@/interface/Team";
 
 export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGroup): IPoints[] => {
 
-    let groupData: IPoints[] = []
+    let groupData: IPoints[] = []    
 
     for (let t = 0; t < teams.length; t++) {
 
@@ -17,7 +17,7 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGr
 
         for (let i = 0; i < matches.length; i++) {
             for (let j = 0; j < matches[i].length; j++) {
-                for (let k = 0; k < matches[i][k].length; k++) {
+                for (let k = 0; k < matches[i][j].length; k++) {
 
                     if (matches[i][j][k].local.score !== null || matches[i][j][k].visitant.score !== null) {
                         if (matches[i][j][k].local.team.id === teams[t].id) {

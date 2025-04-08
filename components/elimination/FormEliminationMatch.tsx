@@ -15,6 +15,7 @@ import { createStyles } from '@/styles/create.styles'
 import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
+import { isScoreElimination, winner } from '@/utils/elimination';
 
 const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round }: FormEliminationMatchPropsType) => {
 
@@ -42,22 +43,68 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             statistics: match.statistics,
             players: match.players,
             summary: match.summary,
-            visitant: { ...match.visitant, score: Number(scoreVisitant), scoreTrip: Number(scoreVisitantTrip), scoreTieBreaker: Number(scoreLocalTieBreaker) },
+            visitant: { ...match.visitant, score: Number(scoreVisitant), scoreTrip: Number(scoreVisitantTrip), scoreTieBreaker: Number(scoreVisitantTieBreaker) },
             date: match.date
         }
 
-        const updatedMatches = group.eliminationMatches!.map((g, gi) =>
-            gi === round ? g.map((m) =>
-                m.local.team.id === match.local.team.id ? { ...dataUpdated } : m
-            ) : g
-        );
+        let indexMatch: number;
+
+        const updatedMatches = group.eliminationMatches!.map((g, gi) => {
+            if (gi === round) {
+                return g.map((m, miu) => {
+                    if (m.local.team.id === match.local.team.id) {
+                        indexMatch = miu
+                        return { ...dataUpdated };
+                    }
+                    return m
+                });
+            } else if (gi === round + 1 && round < group.eliminationMatches!.length - 1 && isScoreElimination(match, group.isRoundTripElimination!)) {
+                return g.map((m, mi) =>
+                    indexMatch % 2 === 0
+                        ? indexMatch / 2 === mi
+                            ? {
+                                ...m,
+                                isEdit: false,
+                                local: {
+                                    team: winner(match, group.isRoundTripElimination!).team,
+                                    score: null,
+                                },
+                                players: [],
+                                referee: m.referee,
+                                stadium: m.stadium,
+                                statistics: [],
+                                summary: [],
+                                visitant: m.visitant
+                            }
+                            : m
+                        : Math.floor(indexMatch / 2) === mi
+                            ? {
+                                ...m,
+                                isEdit: false,
+                                local: m.local,
+                                players: [],
+                                referee: m.referee,
+                                stadium: m.stadium,
+                                statistics: [],
+                                summary: [],
+                                visitant: {
+                                    team: winner(match, group.isRoundTripElimination!).team,
+                                    score: null,
+                                }
+                            }
+                            : m
+                );
+            } else {
+                return g;
+            }
+        });
 
         updateMatchKnockGroup(updatedMatches);
 
         updateEliminationMatch({
             round,
             match: { ...dataUpdated }
-        });
+        })
 
         hideAndShowUpdateMatch(false)
     }
