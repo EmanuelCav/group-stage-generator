@@ -1,11 +1,11 @@
-                    {
+{
   "expo": {
-    "name": "group-fase-generator",
-    "slug": "group-fase-generator",
+    "name": "Group Stage Generator",
+    "slug": "GroupStageGenerator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "groupstagegenerator",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -17,12 +17,14 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.emansoftware.groupstagegenerator",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
-    "web": {    
+    "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"

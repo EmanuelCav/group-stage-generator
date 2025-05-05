@@ -20,7 +20,8 @@ export const refereeStore = create(
             }))
         }),
         {
-            name: 'group_stage_referee_generator_storage'
+            // name: `${REFEREE_STORAGE}`
+            name: `group_stage_referee_generator_storage`
         }
     )
 )

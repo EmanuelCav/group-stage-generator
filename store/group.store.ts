@@ -161,7 +161,8 @@ export const groupStore = create(
             })),
         }),
         {
-            name: 'group_stage_generator_storage'
+            // name: `${GROUP_STORAGE}`
+            name: "group_stage_generator_storage"
         }
     )
 )

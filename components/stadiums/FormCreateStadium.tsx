@@ -2,6 +2,7 @@ import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
+import Toast from 'react-native-toast-message';
 
 import ContainerBackground from "../general/ContainerBackground";
 
@@ -18,11 +19,20 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(stadiumSchema),
         defaultValues: {
-            name: stadium.name ? stadium.name : ""
+            name: stadium.name ?? ""
         }
     })
 
     const handleAddStadium = (stadiumCreated: ICreate) => {
+
+        if (group.stadiums!.find((s) => s.name === stadiumCreated.name)) {
+            Toast.show({
+                type: 'error',
+                text1: "Stadium's name",
+                text2: 'The name of the stadium already exists'
+            });
+            return
+        }
 
         if (stadium.name) {
             updateStadium({
@@ -43,6 +53,9 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
 
     return (
         <ContainerBackground zIndex={20}>
+
+            <Toast />
+
             <IconButton
                 icon="close"
                 style={generalStyles.buttonClose}
@@ -67,8 +80,8 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                 )} />
 
             {
-                errors.name && <Text variant="labelMedium" 
-                style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                errors.name && <Text variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
                     {errors.name.message}
                 </Text>
             }

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FlatList } from "react-native";
 import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import Toast from 'react-native-toast-message';
 
 import { View } from "@/components/Themed";
 import TeamAdded from "@/components/create/TeamAdded";
@@ -47,14 +48,29 @@ const Create = () => {
       if (group.isManualConfiguration) {
 
         if (group.teamsPerGroup === 1) {
+          Toast.show({
+            type: 'error',
+            text1: 'Teams per group',
+            text2: 'There must be at least 2 teams per group'
+          });
           return
         }
 
         if (Math.ceil(group.amountGroups! / 2) > group.teams.length) {
+          Toast.show({
+            type: 'error',
+            text1: 'Number of groups',
+            text2: 'Half the number of groups must be less than the number of teams'
+          });
           return
         }
 
         if ((group.amountGroups! * group.teamsPerGroup!) > group.teams.length) {
+          Toast.show({
+            type: 'error',
+            text1: 'Number of teams',
+            text2: 'The number of teams per group multiplied by the number of groups must be less than or equal to the number of teams'
+          });
           return
         }
       }
@@ -64,7 +80,7 @@ const Create = () => {
       if (group.isManualConfiguration) {
         generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
       } else {
-        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!, 
+        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!,
           Math.pow(2, powerRange(group.teams.length)))
       }
 
@@ -139,6 +155,7 @@ const Create = () => {
 
   return (
     <View style={{ flex: 1 }}>
+      <Toast />
       {
         isLoading && <Loading text="Generating..." />
       }

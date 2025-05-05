@@ -99,6 +99,8 @@ const Config = () => {
 
         const updateData: IGroup = {
             id: group.id,
+            eliminationMatches: group.eliminationMatches,
+            isDrawed: group.isDrawed,
             title: data.title,
             logo: group.logo,
             matches: group.matches,

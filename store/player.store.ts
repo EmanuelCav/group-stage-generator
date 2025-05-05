@@ -31,17 +31,18 @@ export const playerStore = create(
                 statistic: data
             })),
             updatePlayerStatisticTitle: (data: IStatistic) => set((state) => ({
-                player: {...state.player, statistics: state.player.statistics?.map((s) => ({ ...s, title: data.title }))}
+                player: { ...state.player, statistics: state.player.statistics?.map((s) => ({ ...s, title: data.title })) }
             })),
             updatePlayerStatisticValue: (data: IStatistic) => set((state) => ({
-                player: {...state.player,  statistics: state.player.statistics?.map((s) => s.id === data.id ? { ...s, value: data.value } : s)}
+                player: { ...state.player, statistics: state.player.statistics?.map((s) => s.id === data.id ? { ...s, value: data.value } : s) }
             })),
             removePlayerStatisticValue: (data: IStatistic) => set((state) => ({
-                player: {...state.player,  statistics: state.player.statistics?.filter((s) => s.id !== data.id)}
+                player: { ...state.player, statistics: state.player.statistics?.filter((s) => s.id !== data.id) }
             })),
         }),
         {
-            name: 'group_stage_player_generator_storage'
+            // name: `${PLAYER_STORAGE}`
+            name: `group_stage_player_generator_storage`
         }
     )
 )

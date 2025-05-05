@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
 import { TextInput, Card, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import { Dropdown } from 'react-native-element-dropdown';
+import Toast from 'react-native-toast-message';
 
 import { View } from "../Themed";
 import ContainerBackground from "../general/ContainerBackground";
@@ -16,19 +17,20 @@ import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
 import { dataPlots, teamValue } from "@/utils/defaultGroup";
+import { uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
 
 const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `Plot ${team.plot}` : `Plot 1`)
-  const [image, setImage] = useState<string | null>(team.logo ? team.logo : null)
+  const [image, setImage] = useState<string>(team.logo ? team.logo : "")
   const [isFocus, setIsFocus] = useState<boolean>(false)
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(teamSchema),
     defaultValues: {
-      name: team.name ? team.name : ""
+      name: team.name ?? ""
     }
   })
 
@@ -46,24 +48,39 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   }
 
-  const handleAddTeam = (teamCreated: ICreate) => {
+  const handleAddTeam = async (teamCreated: ICreate) => {
+
+    if (group.teams.find((t) => t.name === teamCreated.name)) {
+      Toast.show({
+        type: 'error',
+        text1: "Team's name",
+        text2: 'The name of the team already exists'
+      });
+      return
+    }
+
+    let imageUrl = image
+
+    if (image) {
+      imageUrl = await uploadImageToCloudinary(image);
+    }
 
     if (team.id) {
       updateTeam({
         id: team.id,
         group: team.group,
-        logo: image ? image : "",
+        logo: imageUrl || "",
         name: teamCreated.name.trim(),
         plot: Number(plot[plot.length - 1])
       })
     } else {
       createTeam(
         teamValue(
-          group.teams.length + 1, image ? image : "", teamCreated.name.trim(), Number(plot[plot.length - 1])
+          group.teams.length + 1, imageUrl || "", teamCreated.name.trim(), Number(plot[plot.length - 1])
         )
       )
       reset()
-      setImage(null)
+      setImage("")
     }
 
     hideAndShowAddTeam(false)
@@ -71,6 +88,9 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   return (
     <ContainerBackground zIndex={20}>
+
+      <Toast />
+
       <IconButton
         icon="close"
         style={generalStyles.buttonClose}
@@ -79,7 +99,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         onPress={() => hideAndShowAddTeam(false)}
       />
       {
-        image ? <Card style={createStyles.cardAddTeam}>
+        image ? 
+        <Card style={createStyles.cardAddTeam} onPress={pickImage}>
           <Image source={{ uri: image }} style={createStyles.imageCard} />
         </Card>
           : <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
@@ -113,7 +134,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             style={createStyles.inputAdd}
           />
         )} />
-        
+
       {
         group.isManualConfiguration && <View style={createStyles.selectInputContain}>
           <Text variant="labelLarge">Plot (optional):</Text>

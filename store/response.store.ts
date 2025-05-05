@@ -12,7 +12,8 @@ export const responseStore = create(
             })),
         }),
         {
-            name: 'group_stage_response_generator_storage'
+            // name: `${RESPONSE_STORAGE}`
+            name: `group_stage_response_generator_storage`
         }
     )
 )
