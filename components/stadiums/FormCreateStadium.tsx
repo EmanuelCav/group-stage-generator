@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import Toast from 'react-native-toast-message';
+import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
 
@@ -72,34 +73,41 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Stadium name"
-                        autoFocus
+                        label={i18n.t("stadiumName")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
-                )} />
+                )}
+            />
 
-            {
-                errors.name && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+            {errors.name && (
+                <Text
+                    variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                >
                     {errors.name.message}
                 </Text>
-            }
+            )}
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddStadium(data))}>
-                {
-                    stadium.name ? "UPDATE" : "ADD"
-                }
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleSubmit((data) => handleAddStadium(data))}
+            >
+                {stadium.name ? i18n.t("update") : i18n.t("add")}
             </Button>
 
-            {
-                stadium.name && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => openSure(stadium)}>
-                    REMOVE
+            {stadium.name && (
+                <Button
+                    mode="contained"
+                    style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }}
+                    onPress={() => openSure(stadium)}
+                >
+                    {i18n.t("remove")}
                 </Button>
-            }
-
+            )}
 
         </ContainerBackground>
     );

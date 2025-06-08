@@ -1,4 +1,5 @@
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
+import i18n from '@/i18n'
 
 import { ShuffleAgainPropsType } from "@/types/elimination.types";
 
@@ -34,14 +35,20 @@ const ShuffleAgain = ({ colors, handleLoading, group, generateElimination, updat
                 onPress={() => updateShuffledKnockout(true)}
             />
             <Card.Content style={generalStyles.showGenerateAgain}>
-                <Text variant="titleSmall" style={{ textAlign: 'center' }}>Do you want to draw the knockout stage?</Text>
-                <Button mode="contained" onPress={generateKnockoutStage}
+                <Text variant="titleSmall" style={{ textAlign: 'center' }}>
+                    {i18n.t("drawKnockoutQuestion")}
+                </Text>
+                <Button
+                    mode="contained"
+                    onPress={generateKnockoutStage}
                     style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} >
-                    DRAW
+                    labelStyle={{ color: "#ffffff" }}
+                >
+                    {i18n.t("drawButton")}
                 </Button>
             </Card.Content>
         </Card>
+
     );
 };
 

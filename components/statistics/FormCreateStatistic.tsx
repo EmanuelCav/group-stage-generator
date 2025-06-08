@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
+import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
 import { View } from "../Themed";
@@ -74,23 +75,24 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
                         onChangeText={onChange}
                         onBlur={onBlur}
                         autoCapitalize="none"
-                        label="Statistic title"
-                        autoFocus
+                        label={i18n.t("statisticTitle")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
                 )}
             />
 
-            {
-                errors.title && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+            {errors.title && (
+                <Text
+                    variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                >
                     {errors.title.message}
                 </Text>
-            }
+            )}
 
             <Text variant="bodyMedium" style={{ marginTop: Dimensions.get("window").height / 74 }}>
-                {statistic.id ? "Statistic value" : "Statistic initial value (optional)"}
+                {statistic.id ? i18n.t("statisticValue") : i18n.t("statisticInitialValueOptional")}
             </Text>
 
             <View style={createStyles.updateValue}>
@@ -111,7 +113,6 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
                             setValueStatistic(formattedText);
                         }
                     }}
-
                     value={String(valueStatistic)}
                     style={createStyles.inputNumberCreate}
                 />
@@ -125,21 +126,25 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
                 />
             </View>
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddStatistic(data))}>
-                {
-                    statistic.id ? "UPDATE" : "CREATE"
-                }
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleSubmit((data) => handleAddStatistic(data))}
+            >
+                {statistic.id ? i18n.t("update") : i18n.t("create")}
             </Button>
 
-            {
-                statistic.id && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => openSure(statistic)}>
-                    REMOVE
+            {statistic.id && (
+                <Button
+                    mode="contained"
+                    style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }}
+                    onPress={() => openSure(statistic)}
+                >
+                    {i18n.t("remove")}
                 </Button>
-            }
-
-
+            )}
         </ContainerBackground>
     );
 };

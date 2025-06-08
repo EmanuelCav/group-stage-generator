@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
@@ -110,10 +111,10 @@ const Players = () => {
     return (
         <View style={{ flex: 1 }}>
             {
-                isSureStatistic && <Sure func={handleRemoveStatistic} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
+                isSureStatistic && <Sure func={handleRemoveStatistic} text={i18n.t("areYouSureDelete")} close={close} labelButton={i18n.t("remove")} />
             }
             {
-                isSure && <Sure func={handleRemovePlayer} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
+                isSure && <Sure func={handleRemovePlayer} text={i18n.t("areYouSureDelete")} close={close} labelButton={i18n.t("remove")} />
             }
             {
                 showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure} handleUpdateStatistic={handleUpdateStatistic}
@@ -123,13 +124,13 @@ const Players = () => {
                 showFormStatistic && <FormCreateStatistic group={group} colors={colors} statistic={statistic} handleUpdateTitleStatistic={handleUpdateTitleStatistic}
                     hideAndShowAddStatistic={hideAndShowAddStatistic} createStatistic={createStatistic} openSure={openSureStatistic} handleUpdateValueStatistic={handleUpdateValueStatistic} />
             }
-            <HeaderGeneral colors={colors} router={router} title="Players" goBack={goBack} 
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack} 
             sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
             <View style={generalStyles.containerGeneral}>
                 {
                     group.players!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :
-                        <AddAction openForm={hideAndShowAddPlayer} colors={colors} text="ADD PLAYER" />
+                        <AddAction openForm={hideAndShowAddPlayer} colors={colors} text={i18n.t("add_player")} />
                 }
                 {
                     group.players!.length > 0 ?
@@ -138,9 +139,9 @@ const Players = () => {
                             data={group.players!}
                             keyExtractor={(_, index) => index.toString()}
                             renderItem={({ item }) => <Player player={item}
-                                handleUpdatePlayer={handleUpdatePlayer} />}
+                                handleUpdatePlayer={handleUpdatePlayer} colors={colors} />}
                         /> : <Text variant="bodyMedium" style={createStyles.advideText}>
-                            Add players to display statistics
+                            {i18n.t("players_emptyStatistics")}
                         </Text>
                 }
             </View>

@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
 import { IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
@@ -16,8 +17,9 @@ import FormLineUp from "@/components/match/FormLineUp"
 import FormEliminationMatch from "@/components/elimination/FormEliminationMatch"
 import FormStatisticsMatch from "@/components/match/FormStatisticsMatch"
 import FormSummary from "@/components/match/FormSummary"
+import Sure from "@/components/general/Sure"
 
-import { IMatchStatistic, ISummary } from "@/interface/Match"
+import { IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
 
 import { matchStyles } from "@/styles/match.styles"
 
@@ -25,7 +27,7 @@ import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
 
 import { lineupPlayers } from "@/utils/matchday"
-import { columnTitle } from "@/utils/elimination"
+import { columnTitle, isScoreElimination, winner } from "@/utils/elimination"
 
 const Matchknockout = () => {
 
@@ -34,7 +36,7 @@ const Matchknockout = () => {
     const { sureRemoveGroup, sureRestartGroup, group, updateMatchKnockGroup, updateMatchGroup } = groupStore()
     const { matchknockout, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, statistic, getSummary,
         hideAndShowPlayers, hideAndShowStatistics, hideAndShowSummary, showFormPlayers, showFormStatistics, showFormSummary,
-        summary, sureRemoveSummary, getStatistic, sureRemoveStatistic, updateEliminationMatch, updateMatch
+        summary, sureRemoveSummary, getStatistic, sureRemoveStatistic, updateEliminationMatch, updateMatch, isSureStatistic, isSureSummary
     } = matchStore()
 
     const handleUpdateSummary = (data: ISummary) => {
@@ -45,6 +47,164 @@ const Matchknockout = () => {
     const handleUpdateStatistic = (data: IMatchStatistic) => {
         getStatistic(data)
         hideAndShowStatistics(true)
+    }
+
+    const handleRemoveSummary = () => {
+
+        const editMatch: IMatch = {
+            isEdit: matchknockout.match!.isEdit,
+            local: matchknockout.match!.local,
+            referee: matchknockout.match!.referee!,
+            stadium: matchknockout.match!.stadium!,
+            statistics: matchknockout.match!.statistics,
+            players: matchknockout.match!.players,
+            summary: matchknockout.match!.summary.filter((s) => s.id !== summary.id),
+            visitant: matchknockout.match!.visitant,
+            date: matchknockout.match!.date
+        }
+
+        let indexMatch: number;
+
+        const updatedMatches = group.eliminationMatches!.map((g, gi) => {
+            if (gi === matchknockout.round) {
+                return g.map((m, miu) => {
+                    if (m.local.team.id === matchknockout.match!.local.team.id) {
+                        indexMatch = miu
+                        return { ...editMatch };
+                    }
+                    return m
+                });
+            } else if (gi === matchknockout.round! + 1 && matchknockout.round! < group.eliminationMatches!.length - 1 &&
+                isScoreElimination(editMatch, group.isRoundTripElimination!)) {
+                return g.map((m, mi) =>
+                    indexMatch % 2 === 0
+                        ? indexMatch / 2 === mi
+                            ? {
+                                ...m,
+                                isEdit: false,
+                                local: {
+                                    team: winner(editMatch, group.isRoundTripElimination!).team,
+                                    score: null,
+                                },
+                                players: [],
+                                referee: m.referee,
+                                stadium: m.stadium,
+                                statistics: [],
+                                summary: [],
+                                visitant: m.visitant
+                            }
+                            : m
+                        : Math.floor(indexMatch / 2) === mi
+                            ? {
+                                ...m,
+                                isEdit: false,
+                                local: m.local,
+                                players: [],
+                                referee: m.referee,
+                                stadium: m.stadium,
+                                statistics: [],
+                                summary: [],
+                                visitant: {
+                                    team: winner(editMatch, group.isRoundTripElimination!).team,
+                                    score: null,
+                                }
+                            }
+                            : m
+                );
+            } else {
+                return g;
+            }
+        });
+
+        updateMatchKnockGroup(updatedMatches)
+
+        updateEliminationMatch({
+            match: { ...editMatch },
+            round: matchknockout.round
+        })
+
+        sureRemoveSummary(false)
+        hideAndShowSummary(false)
+        getSummary({})
+    }
+
+    const handleRemoveStatistic = () => {
+
+        const editMatch: IMatch = {
+            isEdit: matchknockout.match!.isEdit,
+            local: matchknockout.match!.local,
+            referee: matchknockout.match!.referee,
+            stadium: matchknockout.match!.stadium,
+            statistics: matchknockout.match!.statistics.filter((s) => s.id !== statistic.id),
+            players: matchknockout.match!.players,
+            summary: matchknockout.match!.summary,
+            visitant: matchknockout.match!.visitant,
+            date: matchknockout.match!.date
+        }
+
+        let indexMatch: number;
+
+        const updatedMatches = group.eliminationMatches!.map((g, gi) => {
+            if (gi === matchknockout.round) {
+                return g.map((m, miu) => {
+                    if (m.local.team.id === matchknockout.match!.local.team.id) {
+                        indexMatch = miu
+                        return { ...editMatch };
+                    }
+                    return m
+                });
+            } else if (gi === matchknockout.round! + 1 && matchknockout.round! < group.eliminationMatches!.length - 1 &&
+                isScoreElimination(editMatch, group.isRoundTripElimination!)) {
+                return g.map((m, mi) =>
+                    indexMatch % 2 === 0
+                        ? indexMatch / 2 === mi
+                            ? {
+                                ...m,
+                                isEdit: false,
+                                local: {
+                                    team: winner(editMatch, group.isRoundTripElimination!).team,
+                                    score: null,
+                                },
+                                players: [],
+                                referee: m.referee,
+                                stadium: m.stadium,
+                                statistics: [],
+                                summary: [],
+                                visitant: m.visitant
+                            }
+                            : m
+                        : Math.floor(indexMatch / 2) === mi
+                            ? {
+                                ...m,
+                                isEdit: false,
+                                local: m.local,
+                                players: [],
+                                referee: m.referee,
+                                stadium: m.stadium,
+                                statistics: [],
+                                summary: [],
+                                visitant: {
+                                    team: winner(editMatch, group.isRoundTripElimination!).team,
+                                    score: null,
+                                }
+                            }
+                            : m
+                );
+            } else {
+                return g;
+            }
+        })
+
+        updateMatchKnockGroup(updatedMatches)
+
+        updateEliminationMatch({
+            match: { ...editMatch },
+            round: matchknockout.round
+        })
+
+        sureRemoveStatistic(false)
+        hideAndShowStatistics(false)
+        getStatistic({})
     }
 
     const goBack = () => {
@@ -62,28 +222,62 @@ const Matchknockout = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderGeneral colors={colors} goBack={goBack} router={router} title="Match"
+            <HeaderGeneral colors={colors} goBack={goBack} router={router} title={i18n.t("match_title")}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
             />
             <SureGeneral />
 
+            {isSureSummary && (
+                <Sure
+                    close={() => sureRemoveSummary(false)}
+                    text={i18n.t("areYouSureDelete")}
+                    labelButton={i18n.t("remove")}
+                    func={handleRemoveSummary}
+                />
+            )}
+
+            {isSureStatistic && (
+                <Sure
+                    close={() => sureRemoveStatistic(false)}
+                    text={i18n.t("areYouSureDelete")}
+                    labelButton={i18n.t("remove")}
+                    func={handleRemoveStatistic}
+                />
+            )}
+
+            {showFormPlayers && (
+                <FormLineUp
+                    colors={colors}
+                    hideAndShowPlayers={hideAndShowPlayers}
+                    round={matchknockout.round!}
+                    match={matchknockout.match!}
+                    group={group}
+                    matchday={matchknockout.round!}
+                    updateMatch={updateMatch}
+                    updateMatchGroup={updateMatchGroup}
+                    isKnockout={false}
+                    updateEliminationMatch={updateEliminationMatch}
+                    updateMatchKnockGroup={updateMatchKnockGroup}
+                />
+            )}
+
             {
                 showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers}
-                    match={matchknockout.match!} group={group} matchday={matchknockout.round!} 
+                    match={matchknockout.match!} group={group} matchday={matchknockout.round!}
                     updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} round={matchknockout.round!}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {
                 showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
-                    match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch} 
+                    match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch}
                     matchday={matchknockout.round!} sureRemoveStatistic={sureRemoveStatistic} round={matchknockout.round!}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {
                 showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
-                    summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch} 
+                    summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch}
                     matchday={matchknockout.round!} sureRemoveSummary={sureRemoveSummary} round={matchknockout.round!}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
@@ -100,7 +294,7 @@ const Matchknockout = () => {
             <View style={matchStyles.containerMatch}>
                 <View style={matchStyles.titleMatch}>
                     <Text variant='titleMedium' style={{ color: colors.primary }}>
-                        {columnTitle(matchknockout.round!, group.eliminationMatches?.length!) }
+                        {columnTitle(matchknockout.round!, group.eliminationMatches?.length!)}
                     </Text>
                     <IconButton
                         icon="pencil"
@@ -118,19 +312,19 @@ const Matchknockout = () => {
                     buttons={[
                         {
                             value: 'summary',
-                            label: 'Summary',
+                            label: i18n.t("summary_title"),
                             icon: 'file-document-outline',
                             checkedColor: "#ffffff"
                         },
                         {
                             value: 'players',
-                            label: 'Lineup',
+                            label: i18n.t("lineup_title"),
                             icon: 'account-group-outline',
                             checkedColor: "#ffffff"
                         },
                         {
                             value: 'statistics',
-                            label: 'Statistics',
+                            label: i18n.t("statistics_title"),
                             icon: 'chart-bar',
                             checkedColor: "#ffffff"
                         },
@@ -155,8 +349,8 @@ const Matchknockout = () => {
                                     renderItem={({ item }) => <Summary summary={item} match={matchknockout.match!} colors={colors}
                                         handleUpdateSummary={handleUpdateSummary} />}
                                 /> : <View style={matchStyles.containAdd}>
-                                    <Text variant="bodyMedium">Add a summary for the match</Text>
-                                    <AddAction openForm={hideAndShowSummary} colors={colors} text="ADD SUMMARY" />
+                                    <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>
+                                    <AddAction openForm={hideAndShowSummary} colors={colors} text={i18n.t("summary_add")} />
                                 </View>
                         }
                     </View>
@@ -173,8 +367,8 @@ const Matchknockout = () => {
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => <PlayersMatch player={item} colors={colors} hideAndShowPlayers={hideAndShowPlayers} />}
                                 /> : <View style={matchStyles.containAdd}>
-                                    <Text variant="bodyMedium">Add a lineup for the match</Text>
-                                    <AddAction openForm={hideAndShowPlayers} colors={colors} text="ADD LINEUP" />
+                                    <Text variant="bodyMedium">{i18n.t("lineup_empty")}</Text>
+                                    <AddAction openForm={hideAndShowPlayers} colors={colors} text={i18n.t("lineup_add")} />
                                 </View>
                         }
                     </View>
@@ -189,8 +383,8 @@ const Matchknockout = () => {
                                 keyExtractor={(_, index) => index.toString()}
                                 renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}
                             /> : <View style={matchStyles.containAdd}>
-                                <Text variant="bodyMedium">Add statistics for the match</Text>
-                                <AddAction openForm={hideAndShowStatistics} colors={colors} text="ADD STATISTIC" />
+                                <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
+                                <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
                             </View>
                         }
                     </View>

@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router"
+import i18n from '@/i18n'
 
 import Sure from "./Sure"
 
@@ -10,15 +11,15 @@ const SureGeneral = () => {
     const router = useRouter()
 
     const handleRestart = () => {
+        router.replace("/create")
         sureRestartGroup(false)
         restartGroup()
-        router.replace("/create")
     }
 
     const handleRemove = () => {
-        removeGroup(group)
-        sureRemoveGroup(false)
         router.replace("/create")
+        sureRemoveGroup(false)
+        removeGroup(group)
     }
 
     const close = () => {
@@ -28,16 +29,22 @@ const SureGeneral = () => {
 
     return (
         <>
-            {
-                isSureRemove && <Sure func={handleRemove}
-                    text="Are you sure you want to delete group stage?"
-                    close={close} labelButton="REMOVE" />
-            }
-            {
-                isSureRestart && <Sure func={handleRestart}
-                    text="Are you sure you want to restart group stage?"
-                    close={close} labelButton="RESTART" />
-            }
+            {isSureRemove && (
+                <Sure
+                    func={handleRemove}
+                    text={i18n.t("sure.removeGroupStage")}
+                    close={close}
+                    labelButton={i18n.t("remove")}
+                />
+            )}
+            {isSureRestart && (
+                <Sure
+                    func={handleRestart}
+                    text={i18n.t("sure.restartGroupStage")}
+                    close={close}
+                    labelButton={i18n.t("sure.restart")}
+                />
+            )}
         </>
     )
 }

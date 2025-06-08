@@ -1,5 +1,6 @@
 import { Dimensions, Pressable } from 'react-native'
 import { Avatar, DataTable, Text } from 'react-native-paper'
+import i18n from '@/i18n'
 
 import { View } from '@/components/Themed'
 
@@ -16,12 +17,12 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item }: M
         })}>
             {
                 index === 0 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
-                    Group {match.local.team.group}
+                    {i18n.t("group.title")} {match.local.team.group}
                 </Text>
             }
             {index !== 0 && item[index - 1].local.team.group !== match.local.team.group &&
                 <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
-                    Group {match.local.team.group}
+                    {i18n.t("group.title")} {match.local.team.group}
                 </Text>
             }
             <DataTable.Row style={{ borderBottomColor: colors.secondary }}>

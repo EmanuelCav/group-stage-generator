@@ -1,4 +1,5 @@
 import { Button } from 'react-native-paper'
+import i18n from '@/i18n'
 
 import { View } from '../Themed'
 
@@ -11,9 +12,9 @@ const GenerateButton = ({ teams, colors, generateGroups }: GenerateButtonPropsTy
     return (
         <View style={createStyles.containerGenerateButton}>
             <Button mode="contained" onPress={generateGroups}
-            style={[{ backgroundColor: teams.length < 2 ? "#bbbbbb" : colors.primary }, generalStyles.generateButton]}
+                style={[{ backgroundColor: teams.length < 2 ? "#bbbbbb" : colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} disabled={teams.length < 2}>
-                GENERATE
+                {i18n.t("generate")}
             </Button>
         </View>
     )

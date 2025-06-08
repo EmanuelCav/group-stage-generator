@@ -3,6 +3,7 @@ import { FlatList } from "react-native";
 import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast from 'react-native-toast-message';
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
 import TeamAdded from "@/components/create/TeamAdded";
@@ -32,7 +33,8 @@ import { groupGenerator } from "@/utils/generator";
 const Create = () => {
 
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
-  const { createGroup, group, groups, createTeam, generateMatches, updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
+  const { createGroup, group, groups, createTeam, generateMatches, updateGenerateAgain,
+    updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
   const { isLoading, handleLoading } = responseStore()
 
   const { colors } = useTheme()
@@ -125,6 +127,11 @@ const Create = () => {
     sureRemoveTeam(false)
     hideAndShowAddTeam(false)
     removeTeam(team)
+
+    if (group.isGenerated) {
+      updateGenerateAgain(true)
+    }
+
     getTeam({})
   }
 
@@ -155,53 +162,100 @@ const Create = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <Toast />
-      {
-        isLoading && <Loading text="Generating..." />
-      }
-      {
-        isSure && <Sure func={handleRemoveTeam} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
-      }
-      {
-        showForm && <FormCreateTeam colors={colors} group={group} team={team} openSure={openSure}
-          hideAndShowAddTeam={hideAndShowAddTeam} createTeam={createTeam} updateTeam={handleUpdate} />
-      }
-      {
-        group.isGenerated ? <HeaderGeneral colors={colors} router={router} title="Teams" goBack={goBack}
-          sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
-          : <HeaderCreate colors={colors} groups={groups} router={router} group={group} />
-      }
+      {isLoading && <Loading text={i18n.t('generating')} />}
+
+      {isSure && (
+        <Sure
+          func={handleRemoveTeam}
+          text={i18n.t('areYouSureDelete')}
+          close={close}
+          labelButton={i18n.t('remove')}
+        />
+      )}
+
+      {showForm && (
+        <FormCreateTeam
+          colors={colors}
+          group={group}
+          team={team}
+          openSure={openSure}
+          hideAndShowAddTeam={hideAndShowAddTeam}
+          createTeam={createTeam}
+          updateTeam={handleUpdate}
+        />
+      )}
+
+      {group.isGenerated ? (
+        <HeaderGeneral
+          colors={colors}
+          router={router}
+          title={i18n.t('teams')}
+          goBack={goBack}
+          sureRemoveGroup={sureRemoveGroup}
+          sureRestartGroup={sureRestartGroup}
+        />
+      ) : (
+        <HeaderCreate
+          colors={colors}
+          groups={groups}
+          router={router}
+          group={group}
+        />
+      )}
+
       <SureGeneral />
+
       <View style={generalStyles.containerGeneral}>
-        {
-          group.teams.length > 0 ? <AddButton colors={colors} handleAdd={openCreateTeam} /> :
-            <AddTeam openForm={hideAndShowAddTeam} colors={colors} />
-        }
-        {
-          group.teams.length > 0 && !group.isGenerated && <SettingsFAB colors={colors} />
-        }
-        {
-          group.teams.length > 0 ?
-            <FlatList
-              style={{ width: '100%' }}
-              data={group.teams}
-              keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => <TeamAdded team={item} handleUpdateTeam={handleUpdateTeam} />}
-            /> : <Text variant="bodyMedium" style={createStyles.advideText}>
-              Add teams to generate the group stage
-            </Text>
-        }
+        {group.teams.length > 0 ? (
+          <AddButton colors={colors} handleAdd={openCreateTeam} />
+        ) : (
+          <AddTeam
+            openForm={hideAndShowAddTeam}
+            colors={colors}
+            length={groups.length}
+          />
+        )}
+
+        {group.teams.length > 0 && !group.isGenerated && (
+          <SettingsFAB colors={colors} />
+        )}
+
+        {group.teams.length > 0 ? (
+          <FlatList
+            style={{ width: '100%' }}
+            data={group.teams}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TeamAdded
+                team={item}
+                handleUpdateTeam={handleUpdateTeam}
+                colors={colors}
+              />
+            )}
+          />
+        ) : (
+          <Text variant="bodyMedium" style={createStyles.advideText}>
+            {i18n.t('addTeamsToGenerate')}
+          </Text>
+        )}
       </View>
-      {
-        group.teams.length < 2 && <Text variant="bodySmall"
-          style={{ color: MD3Colors.error50, textAlign: 'center' }}>
-          Add 2 or more teams to generate
+
+      {group.teams.length < 2 && (
+        <Text
+          variant="bodySmall"
+          style={{ color: MD3Colors.error50, textAlign: 'center' }}
+        >
+          {i18n.t('addAtLeastTwo')}
         </Text>
-      }
-      {
-        !group.isGenerated && <GenerateButton teams={group.teams}
-          colors={colors} generateGroups={generateGroups} />
-      }
+      )}
+
+      {!group.isGenerated && (
+        <GenerateButton
+          teams={group.teams}
+          colors={colors}
+          generateGroups={generateGroups}
+        />
+      )}
     </View>
   );
 };

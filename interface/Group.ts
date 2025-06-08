@@ -42,7 +42,8 @@ export interface IGroupStore {
     removePlayer: (data: IPlayer) => void;
     removeStatistic: (data: IStatistic) => void;
     removeAvoiding: (data: IAvoidingMatches) => void;
-    updateGenerateAgain: () => void;
+    updateCreateElimination: (data: boolean) => void;
+    updateGenerateAgain: (data: boolean) => void;
     updateShuffledKnockout: (data: boolean) => void;
 }
 
@@ -71,6 +72,7 @@ export interface IGroup {
     pointsLoss?: number;
     isGenerated?: boolean;
     isGeneratedAgain?: boolean;
+    isKnockoutGenerated?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
 }

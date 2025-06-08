@@ -12,7 +12,8 @@ export type GenerateButtonPropsType = {
 
 export type AddTeamPropsType = {
     colors: MD3Colors;
-    openForm: (show: boolean) => void
+    openForm: (show: boolean) => void;
+    length: number;
 }
 
 export type FormCreateTeamPropsType = {
@@ -40,4 +41,5 @@ export type AddButtonPropsType = {
 export type TeamAddedPropsType = {
     team: ITeam;
     handleUpdateTeam: (data: ITeam) => void;
+    colors: MD3Colors;
 }

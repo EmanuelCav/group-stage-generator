@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
+import i18n from '@/i18n'
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
@@ -20,10 +21,10 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   const { handleLoading } = responseStore()
-  
-    useEffect(() => {
-      handleLoading(false)
-    }, [])
+
+  useEffect(() => {
+    handleLoading(false)
+  }, [])
 
   return (
     <Tabs
@@ -35,7 +36,7 @@ export default function TabLayout() {
         name="groups"
         options={{
           headerShown: false,
-          title: "Groups",
+          title: i18n.t("groups"),
           tabBarIcon: ({ color }) => <TabBarIcon name="th-large" color={color} />,
         }}
       />
@@ -44,7 +45,7 @@ export default function TabLayout() {
         name="matchdays"
         options={{
           headerShown: false,
-          title: "Matchdays",
+          title: i18n.t("matchdays"),
           tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
         }}
       />
@@ -53,7 +54,7 @@ export default function TabLayout() {
         name="knockout"
         options={{
           headerShown: false,
-          title: "Knockout",
+          title: i18n.t("knockout"),
           tabBarIcon: ({ color }) => <TabBarIcon name="sitemap" color={color} />,
         }}
       />
@@ -62,7 +63,7 @@ export default function TabLayout() {
         name="statistics"
         options={{
           headerShown: false,
-          title: "Statistics",
+          title: i18n.t("statistics"),
           tabBarIcon: ({ color }) => <TabBarIcon name="bar-chart" color={color} />,
         }}
       />

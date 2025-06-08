@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
@@ -15,12 +16,13 @@ import { responseStore } from "@/store/response.store"
 import { matchStore } from "@/store/match.store"
 
 import { detectChangesElimination, getElimationTeams } from "@/utils/elimination"
+import CreateElimination from "@/components/elimination/CreateElimination"
 
 const Elimination = () => {
 
     const router = useRouter()
     const { colors } = useTheme()
-    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, group } = groupStore()
+    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group } = groupStore()
     const { handleLoading } = responseStore()
     const { getMatchKnockout } = matchStore()
 
@@ -34,26 +36,36 @@ const Elimination = () => {
     }
 
     useEffect(() => {
-        if(group.eliminationMatches?.length! === 0) {
-            generateElimination(getElimationTeams(group, false))
-        } else {
-            const eliminationMatches = detectChangesElimination(group)
-            updateShuffledKnockout(!eliminationMatches.areChanges)
-            generateElimination(eliminationMatches.eliminationMatches)
+        if(group.isKnockoutGenerated) {
+            if (group.eliminationMatches?.length! === 0) {
+                generateElimination(getElimationTeams(group, false))
+            } else {
+                const eliminationMatches = detectChangesElimination(group)
+                updateShuffledKnockout(!eliminationMatches.areChanges)
+                generateElimination(eliminationMatches.eliminationMatches)
+            }
         }
-    }, [])
+    }, [group.isKnockoutGenerated])
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderGeneral colors={colors} router={router} title='Knockout' goBack={goBack}
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
             {
-                !group.isDrawed &&
-                <ShuffleAgain colors={colors} handleLoading={handleLoading} updateShuffledKnockout={updateShuffledKnockout}
-                    group={group} generateElimination={generateElimination} />
+                (group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated) ? (
+                    <>
+                        {
+                            !group.isDrawed &&
+                            <ShuffleAgain colors={colors} handleLoading={handleLoading} updateShuffledKnockout={updateShuffledKnockout}
+                                group={group} generateElimination={generateElimination} />
+                        }
+                        <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} />
+                    </>
+                ) : (
+                    <CreateElimination colors={colors} updateCreateElimination={updateCreateElimination} />
+                )
             }
-            <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} />
         </View>
     )
 }

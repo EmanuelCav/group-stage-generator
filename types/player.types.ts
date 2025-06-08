@@ -16,6 +16,7 @@ export type FormCreatePlayerPropsType = {
 
 export type PlayerPropsType = {
     player: IPlayer;
+    colors: MD3Colors;
     handleUpdatePlayer: (player: IPlayer) => void;
 }
 

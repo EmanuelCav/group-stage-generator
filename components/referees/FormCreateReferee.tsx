@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import Toast from 'react-native-toast-message';
+import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
 
@@ -72,33 +73,41 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Referee name"
-                        autoFocus
+                        label={i18n.t("refereeName")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
-                )} />
+                )}
+            />
 
-            {
-                errors.name && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+            {errors.name && (
+                <Text
+                    variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                >
                     {errors.name.message}
                 </Text>
-            }
+            )}
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddReferee(data))}>
-                {
-                    referee.name ? "UPDATE" : "ADD"
-                }
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleSubmit((data) => handleAddReferee(data))}
+            >
+                {referee.id ? i18n.t("update") : i18n.t("add")}
             </Button>
 
-            {
-                referee.name && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => openSure(referee)}>
-                    REMOVE
+            {referee.id && (
+                <Button
+                    mode="contained"
+                    style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }}
+                    onPress={() => openSure(referee)}
+                >
+                    {i18n.t("remove")}
                 </Button>
-            }
+            )}
 
         </ContainerBackground>
     );

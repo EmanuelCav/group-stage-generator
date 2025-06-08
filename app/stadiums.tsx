@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
@@ -74,30 +75,64 @@ const Stadiums = () => {
   return (
     <View style={{ flex: 1 }}>
       {
-        isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
+        isSure && (
+          <Sure
+            func={handleRemoveReferee}
+            text={i18n.t("areYouSureDelete")}
+            close={close}
+            labelButton={i18n.t("remove")}
+          />
+        )
       }
       {
-        showForm && <FormCreateStadium group={group} colors={colors} stadium={stadium} openSure={openSure}
-          hideAndShowAddStadium={hideAndShowAddStadium} createStadium={createStadium} updateStadium={handleUpdate} />
+        showForm && (
+          <FormCreateStadium
+            group={group}
+            colors={colors}
+            stadium={stadium}
+            openSure={openSure}
+            hideAndShowAddStadium={hideAndShowAddStadium}
+            createStadium={createStadium}
+            updateStadium={handleUpdate}
+          />
+        )
       }
-      <HeaderGeneral colors={colors} router={router} title="Stadiums" goBack={goBack} 
-      sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+      <HeaderGeneral
+        colors={colors}
+        router={router}
+        title={i18n.t("stadiums_title")}
+        goBack={goBack}
+        sureRemoveGroup={sureRemoveGroup}
+        sureRestartGroup={sureRestartGroup}
+      />
       <SureGeneral />
       <View style={generalStyles.containerGeneral}>
         {
-          group.stadiums!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateStadium} /> :
-            <AddAction openForm={hideAndShowAddStadium} colors={colors} text="ADD STADIUM" />
+          group.stadiums!.length > 0 ? (
+            <AddButton colors={colors} handleAdd={openCreateStadium} />
+          ) : (
+            <AddAction
+              openForm={hideAndShowAddStadium}
+              colors={colors}
+              text={i18n.t("add_stadium")}
+            />
+          )
         }
         {
-          group.stadiums!.length > 0 ?
+          group.stadiums!.length > 0 ? (
             <FlatList
               style={{ width: '100%' }}
               data={group.stadiums!}
               keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => <Stadium stadium={item} handleUpdateStadium={handleUpdateStadium} />}
-            /> : <Text variant="bodyMedium" style={createStyles.advideText}>
-              Add stadiums to add to matches
+              renderItem={({ item }) => (
+                <Stadium stadium={item} handleUpdateStadium={handleUpdateStadium} colors={colors} />
+              )}
+            />
+          ) : (
+            <Text variant="bodyMedium" style={createStyles.advideText}>
+              {i18n.t("stadiums_empty")}
             </Text>
+          )
         }
       </View>
     </View>

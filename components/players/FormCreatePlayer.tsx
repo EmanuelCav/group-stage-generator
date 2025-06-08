@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import { Dropdown } from 'react-native-element-dropdown';
+import i18n from '@/i18n'
 
 import { View } from "../Themed";
 import StatisticPlayer from "./components/StatisticPlayer";
@@ -79,6 +80,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 size={24}
                 onPress={() => hideAndShowAddPlayer(false)}
             />
+
             <Controller
                 name="name"
                 control={control}
@@ -88,19 +90,23 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Player name"
-                        autoFocus
+                        label={i18n.t("playerName")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
-                )} />
-
-            {
-                errors.name && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                )}
+            />
+            {errors.name && (
+                <Text
+                    variant="labelMedium"
+                    style={{
+                        color: MD3Colors.error50,
+                        marginTop: Dimensions.get("window").height / 106,
+                    }}
+                >
                     {errors.name.message}
                 </Text>
-            }
+            )}
 
             <Controller
                 name="position"
@@ -111,23 +117,31 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Position (optional)"
+                        label={i18n.t("positionOptional")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
-                )} />
-
-            {
-                errors.position && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                )}
+            />
+            {errors.position && (
+                <Text
+                    variant="labelMedium"
+                    style={{
+                        color: MD3Colors.error50,
+                        marginTop: Dimensions.get("window").height / 106,
+                    }}
+                >
                     {errors.position.message}
                 </Text>
-            }
+            )}
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the player's team</Text>
+                <Text variant="labelLarge">{i18n.t("selectPlayerTeam")}</Text>
                 <Dropdown
-                    style={[createStyles.dropdownComplete, isFocus && { borderColor: colors.primary }]}
+                    style={[
+                        createStyles.dropdownComplete,
+                        isFocus && { borderColor: colors.primary },
+                    ]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
                     selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
                     data={getTeamsName(group.teams)}
@@ -138,42 +152,58 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     value={teamSelected}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
-                    onChange={item => {
-                        setTeamSelected(item.value)
-                        setIsFocus(false)
+                    onChange={(item) => {
+                        setTeamSelected(item.value);
+                        setIsFocus(false);
                     }}
                 />
             </View>
 
-            {player.name && <>
-                <Text variant="bodyLarge" style={{ color: colors.primary }}>Statistics</Text>
-                <FlatList
-                    style={[createStyles.containerStatisticsPlayer, {
-                        borderColor: colors.primary
-                    }]}
-                    data={player.statistics}
-                    renderItem={renderStatistic}
-                    keyExtractor={(_, index) => index.toString()}
-                />
-            </>
-            }
+            {player.name && player.statistics?.length! > 0 && (
+                <>
+                    <Text variant="bodyLarge" style={{ color: colors.primary }}>
+                        {i18n.t("statistics")}
+                    </Text>
+                    <FlatList
+                        style={[
+                            createStyles.containerStatisticsPlayer,
+                            {
+                                borderColor: colors.primary,
+                            },
+                        ]}
+                        data={player.statistics}
+                        renderItem={renderStatistic}
+                        keyExtractor={(_, index) => index.toString()}
+                    />
+                </>
+            )}
 
-
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddPlayer(data))}>
-                {
-                    player.name ? "UPDATE" : "ADD"
-                }
+            <Button
+                mode="contained"
+                style={[
+                    { backgroundColor: colors.primary },
+                    generalStyles.generateButton,
+                ]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleSubmit((data) => handleAddPlayer(data))}
+            >
+                {player.name ? i18n.t("update") : i18n.t("add")}
             </Button>
 
-            {
-                player.name && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => openSure(player)}>
-                    REMOVE
+            {player.name && (
+                <Button
+                    mode="contained"
+                    style={[
+                        { backgroundColor: MD3Colors.error50 },
+                        generalStyles.generateButton,
+                    ]}
+                    labelStyle={{ color: "#ffffff" }}
+                    onPress={() => openSure(player)}
+                >
+                    {i18n.t("remove")}
                 </Button>
-            }
-
-        </ContainerBackground >
+            )}
+        </ContainerBackground>
     );
 };
 

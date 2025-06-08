@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
@@ -48,7 +49,7 @@ const Statistics = () => {
 
     return (
         <View style={{ flex: 1 }}>
-            <HeaderGeneral colors={colors} router={router} title='Statistics' goBack={goBack}
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("statistics")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
             {

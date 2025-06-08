@@ -1,4 +1,5 @@
 import { Icon, Text, Button } from 'react-native-paper'
+import i18n from '@/i18n'
 
 import { View } from '../Themed'
 
@@ -11,15 +12,16 @@ import { createStyles } from '@/styles/create.styles'
 const AddPlayers = ({ colors, router }: AddPlayersPropsType) => {
     return (
         <View style={generalStyles.containerGeneral}>
-            <Text variant='titleLarge' style={{ color: colors.primary }}>Statistics</Text>
+            <Text variant='titleLarge' style={{ color: colors.primary }}>
+                {i18n.t("statistics")}
+            </Text>
             <Icon
                 source="chart-bar"
                 color={colors.primary}
                 size={42}
-
             />
             <Text variant='bodyLarge' style={statisticsStyles.titleStatistics}>
-                Add players to display and visualize tournament statistics
+                {i18n.t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
             </Text>
             <Button
                 mode="contained"
@@ -28,10 +30,10 @@ const AddPlayers = ({ colors, router }: AddPlayersPropsType) => {
                 labelStyle={{ color: "#ffffff" }}
                 onPress={() => router.push('/players')}
             >
-                ADD PLAYERS
+                {i18n.t("addPlayers")}
             </Button>
         </View>
-    )
-}
+    );
+};
 
 export default AddPlayers

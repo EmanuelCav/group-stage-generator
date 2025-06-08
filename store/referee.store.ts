@@ -1,27 +1,31 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { IReferee, IRefereeStore } from "@/interface/Referee";
 
 export const refereeStore = create(
-    persist<IRefereeStore>(
-        (set) => ({
-            referee: {},
-            isSure: false,
-            showForm: false,
-            hideAndShowAddReferee: (show: boolean) => set(() => ({
-                showForm: show
-            })),
-            sureRemoveReferee: (sure: boolean) => set(() => ({
-                isSure: sure
-            })),
-            getReferee: (data: IReferee) => set(() => ({
-                referee: data
-            }))
-        }),
-        {
-            // name: `${REFEREE_STORAGE}`
-            name: `group_stage_referee_generator_storage`
-        }
-    )
-)
+  persist<IRefereeStore>(
+    (set) => ({
+      referee: {},
+      isSure: false,
+      showForm: false,
+      hideAndShowAddReferee: (show: boolean) =>
+        set(() => ({
+          showForm: show,
+        })),
+      sureRemoveReferee: (sure: boolean) =>
+        set(() => ({
+          isSure: sure,
+        })),
+      getReferee: (data: IReferee) =>
+        set(() => ({
+          referee: data,
+        })),
+    }),
+    {
+      name: "group_stage_referee_generator_storage",
+      storage: createJSONStorage(() => AsyncStorage),
+    }
+  )
+);

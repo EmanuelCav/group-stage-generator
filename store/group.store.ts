@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { IMatch } from "@/interface/Match";
 import { IGroup, IGroupStore } from "@/interface/Group";
@@ -145,13 +146,17 @@ export const groupStore = create(
                 group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) } : g)
             })),
-            updateGenerateAgain: () => set((state) => ({
-                group: { ...state.group, isGeneratedAgain: false },
-                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGeneratedAgain: false } : g)
+            updateGenerateAgain: (data: boolean) => set((state) => ({
+                group: { ...state.group, isGeneratedAgain: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGeneratedAgain: data } : g)
             })),
             updateShuffledKnockout: (data: boolean) => set((state) => ({
                 group: { ...state.group, isDrawed: data },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isDrawed: data } : g)
+            })),
+            updateCreateElimination: (data: boolean) => set((state) => ({
+                group: { ...state.group, isKnockoutGenerated: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isKnockoutGenerated: data } : g)
             })),
             sureRemoveGroup: (sure: boolean) => set(() => ({
                 isSureRemove: sure
@@ -161,8 +166,8 @@ export const groupStore = create(
             })),
         }),
         {
-            // name: `${GROUP_STORAGE}`
-            name: "group_stage_generator_storage"
+            name: "group_stage_generator_storage",
+            storage: createJSONStorage(() => AsyncStorage),
         }
     )
 )

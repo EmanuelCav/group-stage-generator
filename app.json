@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Group Stage Generator",
+    "name": "Group Stage Maker",
     "slug": "GroupStageGenerator",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "groupstagegenerator",
@@ -11,18 +11,21 @@
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#007AFF"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.emansoftware.groupstagegenerator",
-      "versionCode": 1,
+      "package": "com.emanlogic.groupstagegenerator",
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#007AFF"
+      },
+      "permissions": [
+        "READ_MEDIA_IMAGES"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -30,10 +33,19 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "eec38e55-1cd9-414f-9f3c-a18542d4e46a"
+      }
     }
   }
 }

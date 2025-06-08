@@ -1,4 +1,5 @@
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
+import i18n from '@/i18n'
 
 import { generalStyles } from "@/styles/general.styles";
 
@@ -41,7 +42,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
             if (group.isManualConfiguration) {
                 generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
             } else {
-                generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, 
+                generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
                     group.matches?.length!, Math.pow(2, powerRange(group.teams.length)))
             }
 
@@ -72,14 +73,19 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                 style={generalStyles.buttonClose}
                 iconColor={MD3Colors.error50}
                 size={24}
-                onPress={updateGenerateAgain}
+                onPress={() => updateGenerateAgain(false)}
             />
             <Card.Content style={generalStyles.showGenerateAgain}>
-                <Text variant="titleSmall" style={{ textAlign: 'center' }}>Do you want to generate the group stage again?</Text>
-                <Button mode="contained" onPress={generateGroups}
+                <Text variant="titleSmall" style={{ textAlign: 'center' }}>
+                    {i18n.t("generateGroupStageAgainQuestion")}
+                </Text>
+                <Button
+                    mode="contained"
+                    onPress={generateGroups}
                     style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} >
-                    GENERATE AGAIN
+                    labelStyle={{ color: "#ffffff" }}
+                >
+                    {i18n.t("generateAgainButton")}
                 </Button>
             </Card.Content>
         </Card>

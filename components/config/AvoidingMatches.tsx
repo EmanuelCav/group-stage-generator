@@ -1,5 +1,6 @@
 import { Dimensions, Pressable, ScrollView } from "react-native"
 import { Button, IconButton, MD3Colors, Text } from "react-native-paper"
+import i18n from '@/i18n'
 
 import { View } from "../Themed"
 import ContainerBackground from "../general/ContainerBackground"
@@ -30,22 +31,27 @@ const AvoidingMatches = ({ group, colors, openCreateAvoiding, close, handleUpdat
                             labelStyle={{ color: "#ffffff" }}
                             onPress={openCreateAvoiding}
                         >
-                            ADD AN AVOID MATCHES
+                            {i18n.t("avoiding.addAvoidingMatch")}
                         </Button>
                         <ScrollView style={configStyles.configStylesViewMatches}>
-                            {group.avoidingMatches?.map((am) => {
-                                return <Pressable style={createStyles.containTeamAdded} 
-                                onPress={() => handleUpdateAvoiding(am)} key={am.id}>
+                            {group.avoidingMatches?.map((am) => (
+                                <Pressable
+                                    style={createStyles.containTeamAdded}
+                                    onPress={() => handleUpdateAvoiding(am)}
+                                    key={am.id}
+                                >
                                     <Text variant="bodyLarge">{am.title}</Text>
-                                    <Text variant="bodyMedium">Teams: {am.teams?.length}</Text>
+                                    <Text variant="bodyMedium">
+                                        {i18n.t("avoiding.teamsCount", { count: am.teams?.length })}
+                                    </Text>
                                 </Pressable>
-                            })}
+                            ))}
                         </ScrollView>
                     </View>
                 ) : (
                     <View style={[generalStyles.containerGeneral, { marginTop: Dimensions.get("window").height / 28 }]}>
-                        <Text variant='bodyLarge' style={statisticsStyles.titleStatistics}>
-                            Prevents some teams from being in the same group
+                        <Text variant="bodyLarge" style={statisticsStyles.titleStatistics}>
+                            {i18n.t("avoiding.description")}
                         </Text>
                         <Button
                             mode="contained"
@@ -53,7 +59,7 @@ const AvoidingMatches = ({ group, colors, openCreateAvoiding, close, handleUpdat
                             labelStyle={{ color: "#ffffff" }}
                             onPress={openCreateAvoiding}
                         >
-                            START
+                            {i18n.t("general.start")}
                         </Button>
                     </View>
                 )

@@ -1,19 +1,20 @@
-import { Avatar, Text } from "react-native-paper"
+import { Text } from "react-native-paper"
 import { Dimensions, Pressable } from "react-native"
-import { View } from "../Themed"
 
 import { createStyles } from "@/styles/create.styles"
 
 import { PlayerPropsType } from "@/types/player.types"
+import { groupName } from "@/utils/points"
 
-const Player = ({ player, handleUpdatePlayer }: PlayerPropsType) => {
+const Player = ({ player, handleUpdatePlayer, colors }: PlayerPropsType) => {
     return (
-        <Pressable style={createStyles.containTeamAdded} onPress={() => handleUpdatePlayer(player)}>
+        <Pressable style={[createStyles.containTeamAdded, { borderColor: colors.primary }]}
+            onPress={() => handleUpdatePlayer(player)}>
             <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
-                {player.name?.slice(0, 15)}
+                {player.name}
             </Text>
             <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
-                {player.team!.name?.slice(0, 15)}
+                {groupName(player.team?.name!)}
             </Text>
         </Pressable>
     )

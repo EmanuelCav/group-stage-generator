@@ -16,4 +16,5 @@ export type FormCreateRefereePropsType = {
 export type RefereePropsType = {
     referee: IReferee;
     handleUpdateReferee: (referee: IReferee) => void;
+    colors: MD3Colors;
 }

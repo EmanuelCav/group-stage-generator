@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import { TextInput, Card, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import { Dropdown } from 'react-native-element-dropdown';
 import Toast from 'react-native-toast-message';
+import i18n from '@/i18n'
 
 import { View } from "../Themed";
 import ContainerBackground from "../general/ContainerBackground";
@@ -35,18 +36,30 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
   })
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: "images",
+
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== 'granted') {
+      Toast.show({
+        type: 'error',
+        text1: 'Permission Required',
+        text2: 'Permission to access the gallery is required'
+      });
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri)
+      setImage(result.assets[0].uri);
     }
+  };
 
-  }
 
   const handleAddTeam = async (teamCreated: ICreate) => {
 
@@ -88,9 +101,6 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   return (
     <ContainerBackground zIndex={20}>
-
-      <Toast />
-
       <IconButton
         icon="close"
         style={generalStyles.buttonClose}
@@ -98,27 +108,26 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         size={24}
         onPress={() => hideAndShowAddTeam(false)}
       />
-      {
-        image ? 
+
+      {image ? (
         <Card style={createStyles.cardAddTeam} onPress={pickImage}>
           <Image source={{ uri: image }} style={createStyles.imageCard} />
         </Card>
-          : <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
-            <Text variant="labelLarge">
-              {image ? "Change image" : "Select a shield (optional)"}
-            </Text>
-            <IconButton
-              icon="shield-outline"
-              iconColor={MD3Colors.neutral50}
-              size={50}
-            />
-          </TouchableOpacity>
-      }
-      {
-        errors.name && <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
+      ) : (
+        <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
+          <Text variant="labelLarge">
+            {image ? i18n.t("teamForm.changeImage") : i18n.t("teamForm.selectShield")}
+          </Text>
+          <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
+        </TouchableOpacity>
+      )}
+
+      {errors.name && (
+        <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
           {errors.name.message}
         </Text>
-      }
+      )}
+
       <Controller
         name="name"
         control={control}
@@ -128,16 +137,16 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             onChangeText={onChange}
             autoCapitalize="none"
             onBlur={onBlur}
-            label="Team name"
-            autoFocus
+            label={i18n.t("teamForm.teamName")}
             mode="outlined"
             style={createStyles.inputAdd}
           />
-        )} />
+        )}
+      />
 
-      {
-        group.isManualConfiguration && <View style={createStyles.selectInputContain}>
-          <Text variant="labelLarge">Plot (optional):</Text>
+      {group.isManualConfiguration && (
+        <View style={createStyles.selectInputContain}>
+          <Text variant="labelLarge">{i18n.t("teamForm.plotOptional")}</Text>
           <Dropdown
             style={[createStyles.dropdown, isFocus && { borderColor: colors.primary }]}
             placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -151,28 +160,32 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              setPlot(item.value)
-              setIsFocus(false)
+              setPlot(item.value);
+              setIsFocus(false);
             }}
           />
         </View>
-      }
+      )}
 
-      <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-        labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddTeam(data))}>
-        {
-          team.id ? "UPDATE" : "ADD"
-        }
+      <Button
+        mode="contained"
+        style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+        labelStyle={{ color: "#ffffff" }}
+        onPress={handleSubmit((data) => handleAddTeam(data))}
+      >
+        {team.id ? i18n.t("teamForm.update") : i18n.t("teamForm.add")}
       </Button>
 
-      {
-        team.id && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-          labelStyle={{ color: "#ffffff" }} onPress={() => openSure(team)}>
-          REMOVE
+      {team.id && group.isGeneratedAgain && (
+        <Button
+          mode="contained"
+          style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+          labelStyle={{ color: "#ffffff" }}
+          onPress={() => openSure(team)}
+        >
+          {i18n.t("teamForm.remove")}
         </Button>
-      }
-
-
+      )}
     </ContainerBackground>
   );
 };

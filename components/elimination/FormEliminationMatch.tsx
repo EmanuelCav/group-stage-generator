@@ -3,6 +3,7 @@ import { Dimensions, ScrollView } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
 // import { DatePickerModal } from 'react-native-paper-dates';
+import i18n from '@/i18n'
 
 import { View } from '../Themed'
 import ContainerBackground from '../general/ContainerBackground'
@@ -119,7 +120,9 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                 onPress={() => hideAndShowUpdateMatch(false)}
             />
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>Team scores</Text>
+            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
+                {i18n.t("teamScores")}
+            </Text>
 
             <ScrollView>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
@@ -144,8 +147,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             value={scoreLocal}
                             style={createStyles.inputNumberCreate}
                         />
-                        {
-                            group.isRoundTripElimination &&
+                        {group.isRoundTripElimination && (
                             <TextInput
                                 inputMode="numeric"
                                 keyboardType="numeric"
@@ -156,7 +158,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 value={scoreLocalTrip}
                                 style={createStyles.inputNumberCreate}
                             />
-                        }
+                        )}
                         <TextInput
                             inputMode="numeric"
                             keyboardType="numeric"
@@ -167,8 +169,9 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             value={scoreLocalTieBreaker}
                             style={createStyles.inputNumberCreate}
                         />
-                        <Text variant="labelMedium">Tiebreaker (optional)</Text>
+                        <Text variant="labelMedium">{i18n.t("tiebreakerOptional")}</Text>
                     </View>
+
                     <View style={matchStyles.scoreTeamFormKnockout}>
                         <View style={matchStyles.teamFormKnockout}>
                             {match.visitant.team.logo ? (
@@ -190,8 +193,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             value={scoreVisitant}
                             style={createStyles.inputNumberCreate}
                         />
-                        {
-                            group.isRoundTripElimination &&
+                        {group.isRoundTripElimination && (
                             <TextInput
                                 inputMode="numeric"
                                 keyboardType="numeric"
@@ -202,7 +204,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 value={scoreVisitantTrip}
                                 style={createStyles.inputNumberCreate}
                             />
-                        }
+                        )}
                         <TextInput
                             inputMode="numeric"
                             keyboardType="numeric"
@@ -213,36 +215,24 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             value={scoreVisitantTieBreaker}
                             style={createStyles.inputNumberCreate}
                         />
-                        <Text variant="labelMedium">Tiebreaker (optional)</Text>
+                        <Text variant="labelMedium">{i18n.t("tiebreakerOptional")}</Text>
                     </View>
                 </View>
             </ScrollView>
 
             <View style={createStyles.selectInputDropdownContain}>
-
-                <Text variant="labelLarge">Select the date's match</Text>
+                <Text variant="labelLarge">{i18n.t("selectMatchDateLabel")}</Text>
                 <TextInput
-                    label="Match Date"
-                    value={date ? date.toLocaleString() : "Select date"}
+                    label={i18n.t("matchDateLabel")}
+                    value={date ? date.toLocaleString() : i18n.t("selectDatePlaceholder")}
                     onFocus={() => setOpen(true)}
                     style={matchStyles.dateInput}
                 />
-
-                {/* <DatePickerModal
-                locale="en"
-                mode="single"
-                visible={open}
-                onDismiss={() => setOpen(false)}
-                date={date}
-                onConfirm={(params) => {
-                    setDate(params.date);
-                    setOpen(false);
-                }}
-            /> */}
+                {/* <DatePickerModal ... /> */}
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the stadium's match</Text>
+                <Text variant="labelLarge">{i18n.t("selectMatchStadiumLabel")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusStadium && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -256,14 +246,14 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                     onFocus={() => setIsFocusStadium(true)}
                     onBlur={() => setIsFocusStadium(false)}
                     onChange={item => {
-                        setStadiumSelected(item.value)
-                        setIsFocusStadium(false)
+                        setStadiumSelected(item.value);
+                        setIsFocusStadium(false);
                     }}
                 />
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the referee's match</Text>
+                <Text variant="labelLarge">{i18n.t("selectMatchRefereeLabel")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusReferee && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -277,15 +267,19 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                     onFocus={() => setIsFocusReferee(true)}
                     onBlur={() => setIsFocusReferee(false)}
                     onChange={item => {
-                        setRefereeSelected(item.value)
-                        setIsFocusReferee(false)
+                        setRefereeSelected(item.value);
+                        setIsFocusReferee(false);
                     }}
                 />
             </View>
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleUpdateMatch}>
-                UPDATE
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleUpdateMatch}
+            >
+                {i18n.t("updateButton")}
             </Button>
         </ContainerBackground>
     )

@@ -32,39 +32,42 @@ export const groupStyles = StyleSheet.create({
     },
 
     cellPosition: {
-        width: Dimensions.get("window").width / 11.25,
-        textAlign: "center",
         fontWeight: '600',
+        width: Dimensions.get("window").width / 9,
         height: Dimensions.get("window").height / 21,
-        alignContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     cell: {
         width: Dimensions.get("window").width / 9,
-        textAlign: "center",
         height: Dimensions.get("window").height / 21,
-        alignContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     teamCell: {
         width: Dimensions.get("window").width / 6,
-        textAlign: "center",
         fontWeight: '600',
         height: Dimensions.get("window").height / 21,
-        alignContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     mainCell: {
         width: Dimensions.get("window").width / 9,
-        textAlign: "center",
-        fontWeight: '600',
         height: Dimensions.get("window").height / 21,
-        alignContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     groupList: {
         flexDirection: 'row',
-        marginTop: Dimensions.get("window").height / 148
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        marginTop: Dimensions.get("window").height / 74,
+        width: '100%',
+        flex: 1,
     },
 
     rowContainer: {
@@ -88,6 +91,34 @@ export const groupStyles = StyleSheet.create({
     textMatchGroup: {
         marginLeft: Dimensions.get("window").width / 28,
         marginVertical: Dimensions.get("window").height / 106
+    },
+
+    statisticsCell: {
+        width: Dimensions.get("window").width / 7,
+        textAlign: "center",
+        fontWeight: "bold",
+        color: "#ffffff"
+    },
+
+    statisticsCellMain: {
+        width: Dimensions.get("window").width / 4,
+        textAlign: "center",
+        fontWeight: "bold",
+        color: "#ffffff"
+    },
+
+    cellStatistic: {
+        width: Dimensions.get("window").width / 7,
+        height: Dimensions.get("window").height / 21,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    cellStatisticMain: {
+        width: Dimensions.get("window").width / 4,
+        height: Dimensions.get("window").height / 21,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 
 })

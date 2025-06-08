@@ -1,53 +1,92 @@
-import { Button, DataTable } from 'react-native-paper';
-import { FlatList } from 'react-native';
+import { Button, Text } from 'react-native-paper';
+import { FlatList, ScrollView } from 'react-native';
+import i18n from '@/i18n'
 
 import { View } from '../Themed';
-import Statistic from './components/Statistic';
 
-import { IPlayer } from '@/interface/Player';
 import { ShowStatisticsPropsType } from '@/types/statistics.types';
 
 import { groupStyles } from '@/styles/group.styles';
 import { generalStyles } from '@/styles/general.styles';
 
-const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisticsPropsType) => {
+import { tableStatistics } from '@/utils/statistics';
+import { groupName } from '@/utils/points';
 
-    const renderStatistic = ({ item }: { item: IPlayer }) => (
-        <Statistic player={item} colors={colors} />
-    );
+const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisticsPropsType) => {
 
     return (
         <View style={generalStyles.containerGeneral}>
-            <DataTable>
-                <Button mode="contained" onPress={() => hideAndShowAddStatistic(true)}
-                    style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} >
-                    CREATE STATISTIC
-                </Button>
-                <DataTable.Header style={{ borderBottomColor: colors.primary }}>
-                    <DataTable.Title style={groupStyles.rowStart}>Player</DataTable.Title>
-                    {
-                        group.players![0].statistics?.slice(0, 2).map((statistic) => {
-                            return <DataTable.Title key={statistic.id} style={groupStyles.rowContainer}>
-                                {statistic.title}
-                            </DataTable.Title>
-                        })
-                    }
-                    <DataTable.Title style={groupStyles.rowEnd}>Team</DataTable.Title>
-                </DataTable.Header>
-                <FlatList
-                    data={group.players as IPlayer[]}
-                    renderItem={renderStatistic}
-                    keyExtractor={(_, index) => index.toString()}
-                />
-                <Button mode="text" onPress={() => { }}
-                    style={generalStyles.generateButton}
-                    labelStyle={{ color: colors.primary }}>
-                    SHOW FULL TABLE ➤
-                </Button>
-            </DataTable>
+            <Button
+                mode="contained"
+                onPress={() => hideAndShowAddStatistic(true)}
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+            >
+                {i18n.t("createStatistic")}
+            </Button>
+            <View style={groupStyles.groupList}>
+                <View>
+                    <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                        <Text variant="labelMedium" style={groupStyles.statisticsCellMain}>
+                            {i18n.t("player")}
+                        </Text>
+                        <Text variant="labelMedium" style={groupStyles.statisticsCellMain}>
+                            {i18n.t("teamName")}
+                        </Text>
+                    </View>
+                    <FlatList
+                        data={tableStatistics(group)}
+                        keyExtractor={(_, index) => String(index)}
+                        renderItem={({ item }: { item: { [key: string]: number } }) => (
+                            <View style={groupStyles.row}>
+                                {Object.entries(item)
+                                    .slice(0, 2)
+                                    .map(([key, value]) => (
+                                        <View key={key} style={groupStyles.cellStatisticMain}>
+                                            <Text variant="bodyMedium">
+                                                {key === "team" ? groupName(String(value)) : value}
+                                            </Text>
+                                        </View>
+                                    ))}
+                            </View>
+                        )}
+                    />
+                </View>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <View>
+                        <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                            {group.players![0].statistics?.map((statistic) => {
+                                return (
+                                    <Text
+                                        variant="labelMedium"
+                                        key={statistic.id}
+                                        style={groupStyles.statisticsCell}
+                                    >
+                                        {statistic.title}
+                                    </Text>
+                                );
+                            })}
+                        </View>
+                        <FlatList
+                            data={tableStatistics(group)}
+                            keyExtractor={(_, index) => String(index)}
+                            renderItem={({ item }: { item: { [key: string]: number } }) => (
+                                <View style={groupStyles.row}>
+                                    {Object.entries(item)
+                                        .slice(2, Object.entries(item).length)
+                                        .map(([key, value]) => (
+                                            <View key={key} style={groupStyles.cellStatistic}>
+                                                <Text variant="bodyMedium">{value}</Text>
+                                            </View>
+                                        ))}
+                                </View>
+                            )}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
         </View>
-    )
+    );
 };
 
 export default ShowStatistics;

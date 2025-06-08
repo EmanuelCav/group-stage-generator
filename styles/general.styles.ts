@@ -16,7 +16,6 @@ export const generalStyles = StyleSheet.create({
         top: 0,
         left: 0,
         width: '100%',
-        height: Dimensions.get("window").height,
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: Dimensions.get("window").width / 36,
@@ -27,23 +26,25 @@ export const generalStyles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderRadius: 8,
         width: '100%',
+        flexGrow: 0,
         padding: Dimensions.get("window").width / 36,
         position: 'relative',
-        maxHeight: Dimensions.get("window").height / 1.05
+        maxHeight: Dimensions.get("window").height / 1.05,
+        marginVertical: Dimensions.get("window").height / 74
     },
 
     addButtonContain: {
         position: "absolute",
         bottom: Dimensions.get("window").height / 24,
         right: Dimensions.get("window").width / 12,
-        zIndex: 30
+        zIndex: 12
     },
 
     settingsFABContain: {
         position: "absolute",
         bottom: Dimensions.get("window").height / 7,
-        right: Dimensions.get("window").width / 12,
-        zIndex: 30
+        right: Dimensions.get("window").width / 14,
+        zIndex: 12
     },
 
     buttonClose: {

@@ -3,6 +3,7 @@ import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
 // import { DatePickerModal } from 'react-native-paper-dates';
+import i18n from '@/i18n'
 
 import { View } from '../Themed'
 import ContainerBackground from '../general/ContainerBackground'
@@ -79,7 +80,9 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 onPress={() => hideAndShowUpdateMatch(false)}
             />
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>Team scores</Text>
+            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
+                {i18n.t("team_scores")}
+            </Text>
 
             <View style={matchStyles.scoreTeamForm}>
                 <View style={matchStyles.teamForm}>
@@ -128,30 +131,17 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
-
-                <Text variant="labelLarge">Select the date's match</Text>
+                <Text variant="labelLarge">{i18n.t("select_match_date")}</Text>
                 <TextInput
-                    label="Match Date"
-                    value={date ? date.toLocaleString() : "Select date"}
+                    label={i18n.t("match_date")}
+                    value={date ? date.toLocaleString() : i18n.t("select_date")}
                     onFocus={() => setOpen(true)}
                     style={matchStyles.dateInput}
                 />
-
-                {/* <DatePickerModal
-                locale="en"
-                mode="single"
-                visible={open}
-                onDismiss={() => setOpen(false)}
-                date={date}
-                onConfirm={(params) => {
-                    setDate(params.date);
-                    setOpen(false);
-                }}
-            /> */}
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the stadium's match</Text>
+                <Text variant="labelLarge">{i18n.t("select_stadium")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusStadium && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -172,7 +162,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the referee's match</Text>
+                <Text variant="labelLarge">{i18n.t("select_referee")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusReferee && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -192,9 +182,13 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 />
             </View>
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleUpdateMatch}>
-                UPDATE
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleUpdateMatch}
+            >
+                {i18n.t("update")}
             </Button>
         </ContainerBackground>
     )

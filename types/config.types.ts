@@ -14,6 +14,7 @@ export type InputSettingsPropsType = {
     name: keyof ISetting;
     control: Control<ISetting>;
     error?: string;
+    defaultValue: string;
 };
 
 export type SettingsButtonPropsType = {

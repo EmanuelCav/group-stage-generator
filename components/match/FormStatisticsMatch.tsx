@@ -3,6 +3,7 @@ import { Dimensions } from "react-native"
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
+import i18n from '@/i18n'
 
 import { FormStatisticsMatchPropsType } from "@/types/match.types"
 
@@ -181,21 +182,31 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Statistic title"
-                        autoFocus
+                        label={i18n.t('statistic.title')}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
-                )} />
+                )}
+            />
 
-            {
-                errors.title?.message && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+            {errors.title?.message && (
+                <Text
+                    variant="labelMedium"
+                    style={{
+                        color: MD3Colors.error50,
+                        marginTop: Dimensions.get('window').height / 106,
+                    }}
+                >
                     {errors.title.message}
                 </Text>
-            }
+            )}
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 74 }}>Statistic's Value</Text>
+            <Text
+                variant="labelLarge"
+                style={{ marginVertical: Dimensions.get('window').height / 74 }}
+            >
+                {i18n.t('statistic.value')}
+            </Text>
 
             <View style={matchStyles.scoreTeamForm}>
                 <View style={matchStyles.teamForm}>
@@ -204,7 +215,10 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} />
                     )}
-                    <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
+                    <Text
+                        variant="bodyMedium"
+                        style={{ marginTop: Dimensions.get('window').height / 106 }}
+                    >
                         {match.local.team.name}
                     </Text>
                 </View>
@@ -227,7 +241,10 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} />
                     )}
-                    <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
+                    <Text
+                        variant="bodyMedium"
+                        style={{ marginTop: Dimensions.get('window').height / 106 }}
+                    >
                         {match.local.team.name}
                     </Text>
                 </View>
@@ -243,18 +260,25 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 />
             </View>
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddStatistic(data))}>
-                {statistic.id ? "UPDATE" : "ADD"}
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: '#ffffff' }}
+                onPress={handleSubmit((data) => handleAddStatistic(data))}
+            >
+                {statistic.id ? i18n.t('statistic.update') : i18n.t('statistic.add')}
             </Button>
 
-            {
-                statistic.id && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => sureRemoveStatistic(true)}>
-                    REMOVE
+            {statistic.id && (
+                <Button
+                    mode="contained"
+                    style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: '#ffffff' }}
+                    onPress={() => sureRemoveStatistic(true)}
+                >
+                    {i18n.t('statistic.remove')}
                 </Button>
-            }
-
+            )}
         </ContainerBackground>
     )
 }

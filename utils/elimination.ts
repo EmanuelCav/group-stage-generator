@@ -14,6 +14,46 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
         pointsGroup.push(points)
     }
 
+    if (pointsGroup.length === 1) {
+
+        let matchesSameGroup: IMatch[][] = []
+
+        for (let i = 0; i < pointsGroup.length; i++) {
+
+            let matchSameGroup: IMatch[] = []
+
+            matchSameGroup.push({
+                local: {
+                    score: null,
+                    team: {
+                        id: pointsGroup[0][0].id,
+                        logo: pointsGroup[0][0].logo,
+                        name: pointsGroup[0][0].name,
+                    }
+                },
+                visitant: {
+                    score: null,
+                    team: {
+                        id: pointsGroup[0][1].id,
+                        logo: pointsGroup[0][1].logo,
+                        name: pointsGroup[0][1].name,
+                    }
+                },
+                isEdit: false,
+                referee: "",
+                stadium: "",
+                statistics: [],
+                summary: [],
+                players: []
+            })
+
+            matchesSameGroup.push(matchSameGroup)
+
+        }
+
+        return matchesSameGroup
+    }
+
     let classifields: IPoints[][] = []
     let amount = group.amountClassified!
 

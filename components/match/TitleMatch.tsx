@@ -1,4 +1,5 @@
 import { IconButton, Text } from 'react-native-paper'
+import i18n from '@/i18n'
 
 import { View } from '../Themed'
 
@@ -10,7 +11,7 @@ const TitleMatch = ({ match, colors, hideAndShowUpdateMatch }: TitleMatchPropsTy
     return (
         <View style={matchStyles.titleMatch}>
             <Text variant='titleMedium' style={{ color: colors.primary }}>
-                Matchday {match.matchday}, Group {match.match?.local.team.group}
+                {i18n.t("matchday")} {match.matchday}, {i18n.t("group.title")} {match.match?.local.team.group}
             </Text>
             <IconButton
                 icon="pencil"

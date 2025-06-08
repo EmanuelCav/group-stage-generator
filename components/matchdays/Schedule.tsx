@@ -1,5 +1,6 @@
 import { DataTable, Title } from 'react-native-paper';
 import { FlatList } from 'react-native';
+import i18n from '@/i18n'
 
 import Match from './components/Match';
 
@@ -20,20 +21,36 @@ const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
-            <Title style={[{ color: colors.primary, }, generalStyles.titleDataTable]}>
-                Matchday {index + 1}
+            <Title
+                style={[{ color: colors.primary }, generalStyles.titleDataTable]}
+            >
+                {i18n.t("matchday")} {index + 1}
             </Title>
             <DataTable.Header style={{ borderBottomColor: colors.primary }}>
-                <DataTable.Title style={groupStyles.rowStart}>Local</DataTable.Title>
-                <DataTable.Title numeric style={groupStyles.rowContainer}>Score</DataTable.Title>
-                <DataTable.Title style={groupStyles.rowEnd}>Visitant</DataTable.Title>
+                <DataTable.Title style={groupStyles.rowStart}>
+                    {i18n.t("local")}
+                </DataTable.Title>
+                <DataTable.Title numeric style={groupStyles.rowContainer}>
+                    {i18n.t("score")}
+                </DataTable.Title>
+                <DataTable.Title style={groupStyles.rowEnd}>
+                    {i18n.t("visitant")}
+                </DataTable.Title>
             </DataTable.Header>
-            {
-                item.map((match, indexItem) => {
-                    return <Match item={item} match={match} matchdayNumber={index}
-                    colors={colors} index={indexItem} handleGetMatch={handleGetMatch} key={indexItem} />
-                })
-            }
+
+            {item.map((match, indexItem) => {
+                return (
+                    <Match
+                        item={item}
+                        match={match}
+                        matchdayNumber={index}
+                        colors={colors}
+                        index={indexItem}
+                        handleGetMatch={handleGetMatch}
+                        key={indexItem}
+                    />
+                );
+            })}
         </DataTable>
     );
 

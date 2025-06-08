@@ -1,5 +1,6 @@
 import { Dimensions, FlatList } from 'react-native';
 import { Title } from 'react-native-paper';
+import i18n from '@/i18n'
 
 import { View } from '../Themed';
 import HeaderGroup from './components/HeaderGroup';
@@ -14,7 +15,7 @@ const GroupsList = ({ group, colors }: GroupsListPropsType) => {
     const renderGroup = ({ item: i }: { item: number }) => (
         <View style={{ marginVertical: Dimensions.get("window").height / 148 }}>
             <Title style={{ marginLeft: Dimensions.get("window").width / 18, color: colors.primary }}>
-                Group {i + 1}
+                {i18n.t("group.title")} {i + 1}
             </Title>
             <View style={groupStyles.groupList} key={i}>
                 <HeaderGroup colors={colors} group={group} groupNumber={i} />

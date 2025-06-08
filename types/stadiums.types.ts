@@ -16,4 +16,5 @@ export type FormCreateStadiumPropsType = {
 export type StadiumPropsType = {
     stadium: IStadium;
     handleUpdateStadium: (stadium: IStadium) => void;
+    colors: MD3Colors;
 }

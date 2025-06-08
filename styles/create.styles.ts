@@ -65,16 +65,7 @@ export const createStyles = StyleSheet.create({
         borderRadius: 8,
         flexDirection: 'row',
         borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: '#eeeeee',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
+        borderWidth: 2
     },
 
     textHeader: {

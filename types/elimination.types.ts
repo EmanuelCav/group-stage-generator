@@ -43,3 +43,8 @@ export type FormEliminationMatchPropsType = {
     group: IGroup;
     round: number;
 }
+
+export type CreateEliminationPropsType = {
+    colors: MD3Colors;
+    updateCreateElimination: (data: boolean) => void;
+}

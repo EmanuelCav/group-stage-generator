@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
 import { Dropdown } from 'react-native-element-dropdown';
+import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground"
 import { View } from "../Themed";
@@ -187,22 +188,27 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label="Summary title"
-                        autoFocus
+                        label={i18n.t("summary.title")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
                     />
-                )} />
+                )}
+            />
 
             {
-                errors.title?.message && <Text variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}>
+                errors.title?.message &&
+                <Text
+                    variant="labelMedium"
+                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                >
                     {errors.title.message}
                 </Text>
             }
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the team from the summary (optional)</Text>
+                <Text variant="labelLarge">
+                    {i18n.t("summary.selectTeam", { defaultValue: "Select the team from the summary (optional)" })}
+                </Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusTeam && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -216,20 +222,27 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                     onFocus={() => setIsFocusTeam(true)}
                     onBlur={() => setIsFocusTeam(false)}
                     onChange={item => {
-                        setTeamSelected(item.value)
-                        setIsFocusTeam(false)
+                        setTeamSelected(item.value);
+                        setIsFocusTeam(false);
                     }}
                 />
             </View>
 
             <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">Select the player from the summary</Text>
+                <Text variant="labelLarge">
+                    {i18n.t("summary.selectPlayer", { defaultValue: "Select the player from the summary" })}
+                </Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusPlayer && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
                     selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    data={getPlayerName(group.players?.filter((p) => teamSelected ? (p.team?.name! === teamSelected) :
-                        (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name))!)}
+                    data={getPlayerName(
+                        group.players?.filter((p) =>
+                            teamSelected
+                                ? p.team?.name === teamSelected
+                                : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
+                        )!
+                    )}
                     maxHeight={Dimensions.get("window").height / 3.8}
                     labelField="label"
                     valueField="value"
@@ -238,14 +251,16 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                     onFocus={() => setIsFocusPlayer(true)}
                     onBlur={() => setIsFocusPlayer(false)}
                     onChange={item => {
-                        setPlayerSelected(item.value)
-                        setIsFocusPlayer(false)
+                        setPlayerSelected(item.value);
+                        setIsFocusPlayer(false);
                     }}
                 />
             </View>
 
             <View style={configStyles.labelSettings}>
-                <Text variant="bodyLarge">Minute of play</Text>
+                <Text variant="bodyLarge">
+                    {i18n.t("summary.minute", { defaultValue: "Minute of play" })}
+                </Text>
                 <Controller
                     name="time"
                     control={control}
@@ -259,27 +274,40 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         />
                     )}
                 />
-                {errors.time && <Text variant='bodySmall'
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}>
-                    {errors.time.message}
-                </Text>
+                {
+                    errors.time &&
+                    <Text
+                        variant="bodySmall"
+                        style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}
+                    >
+                        {errors.time.message}
+                    </Text>
                 }
             </View>
 
-            <Button mode="contained" style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} onPress={handleSubmit((data) => handleAddSummary(data))}>
-                {summary.id ? "UPDATE" : "CREATE"}
+            <Button
+                mode="contained"
+                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                labelStyle={{ color: "#ffffff" }}
+                onPress={handleSubmit((data) => handleAddSummary(data))}
+            >
+                {summary.id ? i18n.t("general.update") : i18n.t("general.add")}
             </Button>
 
             {
-                summary.id && <Button mode="contained" style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }} onPress={() => sureRemoveSummary(true)}>
-                    REMOVE
+                summary.id &&
+                <Button
+                    mode="contained"
+                    style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                    labelStyle={{ color: "#ffffff" }}
+                    onPress={() => sureRemoveSummary(true)}
+                >
+                    {i18n.t("general.remove")}
                 </Button>
             }
 
         </ContainerBackground>
-    )
-}
+    );
+};
 
 export default FormSummary

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
@@ -74,30 +75,64 @@ const Referees = () => {
     return (
         <View style={{ flex: 1 }}>
             {
-                isSure && <Sure func={handleRemoveReferee} text="Are you sure you want to delete?" close={close} labelButton="REMOVE" />
+                isSure && (
+                    <Sure
+                        func={handleRemoveReferee}
+                        text={i18n.t("areYouSureDelete")}
+                        close={close}
+                        labelButton={i18n.t("remove")}
+                    />
+                )
             }
             {
-                showForm && <FormCreateReferee group={group} colors={colors} referee={referee} openSure={openSure}
-                    hideAndShowAddReferee={hideAndShowAddReferee} createReferee={createReferee} updateReferee={handleUpdate} />
+                showForm && (
+                    <FormCreateReferee
+                        group={group}
+                        colors={colors}
+                        referee={referee}
+                        openSure={openSure}
+                        hideAndShowAddReferee={hideAndShowAddReferee}
+                        createReferee={createReferee}
+                        updateReferee={handleUpdate}
+                    />
+                )
             }
-            <HeaderGeneral colors={colors} router={router} title="Referees" goBack={goBack} 
-            sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+            <HeaderGeneral
+                colors={colors}
+                router={router}
+                title={i18n.t("referees_title")}
+                goBack={goBack}
+                sureRemoveGroup={sureRemoveGroup}
+                sureRestartGroup={sureRestartGroup}
+            />
             <SureGeneral />
             <View style={generalStyles.containerGeneral}>
                 {
-                    group.referees!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :
-                        <AddAction openForm={hideAndShowAddReferee} colors={colors} text="ADD REFEREE" />
+                    group.referees!.length > 0 ? (
+                        <AddButton colors={colors} handleAdd={openCreateReferee} />
+                    ) : (
+                        <AddAction
+                            openForm={hideAndShowAddReferee}
+                            colors={colors}
+                            text={i18n.t("add_referee")}
+                        />
+                    )
                 }
                 {
-                    group.referees!.length > 0 ?
+                    group.referees!.length > 0 ? (
                         <FlatList
                             style={{ width: '100%' }}
                             data={group.referees!}
                             keyExtractor={(_, index) => index.toString()}
-                            renderItem={({ item }) => <Referee referee={item} handleUpdateReferee={handleUpdateReferee} />}
-                        /> : <Text variant="bodyMedium" style={createStyles.advideText}>
-                            Add referees to add to matches
+                            renderItem={({ item }) => (
+                                <Referee referee={item} handleUpdateReferee={handleUpdateReferee} colors={colors} />
+                            )}
+                        />
+                    ) : (
+                        <Text variant="bodyMedium" style={createStyles.advideText}>
+                            {i18n.t("referees_empty")}
                         </Text>
+                    )
                 }
             </View>
         </View>

@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useTheme } from 'react-native-paper'
+import i18n from '@/i18n'
 
 import { View } from '@/components/Themed'
 import HeaderGeneral from '@/components/general/HeaderGeneral'
@@ -25,9 +26,9 @@ const Groups = () => {
     return (
         <View style={{ flex: 1 }}>
             {
-                isLoading && <Loading text='Generating...' />
+                isLoading && <Loading text={i18n.t("generating")} />
             }
-            <HeaderGeneral colors={colors} router={router} title='Groups' goBack={goBack}
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("groups")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
             {

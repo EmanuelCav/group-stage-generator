@@ -20,7 +20,7 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
 
             let index = 0
 
-            for (let i = 0; i < numberOfGroups; i++) {
+            for (let i = 0; i < (group.teams.length === 2 ? 2 : numberOfGroups); i++) {
 
                 let arr: ITeam[] = []
 
@@ -29,8 +29,10 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
                     index++
                 }
 
-                if (i === numberOfGroups - 1) {
-                    arr.push(plots[0][index])
+                if (group.teams.length !== 2) {
+                    if (i === numberOfGroups - 1) {
+                        arr.push(plots[0][index])
+                    }
                 }
 
                 shuffledPlots.push(arr)
@@ -83,7 +85,7 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
                 groupSorted.push({ ...plotsSet[j][i], group: i + 1 })
             }
 
-            if ((i === plotsSet[0].length - 1) && isPrime(group.teams.length)) {
+            if ((i === plotsSet[0].length - 1) && isPrime(group.teams.length) && group.teams.length !== 2) {
                 groupSorted.push({ ...plotsSet[plotsSet.length - 1][i + 1], group: i + 1 })
             }
 

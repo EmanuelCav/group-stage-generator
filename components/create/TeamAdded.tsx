@@ -7,9 +7,9 @@ import { TeamAddedPropsType } from "@/types/create.types"
 
 import { createStyles } from "@/styles/create.styles"
 
-const TeamAdded = ({ team, handleUpdateTeam }: TeamAddedPropsType) => {
+const TeamAdded = ({ team, handleUpdateTeam, colors }: TeamAddedPropsType) => {
   return (
-    <Pressable style={createStyles.containTeamAdded} onPress={() => handleUpdateTeam(team)}>
+    <Pressable style={[createStyles.containTeamAdded, { borderColor: colors.primary }]} onPress={() => handleUpdateTeam(team)}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         {team.logo ? (
           <Avatar.Image source={{ uri: team.logo }} size={50} />
@@ -17,7 +17,7 @@ const TeamAdded = ({ team, handleUpdateTeam }: TeamAddedPropsType) => {
           <Avatar.Icon icon="shield-outline" size={50} />
         )}
         <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
-          {team.name?.slice(0, 15)}
+          {team.name}
         </Text>
       </View>
     </Pressable>

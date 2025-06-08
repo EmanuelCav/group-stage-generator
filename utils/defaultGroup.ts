@@ -32,6 +32,7 @@ export const groupValue = (id: number): IGroup => {
         pointsLoss: 0,
         isGenerated: false,
         isGeneratedAgain: true,
+        isKnockoutGenerated: false,
         createdAt: new Date(),
         updatedAt: new Date(),
     }
