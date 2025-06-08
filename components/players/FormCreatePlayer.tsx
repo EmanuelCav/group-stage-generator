@@ -10,7 +10,7 @@ import { View } from "../Themed";
 import StatisticPlayer from "./components/StatisticPlayer";
 import ContainerBackground from "../general/ContainerBackground";
 
-import { ICreate, ICreatePlayer } from "@/interface/Team";
+import { ICreatePlayer } from "@/interface/Team";
 import { IStatistic } from "@/interface/Player";
 import { FormCreatePlayerPropsType } from "@/types/player.types";
 
@@ -93,6 +93,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         label={i18n.t("playerName")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
+                        maxLength={30}
                     />
                 )}
             />

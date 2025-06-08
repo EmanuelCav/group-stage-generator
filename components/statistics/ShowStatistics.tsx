@@ -9,7 +9,7 @@ import { ShowStatisticsPropsType } from '@/types/statistics.types';
 import { groupStyles } from '@/styles/group.styles';
 import { generalStyles } from '@/styles/general.styles';
 
-import { tableStatistics } from '@/utils/statistics';
+import { namePlayerStatistic, tableStatistics } from '@/utils/statistics';
 import { groupName } from '@/utils/points';
 
 const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisticsPropsType) => {
@@ -44,7 +44,7 @@ const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisti
                                     .map(([key, value]) => (
                                         <View key={key} style={groupStyles.cellStatisticMain}>
                                             <Text variant="bodyMedium">
-                                                {key === "team" ? groupName(String(value)) : value}
+                                                {key === "team" ? groupName(String(value)) : namePlayerStatistic(String(value))}
                                             </Text>
                                         </View>
                                     ))}

@@ -3,6 +3,7 @@ import { Appbar, Menu } from "react-native-paper";
 import i18n from '@/i18n'
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
+import { Dimensions } from "react-native";
 
 const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup }: HeaderGeneralPropsTypes) => {
 
@@ -15,7 +16,7 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
             <Menu
                 visible={visible}
                 onDismiss={() => setVisible(false)}
-                contentStyle={{ backgroundColor: "#ffffff", shadowColor: "dddddd" }}
+                contentStyle={{ backgroundColor: "#ffffff", shadowColor: "dddddd", width: Dimensions.get("window").width / 1.75, flex: 1 }}
                 anchor={<Appbar.Action icon="dots-vertical" color="#ffffff" onPress={() => setVisible(true)} />}
             >
 

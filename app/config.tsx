@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { Dimensions, ScrollView } from "react-native";
-import { MD3Colors, Switch, Text, TextInput, useTheme } from "react-native-paper";
+import { Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
+import { Card, IconButton, MD3Colors, Switch, Text, TextInput, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
+import * as ImagePicker from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
+import { Dropdown } from 'react-native-element-dropdown';
+import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
@@ -28,6 +31,21 @@ import { groupStore } from "@/store/group.store";
 import { avoidingStore } from "@/store/avoiding.store";
 
 import { configSchema } from "@/schema/config.schema";
+import { uploadImageToCloudinary } from "@/utils/cloudinary";
+
+const modeData = [{
+    value: "points",
+    label: i18n.t("points_earned")
+}, {
+    value: "percentage",
+    label: i18n.t("win_percentage")
+}, {
+    value: "wins",
+    label: i18n.t("number_of_wins")
+}, {
+    value: "scored",
+    label: i18n.t("points_scored")
+}]
 
 const Config = () => {
 
@@ -36,7 +54,9 @@ const Config = () => {
     const { avoiding, hideAndShowAddAvoiding, showForm, isSure, getAvoiding, sureRemoveAvoiding } = avoidingStore()
 
     const [isManualConfiguration, setIsManuelConfiguration] = useState<boolean>(group.isManualConfiguration!)
-    const [isPoints, setIsPoints] = useState<boolean>(group.isPoints!)
+    const [pointsModeSelected, setPointsSelected] = useState<string>(group.pointsMode!)
+    const [image, setImage] = useState<string>(group.logo ?? "")
+    const [isFocus, setIsFocus] = useState<boolean>(false)
 
     const [initialData, setInitialData] = useState<{ label: string, id: string }[]>(
         [{ label: "points", id: "1" },
@@ -64,6 +84,31 @@ const Config = () => {
             pointsLoss: group.pointsLoss
         }
     })
+
+    const pickImage = async () => {
+
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (status !== 'granted') {
+            Toast.show({
+                type: 'error',
+                text1: 'Permission Required',
+                text2: 'Permission to access the gallery is required'
+            });
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    }
 
     const handleUpdate = (data: IAvoidingMatches) => {
         updateAvoiding!(data)
@@ -96,7 +141,13 @@ const Config = () => {
         hideAndShowAddAvoiding(true)
     }
 
-    const handleConfig = (data: ISetting) => {
+    const handleConfig = async (data: ISetting) => {
+
+        let imageUrl = image
+
+        if (image) {
+            imageUrl = await uploadImageToCloudinary(image);
+        }
 
         const updateData: IGroup = {
             id: group.id,
@@ -104,14 +155,14 @@ const Config = () => {
             isDrawed: group.isDrawed,
             isKnockoutGenerated: group.isKnockoutGenerated,
             title: data.title,
-            logo: group.logo,
+            logo: imageUrl || "",
             matches: group.matches,
             teams: group.teams,
             pointsWin: data.pointsWin,
             pointsDraw: data.pointsDraw,
             pointsLoss: data.pointsLoss,
             isGenerated: group.isGenerated,
-            isPoints,
+            pointsMode: group.pointsMode,
             isRoundTripElimination: data.isRoundTripElimination,
             isRoundTripGroupStage: data.isRoundTripGroupStage,
             isManualConfiguration,
@@ -139,10 +190,6 @@ const Config = () => {
 
     const handleChangeAutomatize = (v: boolean) => {
         setIsManuelConfiguration(v)
-    }
-
-    const handleIsPoints = (v: boolean) => {
-        setIsPoints(v)
     }
 
     const comeBack = () => {
@@ -214,6 +261,20 @@ const Config = () => {
             )}
 
             <ScrollView style={configStyles.containerSettings}>
+
+                {image ? (
+                    <Card style={createStyles.cardAddTeam} onPress={pickImage}>
+                        <Image source={{ uri: image }} style={createStyles.imageCard} />
+                    </Card>
+                ) : (
+                    <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
+                        <Text variant="labelLarge">
+                            {image ? i18n.t("teamForm.changeImage") : i18n.t("teamForm.selectLogo")}
+                        </Text>
+                        <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
+                    </TouchableOpacity>
+                )}
+
                 {errors.title && (
                     <Text
                         variant="bodySmall"
@@ -277,16 +338,31 @@ const Config = () => {
                     </>
                 )}
 
-                <View style={configStyles.labelSettings}>
-                    <Text variant="bodyLarge">{i18n.t('showPoints')}</Text>
-                    <Switch
-                        style={{ marginTop: Dimensions.get('window').height / 192 }}
-                        value={isPoints}
-                        onValueChange={(v) => handleIsPoints(v)}
+                <View style={createStyles.selectInputDropdownContain}>
+                    <Text variant="labelLarge">{i18n.t("selectMode")}</Text>
+                    <Dropdown
+                        style={[
+                            createStyles.dropdownComplete,
+                            isFocus && { borderColor: colors.primary },
+                        ]}
+                        placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                        selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                        data={modeData}
+                        maxHeight={Dimensions.get("window").height / 3.8}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={String(pointsModeSelected)}
+                        value={pointsModeSelected}
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={(item) => {
+                            setPointsSelected(item.value);
+                            setIsFocus(false);
+                        }}
                     />
                 </View>
 
-                {isPoints && (
+                {pointsModeSelected === "points" && (
                     <>
                         <InputSettings
                             text={i18n.t('pointsToTheWinner')}

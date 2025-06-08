@@ -104,6 +104,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                     }}
                     value={scoreLocal}
                     style={createStyles.inputNumberCreate}
+                    maxLength={3}
                 />
             </View>
 
@@ -127,6 +128,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                     }}
                     value={scoreVisitant}
                     style={createStyles.inputNumberCreate}
+                    maxLength={3}
                 />
             </View>
 

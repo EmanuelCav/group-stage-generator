@@ -191,6 +191,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         label={i18n.t("summary.title")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
+                        maxLength={12}
                     />
                 )}
             />

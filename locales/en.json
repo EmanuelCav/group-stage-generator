@@ -47,6 +47,7 @@
     "playerName": "Player name",
     "positionOptional": "Position (optional)",
     "selectPlayerTeam": "Select the player's team",
+    "selectMode": "Scoring type",
     "avoiding": {
         "addAvoidingMatch": "ADD AN AVOID MATCHES",
         "teamsCount": "Teams: {{count}}",
@@ -71,6 +72,7 @@
     "teamForm": {
         "changeImage": "Change image",
         "selectShield": "Select a shield (optional)",
+        "selectLogo": "Select a logo (optional)",
         "teamName": "Team name",
         "plotOptional": "Plot (optional):",
         "add": "ADD",
@@ -160,5 +162,9 @@
     "teamName": "Team",
     "index": "Index",
     "config": "Config",
-    "add": "Add"
+    "add": "Add",
+    "points_earned": "Points earned",
+    "win_percentage": "Win percentage",
+    "number_of_wins": "Number of wins",
+    "points_scored": "Points scored"
 }

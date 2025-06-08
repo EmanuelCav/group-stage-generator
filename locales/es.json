@@ -47,6 +47,7 @@
     "playerName": "Nombre del jugador",
     "positionOptional": "Posición (opcional)",
     "selectPlayerTeam": "Selecciona el equipo del jugador",
+    "selectMode": "Tipo de puntuación",
     "avoiding": {
         "addAvoidingMatch": "AGREGAR UN ENFRENTAMIENTO A EVITAR",
         "teamsCount": "Equipos: {{count}}",
@@ -72,6 +73,7 @@
         "changeImage": "Cambiar imagen",
         "selectShield": "Seleccionar escudo (opcional)",
         "teamName": "Nombre del equipo",
+        "selectLogo": "Selecciona un logo (opcional)",
         "plotOptional": "Argumento (opcional):",
         "add": "AGREGAR",
         "update": "ACTUALIZAR",
@@ -160,5 +162,9 @@
     "teamName": "Equipo",
     "index": "Índice",
     "config": "Configuración",
-    "add": "Agregar"
+    "add": "Agregar",
+    "points_earned": "Puntos obtenidos",
+    "win_percentage": "Porcentaje de victorias",
+    "number_of_wins": "Cantidad de victorias",
+    "points_scored": "Puntos anotados"
 }

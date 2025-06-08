@@ -76,6 +76,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                         label={i18n.t("refereeName")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
+                        maxLength={30}
                     />
                 )}
             />

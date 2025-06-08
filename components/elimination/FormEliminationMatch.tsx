@@ -146,6 +146,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             }}
                             value={scoreLocal}
                             style={createStyles.inputNumberCreate}
+                            maxLength={3}
                         />
                         {group.isRoundTripElimination && (
                             <TextInput
@@ -168,6 +169,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             }}
                             value={scoreLocalTieBreaker}
                             style={createStyles.inputNumberCreate}
+                            maxLength={3}
                         />
                         <Text variant="labelMedium">{i18n.t("tiebreakerOptional")}</Text>
                     </View>
@@ -192,6 +194,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             }}
                             value={scoreVisitant}
                             style={createStyles.inputNumberCreate}
+                            maxLength={3}
                         />
                         {group.isRoundTripElimination && (
                             <TextInput

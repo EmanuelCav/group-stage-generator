@@ -23,7 +23,7 @@ export const groupValue = (id: number): IGroup => {
         isRoundTripElimination: false,
         isRoundTripGroupStage: false,
         isDrawed: false,
-        isPoints: true,
+        pointsMode: "points",
         teamsPerGroup: 2,
         amountGroups: 1,
         amountClassified: 2,

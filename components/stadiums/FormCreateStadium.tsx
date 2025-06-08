@@ -76,6 +76,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                         label={i18n.t("stadiumName")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
+                        maxLength={30}
                     />
                 )}
             />

@@ -25,7 +25,7 @@ import { teamSchema } from "@/schema/team.schema";
 const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `Plot ${team.plot}` : `Plot 1`)
-  const [image, setImage] = useState<string>(team.logo ? team.logo : "")
+  const [image, setImage] = useState<string>(team.logo ?? "")
   const [isFocus, setIsFocus] = useState<boolean>(false)
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -140,6 +140,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             label={i18n.t("teamForm.teamName")}
             mode="outlined"
             style={createStyles.inputAdd}
+            maxLength={25}
           />
         )}
       />

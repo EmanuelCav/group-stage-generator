@@ -27,6 +27,7 @@ const InputSettings = ({ text, name, control, error, defaultValue }: InputSettin
                         defaultValue={defaultValue}
                         value={value as string}
                         style={configStyles.inputSettingsNumber}
+                        maxLength={2}
                     />
                 )}
             />

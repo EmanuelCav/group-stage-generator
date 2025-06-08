@@ -17,4 +17,20 @@ export const tableStatistics = (group: IGroup): { [key: string]: number }[] => {
     }
 
     return statistics;
-};
+}
+
+export const namePlayerStatistic = (name: string): string => {
+
+    const nameSplit = name.split(" ")
+
+    if(nameSplit.length === 0) {
+        return name.slice(0, 12) + `${name.length > 12 ? "..." : ""}`
+    }
+
+    if(nameSplit.length >= 1) {
+        return `${nameSplit[0][0]}.` + " " + `${nameSplit[1].slice(0, 12)}${nameSplit[1].length > 12 ? "..." : ""}`
+    }
+
+    return name.slice(0, 12)
+
+}

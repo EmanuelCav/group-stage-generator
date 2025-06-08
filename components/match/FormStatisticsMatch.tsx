@@ -185,6 +185,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         label={i18n.t('statistic.title')}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
+                        maxLength={12}
                     />
                 )}
             />

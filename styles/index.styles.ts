@@ -9,7 +9,7 @@ export const indexStyles = StyleSheet.create({
     },
 
     imageTournament: {
-        width: Dimensions.get("window").width / 9,
+        width: Dimensions.get("window").width / 6,
         height: Dimensions.get("window").height / 18.5,
         borderRadius: 8
     },

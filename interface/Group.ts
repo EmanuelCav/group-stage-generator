@@ -63,7 +63,6 @@ export interface IGroup {
     isManualConfiguration?: boolean;
     isRoundTripGroupStage?: boolean;
     isRoundTripElimination?: boolean;
-    isPoints?: boolean;
     amountClassified?: number;
     amountGroups?: number;
     teamsPerGroup?: number;
@@ -73,6 +72,7 @@ export interface IGroup {
     isGenerated?: boolean;
     isGeneratedAgain?: boolean;
     isKnockoutGenerated?: boolean;
+    pointsMode?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
