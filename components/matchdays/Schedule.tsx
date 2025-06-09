@@ -42,6 +42,7 @@ const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
                 return (
                     <Match
                         item={item}
+                        group={group}
                         match={match}
                         matchdayNumber={index}
                         colors={colors}
@@ -56,7 +57,7 @@ const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
 
     return (
         <FlatList
-            data={getMatchdaysGroupState(group.matches!)}
+            data={getMatchdaysGroupState(group.matches!, group.matchdayView!)}
             renderItem={renderMatchday}
             keyExtractor={(_, index) => index.toString()}
         />

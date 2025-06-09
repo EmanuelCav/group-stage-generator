@@ -8,3 +8,9 @@ export type SchedulePropsType = {
     colors: MD3Colors;
     handleGetMatch: (data: IGetMatch) => void;
 }
+
+export type GroupLabelPropsType = {
+    colors: MD3Colors;
+    group: IGroup;
+    matchdayViewUpdated: (data: string) => void;
+}

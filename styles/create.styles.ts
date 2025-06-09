@@ -102,6 +102,14 @@ export const createStyles = StyleSheet.create({
         marginTop: Dimensions.get("window").height / 106
     },
 
+    dropdownMatchdays: {
+        borderWidth: 2,
+        borderRadius: 8,
+        marginVertical: Dimensions.get("window").height / 74,
+        padding: Dimensions.get("window").width / 45,
+        width: '100%',
+    },
+
     containerStatisticsPlayer: {
         borderRadius: 4,
         borderWidth: 0.5,

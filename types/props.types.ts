@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import { Router } from "expo-router";
 
 import { IGetMatch, IMatch } from "@/interface/Match";
+import { IGroup } from "@/interface/Group";
 
 export type Action = {
     type: string;
@@ -36,6 +37,7 @@ export type GenerateAgainPropsType = {
 export type MatchPropsType = {
     colors: MD3Colors;
     item: IMatch[];
+    group: IGroup;
     match: IMatch;
     index: number;
     handleGetMatch: (data: IGetMatch) => void;

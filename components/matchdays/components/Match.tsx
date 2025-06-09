@@ -8,7 +8,7 @@ import { MatchPropsType } from '@/types/props.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
-const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item }: MatchPropsType) => {
+const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, group }: MatchPropsType) => {
 
     return (
         <Pressable onPress={() => handleGetMatch({
@@ -16,11 +16,11 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item }: M
             matchday: matchdayNumber + 1
         })}>
             {
-                index === 0 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
+                index === 0 && group.matchdayView === "all" && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}
                 </Text>
             }
-            {index !== 0 && item[index - 1].local.team.group !== match.local.team.group &&
+            {index !== 0 && item[index - 1].local.team.group !== match.local.team.group && group.matchdayView === "all" &&
                 <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}
                 </Text>

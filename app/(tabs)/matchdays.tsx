@@ -8,6 +8,7 @@ import Schedule from '@/components/matchdays/Schedule'
 import GenerateAgain from '@/components/general/GenerateAgain'
 import SureGeneral from '@/components/general/SureGeneral'
 import Loading from '@/components/general/Loading'
+import GroupLabel from '@/components/matchdays/GroupLabel'
 
 import { IGetMatch } from '@/interface/Match'
 
@@ -21,7 +22,7 @@ const Matchdays = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { group, sureRemoveGroup, sureRestartGroup } = groupStore()
+    const { group, sureRemoveGroup, sureRestartGroup, matchdayViewUpdated } = groupStore()
     const { isLoading } = responseStore()
     const { getMatch } = matchStore()
 
@@ -45,6 +46,7 @@ const Matchdays = () => {
             {
                 (group.isGeneratedAgain || evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />
             }
+            <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
             <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} />
         </View>
     )

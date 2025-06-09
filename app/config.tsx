@@ -175,6 +175,7 @@ const Config = () => {
             amountGroups: data.amountGroups,
             amountClassified: data.amountClassified,
             teamsPerGroup: data.teamsPerGroup,
+            matchdayView: group.matchdayView,
             createdAt: group.createdAt,
             updatedAt: new Date()
         }
@@ -399,7 +400,7 @@ const Config = () => {
                     control={control}
                 />
 
-                <ConfigButton
+                {/* <ConfigButton
                     colors={colors}
                     text={i18n.t('tieBreakCriteria')}
                     func={() => setIsTieBreakCriteria(true)}
@@ -408,7 +409,7 @@ const Config = () => {
                     colors={colors}
                     text={i18n.t('avoidingMatches')}
                     func={() => setIsAvoidingMatches(true)}
-                />
+                /> */}
             </ScrollView>
 
             <SettingsButton

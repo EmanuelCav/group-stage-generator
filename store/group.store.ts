@@ -158,6 +158,10 @@ export const groupStore = create(
                 group: { ...state.group, isKnockoutGenerated: data },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isKnockoutGenerated: data } : g)
             })),
+            matchdayViewUpdated: (data: string) => set((state) => ({
+                group: { ...state.group, matchdayView: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matchdayView: data } : g)
+            })),
             sureRemoveGroup: (sure: boolean) => set(() => ({
                 isSureRemove: sure
             })),

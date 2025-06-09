@@ -94,7 +94,7 @@ export const groupStyles = StyleSheet.create({
     },
 
     statisticsCell: {
-        width: Dimensions.get("window").width / 7,
+        width: Dimensions.get("window").width / 6,
         textAlign: "center",
         fontWeight: "bold",
         color: "#ffffff"
@@ -108,7 +108,7 @@ export const groupStyles = StyleSheet.create({
     },
 
     cellStatistic: {
-        width: Dimensions.get("window").width / 7,
+        width: Dimensions.get("window").width / 6,
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
         alignItems: 'center'

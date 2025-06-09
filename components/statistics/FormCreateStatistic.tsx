@@ -78,7 +78,7 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
                         label={i18n.t("statisticTitle")}
                         mode="outlined"
                         style={createStyles.inputGeneralCreate}
-                        maxLength={12}
+                        maxLength={8}
                     />
                 )}
             />

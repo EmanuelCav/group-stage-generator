@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dimensions, FlatList } from "react-native";
+import { Dimensions, FlatList, ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
@@ -165,17 +165,24 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     <Text variant="bodyLarge" style={{ color: colors.primary }}>
                         {i18n.t("statistics")}
                     </Text>
-                    <FlatList
+                    <ScrollView
                         style={[
                             createStyles.containerStatisticsPlayer,
-                            {
-                                borderColor: colors.primary,
-                            },
+                            { borderColor: colors.primary },
                         ]}
-                        data={player.statistics}
-                        renderItem={renderStatistic}
-                        keyExtractor={(_, index) => index.toString()}
-                    />
+                        nestedScrollEnabled={true}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {player.statistics?.map((item, index) => (
+                            <StatisticPlayer
+                                key={index}
+                                statistic={item}
+                                colors={colors}
+                                handleUpdateStatistic={handleUpdateStatistic}
+                                isLast={(index + 1) === player.statistics?.length}
+                            />
+                        ))}
+                    </ScrollView>
                 </>
             )}
 

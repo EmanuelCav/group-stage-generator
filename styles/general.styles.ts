@@ -53,7 +53,7 @@ export const generalStyles = StyleSheet.create({
         alignItems: 'flex-end',
         position: 'absolute',
         right: 0,
-        top: 0
+        top: -Dimensions.get("window").height / 74
     },
 
     generateButton: {

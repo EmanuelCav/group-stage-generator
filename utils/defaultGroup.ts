@@ -33,6 +33,7 @@ export const groupValue = (id: number): IGroup => {
         isGenerated: false,
         isGeneratedAgain: true,
         isKnockoutGenerated: false,
+        matchdayView: "all",
         createdAt: new Date(),
         updatedAt: new Date(),
     }

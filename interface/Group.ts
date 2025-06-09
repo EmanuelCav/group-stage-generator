@@ -45,6 +45,7 @@ export interface IGroupStore {
     updateCreateElimination: (data: boolean) => void;
     updateGenerateAgain: (data: boolean) => void;
     updateShuffledKnockout: (data: boolean) => void;
+    matchdayViewUpdated: (data: string) => void;
 }
 
 export interface IGroup {
@@ -73,6 +74,7 @@ export interface IGroup {
     isGeneratedAgain?: boolean;
     isKnockoutGenerated?: boolean;
     pointsMode?: string;
+    matchdayView?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
