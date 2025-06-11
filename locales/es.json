@@ -117,8 +117,7 @@
         "wins": "G",
         "draws": "E",
         "losses": "P",
-        "goalsFor": "GF",
-        "goalsAgainst": "GC",
+        "score": "P",
         "numberOfTeams": "Número de equipos: {{count}}"
     },
     "team": {
@@ -152,7 +151,9 @@
     "refereeName": "Nombre del árbitro",
     "stadiumName": "Nombre del estadio",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "Agrega jugadores para mostrar y visualizar estadísticas del torneo",
+    "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Agrega estadísticas para mostrar y visualizar estadísticas del torneo",
     "addPlayers": "Agregar jugadores",
+    "addStatistics": "Agregar estadísticas",
     "statisticTitle": "Título de la estadística",
     "statisticValue": "Valor de la estadística",
     "statisticInitialValueOptional": "Valor inicial de la estadística (opcional)",

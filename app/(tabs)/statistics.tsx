@@ -9,6 +9,7 @@ import ShowStatistics from "@/components/statistics/ShowStatistics"
 import AddPlayers from "@/components/statistics/AddPlayers"
 import FormCreateStatistic from "@/components/statistics/FormCreateStatistic"
 import SureGeneral from "@/components/general/SureGeneral"
+import AddStatistics from "@/components/statistics/AddStatistics"
 
 import { IStatistic } from "@/interface/Player"
 
@@ -58,8 +59,9 @@ const Statistics = () => {
                     handleUpdateTitleStatistic={handleUpdateTitleStatistic} handleUpdateValueStatistic={handleUpdateValueStatistic} openSure={openSureStatistic} />
             }
             {
-                group.players?.length! > 0 ? <ShowStatistics colors={colors} group={group}
-                    hideAndShowAddStatistic={hideAndShowAddStatistic} />
+                group.players?.length! > 0 ? group.players![0].statistics?.length! > 0 ?
+                    <ShowStatistics colors={colors} group={group} hideAndShowAddStatistic={hideAndShowAddStatistic} />
+                    : <AddStatistics colors={colors} hideAndShowAddStatistic={hideAndShowAddStatistic} />
                     : <AddPlayers colors={colors} router={router} />
             }
         </View>

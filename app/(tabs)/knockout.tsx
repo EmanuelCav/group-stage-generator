@@ -8,6 +8,7 @@ import HeaderGeneral from "@/components/general/HeaderGeneral"
 import SureGeneral from "@/components/general/SureGeneral"
 import EliminationStage from "@/components/elimination/EliminationStage"
 import ShuffleAgain from "@/components/elimination/ShuffleAgain"
+import CreateElimination from "@/components/elimination/CreateElimination"
 
 import { IGetMatchKnockout } from "@/interface/Match"
 
@@ -16,7 +17,6 @@ import { responseStore } from "@/store/response.store"
 import { matchStore } from "@/store/match.store"
 
 import { detectChangesElimination, getElimationTeams } from "@/utils/elimination"
-import CreateElimination from "@/components/elimination/CreateElimination"
 
 const Elimination = () => {
 

@@ -10,6 +10,13 @@ export const generalStyles = StyleSheet.create({
         padding: Dimensions.get("window").height / 106
     },
 
+    containerBanner: {
+        height: '10%',
+        width: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+
     containerBackground: {
         position: 'absolute',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',

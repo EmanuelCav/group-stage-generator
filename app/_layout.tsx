@@ -1,4 +1,5 @@
 import 'react-native-reanimated';
+import mobileAds from 'react-native-google-mobile-ads';
 import { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
@@ -45,6 +46,12 @@ export default function RootLayout() {
 function RootLayoutNav() {
 
   const { handleLoading } = responseStore()
+
+  useEffect(() => {
+    mobileAds().initialize().then(() => {
+      console.log('AdMob initialized')
+    })
+  }, [])
 
   useEffect(() => {
     handleLoading(false)

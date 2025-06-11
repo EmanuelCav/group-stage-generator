@@ -117,8 +117,7 @@
         "wins": "W",
         "draws": "D",
         "losses": "L",
-        "goalsFor": "GF",
-        "goalsAgainst": "GA",
+        "score": "S",
         "numberOfTeams": "Number of teams: {{count}}"
     },
     "team": {
@@ -152,7 +151,9 @@
     "refereeName": "Referee name",
     "stadiumName": "Stadium name",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "Add players to display and visualize tournament statistics",
+    "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Add statistics to display and visualize tournament statistics",
     "addPlayers": "Add Players",
+    "addStatistics": "Add statistics",
     "statisticTitle": "Statistic title",
     "statisticValue": "Statistic value",
     "statisticInitialValueOptional": "Statistic initial value (optional)",

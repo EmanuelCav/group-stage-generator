@@ -9,6 +9,11 @@ export type AddPlayersPropsType = {
     router: Router;
 }
 
+export type AddStatisticsPropsType = {
+    colors: MD3Colors;
+    hideAndShowAddStatistic: (show: boolean) => void;
+}
+
 export type StatisticPropsType = {
     colors: MD3Colors;
     player: IPlayer;

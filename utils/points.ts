@@ -4,7 +4,7 @@ import { IPoints, ITeam } from "@/interface/Team";
 
 export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGroup): IPoints[] => {
 
-    let groupData: IPoints[] = []    
+    let groupData: IPoints[] = []
 
     for (let t = 0; t < teams.length; t++) {
 
@@ -91,11 +91,24 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGr
 
 export const orderPoints = (group: IGroup, groupData: IPoints[]): IPoints[] => {
 
-    switch (group.tie_breakCriteria![0]) {
+    switch (group.matchdayView) {
         case 'points':
             return groupData.sort((a, b) =>
                 (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -
                 (a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!))
+
+        case 'wins':
+            return groupData.sort((a, b) =>
+                (b.won) - (a.won))
+
+        case 'percentage':
+            return groupData.sort((a, b) =>
+                (b.won / (b.won + b.lost)) -
+                (a.won / (a.won + a.lost)))
+
+        case 'scored':
+            return groupData.sort((a, b) =>
+                (b.positive) - (a.positive))
 
         default:
             return groupData.sort((a, b) =>
