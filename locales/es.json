@@ -168,5 +168,153 @@
     "win_percentage": "Porcentaje de victorias",
     "number_of_wins": "Cantidad de victorias",
     "points_scored": "Puntos anotados",
-    "all_matches": "Todos los partidos"
+    "all_matches": "Todos los partidos",
+    "titleIndex": "Fases de Grupos",
+    "selectGroupStage": "Selecciona una fase de grupo",
+    "validation": {
+        "team": {
+            "name": {
+                "required": "Escribe un nombre de equipo",
+                "max": "El nombre del equipo debe tener menos de 35 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            }
+        },
+        "statistic": {
+            "title": {
+                "required": "Escribe un título para la estadística",
+                "max": "El título de la estadística debe tener menos de 12 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            }
+        },
+        "stadium": {
+            "name": {
+                "required": "Escribe un nombre para el estadio",
+                "max": "El nombre del estadio debe tener menos de 30 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            }
+        },
+        "referee": {
+            "name": {
+                "required": "Escribe un nombre para el árbitro",
+                "max": "El nombre del árbitro debe tener menos de 30 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            }
+        },
+        "player": {
+            "name": {
+                "required": "Escribe un nombre para el jugador",
+                "max": "El nombre del jugador debe tener menos de 30 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            },
+            "position": {
+                "max": "La posición debe tener menos de 16 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            }
+        },
+        "match": {
+            "score": {
+                "min": "El puntaje mínimo es 0"
+            }
+        },
+        "summary": {
+            "title": {
+                "required": "Escribe un título para el resumen",
+                "max": "El título del resumen debe tener menos de 20 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            },
+            "time": {
+                "required": "Escribe el minuto de juego",
+                "max": "El minuto de juego debe tener menos de 20 caracteres",
+                "invalid": "Solo se permiten números"
+            }
+        },
+        "statisticMatch": {
+            "title": {
+                "required": "Escribe un título para la estadística",
+                "max": "El título debe tener menos de 20 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            }
+        },
+        "config": {
+            "title": {
+                "required": "El campo título es obligatorio"
+            },
+            "teamsPerGroup": {
+                "typeError": "Por favor completa con un valor numérico",
+                "min": "El número de equipos por grupo debe ser mayor a 1",
+                "required": "Este campo es obligatorio"
+            },
+            "amountGroups": {
+                "typeError": "Por favor completa con un valor numérico",
+                "min": "Escribe el número de grupos",
+                "required": "Este campo es obligatorio"
+            },
+            "amountClassified": {
+                "typeError": "Por favor completa con un valor numérico",
+                "min": "Escribe el número de clasificados",
+                "required": "Este campo es obligatorio",
+                "powerOfTwo": "El número de clasificados debe ser una potencia de 2 (por ejemplo, 2, 4, 8, 16, 32...)"
+            },
+            "pointsWin": {
+                "min": "Escribe el número de puntos para el ganador",
+                "required": "Este campo es obligatorio"
+            },
+            "pointsDraw": {
+                "min": "Escribe el número de puntos para el empate",
+                "required": "Este campo es obligatorio"
+            },
+            "pointsLoss": {
+                "min": "Escribe el número de puntos para el perdedor",
+                "required": "Este campo es obligatorio"
+            }
+        },
+        "avoiding": {
+            "title": {
+                "required": "Escribe un título para evitar partidos",
+                "max": "El título para evitar partidos debe tener menos de 22 caracteres",
+                "invalid": "Revisa los caracteres especiales"
+            },
+            "max": {
+                "typeError": "Por favor completa con un valor numérico",
+                "min": "El número de equipos por grupo debe ser mayor a 0",
+                "required": "Este campo es obligatorio"
+            }
+        },
+        "teamsPerGroup": {
+            "title": "Equipos por grupo",
+            "message": "Debe haber al menos 2 equipos por grupo"
+        },
+        "numberOfGroups": {
+            "title": "Número de grupos",
+            "message": "La mitad del número de grupos debe ser menor que la cantidad de equipos"
+        },
+        "numberOfTeams": {
+            "title": "Número de equipos",
+            "message": "La cantidad de equipos por grupo multiplicada por el número de grupos debe ser menor o igual al total de equipos"
+        }
+    },
+    "permissions": {
+        "galleryAccess": {
+            "title": "Permiso requerido",
+            "message": "Se requiere permiso para acceder a la galería"
+        }
+    },
+    "stadium": {
+        "name": {
+            "title": "Nombre del estadio",
+            "existsError": "El nombre del estadio ya existe"
+        }
+    },
+    "referee": {
+        "name": {
+            "title": "Nombre del árbitro",
+            "existsError": "El nombre del árbitro ya existe"
+        }
+    },
+    "statisticForm": {
+        "name": {
+            "title": "Título de la estadística",
+            "existsError": "El título de la estadística ya existe"
+        }
+    }
 }

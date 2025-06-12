@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import i18n from '@/i18n'
+import Toast from 'react-native-toast-message';
 
 import ContainerBackground from "../general/ContainerBackground";
 import { View } from "../Themed";
@@ -28,6 +29,15 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
     })
 
     const handleAddStatistic = (statisticCreated: ICreateStatistic) => {
+
+        if (group.players![0].statistics?.find(s => s.title === statisticCreated.title)) {
+            Toast.show({
+                type: 'error',
+                text1: i18n.t("statisticForm.name.title"),
+                text2: i18n.t("statisticForm.name.existsError")
+            });
+            return
+        }
 
         if (statistic.id) {
             handleUpdateValueStatistic({
@@ -58,6 +68,9 @@ const FormCreateStatistic = ({ colors, group, statistic, createStatistic, hideAn
 
     return (
         <ContainerBackground zIndex={30}>
+
+            <Toast />
+
             <IconButton
                 icon="close"
                 style={generalStyles.buttonClose}

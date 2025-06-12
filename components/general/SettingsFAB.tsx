@@ -1,21 +1,23 @@
 import { FAB } from "react-native-paper";
-import { Link } from "expo-router";
-import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import { View } from "../Themed";
 
 import { generalStyles } from "@/styles/general.styles";
 
-const SettingsFAB = ({ colors }: { colors: MD3Colors }) => {
+import { SettingsFABPropsType } from "@/types/props.types";
+
+const SettingsFAB = ({ colors, router }: SettingsFABPropsType) => {
   return (
-    <Link href="/config" style={generalStyles.settingsFABContain}>
+    <View style={generalStyles.settingsFABContain}>
       <FAB
         icon="cog"
         size="medium"
         color="#ffffff"
+        onPress={() => router.replace("/config")}
         style={{
           backgroundColor: colors.primary,
         }}
       />
-    </Link>
+    </View>
   );
 };
 

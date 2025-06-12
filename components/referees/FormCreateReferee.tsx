@@ -29,8 +29,8 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
         if (group.referees!.find((r) => r.name === refereeCreated.name)) {
             Toast.show({
                 type: 'error',
-                text1: "Referee's name",
-                text2: 'The name of the referee already exists'
+                text1: i18n.t("referee.name.title"),
+                text2: i18n.t("referee.name.existsError")
             });
             return
         }

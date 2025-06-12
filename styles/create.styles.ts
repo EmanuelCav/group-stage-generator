@@ -113,6 +113,7 @@ export const createStyles = StyleSheet.create({
         marginVertical: Dimensions.get("window").height / 74,
         padding: Dimensions.get("window").width / 45,
         width: '100%',
+        backgroundColor: "#ffffff"
     },
 
     containerStatisticsPlayer: {

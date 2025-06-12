@@ -93,8 +93,8 @@ const Config = () => {
         if (status !== 'granted') {
             Toast.show({
                 type: 'error',
-                text1: 'Permission Required',
-                text2: 'Permission to access the gallery is required'
+                text1: i18n.t("permissions.galleryAccess.title"),
+                text2: i18n.t("permissions.galleryAccess.message")
             });
             return;
         }
@@ -216,6 +216,8 @@ const Config = () => {
 
     return (
         <MainScreen>
+
+            <Toast />
             {isTieBreakCriteria && (
                 <TieBreakCriteria initialData={initialData} setInitialData={setInitialData} />
             )}
@@ -300,6 +302,7 @@ const Config = () => {
                             onBlur={onBlur}
                             label={i18n.t('groupStageName')}
                             mode="outlined"
+                            maxLength={20}
                             style={createStyles.inputAdd}
                         />
                     )}

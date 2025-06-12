@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useTheme } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
+import i18n from '@/i18n'
 
 import { View } from '@/components/Themed';
 import Tournaments from '@/components/index/Tournaments';
 import AddGroupStage from '@/components/index/AddGroupStage';
+import Banner from '@/components/general/Banner';
 
 import { IGroup } from '@/interface/Group';
 
@@ -52,6 +54,9 @@ export default function TabOneScreen() {
 
   return (
     <View style={generalStyles.containerGeneral}>
+      <Banner />
+      <Text variant='titleLarge' style={{ color: colors.primary }}>{i18n.t("titleIndex")}</Text>
+      <Text variant='titleMedium'>{i18n.t("selectGroupStage")}</Text>
       <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
       <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
     </View>

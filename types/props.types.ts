@@ -50,4 +50,9 @@ export type AddActionPropsType = {
     text: string;
 }
 
+export type SettingsFABPropsType = {
+    router: Router;
+    colors: MD3Colors;
+}
+
 export type KeyTieBreakCriteriaPropsType = 'points' | 'won' | 'difference' | 'favor'

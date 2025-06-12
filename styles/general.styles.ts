@@ -51,7 +51,7 @@ export const generalStyles = StyleSheet.create({
     settingsFABContain: {
         position: "absolute",
         bottom: Dimensions.get("window").height / 7,
-        right: Dimensions.get("window").width / 14,
+        right: Dimensions.get("window").width / 12,
         zIndex: 12
     },
 

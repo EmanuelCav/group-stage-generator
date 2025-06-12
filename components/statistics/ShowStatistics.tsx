@@ -35,6 +35,7 @@ const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisti
                         </Text>
                     </View>
                     <FlatList
+                    style={{ backgroundColor: "#F5F5F9" }}
                         data={tableStatistics(group)}
                         keyExtractor={(_, index) => String(index)}
                         renderItem={({ item }: { item: { [key: string]: number } }) => (

@@ -5,13 +5,13 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack, } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import Toast from 'react-native-toast-message';
 import { PaperProvider } from 'react-native-paper';
 import i18n from '@/i18n'
 
 import { responseStore } from '@/store/response.store';
 
 import { theme } from '@/utils/theme';
+import { StatusBar } from 'react-native';
 
 export {
   ErrorBoundary,
@@ -59,7 +59,7 @@ function RootLayoutNav() {
 
   return (
     <PaperProvider theme={theme}>
-      <Toast />
+      <StatusBar barStyle={"default"} />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ title: i18n.t("index"), headerShown: false }} />

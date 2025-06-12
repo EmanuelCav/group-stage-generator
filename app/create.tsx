@@ -53,28 +53,28 @@ const Create = () => {
         if (group.teamsPerGroup === 1) {
           Toast.show({
             type: 'error',
-            text1: 'Teams per group',
-            text2: 'There must be at least 2 teams per group'
+            text1: i18n.t("validation.teamsPerGroup.title"),
+            text2: i18n.t("validation.teamsPerGroup.message")
           });
-          return
+          return;
         }
 
         if (Math.ceil(group.amountGroups! / 2) > group.teams.length) {
           Toast.show({
             type: 'error',
-            text1: 'Number of groups',
-            text2: 'Half the number of groups must be less than the number of teams'
+            text1: i18n.t("validation.numberOfGroups.title"),
+            text2: i18n.t("validation.numberOfGroups.message")
           });
-          return
+          return;
         }
 
         if ((group.amountGroups! * group.teamsPerGroup!) > group.teams.length) {
           Toast.show({
             type: 'error',
-            text1: 'Number of teams',
-            text2: 'The number of teams per group multiplied by the number of groups must be less than or equal to the number of teams'
+            text1: i18n.t("validation.numberOfTeams.title"),
+            text2: i18n.t("validation.numberOfTeams.message")
           });
-          return
+          return;
         }
       }
 
@@ -163,6 +163,10 @@ const Create = () => {
 
   return (
     <MainScreen>
+
+
+      <Toast />
+
       {isLoading && <Loading text={i18n.t('generating')} />}
 
       {isSure && (
@@ -218,7 +222,7 @@ const Create = () => {
         )}
 
         {group.teams.length > 0 && !group.isGenerated && (
-          <SettingsFAB colors={colors} />
+          <SettingsFAB colors={colors} router={router} />
         )}
 
         {group.teams.length > 0 ? (

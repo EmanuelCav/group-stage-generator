@@ -1,13 +1,14 @@
 import { object, string } from "yup";
+import i18n from '@/i18n'
 
 export const playerSchema = object().shape({
   name: string()
     .trim()
-    .matches(/^[^<>'\"/;`%]*$/, "Check special characters")
-    .max(30, "Player name must have less than 30 characters")
-    .required("Write a player name"),
+    .matches(/^[^<>'\"/;`%]*$/, i18n.t("validation.player.name.invalid"))
+    .max(30, i18n.t("validation.player.name.max"))
+    .required(i18n.t("validation.player.name.required")),
   position: string()
     .trim()
-    .matches(/^[^<>'\"/;`%]*$/, "Check special characters")
-    .max(16, "Position must have less than 16 characters")
+    .matches(/^[^<>'\"/;`%]*$/, i18n.t("validation.player.position.invalid"))
+    .max(16, i18n.t("validation.player.position.max"))
 });

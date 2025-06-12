@@ -168,5 +168,153 @@
     "win_percentage": "Win percentage",
     "number_of_wins": "Number of wins",
     "points_scored": "Points scored",
-    "all_matches": "All Matches"
+    "all_matches": "All Matches",
+    "titleIndex": "Group Stages",
+    "selectGroupStage": "Select a group stage",
+    "validation": {
+        "team": {
+            "name": {
+                "required": "Write a team name",
+                "max": "Team name must have less than 35 characters",
+                "invalid": "Check special characters"
+            }
+        },
+        "statistic": {
+            "title": {
+                "required": "Write a statistic title",
+                "max": "Statistic title must have less than 12 characters",
+                "invalid": "Check special characters"
+            }
+        },
+        "stadium": {
+            "name": {
+                "required": "Write a stadium name",
+                "max": "Stadium name must have less than 30 characters",
+                "invalid": "Check special characters"
+            }
+        },
+        "referee": {
+            "name": {
+                "required": "Write a referee name",
+                "max": "Referee name must have less than 30 characters",
+                "invalid": "Check special characters"
+            }
+        },
+        "player": {
+            "name": {
+                "required": "Write a player name",
+                "max": "Player name must have less than 30 characters",
+                "invalid": "Check special characters"
+            },
+            "position": {
+                "max": "Position must have less than 16 characters",
+                "invalid": "Check special characters"
+            }
+        },
+        "match": {
+            "score": {
+                "min": "Score minimum value is 0"
+            }
+        },
+        "summary": {
+            "title": {
+                "required": "Write a summary title",
+                "max": "Summary title must have less than 20 characters",
+                "invalid": "Check special characters"
+            },
+            "time": {
+                "required": "Write the minute of play",
+                "max": "Minute of play must have less than 20 characters",
+                "invalid": "Only numbers are allowed"
+            }
+        },
+        "statisticMatch": {
+            "title": {
+                "required": "Write a statistic title",
+                "max": "Title must have less than 20 characters",
+                "invalid": "Check special characters"
+            }
+        },
+        "config": {
+            "title": {
+                "required": "Title field is required"
+            },
+            "teamsPerGroup": {
+                "typeError": "Please complete with a number value",
+                "min": "Number of teams per group must be higher than 1",
+                "required": "This field is required"
+            },
+            "amountGroups": {
+                "typeError": "Please complete with a number value",
+                "min": "Write the number of groups",
+                "required": "This field is required"
+            },
+            "amountClassified": {
+                "typeError": "Please complete with a number value",
+                "min": "Write the number of classifieds",
+                "required": "This field is required",
+                "powerOfTwo": "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)"
+            },
+            "pointsWin": {
+                "min": "Write the number of points to the winner",
+                "required": "This field is required"
+            },
+            "pointsDraw": {
+                "min": "Write the number of points to tie",
+                "required": "This field is required"
+            },
+            "pointsLoss": {
+                "min": "Write the number of points to the loser",
+                "required": "This field is required"
+            }
+        },
+        "avoiding": {
+            "title": {
+                "required": "Write an avoiding matches title",
+                "max": "Avoiding matches title must have less than 22 characters",
+                "invalid": "Check special characters"
+            },
+            "max": {
+                "typeError": "Please complete with a number value",
+                "min": "Number of teams per group must be higher than 0",
+                "required": "This field is required"
+            }
+        },
+        "teamsPerGroup": {
+            "title": "Teams per group",
+            "message": "There must be at least 2 teams per group"
+        },
+        "numberOfGroups": {
+            "title": "Number of groups",
+            "message": "Half the number of groups must be less than the number of teams"
+        },
+        "numberOfTeams": {
+            "title": "Number of teams",
+            "message": "The number of teams per group multiplied by the number of groups must be less than or equal to the number of teams"
+        }
+    },
+    "permissions": {
+        "galleryAccess": {
+            "title": "Permission Required",
+            "message": "Permission to access the gallery is required"
+        }
+    },
+    "stadium": {
+        "name": {
+            "title": "Stadium's name",
+            "existsError": "The name of the stadium already exists"
+        }
+    },
+    "referee": {
+        "name": {
+            "title": "Referee's name",
+            "existsError": "The name of the referee already exists"
+        }
+    },
+    "statisticForm": {
+        "name": {
+            "title": "Referee's title",
+            "existsError": "The title of the statistic already exists"
+        }
+    }
 }
