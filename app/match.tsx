@@ -5,6 +5,7 @@ import { SegmentedButtons, Text, useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
+import MainScreen from "@/components/general/MainScreen"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
 import SureGeneral from "@/components/general/SureGeneral"
 import TitleMatch from "@/components/match/TitleMatch"
@@ -148,7 +149,7 @@ const Match = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             <HeaderGeneral
                 colors={colors}
                 goBack={goBack}
@@ -343,7 +344,7 @@ const Match = () => {
                     </View>
                 }
             </View>
-        </View>
+        </MainScreen>
     )
 }
 

@@ -117,7 +117,7 @@
         "wins": "G",
         "draws": "E",
         "losses": "P",
-        "score": "P",
+        "score": "F:C",
         "numberOfTeams": "Número de equipos: {{count}}"
     },
     "team": {

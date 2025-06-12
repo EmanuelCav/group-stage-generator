@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
+import MainScreen from "@/components/general/MainScreen";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
 import FormCreatePlayer from "@/components/players/FormCreatePlayer";
 import Player from "@/components/players/Player";
@@ -109,7 +110,7 @@ const Players = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             {
                 isSureStatistic && <Sure func={handleRemoveStatistic} text={i18n.t("areYouSureDelete")} close={close} labelButton={i18n.t("remove")} />
             }
@@ -145,7 +146,7 @@ const Players = () => {
                         </Text>
                 }
             </View>
-        </View>
+        </MainScreen>
     );
 };
 

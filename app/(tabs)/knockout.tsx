@@ -3,7 +3,7 @@ import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 
-import { View } from "@/components/Themed"
+import MainScreen from "@/components/general/MainScreen"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
 import SureGeneral from "@/components/general/SureGeneral"
 import EliminationStage from "@/components/elimination/EliminationStage"
@@ -48,7 +48,7 @@ const Elimination = () => {
     }, [group.isKnockoutGenerated])
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
@@ -66,7 +66,7 @@ const Elimination = () => {
                     <CreateElimination colors={colors} updateCreateElimination={updateCreateElimination} />
                 )
             }
-        </View>
+        </MainScreen>
     )
 }
 

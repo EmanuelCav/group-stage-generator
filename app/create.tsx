@@ -17,6 +17,7 @@ import Sure from "@/components/general/Sure";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
 import SureGeneral from "@/components/general/SureGeneral";
 import Loading from "@/components/general/Loading";
+import MainScreen from "@/components/general/MainScreen";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -161,7 +162,7 @@ const Create = () => {
   }, [])
 
   return (
-    <View style={{ flex: 1 }}>
+    <MainScreen>
       {isLoading && <Loading text={i18n.t('generating')} />}
 
       {isSure && (
@@ -256,7 +257,7 @@ const Create = () => {
           generateGroups={generateGroups}
         />
       )}
-    </View>
+    </MainScreen>
   );
 };
 

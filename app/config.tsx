@@ -19,6 +19,7 @@ import TieBreakCriteria from "@/components/config/TieBreakCriteria";
 import AvoidingMatches from "@/components/config/AvoidingMatches";
 import Sure from "@/components/general/Sure";
 import ConfigButton from "@/components/config/ConfigButton";
+import MainScreen from "@/components/general/MainScreen";
 import FormCreateAvoiding from "@/components/config/FormCreateAvoiding";
 
 import { IGroup, ISetting } from "@/interface/Group";
@@ -162,7 +163,7 @@ const Config = () => {
             pointsDraw: data.pointsDraw,
             pointsLoss: data.pointsLoss,
             isGenerated: group.isGenerated,
-            pointsMode: group.pointsMode,
+            pointsMode: pointsModeSelected,
             isRoundTripElimination: data.isRoundTripElimination,
             isRoundTripGroupStage: data.isRoundTripGroupStage,
             isManualConfiguration,
@@ -214,7 +215,7 @@ const Config = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             {isTieBreakCriteria && (
                 <TieBreakCriteria initialData={initialData} setInitialData={setInitialData} />
             )}
@@ -417,9 +418,8 @@ const Config = () => {
                 handleSumbit={handleSubmit}
                 handleConfig={handleConfig}
             />
-        </View>
+        </MainScreen>
     );
-
 };
 
 export default Config;

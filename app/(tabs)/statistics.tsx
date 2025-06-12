@@ -3,7 +3,7 @@ import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 
-import { View } from "@/components/Themed"
+import MainScreen from "@/components/general/MainScreen"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
 import ShowStatistics from "@/components/statistics/ShowStatistics"
 import AddPlayers from "@/components/statistics/AddPlayers"
@@ -49,7 +49,7 @@ const Statistics = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("statistics")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
@@ -64,7 +64,7 @@ const Statistics = () => {
                     : <AddStatistics colors={colors} hideAndShowAddStatistic={hideAndShowAddStatistic} />
                     : <AddPlayers colors={colors} router={router} />
             }
-        </View>
+        </MainScreen>
     )
 }
 

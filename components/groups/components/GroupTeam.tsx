@@ -11,11 +11,12 @@ import { groupStyles } from '@/styles/group.styles'
 import { generatePoints } from '@/utils/points'
 
 const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
+
     return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View>
                 {
-                    group.matchdayView === "points" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                    group.pointsMode === "points" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.points')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
@@ -26,7 +27,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     </View>
                 }
                 {
-                    group.matchdayView === "wins" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                    group.pointsMode === "wins" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
@@ -36,7 +37,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     </View>
                 }
                 {
-                    group.matchdayView === "percentage" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                    group.pointsMode === "percentage" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>Pct.</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
@@ -47,7 +48,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     </View>
                 }
                 {
-                    group.matchdayView === "scored" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+                    group.pointsMode === "scored" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.score')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
@@ -62,7 +63,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     renderItem={({ item }) => (
                         <View>
                             {
-                                group.matchdayView === "points" && <View style={groupStyles.row}>
+                                group.pointsMode === "points" && <View style={groupStyles.row}>
                                     <View style={groupStyles.mainCell}>
                                         <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
                                             {(item.won * group.pointsWin!) + (item.tied * group.pointsDraw!) + (item.lost * group.pointsLoss!)}
@@ -89,7 +90,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                 </View>
                             }
                             {
-                                group.matchdayView === "wins" && <View style={groupStyles.row}>
+                                group.pointsMode === "wins" && <View style={groupStyles.row}>
                                     <View style={groupStyles.cell}>
                                         <Text variant="bodyMedium">{item.played}</Text>
                                     </View>
@@ -111,7 +112,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                 </View>
                             }
                             {
-                                group.matchdayView === "percentage" && <View style={groupStyles.row}>
+                                group.pointsMode === "percentage" && <View style={groupStyles.row}>
                                     <View style={groupStyles.mainCell}>
                                         <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
                                             {item.won / (item.won + item.lost)}
@@ -138,7 +139,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                 </View>
                             }
                             {
-                                group.matchdayView === "scored" && <View style={groupStyles.row}>
+                                group.pointsMode === "scored" && <View style={groupStyles.row}>
                                     <View style={groupStyles.mainCell}>
                                         <Text variant="bodyMedium">{item.positive}:{item.negative}</Text>
                                     </View>

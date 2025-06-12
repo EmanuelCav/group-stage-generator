@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router'
 import { useTheme } from 'react-native-paper'
 import i18n from '@/i18n'
 
-import { View } from '@/components/Themed'
+import MainScreen from '@/components/general/MainScreen'
 import HeaderGeneral from '@/components/general/HeaderGeneral'
 import Schedule from '@/components/matchdays/Schedule'
 import GenerateAgain from '@/components/general/GenerateAgain'
@@ -36,7 +36,7 @@ const Matchdays = () => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             {
                 isLoading && <Loading text={i18n.t("generating")} />
             }
@@ -48,7 +48,7 @@ const Matchdays = () => {
             }
             <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
             <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} />
-        </View>
+        </MainScreen>
     )
 }
 

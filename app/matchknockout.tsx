@@ -5,6 +5,7 @@ import { IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
+import { columnTitle, isScoreElimination, winner } from "@/utils/elimination"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
 import SureGeneral from "@/components/general/SureGeneral"
 import ScoreTeams from "@/components/match/ScoreTeams"
@@ -27,7 +28,7 @@ import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
 
 import { lineupPlayers } from "@/utils/matchday"
-import { columnTitle, isScoreElimination, winner } from "@/utils/elimination"
+import MainScreen from "@/components/general/MainScreen"
 
 const Matchknockout = () => {
 
@@ -221,7 +222,7 @@ const Matchknockout = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             <HeaderGeneral colors={colors} goBack={goBack} router={router} title={i18n.t("match_title")}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
             />
@@ -390,7 +391,7 @@ const Matchknockout = () => {
                     </View>
                 }
             </View>
-        </View>
+        </MainScreen>
     )
 }
 

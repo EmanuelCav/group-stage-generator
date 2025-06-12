@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router'
 import { useTheme } from 'react-native-paper'
 import i18n from '@/i18n'
 
-import { View } from '@/components/Themed'
+import MainScreen from '@/components/general/MainScreen'
 import HeaderGeneral from '@/components/general/HeaderGeneral'
 import GroupsList from '@/components/groups/GroupsList'
 import GenerateAgain from '@/components/general/GenerateAgain'
@@ -24,7 +24,7 @@ const Groups = () => {
     }
 
     return (
-        <View style={{ flex: 1 }}>
+        <MainScreen>
             {
                 isLoading && <Loading text={i18n.t("generating")} />
             }
@@ -35,7 +35,7 @@ const Groups = () => {
                 group.isGeneratedAgain && <GenerateAgain colors={colors} />
             }
             <GroupsList group={group} colors={colors} />
-        </View>
+        </MainScreen>
     )
 }
 

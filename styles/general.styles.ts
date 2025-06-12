@@ -7,7 +7,8 @@ export const generalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        padding: Dimensions.get("window").height / 106
+        padding: Dimensions.get("window").height / 106,
+        backgroundColor: '#F5F5F9'
     },
 
     containerBanner: {

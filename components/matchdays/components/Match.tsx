@@ -14,7 +14,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
         <Pressable onPress={() => handleGetMatch({
             match,
             matchday: matchdayNumber + 1
-        })}>
+        })} style={{ backgroundColor: '#ffffff' }}>
             {
                 index === 0 && group.matchdayView === "all" && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}

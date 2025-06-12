@@ -91,7 +91,7 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGr
 
 export const orderPoints = (group: IGroup, groupData: IPoints[]): IPoints[] => {
 
-    switch (group.matchdayView) {
+    switch (group.pointsMode) {
         case 'points':
             return groupData.sort((a, b) =>
                 (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -

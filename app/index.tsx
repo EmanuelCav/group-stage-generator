@@ -21,7 +21,7 @@ export default function TabOneScreen() {
   const { groups, createGroup, getGroup } = groupStore()
 
   const router = useRouter()
-  
+
   const [isMounted, setIsMounted] = useState<boolean>(false)
 
   const handleCreateTournament = () => {
@@ -33,7 +33,7 @@ export default function TabOneScreen() {
 
     getGroup(group)
 
-    if(group.isGenerated) {
+    if (group.isGenerated) {
       router.replace("/(tabs)/groups")
     } else {
       router.replace("/create")
@@ -53,7 +53,7 @@ export default function TabOneScreen() {
   return (
     <View style={generalStyles.containerGeneral}>
       <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
-      <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament}  />
+      <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
     </View>
   );
 }

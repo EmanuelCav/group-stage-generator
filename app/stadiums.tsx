@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
+import MainScreen from "@/components/general/MainScreen";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
 import AddAction from "@/components/general/AddAction";
 import FormCreateStadium from "@/components/stadiums/FormCreateStadium";
@@ -73,7 +74,7 @@ const Stadiums = () => {
   }, [])
 
   return (
-    <View style={{ flex: 1 }}>
+    <MainScreen>
       {
         isSure && (
           <Sure
@@ -135,7 +136,7 @@ const Stadiums = () => {
           )
         }
       </View>
-    </View>
+    </MainScreen>
   );
 };
 
