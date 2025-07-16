@@ -21,17 +21,17 @@ const HeaderGroup = ({ group, groupNumber, colors }: HeaderGroupPropsType) => {
                 data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!, group)}
                 keyExtractor={(item) => String(item.id)}
                 renderItem={({ item, index }) => (
-                    <View style={groupStyles.row}>
-                        <View style={groupStyles.cellPosition}>
+                    <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
+                        <View style={[groupStyles.cellPosition, { backgroundColor: colors.tertiary }]}>
                             <Text variant="bodyMedium">{index + 1}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.tertiary }}>
                             {item.logo ? (
                                 <Avatar.Image source={{ uri: item.logo }} size={32} />
                             ) : (
                                 <Avatar.Icon icon="shield-outline" size={32} />
                             )}
-                            <View style={groupStyles.teamCell}>
+                            <View style={[groupStyles.teamCell, { backgroundColor: colors.tertiary }]}>
                                 <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>{groupName(item.name)}</Text>
                             </View>
                         </View>

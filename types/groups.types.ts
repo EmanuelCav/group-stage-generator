@@ -19,3 +19,8 @@ export type HeaderGroupPropsType = {
     groupNumber: number; 
     colors: MD3Colors;
 }
+
+export type CellPropsType = {
+    item: string;
+    colors: MD3Colors;
+}

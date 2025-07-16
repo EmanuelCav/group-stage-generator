@@ -37,3 +37,9 @@ export interface ILineup {
     playersLocal?: IPlayer;
     playersVisitant?: IPlayer;
 }
+
+export interface IValueStatistic {
+    player: string;
+    team: string;
+    value: number;
+}

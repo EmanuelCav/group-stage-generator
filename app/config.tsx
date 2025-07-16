@@ -215,7 +215,7 @@ const Config = () => {
     }, [])
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
 
             <Toast />
             {isTieBreakCriteria && (
@@ -303,12 +303,12 @@ const Config = () => {
                             label={i18n.t('groupStageName')}
                             mode="outlined"
                             maxLength={20}
-                            style={createStyles.inputAdd}
+                            style={[createStyles.inputAdd, { backgroundColor: colors.tertiary }]}
                         />
                     )}
                 />
 
-                <View style={configStyles.labelSettings}>
+                <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
                     <Text variant="bodyLarge">{i18n.t('manuallyTitle')}</Text>
                     <Switch
                         style={{ marginTop: Dimensions.get('window').height / 192 }}
@@ -320,6 +320,7 @@ const Config = () => {
                 {isManualConfiguration && (
                     <>
                         <InputSettings
+                            colors={colors}
                             text={i18n.t('numberOfGroups')}
                             name="amountGroups"
                             control={control}
@@ -327,6 +328,7 @@ const Config = () => {
                             defaultValue={String(group.amountGroups)}
                         />
                         <InputSettings
+                            colors={colors}
                             text={i18n.t('teamsPerGroup')}
                             name="teamsPerGroup"
                             control={control}
@@ -334,6 +336,7 @@ const Config = () => {
                             defaultValue={String(group.teamsPerGroup)}
                         />
                         <InputSettings
+                            colors={colors}
                             text={i18n.t('numberOfClassifieds')}
                             name="amountClassified"
                             control={control}
@@ -343,21 +346,37 @@ const Config = () => {
                     </>
                 )}
 
-                <View style={createStyles.selectInputDropdownContain}>
+                <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                     <Text variant="labelLarge">{i18n.t("selectMode")}</Text>
                     <Dropdown
                         style={[
                             createStyles.dropdownComplete,
+                            { backgroundColor: colors.tertiary },
                             isFocus && { borderColor: colors.primary },
                         ]}
-                        placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                        selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                        placeholderStyle={{
+                            fontSize: Dimensions.get("window").height / 47,
+                            color: colors.surface,
+                            backgroundColor: colors.tertiary
+                        }}
+                        selectedTextStyle={{
+                            fontSize: Dimensions.get("window").height / 47,
+                            color: colors.surface,
+                            backgroundColor: colors.tertiary
+                        }}
+                        itemTextStyle={{
+                            color: colors.surface
+                        }}
+                        containerStyle={{
+                            backgroundColor: colors.tertiary,
+                        }}
                         data={modeData}
                         maxHeight={Dimensions.get("window").height / 3.8}
                         labelField="label"
                         valueField="value"
                         placeholder={String(pointsModeSelected)}
                         value={pointsModeSelected}
+                        activeColor={colors.primary}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
                         onChange={(item) => {
@@ -370,6 +389,7 @@ const Config = () => {
                 {pointsModeSelected === "points" && (
                     <>
                         <InputSettings
+                            colors={colors}
                             text={i18n.t('pointsToTheWinner')}
                             name="pointsWin"
                             control={control}
@@ -377,6 +397,7 @@ const Config = () => {
                             defaultValue={String(group.pointsWin)}
                         />
                         <InputSettings
+                            colors={colors}
                             text={i18n.t('pointsToTie')}
                             name="pointsDraw"
                             control={control}
@@ -384,6 +405,7 @@ const Config = () => {
                             defaultValue={String(group.pointsDraw)}
                         />
                         <InputSettings
+                            colors={colors}
                             text={i18n.t('pointsToTheLoser')}
                             name="pointsLoss"
                             control={control}
@@ -397,11 +419,13 @@ const Config = () => {
                     text={i18n.t('roundTripGroupStage')}
                     name="isRoundTripGroupStage"
                     control={control}
+                    colors={colors}
                 />
                 <SwitchSettings
                     text={i18n.t('roundTripElimination')}
                     name="isRoundTripElimination"
                     control={control}
+                    colors={colors}
                 />
 
                 {/* <ConfigButton

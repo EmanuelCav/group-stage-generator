@@ -3,13 +3,13 @@ import { Text } from "react-native-paper"
 
 import { View } from "@/components/Themed"
 
-import { IMatch } from "@/interface/Match"
+import { ScoreViewPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 
-const ScoreView = ({ match }: { match: IMatch }) => {
+const ScoreView = ({ match, colors }: ScoreViewPropsType) => {
     return (
-        <View style={matchStyles.scoreView}>
+        <View style={[matchStyles.scoreView, { backgroundColor: colors.background }]}>
             <Text variant="bodyLarge">{match.local.score}</Text>
             <Text style={{ marginHorizontal: Dimensions.get("window").width / 74 }}>-</Text>
             <Text variant="bodyLarge">{match.visitant.score}</Text>

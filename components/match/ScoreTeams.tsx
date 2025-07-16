@@ -6,12 +6,12 @@ import { ScoreTeamsPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 
-const ScoreTeams = ({ match }: ScoreTeamsPropsType) => {
+const ScoreTeams = ({ match, colors }: ScoreTeamsPropsType) => {
     return (
-        <View style={matchStyles.scoreTeams}>
-            <TeamView team={match.local} />
-            <ScoreView match={match} />
-            <TeamView team={match.visitant} />
+        <View style={[matchStyles.scoreTeams, { backgroundColor: colors.background }]}>
+            <TeamView team={match.local} colors={colors} />
+            <ScoreView match={match} colors={colors} />
+            <TeamView team={match.visitant} colors={colors} />
         </View>
     )
 }

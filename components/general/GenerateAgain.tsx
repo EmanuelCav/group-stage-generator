@@ -67,7 +67,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
     }
 
     return (
-        <Card style={generalStyles.containerGenerateAgain}>
+        <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>
             <IconButton
                 icon="close"
                 style={generalStyles.buttonClose}

@@ -10,7 +10,7 @@ import { generalStyles } from '@/styles/general.styles'
 
 const SettingsButton = ({ colors, handleSumbit, handleConfig }: SettingsButtonPropsType) => {
     return (
-        <View style={createStyles.containerGenerateButton}>
+        <View style={[createStyles.containerGenerateButton, { backgroundColor: colors.background }]}>
             <Button
                 mode="contained"
                 style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}

@@ -19,6 +19,7 @@ import FormEliminationMatch from "@/components/elimination/FormEliminationMatch"
 import FormStatisticsMatch from "@/components/match/FormStatisticsMatch"
 import FormSummary from "@/components/match/FormSummary"
 import Sure from "@/components/general/Sure"
+import MainScreen from "@/components/general/MainScreen"
 
 import { IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
 
@@ -28,7 +29,6 @@ import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
 
 import { lineupPlayers } from "@/utils/matchday"
-import MainScreen from "@/components/general/MainScreen"
 
 const Matchknockout = () => {
 
@@ -222,7 +222,7 @@ const Matchknockout = () => {
     }, [])
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} goBack={goBack} router={router} title={i18n.t("match_title")}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
             />
@@ -280,7 +280,7 @@ const Matchknockout = () => {
                 showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
                     summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch}
                     matchday={matchknockout.round!} sureRemoveSummary={sureRemoveSummary} round={matchknockout.round!}
-                    isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
+                    isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} router={router} />
             }
 
             {

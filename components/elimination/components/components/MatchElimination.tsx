@@ -10,9 +10,10 @@ import { eliminationStyles } from "@/styles/elimination.styles";
 const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, group }: MatchEliminationPropsType) => {
 
     return (
-        <Pressable style={[eliminationStyles.match, { borderColor: colors.primary }]} onPress={() => handleGetMatch({ match, round: indexElimination })}>
-            <View style={eliminationStyles.teamRow}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+        <Pressable style={[eliminationStyles.match, { borderColor: colors.primary, backgroundColor: colors.tertiary }]}
+            onPress={() => handleGetMatch({ match, round: indexElimination })}>
+            <View style={[eliminationStyles.teamRow, { backgroundColor: colors.tertiary }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
                     ) : (
@@ -50,8 +51,8 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     }
                 </View>
             </View>
-            <View style={eliminationStyles.teamRow}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={[eliminationStyles.teamRow, { backgroundColor: colors.tertiary }]}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
                     ) : (

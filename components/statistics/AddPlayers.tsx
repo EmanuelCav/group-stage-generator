@@ -11,7 +11,7 @@ import { createStyles } from '@/styles/create.styles'
 
 const AddPlayers = ({ colors, router }: AddPlayersPropsType) => {
     return (
-        <View style={generalStyles.containerGeneral}>
+        <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
             <Text variant='titleLarge' style={{ color: colors.primary }}>
                 {i18n.t("statistics")}
             </Text>

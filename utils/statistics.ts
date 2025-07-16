@@ -1,7 +1,10 @@
+import i18n from '@/i18n'
+
 import { IGroup } from "@/interface/Group";
+import { IValueStatistic } from "@/interface/Player";
 
 export const tableStatistics = (group: IGroup): { [key: string]: number }[] => {
-    const statistics: { [key: string]: number }[] = [];
+    let statistics: { [key: string]: number }[] = [];
 
     for (let i = 0; i < group.players!.length; i++) {
         const statistic: { [key: string]: any } = {
@@ -19,6 +22,90 @@ export const tableStatistics = (group: IGroup): { [key: string]: number }[] => {
     return statistics;
 }
 
+export const statisticTable = (group: IGroup): IValueStatistic[][] => {
+
+    let summary: IValueStatistic[][] = [[], [], [], []]
+
+    for (let p = 0; p < group.players?.length!; p++) {
+
+        let goals = 0
+        let yellow = 0
+        let reds = 0
+        let assists = 0
+
+        for (let i = 0; i < group.matches!.length; i++) {
+            for (let j = 0; j < group.matches![i].length; j++) {
+                for (let k = 0; k < group.matches![i][j].length; k++) {
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
+                        goals++
+                    }
+
+                    summary[0].push({
+                        player: String(group.players![p].name),
+                        team: String(group.players![p].team?.name),
+                        value: goals,
+                    })
+
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
+                        yellow++
+                    }
+
+                    summary[1].push({
+                        player: String(group.players![p].name),
+                        team: String(group.players![p].team?.name),
+                        value: yellow,
+                    })
+
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
+                        reds++
+                    }
+
+                    summary[2].push({
+                        player: String(group.players![p].name),
+                        team: String(group.players![p].team?.name),
+                        value: reds,
+                    })
+
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("assists")).length; t++) {
+                        assists++
+                    }
+
+                    summary[2].push({
+                        player: String(group.players![p].name),
+                        team: String(group.players![p].team?.name),
+                        value: assists,
+                    })
+                }
+            }
+        }
+
+    }
+
+    return summary 
+}
+
+export const showEvents = (group: IGroup): { value: string, label: string }[] => {
+
+    let events: string[] = []
+    let eventsValue: { value: string, label: string }[] = []
+
+    if (group.players?.length! > 0) {
+        for (let i = 0; i < group.players![0].statistics?.length!; i++) {
+            events.push(group.players![0].statistics![i].title!)
+        }
+    }
+
+    for (let i = 0; i < events.length; i++) {
+        eventsValue.push({
+            label: events[i],
+            value: events[i]
+        })
+    }
+
+    return eventsValue
+
+}
+
 export const namePlayerStatistic = (name: string): string => {
 
     const nameSplit = name.split(" ")
@@ -28,8 +115,8 @@ export const namePlayerStatistic = (name: string): string => {
     }
 
     if (nameSplit.length >= 2) {
-        return `${nameSplit[0].slice(0, nameSplit[0].length >= 12 ? 12 : nameSplit[0].length)}.` 
-        + " " + `${nameSplit[1].slice(0, nameSplit[1].length >= 12 ? 12 : nameSplit[1].length)}${nameSplit[1].length > 12 ? "..." : ""}`
+        return `${nameSplit[0].slice(0, nameSplit[0].length >= 12 ? 12 : nameSplit[0].length)}.`
+            + " " + `${nameSplit[1].slice(0, nameSplit[1].length >= 12 ? 12 : nameSplit[1].length)}${nameSplit[1].length > 12 ? "..." : ""}`
     }
 
     return name.slice(0, name.length >= 12 ? 12 : name.length) + `${name.length > 12 ? "..." : ""}`

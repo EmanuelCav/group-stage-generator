@@ -15,7 +15,6 @@ export const indexStyles = StyleSheet.create({
     },
 
     textTournament: {
-        color: "#ffffff",
         marginTop: Dimensions.get("window").height / 182
     }
 

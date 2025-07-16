@@ -9,6 +9,7 @@ import { GroupTeamPropsType } from '@/types/groups.types'
 import { groupStyles } from '@/styles/group.styles'
 
 import { generatePoints } from '@/utils/points'
+import Cell from './components/Cell'
 
 const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
 
@@ -61,103 +62,63 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!, group)}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
-                        <View>
+                        <View style={{ backgroundColor: "#f00" }}>
                             {
-                                group.pointsMode === "points" && <View style={groupStyles.row}>
-                                    <View style={groupStyles.mainCell}>
+                                group.pointsMode === "points" && <View style={[groupStyles.row, , { backgroundColor: colors.tertiary }]}>
+                                    <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
                                         <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
                                             {(item.won * group.pointsWin!) + (item.tied * group.pointsDraw!) + (item.lost * group.pointsLoss!)}
                                         </Text>
                                     </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.played}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.won}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.tied}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.lost}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive}:{item.negative}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive - item.negative}</Text>
-                                    </View>
+                                    <Cell colors={colors} item={String(item.played)} />
+                                    <Cell colors={colors} item={String(item.won)} />
+                                    <Cell colors={colors} item={String(item.tied)} />
+                                    <Cell colors={colors} item={String(item.lost)} />
+                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
                                 </View>
                             }
                             {
-                                group.pointsMode === "wins" && <View style={groupStyles.row}>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.played}</Text>
-                                    </View>
-                                    <View style={groupStyles.mainCell}>
-                                        <Text variant="bodyMedium">{item.won}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.tied}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.lost}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive}:{item.negative}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive - item.negative}</Text>
-                                    </View>
-                                </View>
-                            }
-                            {
-                                group.pointsMode === "percentage" && <View style={groupStyles.row}>
-                                    <View style={groupStyles.mainCell}>
+                                group.pointsMode === "wins" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
+                                    <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
                                         <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
-                                            {item.won / (item.won + item.lost)}
+                                            {item.won}
                                         </Text>
                                     </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.played}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.won}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.tied}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.lost}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive}:{item.negative}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive - item.negative}</Text>
-                                    </View>
+                                    <Cell colors={colors} item={String(item.played)} />
+                                    <Cell colors={colors} item={String(item.tied)} />
+                                    <Cell colors={colors} item={String(item.lost)} />
+                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
                                 </View>
                             }
                             {
-                                group.pointsMode === "scored" && <View style={groupStyles.row}>
-                                    <View style={groupStyles.mainCell}>
-                                        <Text variant="bodyMedium">{item.positive}:{item.negative}</Text>
+                                group.pointsMode === "percentage" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
+                                    <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
+                                        <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
+                                            {(item.won / (item.won + item.lost)).toFixed(2)}
+                                        </Text>
                                     </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.played}</Text>
+                                    <Cell colors={colors} item={String(item.played)} />
+                                    <Cell colors={colors} item={String(item.won)} />
+                                    <Cell colors={colors} item={String(item.tied)} />
+                                    <Cell colors={colors} item={String(item.lost)} />
+                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
+                                </View>
+                            }
+                            {
+                                group.pointsMode === "scored" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
+                                    <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
+                                        <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
+                                            {`${item.positive}:${item.negative}`}
+                                        </Text>
                                     </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.won}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.tied}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.lost}</Text>
-                                    </View>
-                                    <View style={groupStyles.cell}>
-                                        <Text variant="bodyMedium">{item.positive - item.negative}</Text>
-                                    </View>
+                                    <Cell colors={colors} item={String(item.played)} />
+                                    <Cell colors={colors} item={String(item.won)} />
+                                    <Cell colors={colors} item={String(item.tied)} />
+                                    <Cell colors={colors} item={String(item.lost)} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
                                 </View>
                             }
                         </View>

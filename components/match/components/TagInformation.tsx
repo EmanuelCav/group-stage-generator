@@ -8,7 +8,10 @@ import { matchStyles } from "@/styles/match.styles"
 
 const TagInformation = ({ colors, source, info }: TagInformationPropsType) => {
     return (
-        <View style={[matchStyles.tagInformation, { borderBottomColor: colors.secondary }]}>
+        <View style={[matchStyles.tagInformation, {
+            borderBottomColor: colors.secondary,
+            backgroundColor: colors.background
+        }]}>
             <Icon
                 source={source}
                 size={28}

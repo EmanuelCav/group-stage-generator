@@ -3,13 +3,13 @@ import { Avatar, Text } from "react-native-paper"
 
 import { View } from "@/components/Themed"
 
-import { IMatchTeam } from "@/interface/Match"
+import { TeamViewPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 
-const TeamView = ({ team }: { team: IMatchTeam }) => {
+const TeamView = ({ team, colors }: TeamViewPropsType) => {
     return (
-        <View style={matchStyles.teamView}>
+        <View style={[matchStyles.teamView, {  backgroundColor: colors.background }]}>
             {team.team.logo ? (
                 <Avatar.Image source={{ uri: team.team.logo }} size={32} />
             ) : (

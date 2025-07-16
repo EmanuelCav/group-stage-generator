@@ -1,8 +1,9 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
-import { IGetMatch, IGetMatchKnockout, IMatch, IMatchStatistic, ISummary } from "@/interface/Match"
+import { IGetMatch, IGetMatchKnockout, IMatch, IMatchStatistic, IMatchTeam, ISummary } from "@/interface/Match"
 import { IGroup } from "@/interface/Group";
 import { ILineup } from "@/interface/Player";
+import { Router } from "expo-router";
 
 export type TitleMatchPropsType = {
     match: IGetMatch;
@@ -12,6 +13,7 @@ export type TitleMatchPropsType = {
 
 export type ScoreTeamsPropsType = {
     match: IMatch;
+    colors: MD3Colors;
 }
 
 export type InformationPropsType = {
@@ -83,6 +85,7 @@ export type FormSummaryPropsType = {
     group: IGroup;
     round: number;
     isKnockout: boolean;
+    router: Router;
 }
 
 export type SummaryPropsType = {
@@ -102,4 +105,14 @@ export type StatisticMatchPropsType = {
     colors: MD3Colors;
     statistic: IMatchStatistic;
     handleUpdateStatistic: (data: IMatchStatistic) => void;
+}
+
+export type TeamViewPropsType = {
+    colors: MD3Colors;
+    team: IMatchTeam;
+}
+
+export type ScoreViewPropsType = {
+    colors: MD3Colors;
+    match: IMatch;
 }

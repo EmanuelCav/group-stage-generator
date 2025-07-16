@@ -26,7 +26,7 @@ const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
             >
                 {i18n.t("matchday")} {index + 1}
             </Title>
-            <DataTable.Header style={{ borderBottomColor: colors.primary }}>
+            <DataTable.Header style={{ borderBottomColor: colors.primary, backgroundColor: colors.tertiary }}>
                 <DataTable.Title style={groupStyles.rowStart}>
                     {i18n.t("local")}
                 </DataTable.Title>

@@ -67,8 +67,7 @@ export const groupStyles = StyleSheet.create({
         alignItems: 'flex-start',
         marginTop: Dimensions.get("window").height / 74,
         width: '100%',
-        flex: 1,
-        backgroundColor: "#F5F5F9"
+        flex: 1
     },
 
     rowContainer: {

@@ -16,7 +16,8 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
             <Menu
                 visible={visible}
                 onDismiss={() => setVisible(false)}
-                contentStyle={{ backgroundColor: "#ffffff", shadowColor: "dddddd", width: Dimensions.get("window").width / 1.75, flex: 1 }}
+                contentStyle={{ backgroundColor: colors.tertiary, borderColor: colors.secondary, borderWidth: 2, 
+                    shadowColor: "dddddd", width: Dimensions.get("window").width / 1.75, flex: 1 }}
                 anchor={<Appbar.Action icon="dots-vertical" color="#ffffff" onPress={() => setVisible(true)} />}
             >
 

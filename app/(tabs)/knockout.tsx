@@ -48,7 +48,7 @@ const Elimination = () => {
     }, [group.isKnockoutGenerated])
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />

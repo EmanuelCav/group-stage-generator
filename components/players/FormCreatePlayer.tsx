@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dimensions, FlatList, ScrollView } from "react-native";
+import { Dimensions, ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
@@ -11,7 +11,6 @@ import StatisticPlayer from "./components/StatisticPlayer";
 import ContainerBackground from "../general/ContainerBackground";
 
 import { ICreatePlayer } from "@/interface/Team";
-import { IStatistic } from "@/interface/Player";
 import { FormCreatePlayerPropsType } from "@/types/player.types";
 
 import { createStyles } from "@/styles/create.styles";
@@ -21,11 +20,6 @@ import { generateStatistic, getTeamsName } from "@/utils/defaultGroup";
 
 import { playerSchema } from "@/schema/player.schema";
 
-type RenderStatistic = {
-    item: IStatistic;
-    index: number;
-}
-
 const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, handleUpdateStatistic }: FormCreatePlayerPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ? player.team?.name : group.teams[0].name!)
@@ -34,17 +28,10 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(playerSchema),
         defaultValues: {
-            name: player.name ? player.name : "",
-            position: player.position ? player.position : "",
+            name: player.name ?? "",
+            position: player.position ?? "",
         }
     })
-
-    const renderStatistic = ({ item, index }: RenderStatistic) => {
-        return (
-            <StatisticPlayer statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic}
-                isLast={(index + 1) === player.statistics?.length} />
-        )
-    }
 
     const handleAddPlayer = (playerCreated: ICreatePlayer) => {
 
@@ -136,7 +123,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 </Text>
             )}
 
-            <View style={createStyles.selectInputDropdownContain}>
+            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
                 <Text variant="labelLarge">{i18n.t("selectPlayerTeam")}</Text>
                 <Dropdown
                     style={[

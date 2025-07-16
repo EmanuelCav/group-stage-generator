@@ -9,7 +9,7 @@ import { eliminationStyles } from "@/styles/elimination.styles";
 
 const ColumnElimination = ({ text, matches, colors, indexElimination, handleGetMatch, group }: ColumnEliminationPropsType) => {
   return (
-    <View style={eliminationStyles.column}>
+    <View style={[eliminationStyles.column, { backgroundColor: colors.background }]}>
       <Text variant="titleMedium" style={eliminationStyles.roundTitle}>{text}</Text>
       {matches.map((match, index) => (
         <MatchElimination match={match} colors={colors} indexElimination={indexElimination}

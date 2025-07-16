@@ -8,9 +8,9 @@ import { SwitchSettingsPropsType } from '@/types/config.types';
 
 import { configStyles } from '@/styles/config.styles';
 
-const SwitchSettings = ({ text, name, control }: SwitchSettingsPropsType) => {
+const SwitchSettings = ({ text, name, control, colors }: SwitchSettingsPropsType) => {
     return (
-        <View style={configStyles.labelSettings}>
+        <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
             <Text variant="bodyLarge">{text}</Text>
             <Controller
                 name={name}

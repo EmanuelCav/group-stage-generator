@@ -110,7 +110,7 @@ const Players = () => {
     }, [])
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
             {
                 isSureStatistic && <Sure func={handleRemoveStatistic} text={i18n.t("areYouSureDelete")} close={close} labelButton={i18n.t("remove")} />
             }

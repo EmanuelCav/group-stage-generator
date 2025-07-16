@@ -30,6 +30,12 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          borderTopColor: 'transparent',
+          elevation: 0
+        },
         headerShown: useClientOnlyValue(false, true),
       }}>
       <Tabs.Screen

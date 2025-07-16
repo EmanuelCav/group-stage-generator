@@ -35,7 +35,6 @@ export interface ICreateAvoiding {
 
 export interface ICreateSummary {
     time: string;
-    title: string;
 }
 
 export interface IPlot {

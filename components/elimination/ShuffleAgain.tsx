@@ -26,7 +26,7 @@ const ShuffleAgain = ({ colors, handleLoading, group, generateElimination, updat
     }
 
     return (
-        <Card style={generalStyles.containerGenerateAgain}>
+        <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>
             <IconButton
                 icon="close"
                 style={generalStyles.buttonClose}

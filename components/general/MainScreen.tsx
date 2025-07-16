@@ -1,10 +1,10 @@
-import { ReactNode } from 'react'
-
 import { View } from '../Themed'
 
-const MainScreen = ({ children }: { children: ReactNode }) => {
+import { MainScreenPropsType } from '@/types/config.types'
+
+const MainScreen = ({ children, colors }: MainScreenPropsType) => {
   return (
-    <View style={{ flex: 1, backgroundColor: '#F5F5F9' }}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
         {children}
     </View>
   )

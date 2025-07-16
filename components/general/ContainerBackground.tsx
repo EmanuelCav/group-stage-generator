@@ -1,5 +1,6 @@
 import { View, Keyboard, KeyboardEvent, Dimensions, ScrollView } from "react-native"
 import { useEffect, useState } from "react";
+import { useTheme } from "react-native-paper";
 
 import { generalStyles } from "../../styles/general.styles"
 
@@ -7,7 +8,8 @@ import { ContainerBackgroundPropsType } from "@/types/props.types"
 
 const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType) => {
 
-  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
+  const { colors } = useTheme()
 
   useEffect(() => {
     const onKeyboardDidShow = (e: KeyboardEvent) => {
@@ -29,9 +31,12 @@ const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType)
 
 
   return (
-    <View style={[generalStyles.containerBackground, 
-    { zIndex, height: Dimensions.get("window").height - keyboardHeight }]}>
-      <ScrollView style={generalStyles.cardBackground}>
+    <View style={[generalStyles.containerBackground,
+    {
+      zIndex, height: Dimensions.get("window").height - keyboardHeight
+    }]}>
+      <ScrollView style={[generalStyles.cardBackground,
+      { backgroundColor: colors.background }]}>
         {children}
       </ScrollView>
     </View>

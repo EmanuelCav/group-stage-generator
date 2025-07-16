@@ -13,7 +13,7 @@ import { groupStyles } from '@/styles/group.styles';
 const GroupsList = ({ group, colors }: GroupsListPropsType) => {
 
     const renderGroup = ({ item: i }: { item: number }) => (
-        <View style={{ marginVertical: Dimensions.get("window").height / 148, backgroundColor: "#F5F5F9" }}>
+        <View style={{ marginVertical: Dimensions.get("window").height / 148, backgroundColor: colors.tertiary }}>
             <Title style={{ marginLeft: Dimensions.get("window").width / 18, color: colors.primary, fontWeight: 'bold' }}>
                 {i18n.t("group.title")} {i + 1}
             </Title>

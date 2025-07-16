@@ -1,7 +1,7 @@
 import { Router } from "expo-router";
 import { MD3Colors } from "react-native-paper/lib/typescript/types"
 
-import { IPlayer, IStatistic } from "@/interface/Player";
+import { IPlayer, IStatistic, IValueStatistic } from "@/interface/Player";
 import { IGroup } from "@/interface/Group";
 
 export type AddPlayersPropsType = {
@@ -34,4 +34,10 @@ export type ShowStatisticsPropsType = {
     colors: MD3Colors;
     group: IGroup;
     hideAndShowAddStatistic: (show: boolean) => void;
+}
+
+export type TableStatisticPropsType = {
+    colors: MD3Colors;
+    group: IGroup;
+    item: IValueStatistic[];
 }

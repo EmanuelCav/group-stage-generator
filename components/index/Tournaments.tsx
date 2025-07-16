@@ -10,9 +10,9 @@ const Tournaments = ({ groups, colors, handleGroup }: TournamentsPropsType) => {
       style={{ width: '100%' }}
       data={groups}
       keyExtractor={(group) => group.id!.toString()}
-      renderItem={({ item }) => 
-      <Tournament group={item} colors={colors} handleGroup={handleGroup} /> 
-    }
+      renderItem={({ item }) =>
+        <Tournament group={item} colors={colors} handleGroup={handleGroup} />
+      }
     />
   )
 }

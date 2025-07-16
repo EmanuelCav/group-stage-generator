@@ -24,7 +24,7 @@ const Groups = () => {
     }
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
             {
                 isLoading && <Loading text={i18n.t("generating")} />
             }

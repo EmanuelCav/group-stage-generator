@@ -24,7 +24,7 @@ import { teamSchema } from "@/schema/team.schema";
 
 const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure }: FormCreateTeamPropsType) => {
 
-  const [plot, setPlot] = useState<string>(team.plot ? `Plot ${team.plot}` : `Plot 1`)
+  const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [isFocus, setIsFocus] = useState<boolean>(false)
 
@@ -42,8 +42,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     if (status !== 'granted') {
       Toast.show({
         type: 'error',
-        text1: 'Permission Required',
-        text2: 'Permission to access the gallery is required'
+        text1: i18n.t("permissions.galleryAccess.title"),
+        text2: i18n.t("permissions.galleryAccess.message")
       });
       return;
     }

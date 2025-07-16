@@ -74,7 +74,7 @@ const Referees = () => {
     }, [])
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
             {
                 isSure && (
                     <Sure

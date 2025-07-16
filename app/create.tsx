@@ -162,8 +162,7 @@ const Create = () => {
   }, [])
 
   return (
-    <MainScreen>
-
+    <MainScreen colors={colors}>
 
       <Toast />
 
@@ -210,7 +209,7 @@ const Create = () => {
 
       <SureGeneral />
 
-      <View style={generalStyles.containerGeneral}>
+      <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {group.teams.length > 0 ? (
           <AddButton colors={colors} handleAdd={openCreateTeam} />
         ) : (
@@ -239,7 +238,7 @@ const Create = () => {
             )}
           />
         ) : (
-          <Text variant="bodyMedium" style={createStyles.advideText}>
+          <Text variant="bodyMedium" style={[createStyles.advideText, { color: colors.surface }]}>
             {i18n.t('addTeamsToGenerate')}
           </Text>
         )}

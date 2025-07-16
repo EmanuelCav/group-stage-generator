@@ -10,8 +10,8 @@ import { CreateEliminationPropsType } from "@/types/elimination.types"
 
 const CreateElimination = ({ colors, updateCreateElimination }: CreateEliminationPropsType) => {
     return (
-        <View style={generalStyles.containerGeneral}>
-            <View style={createStyles.containerAddTeam}>
+        <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
+            <View style={[createStyles.containerAddTeam, { backgroundColor: colors.background }]}>
                 <Text variant="titleLarge" style={[createStyles.textHeader, { color: colors.primary }]}>
                     {i18n.t("knockoutStage.title")}
                 </Text>

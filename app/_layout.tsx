@@ -1,6 +1,7 @@
 import 'react-native-reanimated';
 import mobileAds from 'react-native-google-mobile-ads';
 import { useEffect } from 'react';
+import { StatusBar, useColorScheme } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack, } from 'expo-router';
@@ -10,8 +11,7 @@ import i18n from '@/i18n'
 
 import { responseStore } from '@/store/response.store';
 
-import { theme } from '@/utils/theme';
-import { StatusBar } from 'react-native';
+import { darkTheme, lightTheme } from '@/utils/theme';
 
 export {
   ErrorBoundary,
@@ -46,6 +46,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
 
   const { handleLoading } = responseStore()
+  const colorScheme = useColorScheme()
 
   useEffect(() => {
     mobileAds().initialize().then(() => {
@@ -58,7 +59,7 @@ function RootLayoutNav() {
   }, [])
 
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={colorScheme === "dark" ? darkTheme : lightTheme}>
       <StatusBar barStyle={"default"} />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

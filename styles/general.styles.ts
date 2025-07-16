@@ -7,8 +7,7 @@ export const generalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        padding: Dimensions.get("window").height / 106,
-        backgroundColor: '#F5F5F9'
+        padding: Dimensions.get("window").height / 106
     },
 
     containerBanner: {
@@ -31,7 +30,6 @@ export const generalStyles = StyleSheet.create({
     },
 
     cardBackground: {
-        backgroundColor: '#ffffff',
         borderRadius: 8,
         width: '100%',
         flexGrow: 0,
@@ -52,7 +50,8 @@ export const generalStyles = StyleSheet.create({
         position: "absolute",
         bottom: Dimensions.get("window").height / 7,
         right: Dimensions.get("window").width / 12,
-        zIndex: 12
+        zIndex: 12,
+        backgroundColor: "transparent"
     },
 
     buttonClose: {
@@ -70,7 +69,6 @@ export const generalStyles = StyleSheet.create({
     },
 
     containerGenerateAgain: {
-        backgroundColor: "#ffffff",
         padding: Dimensions.get("window").height / 182,
         margin: Dimensions.get("window").height / 74,
     },

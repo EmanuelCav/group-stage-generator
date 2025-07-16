@@ -149,7 +149,7 @@ const Match = () => {
     }, [])
 
     return (
-        <MainScreen>
+        <MainScreen colors={colors}>
             <HeaderGeneral
                 colors={colors}
                 goBack={goBack}
@@ -214,6 +214,7 @@ const Match = () => {
 
             {showFormSummary && (
                 <FormSummary
+                    router={router}
                     colors={colors}
                     hideAndShowSummary={hideAndShowSummary}
                     updateMatchGroup={updateMatchGroup}
@@ -242,9 +243,9 @@ const Match = () => {
                 />
             )}
 
-            <View style={matchStyles.containerMatch}>
+            <View style={[matchStyles.containerMatch, { backgroundColor: "transparent" }]}>
                 <TitleMatch match={match} colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} />
-                <ScoreTeams match={match.match!} />
+                <ScoreTeams match={match.match!} colors={colors} />
                 <Information match={match.match!} colors={colors} />
                 <SegmentedButtons
                     style={{ marginTop: Dimensions.get("window").height / 47 }}

@@ -44,7 +44,6 @@ export const createStyles = StyleSheet.create({
 
     inputAdd: {
         marginVertical: Dimensions.get("window").height / 74,
-        backgroundColor: "#ffffff"
     },
 
     inputGeneralCreate: {
@@ -64,7 +63,6 @@ export const createStyles = StyleSheet.create({
         padding: Dimensions.get("window").height / 106,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#ffffff',
         borderRadius: 8,
         flexDirection: 'row',
         borderStyle: 'solid',
@@ -87,7 +85,6 @@ export const createStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'space-between',
         marginVertical: Dimensions.get("window").height / 74,
-        backgroundColor: "#F5F5F9"
     },
 
     dropdown: {
@@ -101,7 +98,6 @@ export const createStyles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
-        backgroundColor: "#ffffff",
         padding: Dimensions.get("window").width / 45,
         width: '100%',
         marginTop: Dimensions.get("window").height / 106

@@ -134,9 +134,10 @@
         "update": "ACTUALIZAR",
         "remove": "ELIMINAR"
     },
-    "summary.selectTeam": "Selecciona el equipo del resumen (opcional)",
-    "summary.selectPlayer": "Selecciona el jugador del resumen",
-    "summary.minute": "Minuto de juego",
+    "sumarry_select_event": "Selecciona el evento",
+    "sumarry_select_team": "Selecciona el equipo del resumen (opcional)",
+    "sumarry_select_player": "Selecciona el jugador del resumen",
+    "sumarry_minute": "Minuto de juego",
     "team_scores": "Puntuaciones del equipo",
     "select_match_date": "Selecciona la fecha del partido",
     "match_date": "Fecha del partido",
@@ -316,5 +317,16 @@
             "title": "Título de la estadística",
             "existsError": "El título de la estadística ya existe"
         }
-    }
+    },
+    "goals": "Goles",
+    "yellow": "Tarjetas amarillas",
+    "red": "Tarjetas rojas",
+    "assists": "Asistencias",
+    "plot": "Bombo",
+    "winner": "Ganador",
+    "final": "Final",
+    "semi_finals": "Semifinales",
+    "quarter_finals": "Cuartos de final",
+    "round_of": "Ronda de",
+    "select_hour": "Seleccionar hora"
 }

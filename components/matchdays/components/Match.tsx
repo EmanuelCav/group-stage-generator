@@ -14,7 +14,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
         <Pressable onPress={() => handleGetMatch({
             match,
             matchday: matchdayNumber + 1
-        })} style={{ backgroundColor: '#ffffff' }}>
+        })} style={{ backgroundColor: colors.tertiary }}>
             {
                 index === 0 && group.matchdayView === "all" && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}
@@ -26,8 +26,8 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                 </Text>
             }
             <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
-                <DataTable.Cell style={groupStyles.rowStart}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <DataTable.Cell style={[groupStyles.rowStart]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
                         {match.local.team.logo ? (
                             <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
                         ) : (
@@ -50,7 +50,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                         </DataTable.Cell>
                 }
                 <DataTable.Cell style={groupStyles.rowEnd}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
                         <Text style={{ marginRight: Dimensions.get("window").width / 36 }}>{match.visitant.team.name}</Text>
                         {match.visitant.team.logo ? (
                             <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />

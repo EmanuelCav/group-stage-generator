@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import { enGB, registerTranslation } from 'react-native-paper-dates'
 import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
-// import { DatePickerModal } from 'react-native-paper-dates';
+import { DatePickerInput, DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import i18n from '@/i18n'
 
 import { View } from '../Themed'
@@ -19,13 +20,19 @@ import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 
 const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday }: FormUpdateMatchPropsType) => {
 
-    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "0")
-    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "0")
+    registerTranslation('en-GB', enGB)
+
+    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "")
+    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "")
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ? match.stadium : "")
     const [referreSelected, setRefereeSelected] = useState<string>(match.referee ? match.referee : "")
     const [isFocusStadium, setIsFocusStadium] = useState<boolean>(false)
     const [isFocusReferee, setIsFocusReferee] = useState<boolean>(false)
-    const [date, setDate] = useState<Date | undefined>(match.date ? new Date(match.date) : undefined)
+    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [time, setTime] = useState<{ hours: number; minutes: number } | undefined>(undefined);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
+
     const [open, setOpen] = useState<boolean>(false)
 
     const handleUpdateMatch = () => {
@@ -80,18 +87,25 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 onPress={() => hideAndShowUpdateMatch(false)}
             />
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
+            <Text variant="labelLarge"
+                style={{
+                    marginVertical: Dimensions.get("window").height / 28,
+                    color: colors.surface
+                }}>
                 {i18n.t("team_scores")}
             </Text>
 
-            <View style={matchStyles.scoreTeamForm}>
-                <View style={matchStyles.teamForm}>
+            <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.tertiary }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.tertiary }]}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} />
                     )}
-                    <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
+                    <Text variant='bodyMedium' style={{
+                        marginTop: Dimensions.get("window").height / 106,
+                        color: colors.surface
+                    }}>
                         {match.local.team.name}
                     </Text>
                 </View>
@@ -108,14 +122,20 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 />
             </View>
 
-            <View style={[matchStyles.scoreTeamForm, { marginVertical: Dimensions.get("window").height / 74 }]}>
+            <View style={[matchStyles.scoreTeamForm, {
+                marginVertical: Dimensions.get("window").height / 74,
+                backgroundColor: colors.tertiary
+            }]}>
                 <View style={matchStyles.teamForm}>
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} />
                     )}
-                    <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
+                    <Text variant='bodyMedium' style={{
+                        marginTop: Dimensions.get("window").height / 106,
+                        color: colors.surface
+                    }}>
                         {match.visitant.team.name}
                     </Text>
                 </View>
@@ -132,18 +152,45 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 />
             </View>
 
-            <View style={createStyles.selectInputDropdownContain}>
+            <View style={[createStyles.selectInputDropdownContain,
+            { backgroundColor: colors.tertiary }]}>
                 <Text variant="labelLarge">{i18n.t("select_match_date")}</Text>
-                <TextInput
-                    label={i18n.t("match_date")}
-                    value={date ? date.toLocaleString() : i18n.t("select_date")}
-                    onFocus={() => setOpen(true)}
-                    style={matchStyles.dateInput}
+
+                <Button onPress={() => setShowDatePicker(true)}>
+                    {date ? date.toLocaleDateString() : i18n.t("select_date")}
+                </Button>
+
+                <Button onPress={() => setShowTimePicker(true)}>
+                    {time ? `${time.hours}:${time.minutes.toString().padStart(2, '0')}` : i18n.t("select_hour")}
+                </Button>
+
+                <DatePickerModal
+                    locale="en-GB"
+                    mode="single"
+                    visible={showDatePicker}
+                    onDismiss={() => setShowDatePicker(false)}
+                    date={date}
+                    onConfirm={(d: any) => {
+                        setShowDatePicker(false);
+                        setDate(d);
+                    }}
+                />
+
+                <TimePickerModal
+                    visible={showTimePicker}
+                    onDismiss={() => setShowTimePicker(false)}
+                    onConfirm={(t) => {
+                        setShowTimePicker(false);
+                        setTime(t);
+                    }}
+                    hours={time?.hours}
+                    minutes={time?.minutes}
+                    locale="en"
                 />
             </View>
 
-            <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">{i18n.t("select_stadium")}</Text>
+            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.tertiary }]}>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_stadium")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusStadium && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
@@ -163,8 +210,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 />
             </View>
 
-            <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">{i18n.t("select_referee")}</Text>
+            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.tertiary }]}>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_referee")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, isFocusReferee && { borderColor: colors.primary }]}
                     placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}

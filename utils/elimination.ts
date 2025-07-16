@@ -4,6 +4,7 @@ import { shuffle } from "./generator";
 import { IPoints } from "@/interface/Team";
 import { IGroup } from "@/interface/Group";
 import { IDetectChanges, IMatch, IMatchTeam } from "@/interface/Match";
+import i18n from "@/i18n";
 
 export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][] => {
 
@@ -174,14 +175,14 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                     local: {
                         score: null,
                         team: {
-                            name: `Winner ${winnerIndex}`,
+                            name: `${i18n.t("winner")} ${winnerIndex}`,
                             logo: ""
                         },
                     },
                     visitant: {
                         score: null,
                         team: {
-                            name: `Winner ${winnerIndex + 1}`,
+                            name: `${i18n.t("winner")} ${winnerIndex + 1}`,
                             logo: ""
                         },
                     },
@@ -206,13 +207,13 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
 
 export const columnTitle = (index: number, length: number): string => {
 
-    if (index === length - 1) return "Final"
+    if (index === length - 1) return i18n.t("final")
 
-    if (index === length - 2) return "Semi-finals"
+    if (index === length - 2) return i18n.t("semi_finals")
 
-    if (index === length - 3) return "Quarter-finals"
+    if (index === length - 3) return i18n.t("quarter_finals")
 
-    return `Round of ${Math.pow(2, index)}`
+    return `${i18n.t("round_of")} ${Math.pow(2, index)}`
 
 }
 

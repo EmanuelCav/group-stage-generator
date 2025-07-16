@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
+import { Button, Icon, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
 
@@ -16,28 +16,35 @@ import { FormSummaryPropsType } from "@/types/match.types"
 import { generalStyles } from "@/styles/general.styles"
 import { createStyles } from "@/styles/create.styles";
 import { configStyles } from "@/styles/config.styles";
+import { statisticsStyles } from "@/styles/statistics.styles";
 
 import { summarySchema } from "@/schema/match.schema";
 
 import { getTeamsName, getPlayerName } from "@/utils/defaultGroup";
+import { showEvents } from "@/utils/statistics";
 
-const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup }: FormSummaryPropsType) => {
+const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router }: FormSummaryPropsType) => {
 
+    const [statisticSelected, setStatisticSelected] = useState<string>("")
     const [teamSelected, setTeamSelected] = useState<string>("")
-    const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ? summary.player.name : "")
+    const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ?? "")
 
+    const [isFocusEvent, setIsFocusEvent] = useState<boolean>(false)
     const [isFocusTeam, setIsFocusTeam] = useState<boolean>(false)
     const [isFocusPlayer, setIsFocusPlayer] = useState<boolean>(false)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(summarySchema),
         defaultValues: {
-            title: summary.title ? summary.title : "",
-            time: summary.time ? summary.time : "0"
+            time: summary.time ?? "0"
         }
     })
 
     const handleAddSummary = (summaryCreated: ICreateSummary) => {
+
+        if (!statisticSelected) {
+            return
+        }
 
         if (!playerSelected) {
             return
@@ -55,7 +62,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 stadium: match.stadium!,
                 summary: match.summary.map((s) => s.id === summary.id ?
                     {
-                        ...summary, title: summaryCreated.title, time: summaryCreated.time, player: playerSelected ?
+                        ...summary, title: statisticSelected, time: summaryCreated.time, player: playerSelected ?
                             group.players?.find((p) => p.name === playerSelected) : s.player
                     } : s),
                 players: match.players,
@@ -113,7 +120,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 stadium: match.stadium!,
                 summary: [...match.summary, {
                     id: match.summary.length + 1,
-                    title: summaryCreated.title,
+                    title: statisticSelected,
                     player: group.players?.find((p) => p.name === playerSelected),
                     time: summaryCreated.time
                 }],
@@ -178,135 +185,158 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 size={24}
                 onPress={() => hideAndShowSummary(false)}
             />
-
-            <Controller
-                name="title"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        value={value}
-                        onChangeText={onChange}
-                        autoCapitalize="none"
-                        onBlur={onBlur}
-                        label={i18n.t("summary.title")}
-                        mode="outlined"
-                        style={createStyles.inputGeneralCreate}
-                        maxLength={12}
-                    />
-                )}
-            />
-
             {
-                errors.title?.message &&
-                <Text
-                    variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
-                >
-                    {errors.title.message}
-                </Text>
-            }
+                group.players?.length! > 0 ?
+                    <View style={{ marginTop: Dimensions.get("window").height / 28 }}>
+                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+                            <Text variant="labelLarge">
+                                {i18n.t("sumarry_select_event")}
+                            </Text>
+                            <Dropdown
+                                style={[createStyles.dropdownComplete, isFocusEvent && { borderColor: colors.primary }]}
+                                placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                data={showEvents(group)}
+                                maxHeight={Dimensions.get("window").height / 3.8}
+                                labelField="label"
+                                valueField="value"
+                                placeholder={String(statisticSelected)}
+                                value={statisticSelected}
+                                onFocus={() => setIsFocusEvent(true)}
+                                onBlur={() => setIsFocusEvent(false)}
+                                onChange={item => {
+                                    setStatisticSelected(item.value);
+                                    setIsFocusEvent(false);
+                                }}
+                            />
+                        </View>
 
-            <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">
-                    {i18n.t("summary.selectTeam", { defaultValue: "Select the team from the summary (optional)" })}
-                </Text>
-                <Dropdown
-                    style={[createStyles.dropdownComplete, isFocusTeam && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    data={getTeamsName([match.local.team, match.visitant.team])}
-                    maxHeight={Dimensions.get("window").height / 3.8}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={String(teamSelected)}
-                    value={teamSelected}
-                    onFocus={() => setIsFocusTeam(true)}
-                    onBlur={() => setIsFocusTeam(false)}
-                    onChange={item => {
-                        setTeamSelected(item.value);
-                        setIsFocusTeam(false);
-                    }}
-                />
-            </View>
+                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+                            <Text variant="labelLarge">
+                                {i18n.t("sumarry_select_team")}
+                            </Text>
+                            <Dropdown
+                                style={[createStyles.dropdownComplete, isFocusTeam && { borderColor: colors.primary }]}
+                                placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                data={getTeamsName([match.local.team, match.visitant.team])}
+                                maxHeight={Dimensions.get("window").height / 3.8}
+                                labelField="label"
+                                valueField="value"
+                                placeholder={String(teamSelected)}
+                                value={teamSelected}
+                                onFocus={() => setIsFocusTeam(true)}
+                                onBlur={() => setIsFocusTeam(false)}
+                                onChange={item => {
+                                    setTeamSelected(item.value);
+                                    setIsFocusTeam(false);
+                                }}
+                            />
+                        </View>
 
-            <View style={createStyles.selectInputDropdownContain}>
-                <Text variant="labelLarge">
-                    {i18n.t("summary.selectPlayer", { defaultValue: "Select the player from the summary" })}
-                </Text>
-                <Dropdown
-                    style={[createStyles.dropdownComplete, isFocusPlayer && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    data={getPlayerName(
-                        group.players?.filter((p) =>
-                            teamSelected
-                                ? p.team?.name === teamSelected
-                                : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
-                        )!
-                    )}
-                    maxHeight={Dimensions.get("window").height / 3.8}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={String(playerSelected)}
-                    value={playerSelected}
-                    onFocus={() => setIsFocusPlayer(true)}
-                    onBlur={() => setIsFocusPlayer(false)}
-                    onChange={item => {
-                        setPlayerSelected(item.value);
-                        setIsFocusPlayer(false);
-                    }}
-                />
-            </View>
+                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+                            <Text variant="labelLarge">
+                                {i18n.t("sumarry_select_player")}
+                            </Text>
+                            <Dropdown
+                                style={[createStyles.dropdownComplete, isFocusPlayer && { borderColor: colors.primary }]}
+                                placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                data={getPlayerName(
+                                    group.players?.filter((p) =>
+                                        teamSelected
+                                            ? p.team?.name === teamSelected
+                                            : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
+                                    )!
+                                )}
+                                maxHeight={Dimensions.get("window").height / 3.8}
+                                labelField="label"
+                                valueField="value"
+                                placeholder={String(playerSelected)}
+                                value={playerSelected}
+                                onFocus={() => setIsFocusPlayer(true)}
+                                onBlur={() => setIsFocusPlayer(false)}
+                                onChange={item => {
+                                    setPlayerSelected(item.value);
+                                    setIsFocusPlayer(false);
+                                }}
+                            />
+                        </View>
 
-            <View style={configStyles.labelSettings}>
-                <Text variant="bodyLarge">
-                    {i18n.t("summary.minute", { defaultValue: "Minute of play" })}
-                </Text>
-                <Controller
-                    name="time"
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            keyboardType="numeric"
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            value={value}
-                            style={configStyles.inputSettingsNumber}
+                        <View style={[configStyles.labelSettings, { backgroundColor: "#ffffff" }]}>
+                            <Text variant="bodyLarge">
+                                {i18n.t("sumarry_minute")}
+                            </Text>
+                            <Controller
+                                name="time"
+                                control={control}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        keyboardType="numeric"
+                                        onChangeText={onChange}
+                                        onBlur={onBlur}
+                                        value={value}
+                                        style={configStyles.inputSettingsNumber}
+                                    />
+                                )}
+                            />
+                            {
+                                errors.time &&
+                                <Text
+                                    variant="bodySmall"
+                                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}
+                                >
+                                    {errors.time.message}
+                                </Text>
+                            }
+                        </View>
+
+                        <Button
+                            mode="contained"
+                            style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
+                            labelStyle={{ color: "#ffffff" }}
+                            onPress={handleSubmit((data) => handleAddSummary(data))}
+                        >
+                            {summary.id ? i18n.t("general.update") : i18n.t("general.add")}
+                        </Button>
+
+                        {
+                            summary.id &&
+                            <Button
+                                mode="contained"
+                                style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
+                                labelStyle={{ color: "#ffffff" }}
+                                onPress={() => sureRemoveSummary(true)}
+                            >
+                                {i18n.t("general.remove")}
+                            </Button>
+                        }
+
+                    </View>
+                    :
+                    <View style={{ marginTop: Dimensions.get("window").height / 28 }}>
+                        <Text variant='titleLarge' style={{ color: colors.primary }}>
+                            {i18n.t("statistics")}
+                        </Text>
+                        <Icon
+                            source="chart-bar"
+                            color={colors.primary}
+                            size={42}
                         />
-                    )}
-                />
-                {
-                    errors.time &&
-                    <Text
-                        variant="bodySmall"
-                        style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}
-                    >
-                        {errors.time.message}
-                    </Text>
-                }
-            </View>
-
-            <Button
-                mode="contained"
-                style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }}
-                onPress={handleSubmit((data) => handleAddSummary(data))}
-            >
-                {summary.id ? i18n.t("general.update") : i18n.t("general.add")}
-            </Button>
-
-            {
-                summary.id &&
-                <Button
-                    mode="contained"
-                    style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
-                    labelStyle={{ color: "#ffffff" }}
-                    onPress={() => sureRemoveSummary(true)}
-                >
-                    {i18n.t("general.remove")}
-                </Button>
+                        <Text variant='bodyLarge' style={statisticsStyles.titleStatistics}>
+                            {i18n.t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
+                        </Text>
+                        <Button
+                            mode="contained"
+                            icon="account-multiple-plus"
+                            style={[{ backgroundColor: colors.primary }, createStyles.buttonAdd]}
+                            labelStyle={{ color: "#ffffff" }}
+                            onPress={() => router.push('/players')}
+                        >
+                            {i18n.t("addPlayers")}
+                        </Button>
+                    </View>
             }
-
         </ContainerBackground>
     );
 };

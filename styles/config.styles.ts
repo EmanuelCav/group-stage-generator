@@ -13,7 +13,6 @@ export const configStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginVertical: Dimensions.get("window").height / 106,
-        backgroundColor: "#F5F5F9"
     },
 
     textConfig: {

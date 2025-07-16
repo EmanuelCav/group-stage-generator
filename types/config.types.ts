@@ -2,12 +2,18 @@ import { Control, UseFormHandleSubmit } from "react-hook-form";
 import { IGroup, ISetting } from "@/interface/Group";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { IAvoidingMatches } from "@/interface/Avoiding";
+import { PropsWithChildren } from "react";
 
 export type SwitchSettingsPropsType = {
     text: string;
     name: keyof ISetting;
     control: Control<ISetting>;
+    colors: MD3Colors;
 };
+
+export type MainScreenPropsType = PropsWithChildren<{
+    colors: MD3Colors;
+}>
 
 export type InputSettingsPropsType = {
     text: string;
@@ -15,6 +21,7 @@ export type InputSettingsPropsType = {
     control: Control<ISetting>;
     error?: string;
     defaultValue: string;
+    colors: MD3Colors;
 };
 
 export type SettingsButtonPropsType = {

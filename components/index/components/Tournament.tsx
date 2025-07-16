@@ -8,9 +8,15 @@ import { indexStyles } from "@/styles/index.styles";
 
 const Tournament = ({ group, colors, handleGroup }: TournamentPropsType) => {
     return (
-        <Card style={{ marginTop: Dimensions.get("window").height / 74 }}
+        <Card style={{
+            marginTop: Dimensions.get("window").height / 74,
+            borderColor: colors.primary,
+            borderStyle: 'solid',
+            borderWidth: 2,
+            backgroundColor: colors.tertiary
+        }}
             onPress={() => handleGroup(group)}>
-            <Card.Content style={{ backgroundColor: colors.primary }}>
+            <Card.Content>
                 <View style={indexStyles.containTournament}>
                     {
                         group.logo ? (
@@ -22,16 +28,18 @@ const Tournament = ({ group, colors, handleGroup }: TournamentPropsType) => {
                         ) : (
                             <IconButton
                                 icon="trophy"
-                                iconColor={MD3Colors.neutral100}
+                                iconColor={colors.primary}
                                 size={40}
                             />
                         )
                     }
                     <View style={{ flex: 1 }}>
-                        <Text variant="titleLarge" style={indexStyles.textTournament} numberOfLines={1}>
+                        <Text variant="titleLarge"
+                            style={[indexStyles.textTournament, { color: colors.primary }]}
+                            numberOfLines={1}>
                             {group.title?.slice(0, 20)}
                         </Text>
-                        <Text variant="labelLarge" style={indexStyles.textTournament}>
+                        <Text variant="labelLarge" style={[indexStyles.textTournament, { color: colors.primary }]}>
                             {i18n.t('group.numberOfTeams', { count: group.teams.length })}
                         </Text>
                     </View>

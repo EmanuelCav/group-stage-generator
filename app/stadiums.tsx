@@ -74,7 +74,7 @@ const Stadiums = () => {
   }, [])
 
   return (
-    <MainScreen>
+    <MainScreen colors={colors}>
       {
         isSure && (
           <Sure
