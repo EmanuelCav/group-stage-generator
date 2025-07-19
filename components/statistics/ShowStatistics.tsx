@@ -14,7 +14,7 @@ import { statisticTable } from '@/utils/statistics';
 const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisticsPropsType) => {
 
     return (
-        <View style={generalStyles.containerGeneral}>
+        <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
             <Button
                 mode="contained"
                 onPress={() => hideAndShowAddStatistic(true)}
@@ -27,11 +27,12 @@ const ShowStatistics = ({ group, colors, hideAndShowAddStatistic }: ShowStatisti
                 style={{ width: '100%' }}
                 data={statisticTable(group)}
                 keyExtractor={(_, index) => String(index)}
-                renderItem={({ item }) =>
+                renderItem={({ item, index }) =>
                     <TableStatistic
                         group={group}
                         colors={colors}
-                        item={item}
+                        itemStatistic={item}
+                        indexStatistic={index}
                     />
                 }
             />

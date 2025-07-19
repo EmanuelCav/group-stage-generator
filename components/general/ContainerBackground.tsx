@@ -33,7 +33,8 @@ const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType)
   return (
     <View style={[generalStyles.containerBackground,
     {
-      zIndex, height: Dimensions.get("window").height - keyboardHeight
+      zIndex, height: Dimensions.get("window").height - keyboardHeight,
+      backgroundColor: "rgba(58, 64, 73, 0.5)"
     }]}>
       <ScrollView style={[generalStyles.cardBackground,
       { backgroundColor: colors.background }]}>

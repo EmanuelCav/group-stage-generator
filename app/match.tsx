@@ -292,7 +292,7 @@ const Match = () => {
                                 )}
                             />
                         ) : (
-                            <View style={matchStyles.containAdd}>
+                            <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>
                                 <AddAction openForm={hideAndShowSummary} colors={colors} text={i18n.t("summary_add")} />
                             </View>
@@ -316,7 +316,7 @@ const Match = () => {
                                 )}
                             />
                         ) : (
-                            <View style={matchStyles.containAdd}>
+                            <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("lineup_empty")}</Text>
                                 <AddAction openForm={hideAndShowPlayers} colors={colors} text={i18n.t("lineup_add")} />
                             </View>
@@ -337,7 +337,7 @@ const Match = () => {
                                 )}
                             />
                         ) : (
-                            <View style={matchStyles.containAdd}>
+                            <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
                                 <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
                             </View>

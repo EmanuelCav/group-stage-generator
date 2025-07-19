@@ -107,7 +107,7 @@ const Referees = () => {
                 sureRestartGroup={sureRestartGroup}
             />
             <SureGeneral />
-            <View style={generalStyles.containerGeneral}>
+            <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {
                     group.referees!.length > 0 ? (
                         <AddButton colors={colors} handleAdd={openCreateReferee} />

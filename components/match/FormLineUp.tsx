@@ -134,9 +134,9 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
                 {i18n.t('lineup.selectPlayers')}
             </Text>
 
-            <View style={matchStyles.containerLineUp}>
+            <View style={[matchStyles.containerLineUp, { backgroundColor: colors.background }]}>
                 <ScrollView>
-                    <TeamView team={match.local} />
+                    <TeamView team={match.local} colors={colors} />
                     {group.players
                         ?.filter((p) => p.team?.name === match.local.team.name)
                         .map((player) => (
@@ -150,7 +150,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
                 </ScrollView>
 
                 <ScrollView>
-                    <TeamView team={match.visitant} />
+                    <TeamView team={match.visitant} colors={colors} />
                     {group.players
                         ?.filter((p) => p.team?.name === match.visitant.team.name)
                         .map((player) => (

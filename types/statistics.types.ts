@@ -39,5 +39,6 @@ export type ShowStatisticsPropsType = {
 export type TableStatisticPropsType = {
     colors: MD3Colors;
     group: IGroup;
-    item: IValueStatistic[];
+    itemStatistic: IValueStatistic[];
+    indexStatistic: number;
 }

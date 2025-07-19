@@ -187,15 +187,34 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             />
             {
                 group.players?.length! > 0 ?
-                    <View style={{ marginTop: Dimensions.get("window").height / 28 }}>
-                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+                    <View style={{ marginTop: Dimensions.get("window").height / 28, backgroundColor: colors.background }}>
+                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
                                 {i18n.t("sumarry_select_event")}
                             </Text>
                             <Dropdown
-                                style={[createStyles.dropdownComplete, isFocusEvent && { borderColor: colors.primary }]}
-                                placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                                selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                style={[
+                                    createStyles.dropdownComplete,
+                                    { backgroundColor: colors.tertiary },
+                                    isFocusEvent && { borderColor: colors.primary },
+                                ]}
+                                placeholderStyle={{
+                                    fontSize: Dimensions.get("window").height / 47,
+                                    color: colors.surface,
+                                    backgroundColor: colors.tertiary
+                                }}
+                                selectedTextStyle={{
+                                    fontSize: Dimensions.get("window").height / 47,
+                                    color: colors.surface,
+                                    backgroundColor: colors.tertiary
+                                }}
+                                itemTextStyle={{
+                                    color: colors.surface
+                                }}
+                                containerStyle={{
+                                    backgroundColor: colors.tertiary,
+                                }}
+                                activeColor={colors.primary}
                                 data={showEvents(group)}
                                 maxHeight={Dimensions.get("window").height / 3.8}
                                 labelField="label"
@@ -211,14 +230,33 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             />
                         </View>
 
-                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
                                 {i18n.t("sumarry_select_team")}
                             </Text>
                             <Dropdown
-                                style={[createStyles.dropdownComplete, isFocusTeam && { borderColor: colors.primary }]}
-                                placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                                selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                style={[
+                                    createStyles.dropdownComplete,
+                                    { backgroundColor: colors.tertiary },
+                                    isFocusTeam && { borderColor: colors.primary },
+                                ]}
+                                placeholderStyle={{
+                                    fontSize: Dimensions.get("window").height / 47,
+                                    color: colors.surface,
+                                    backgroundColor: colors.tertiary
+                                }}
+                                selectedTextStyle={{
+                                    fontSize: Dimensions.get("window").height / 47,
+                                    color: colors.surface,
+                                    backgroundColor: colors.tertiary
+                                }}
+                                itemTextStyle={{
+                                    color: colors.surface
+                                }}
+                                containerStyle={{
+                                    backgroundColor: colors.tertiary,
+                                }}
+                                activeColor={colors.primary}
                                 data={getTeamsName([match.local.team, match.visitant.team])}
                                 maxHeight={Dimensions.get("window").height / 3.8}
                                 labelField="label"
@@ -234,14 +272,33 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             />
                         </View>
 
-                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+                        <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
                                 {i18n.t("sumarry_select_player")}
                             </Text>
                             <Dropdown
-                                style={[createStyles.dropdownComplete, isFocusPlayer && { borderColor: colors.primary }]}
-                                placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                                selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                                style={[
+                                    createStyles.dropdownComplete,
+                                    { backgroundColor: colors.tertiary },
+                                    isFocusPlayer && { borderColor: colors.primary },
+                                ]}
+                                placeholderStyle={{
+                                    fontSize: Dimensions.get("window").height / 47,
+                                    color: colors.surface,
+                                    backgroundColor: colors.tertiary
+                                }}
+                                selectedTextStyle={{
+                                    fontSize: Dimensions.get("window").height / 47,
+                                    color: colors.surface,
+                                    backgroundColor: colors.tertiary
+                                }}
+                                itemTextStyle={{
+                                    color: colors.surface
+                                }}
+                                containerStyle={{
+                                    backgroundColor: colors.tertiary,
+                                }}
+                                activeColor={colors.primary}
                                 data={getPlayerName(
                                     group.players?.filter((p) =>
                                         teamSelected
@@ -263,7 +320,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             />
                         </View>
 
-                        <View style={[configStyles.labelSettings, { backgroundColor: "#ffffff" }]}>
+                        <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
                             <Text variant="bodyLarge">
                                 {i18n.t("sumarry_minute")}
                             </Text>
@@ -276,7 +333,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                         onChangeText={onChange}
                                         onBlur={onBlur}
                                         value={value}
-                                        style={configStyles.inputSettingsNumber}
+                                        maxLength={3}
+                                        style={[configStyles.inputSettingsNumber, { backgroundColor: colors.tertiary }]}
                                     />
                                 )}
                             />

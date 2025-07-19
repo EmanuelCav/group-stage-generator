@@ -75,7 +75,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                         onBlur={onBlur}
                         label={i18n.t("stadiumName")}
                         mode="outlined"
-                        style={createStyles.inputGeneralCreate}
+                        style={[createStyles.inputGeneralCreate, { backgroundColor: colors.tertiary }]}
                         maxLength={30}
                     />
                 )}

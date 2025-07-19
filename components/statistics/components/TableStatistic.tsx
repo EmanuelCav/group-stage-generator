@@ -1,4 +1,4 @@
-import { FlatList, ScrollView } from "react-native";
+import { Dimensions, FlatList, ScrollView } from "react-native";
 import { Text } from "react-native-paper";
 import i18n from '@/i18n'
 
@@ -8,10 +8,10 @@ import { TableStatisticPropsType } from "@/types/statistics.types";
 
 import { groupStyles } from "@/styles/group.styles";
 
-import { namePlayerStatistic, tableStatistics } from "@/utils/statistics";
+import { namePlayerStatistic } from "@/utils/statistics";
 import { groupName } from "@/utils/points";
 
-const TableStatistic = ({ colors, group, item }: TableStatisticPropsType) => {
+const TableStatistic = ({ colors, group, itemStatistic, indexStatistic }: TableStatisticPropsType) => {
   return (
     <View style={groupStyles.groupList}>
       <View>
@@ -23,53 +23,35 @@ const TableStatistic = ({ colors, group, item }: TableStatisticPropsType) => {
             {i18n.t("teamName")}
           </Text>
         </View>
-        {/* <FlatList
-          style={{ backgroundColor: "#F5F5F9" }}
-          data={tableStatistics(group)}
+        <FlatList
+          data={itemStatistic}
           keyExtractor={(_, index) => String(index)}
-          renderItem={({ item }: { item: { [key: string]: number } }) => (
-            <View style={groupStyles.row} key={key}>
-                  <View style={groupStyles.cellStatisticMain}>
-                    <Text variant="bodyMedium">
-                      {key === "team" ? groupName(String(value)) : namePlayerStatistic(String(value))}
-                    </Text>
-                  </View>
+          renderItem={({ item }) => (
+            <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
+              <Text style={groupStyles.statisticsCell} variant="bodyMedium">{namePlayerStatistic(item.player)}</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.tertiary }}>
+                <Text style={groupStyles.statisticsCell} variant="bodyMedium">{groupName(item.team)}</Text>
+              </View>
             </View>
           )}
-        /> */}
+        />
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <View>
-          <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
-            {group.players![0].statistics?.map((statistic) => {
-              return (
-                <Text
-                  variant="labelMedium"
-                  key={statistic.id}
-                  style={groupStyles.statisticsCell}
-                >
-                  {statistic.title}
-                </Text>
-              );
-            })}
-          </View>
-          <FlatList
-            data={tableStatistics(group)}
-            keyExtractor={(_, index) => String(index)}
-            renderItem={({ item }: { item: { [key: string]: number } }) => (
-              <View style={groupStyles.row}>
-                {Object.entries(item)
-                  .slice(2, Object.entries(item).length)
-                  .map(([key, value]) => (
-                    <View key={key} style={groupStyles.cellStatistic}>
-                      <Text variant="bodyMedium">{value}</Text>
-                    </View>
-                  ))}
-              </View>
-            )}
-          />
+      <View>
+        <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
+          <Text variant="labelMedium" style={groupStyles.statisticsCellMain}>
+            {group.players![0].statistics![indexStatistic].title}
+          </Text>
         </View>
-      </ScrollView>
+        <FlatList
+          data={itemStatistic}
+          keyExtractor={(_, index) => String(index)}
+          renderItem={({ item }) => (
+            <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
+              <Text style={groupStyles.statisticsCell} variant="bodyMedium">{item.value}</Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   )
 }

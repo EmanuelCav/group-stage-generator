@@ -7,7 +7,8 @@ import { StadiumPropsType } from "@/types/stadiums.types"
 
 const Stadium = ({ stadium, handleUpdateStadium, colors }: StadiumPropsType) => {
     return (
-        <Pressable style={[createStyles.containTeamAdded, { borderColor: colors.primary }]}
+        <Pressable style={[createStyles.containTeamAdded,
+        { borderColor: colors.primary, backgroundColor: colors.tertiary }]}
             onPress={() => handleUpdateStadium(stadium)}>
             <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
                 {stadium.name}

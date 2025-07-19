@@ -48,6 +48,7 @@ export interface IMatch {
     statistics: IMatchStatistic[];
     players: IPlayer[];
     date?: Date;
+    time?: { hours: number; minutes: number }
 }
 
 export interface IMatchTeam {

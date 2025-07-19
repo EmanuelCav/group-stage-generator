@@ -304,7 +304,7 @@ const Matchknockout = () => {
                         iconColor={colors.primary}
                     />
                 </View>
-                <ScoreTeams match={matchknockout.match!} />
+                <ScoreTeams match={matchknockout.match!} colors={colors} />
                 <Information match={matchknockout.match!} colors={colors} />
                 <SegmentedButtons
                     style={{ marginTop: Dimensions.get("window").height / 47 }}

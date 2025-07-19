@@ -128,7 +128,7 @@ const Players = () => {
             <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack} 
             sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
-            <View style={generalStyles.containerGeneral}>
+            <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {
                     group.players!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :
                         <AddAction openForm={hideAndShowAddPlayer} colors={colors} text={i18n.t("add_player")} />

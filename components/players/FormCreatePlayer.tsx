@@ -79,7 +79,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         onBlur={onBlur}
                         label={i18n.t("playerName")}
                         mode="outlined"
-                        style={createStyles.inputGeneralCreate}
+                        style={[createStyles.inputGeneralCreate, { backgroundColor: colors.tertiary }]}
                         maxLength={30}
                     />
                 )}
@@ -107,7 +107,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         onBlur={onBlur}
                         label={i18n.t("positionOptional")}
                         mode="outlined"
-                        style={createStyles.inputGeneralCreate}
+                        style={[createStyles.inputGeneralCreate, { backgroundColor: colors.tertiary }]}
                     />
                 )}
             />
@@ -123,15 +123,31 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 </Text>
             )}
 
-            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: "#ffffff" }]}>
+            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                 <Text variant="labelLarge">{i18n.t("selectPlayerTeam")}</Text>
                 <Dropdown
                     style={[
                         createStyles.dropdownComplete,
+                        { backgroundColor: colors.tertiary },
                         isFocus && { borderColor: colors.primary },
                     ]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                    placeholderStyle={{
+                        fontSize: Dimensions.get("window").height / 47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    selectedTextStyle={{
+                        fontSize: Dimensions.get("window").height / 47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    itemTextStyle={{
+                        color: colors.surface
+                    }}
+                    containerStyle={{
+                        backgroundColor: colors.tertiary,
+                    }}
+                    activeColor={colors.primary}
                     data={getTeamsName(group.teams)}
                     maxHeight={Dimensions.get("window").height / 3.8}
                     labelField="label"

@@ -22,7 +22,6 @@ export const configStyles = StyleSheet.create({
     inputSettingsNumber: {
         width: Dimensions.get("window").width / 3.6,
         height: Dimensions.get("window").height / 18.5,
-        backgroundColor: '#ffffff',
         textAlign: 'center'
     },
 

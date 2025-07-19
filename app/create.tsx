@@ -238,7 +238,7 @@ const Create = () => {
             )}
           />
         ) : (
-          <Text variant="bodyMedium" style={[createStyles.advideText, { color: colors.surface }]}>
+          <Text variant="bodyMedium" style={createStyles.advideText}>
             {i18n.t('addTeamsToGenerate')}
           </Text>
         )}

@@ -21,13 +21,13 @@ import { statisticSchema } from "@/schema/statistic.schema";
 
 const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup }: FormStatisticsMatchPropsType) => {
 
-    const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "0")
-    const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "0")
+    const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "")
+    const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "")
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(statisticSchema),
         defaultValues: {
-            title: statistic.title ? statistic.title : ""
+            title: statistic.title ?? ""
         }
     })
 
@@ -184,8 +184,9 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         onBlur={onBlur}
                         label={i18n.t('statistic.title')}
                         mode="outlined"
-                        style={createStyles.inputGeneralCreate}
-                        maxLength={12}
+                        style={[createStyles.inputGeneralCreate,
+                        { backgroundColor: colors.tertiary }]}
+                        maxLength={16}
                     />
                 )}
             />
@@ -209,8 +210,8 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 {i18n.t('statistic.value')}
             </Text>
 
-            <View style={matchStyles.scoreTeamForm}>
-                <View style={matchStyles.teamForm}>
+            <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
@@ -231,12 +232,13 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         setValueLocal(formattedText);
                     }}
                     value={valueLocal}
-                    style={createStyles.inputNumberCreate}
+                    maxLength={4}
+                    style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
                 />
             </View>
 
-            <View style={matchStyles.scoreTeamForm}>
-                <View style={matchStyles.teamForm}>
+            <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
@@ -256,8 +258,9 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         const formattedText = text.replace(/\D/g, '');
                         setValueVisitant(formattedText);
                     }}
+                    maxLength={4}
                     value={valueVisitant}
-                    style={createStyles.inputNumberCreate}
+                    style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
                 />
             </View>
 

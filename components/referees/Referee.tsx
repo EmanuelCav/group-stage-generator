@@ -7,8 +7,12 @@ import { RefereePropsType } from "@/types/referees.types"
 
 const Referee = ({ referee, handleUpdateReferee, colors }: RefereePropsType) => {
     return (
-        <Pressable style={[createStyles.containTeamAdded, { borderColor: colors.primary }]}
-        onPress={() => handleUpdateReferee(referee)}>
+        <Pressable style={[createStyles.containTeamAdded,
+        {
+            borderColor: colors.primary,
+            backgroundColor: colors.tertiary
+        }]}
+            onPress={() => handleUpdateReferee(referee)}>
             <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
                 {referee.name}
             </Text>

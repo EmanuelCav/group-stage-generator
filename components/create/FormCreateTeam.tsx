@@ -139,19 +139,38 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             onBlur={onBlur}
             label={i18n.t("teamForm.teamName")}
             mode="outlined"
-            style={createStyles.inputAdd}
+            style={[createStyles.inputAdd, { backgroundColor: colors.tertiary }]}
             maxLength={25}
           />
         )}
       />
 
       {group.isManualConfiguration && (
-        <View style={createStyles.selectInputContain}>
+        <View style={[createStyles.selectInputContain, { backgroundColor: colors.background }]}>
           <Text variant="labelLarge">{i18n.t("teamForm.plotOptional")}</Text>
           <Dropdown
-            style={[createStyles.dropdown, isFocus && { borderColor: colors.primary }]}
-            placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-            selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+            style={[
+              createStyles.dropdownComplete,
+              { backgroundColor: colors.tertiary },
+              isFocus && { borderColor: colors.primary },
+            ]}
+            placeholderStyle={{
+              fontSize: Dimensions.get("window").height / 47,
+              color: colors.surface,
+              backgroundColor: colors.tertiary
+            }}
+            selectedTextStyle={{
+              fontSize: Dimensions.get("window").height / 47,
+              color: colors.surface,
+              backgroundColor: colors.tertiary
+            }}
+            itemTextStyle={{
+              color: colors.surface
+            }}
+            containerStyle={{
+              backgroundColor: colors.tertiary,
+            }}
+            activeColor={colors.primary}
             data={dataPlots(group.teamsPerGroup!)}
             maxHeight={Dimensions.get("window").height / 5}
             labelField="label"

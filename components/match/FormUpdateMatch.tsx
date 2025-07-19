@@ -3,7 +3,7 @@ import { enGB, registerTranslation } from 'react-native-paper-dates'
 import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
-import { DatePickerInput, DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
+import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import i18n from '@/i18n'
 
 import { View } from '../Themed'
@@ -17,6 +17,7 @@ import { createStyles } from '@/styles/create.styles'
 import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
+import { groupName } from '@/utils/points';
 
 const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday }: FormUpdateMatchPropsType) => {
 
@@ -33,8 +34,6 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
 
-    const [open, setOpen] = useState<boolean>(false)
-
     const handleUpdateMatch = () => {
 
         const dataUpdated: IMatch = {
@@ -46,7 +45,11 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             players: match.players,
             summary: match.summary,
             visitant: { ...match.visitant, score: Number(scoreVisitant) },
-            date: match.date
+            date: match.date,
+            time: {
+                hours: time?.hours!,
+                minutes: time?.minutes!
+            }
         };
 
         const groupIndex = match.local.team.group! - 1;
@@ -76,7 +79,6 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
         hideAndShowUpdateMatch(false)
     };
 
-
     return (
         <ContainerBackground zIndex={20}>
             <IconButton
@@ -95,8 +97,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 {i18n.t("team_scores")}
             </Text>
 
-            <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.tertiary }]}>
-                <View style={[matchStyles.teamForm, { backgroundColor: colors.tertiary }]}>
+            <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
@@ -106,7 +108,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         marginTop: Dimensions.get("window").height / 106,
                         color: colors.surface
                     }}>
-                        {match.local.team.name}
+                        {groupName(match.local.team.name!)}
                     </Text>
                 </View>
                 <TextInput
@@ -117,16 +119,16 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         setScoreLocal(formattedText);
                     }}
                     value={scoreLocal}
-                    style={createStyles.inputNumberCreate}
+                    style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
                     maxLength={3}
                 />
             </View>
 
             <View style={[matchStyles.scoreTeamForm, {
                 marginVertical: Dimensions.get("window").height / 74,
-                backgroundColor: colors.tertiary
+                backgroundColor: colors.background
             }]}>
-                <View style={matchStyles.teamForm}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
@@ -136,7 +138,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         marginTop: Dimensions.get("window").height / 106,
                         color: colors.surface
                     }}>
-                        {match.visitant.team.name}
+                        {groupName(match.visitant.team.name!)}
                     </Text>
                 </View>
                 <TextInput
@@ -147,13 +149,13 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         setScoreVisitant(formattedText);
                     }}
                     value={scoreVisitant}
-                    style={createStyles.inputNumberCreate}
+                    style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
                     maxLength={3}
                 />
             </View>
 
             <View style={[createStyles.selectInputDropdownContain,
-            { backgroundColor: colors.tertiary }]}>
+            { backgroundColor: colors.background }]}>
                 <Text variant="labelLarge">{i18n.t("select_match_date")}</Text>
 
                 <Button onPress={() => setShowDatePicker(true)}>
@@ -189,12 +191,31 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 />
             </View>
 
-            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.tertiary }]}>
+            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                 <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_stadium")}</Text>
                 <Dropdown
-                    style={[createStyles.dropdownComplete, isFocusStadium && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                    style={[
+                        createStyles.dropdownComplete,
+                        { backgroundColor: colors.tertiary },
+                        isFocusStadium && { borderColor: colors.primary },
+                    ]}
+                    placeholderStyle={{
+                        fontSize: Dimensions.get("window").height / 47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    selectedTextStyle={{
+                        fontSize: Dimensions.get("window").height / 47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    itemTextStyle={{
+                        color: colors.surface
+                    }}
+                    containerStyle={{
+                        backgroundColor: colors.tertiary,
+                    }}
+                    activeColor={colors.primary}
                     data={getStadiumsName(group.stadiums!)}
                     maxHeight={Dimensions.get("window").height / 3.8}
                     labelField="label"
@@ -210,12 +231,31 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 />
             </View>
 
-            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.tertiary }]}>
+            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                 <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_referee")}</Text>
                 <Dropdown
-                    style={[createStyles.dropdownComplete, isFocusReferee && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+                    style={[
+                        createStyles.dropdownComplete,
+                        { backgroundColor: colors.tertiary },
+                        isFocusReferee && { borderColor: colors.primary },
+                    ]}
+                    placeholderStyle={{
+                        fontSize: Dimensions.get("window").height / 47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    selectedTextStyle={{
+                        fontSize: Dimensions.get("window").height / 47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    itemTextStyle={{
+                        color: colors.surface
+                    }}
+                    containerStyle={{
+                        backgroundColor: colors.tertiary,
+                    }}
+                    activeColor={colors.primary}
                     data={getRefereeName(group.referees!)}
                     maxHeight={Dimensions.get("window").height / 3.8}
                     labelField="label"

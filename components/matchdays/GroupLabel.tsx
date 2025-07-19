@@ -32,12 +32,27 @@ const GroupLabel = ({ group, colors, matchdayViewUpdated }: GroupLabelPropsType)
     return (
         <Dropdown
             style={[
-                createStyles.dropdownMatchdays,
-                { borderColor: colors.secondary },
+                createStyles.dropdownComplete,
+                { backgroundColor: colors.tertiary },
                 isFocus && { borderColor: colors.primary },
             ]}
-            placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-            selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
+            placeholderStyle={{
+                fontSize: Dimensions.get("window").height / 47,
+                color: colors.surface,
+                backgroundColor: colors.tertiary
+            }}
+            selectedTextStyle={{
+                fontSize: Dimensions.get("window").height / 47,
+                color: colors.surface,
+                backgroundColor: colors.tertiary
+            }}
+            itemTextStyle={{
+                color: colors.surface
+            }}
+            containerStyle={{
+                backgroundColor: colors.tertiary,
+            }}
+            activeColor={colors.primary}
             data={groupsSelected}
             maxHeight={Dimensions.get("window").height / 3.8}
             labelField="label"

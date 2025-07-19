@@ -94,14 +94,13 @@ export const groupStyles = StyleSheet.create({
     },
 
     statisticsCell: {
-        width: Dimensions.get("window").width / 6,
+        width: Dimensions.get("window").width / 3,
         textAlign: "center",
-        fontWeight: "bold",
         color: "#ffffff"
     },
 
     statisticsCellMain: {
-        width: Dimensions.get("window").width / 4,
+        width: Dimensions.get("window").width / 3,
         textAlign: "center",
         fontWeight: "bold",
         color: "#ffffff"

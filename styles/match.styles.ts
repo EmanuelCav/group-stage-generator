@@ -65,8 +65,8 @@ export const matchStyles = StyleSheet.create({
     },
 
     teamForm: {
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     teamFormKnockout: {

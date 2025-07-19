@@ -15,7 +15,6 @@ export const createStyles = StyleSheet.create({
         marginVertical: Dimensions.get("window").height / 91,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5F5F9'
     },
 
     containerGenerateButton: {
@@ -48,11 +47,9 @@ export const createStyles = StyleSheet.create({
 
     inputGeneralCreate: {
         marginTop: Dimensions.get("window").height / 28,
-        backgroundColor: "#ffffff",
     },
 
     inputNumberCreate: {
-        backgroundColor: "#ffffff",
         width: Dimensions.get("window").width / 4,
         textAlign: 'center'
     },

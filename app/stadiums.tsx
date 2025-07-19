@@ -107,7 +107,7 @@ const Stadiums = () => {
         sureRestartGroup={sureRestartGroup}
       />
       <SureGeneral />
-      <View style={generalStyles.containerGeneral}>
+      <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {
           group.stadiums!.length > 0 ? (
             <AddButton colors={colors} handleAdd={openCreateStadium} />

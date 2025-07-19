@@ -3,25 +3,6 @@ import i18n from '@/i18n'
 import { IGroup } from "@/interface/Group";
 import { IValueStatistic } from "@/interface/Player";
 
-export const tableStatistics = (group: IGroup): { [key: string]: number }[] => {
-    let statistics: { [key: string]: number }[] = [];
-
-    for (let i = 0; i < group.players!.length; i++) {
-        const statistic: { [key: string]: any } = {
-            "player": group.players![i].name,
-            "team": group.players![i].team?.name
-        };
-
-        for (let j = 0; j < group.players![i].statistics?.length!; j++) {
-            statistic[`value${j + 1}`] = group.players![i].statistics![j].value!;
-        }
-
-        statistics.push(statistic);
-    }
-
-    return statistics;
-}
-
 export const statisticTable = (group: IGroup): IValueStatistic[][] => {
 
     let summary: IValueStatistic[][] = [[], [], [], []]
@@ -40,48 +21,48 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
                         goals++
                     }
 
-                    summary[0].push({
-                        player: String(group.players![p].name),
-                        team: String(group.players![p].team?.name),
-                        value: goals,
-                    })
-
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
                         yellow++
                     }
-
-                    summary[1].push({
-                        player: String(group.players![p].name),
-                        team: String(group.players![p].team?.name),
-                        value: yellow,
-                    })
 
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
                         reds++
                     }
 
-                    summary[2].push({
-                        player: String(group.players![p].name),
-                        team: String(group.players![p].team?.name),
-                        value: reds,
-                    })
-
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("assists")).length; t++) {
                         assists++
                     }
-
-                    summary[2].push({
-                        player: String(group.players![p].name),
-                        team: String(group.players![p].team?.name),
-                        value: assists,
-                    })
                 }
             }
         }
 
+        summary[0].push({
+            player: String(group.players![p].name),
+            team: String(group.players![p].team?.name),
+            value: goals,
+        })
+
+        summary[1].push({
+            player: String(group.players![p].name),
+            team: String(group.players![p].team?.name),
+            value: yellow,
+        })
+
+        summary[2].push({
+            player: String(group.players![p].name),
+            team: String(group.players![p].team?.name),
+            value: reds,
+        })
+
+        summary[3].push({
+            player: String(group.players![p].name),
+            team: String(group.players![p].team?.name),
+            value: assists,
+        })
+
     }
 
-    return summary 
+    return summary
 }
 
 export const showEvents = (group: IGroup): { value: string, label: string }[] => {
