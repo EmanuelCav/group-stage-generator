@@ -21,22 +21,24 @@ import { statisticsStyles } from "@/styles/statistics.styles";
 import { summarySchema } from "@/schema/match.schema";
 
 import { getTeamsName, getPlayerName } from "@/utils/defaultGroup";
-import { showEvents } from "@/utils/statistics";
+import { labelSummaryEvent } from "@/utils/matchday";
 
 const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router }: FormSummaryPropsType) => {
 
     const [statisticSelected, setStatisticSelected] = useState<string>("")
     const [teamSelected, setTeamSelected] = useState<string>("")
     const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ?? "")
+    const [secondaryPlayerSelected, setSecondaryPlayerSelected] = useState<string>(summary.secondaryPlayer?.name ?? "")
 
     const [isFocusEvent, setIsFocusEvent] = useState<boolean>(false)
     const [isFocusTeam, setIsFocusTeam] = useState<boolean>(false)
     const [isFocusPlayer, setIsFocusPlayer] = useState<boolean>(false)
+    const [isFocusSecondaryPlayer, setIsFocusSecondaryPlayer] = useState<boolean>(false)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(summarySchema),
         defaultValues: {
-            time: summary.time ?? "0"
+            time: summary.time ?? ""
         }
     })
 
@@ -215,7 +217,22 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     backgroundColor: colors.tertiary,
                                 }}
                                 activeColor={colors.primary}
-                                data={showEvents(group)}
+                                data={[{
+                                    value: "Goles",
+                                    label: i18n.t("goal")
+                                }, {
+                                    value: "Tarjetas amarillas",
+                                    label: i18n.t("yellows")
+                                }, {
+                                    value: "Tarjetas rojas",
+                                    label: i18n.t("reds")
+                                }, {
+                                    value: "Lesión",
+                                    label: i18n.t("injury")
+                                }, {
+                                    value: "Sustitución",
+                                    label: i18n.t("substitution")
+                                }]}
                                 maxHeight={Dimensions.get("window").height / 3.8}
                                 labelField="label"
                                 valueField="value"
@@ -267,6 +284,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 onBlur={() => setIsFocusTeam(false)}
                                 onChange={item => {
                                     setTeamSelected(item.value);
+                                    setPlayerSelected("")
                                     setIsFocusTeam(false);
                                 }}
                             />
@@ -274,7 +292,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
                         <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
-                                {i18n.t("sumarry_select_player")}
+                                {labelSummaryEvent(statisticSelected)}
                             </Text>
                             <Dropdown
                                 style={[
@@ -319,6 +337,108 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 }}
                             />
                         </View>
+
+                        {
+                            statisticSelected === i18n.t("goals") &&
+                            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
+                                <Text variant="labelLarge">
+                                    {i18n.t("sumarry_select_secondaryPlayerAssist")}
+                                </Text>
+                                <Dropdown
+                                    style={[
+                                        createStyles.dropdownComplete,
+                                        { backgroundColor: colors.tertiary },
+                                        isFocusSecondaryPlayer && { borderColor: colors.primary },
+                                    ]}
+                                    placeholderStyle={{
+                                        fontSize: Dimensions.get("window").height / 47,
+                                        color: colors.surface,
+                                        backgroundColor: colors.tertiary
+                                    }}
+                                    selectedTextStyle={{
+                                        fontSize: Dimensions.get("window").height / 47,
+                                        color: colors.surface,
+                                        backgroundColor: colors.tertiary
+                                    }}
+                                    itemTextStyle={{
+                                        color: colors.surface
+                                    }}
+                                    containerStyle={{
+                                        backgroundColor: colors.tertiary,
+                                    }}
+                                    activeColor={colors.primary}
+                                    data={getPlayerName(
+                                        group.players?.filter((p) =>
+                                            teamSelected
+                                                ? p.team?.name === teamSelected
+                                                : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
+                                        )!
+                                    )}
+                                    maxHeight={Dimensions.get("window").height / 3.8}
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder={String(secondaryPlayerSelected)}
+                                    value={secondaryPlayerSelected}
+                                    onFocus={() => setIsFocusSecondaryPlayer(true)}
+                                    onBlur={() => setIsFocusSecondaryPlayer(false)}
+                                    onChange={item => {
+                                        setSecondaryPlayerSelected(item.value);
+                                        setIsFocusSecondaryPlayer(false);
+                                    }}
+                                />
+                            </View>
+                        }
+
+                        {
+                            statisticSelected === i18n.t("substitution") &&
+                            <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
+                                <Text variant="labelLarge">
+                                    {i18n.t("sumarry_select_secondaryPlayerAssist")}
+                                </Text>
+                                <Dropdown
+                                    style={[
+                                        createStyles.dropdownComplete,
+                                        { backgroundColor: colors.tertiary },
+                                        isFocusTeam && { borderColor: colors.primary },
+                                    ]}
+                                    placeholderStyle={{
+                                        fontSize: Dimensions.get("window").height / 47,
+                                        color: colors.surface,
+                                        backgroundColor: colors.tertiary
+                                    }}
+                                    selectedTextStyle={{
+                                        fontSize: Dimensions.get("window").height / 47,
+                                        color: colors.surface,
+                                        backgroundColor: colors.tertiary
+                                    }}
+                                    itemTextStyle={{
+                                        color: colors.surface
+                                    }}
+                                    containerStyle={{
+                                        backgroundColor: colors.tertiary,
+                                    }}
+                                    activeColor={colors.primary}
+                                    data={getPlayerName(
+                                        group.players?.filter((p) =>
+                                            teamSelected
+                                                ? p.team?.name === teamSelected
+                                                : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
+                                        )!
+                                    )}
+                                    maxHeight={Dimensions.get("window").height / 3.8}
+                                    labelField="label"
+                                    valueField="value"
+                                    placeholder={String(secondaryPlayerSelected)}
+                                    value={secondaryPlayerSelected}
+                                    onFocus={() => setIsFocusSecondaryPlayer(true)}
+                                    onBlur={() => setIsFocusSecondaryPlayer(false)}
+                                    onChange={item => {
+                                        setSecondaryPlayerSelected(item.value);
+                                        setIsFocusSecondaryPlayer(false);
+                                    }}
+                                />
+                            </View>
+                        }
 
                         <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
                             <Text variant="bodyLarge">

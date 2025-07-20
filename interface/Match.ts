@@ -1,3 +1,4 @@
+import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { IPlayer, IStatistic } from "./Player";
 import { ITeam } from "./Team";
 
@@ -47,13 +48,13 @@ export interface IMatch {
     summary: ISummary[];
     statistics: IMatchStatistic[];
     players: IPlayer[];
-    date?: Date;
+    date?: string;
     time?: { hours: number; minutes: number }
 }
 
 export interface IMatchTeam {
     team: ITeam;
-    score: number | null;
+    score: null | number;
     scoreTrip?: number;
     scoreTieBreaker?: number;
 }
@@ -62,6 +63,7 @@ export interface ISummary {
     id?: number;
     title?: string;
     player?: IPlayer;
+    secondaryPlayer?: IPlayer;
     time?: string;
 }
 

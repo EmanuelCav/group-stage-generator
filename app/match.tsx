@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
-import { SegmentedButtons, Text, useTheme } from "react-native-paper"
+import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -146,6 +146,7 @@ const Match = () => {
         hideAndShowSummary(false)
         sureRemoveStatistic(false)
         sureRemoveSummary(false)
+        getSummary({})
     }, [])
 
     return (
@@ -283,14 +284,24 @@ const Match = () => {
                     segmentedButton === "summary" &&
                     <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {match.match?.summary.length! > 0 ? (
-                            <FlatList
-                                style={{ width: '100%' }}
-                                data={match.match?.summary}
-                                keyExtractor={(_, index) => index.toString()}
-                                renderItem={({ item }) => (
-                                    <Summary summary={item} match={match.match!} colors={colors} handleUpdateSummary={handleUpdateSummary} />
-                                )}
-                            />
+                            <View style={{ backgroundColor: colors.background }}>
+                                <Button
+                                    mode="contained"
+                                    onPress={() => hideAndShowSummary(true)}
+                                    style={[{ backgroundColor: colors.primary, marginBottom: Dimensions.get("window").height / 74 }]}
+                                    labelStyle={{ color: "#ffffff" }}
+                                >
+                                    {i18n.t("summary_add")}
+                                </Button>
+                                <FlatList
+                                    style={{ width: '100%' }}
+                                    data={match.match?.summary.sort((a, b) => Number(b.time) - Number(a.time))}
+                                    keyExtractor={(_, index) => index.toString()}
+                                    renderItem={({ item }) => (
+                                        <Summary summary={item} match={match.match!} colors={colors} handleUpdateSummary={handleUpdateSummary} />
+                                    )}
+                                />
+                            </View>
                         ) : (
                             <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>

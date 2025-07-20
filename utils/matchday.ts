@@ -1,3 +1,4 @@
+import i18n from "@/i18n"
 import { IMatch } from "@/interface/Match"
 import { ILineup, IPlayer } from "@/interface/Player"
 
@@ -28,6 +29,50 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
 
     return schedule
 
+}
+
+export const iconEvent = (event: string): string => {
+    switch (event) {
+        case i18n.t("goals"):
+            return "soccer"
+
+        case i18n.t("yellow"):
+            return "card"
+
+        case i18n.t("red"):
+            return "card"
+
+        case i18n.t("substitution"):
+            return "swap-horizontal"
+
+        case i18n.t("injury"):
+            return "medical-bag"
+
+        default:
+            return "alert-circle-outline";
+    }
+}
+
+export const labelSummaryEvent = (event: string): string => {
+    switch (event) {
+        case i18n.t("goals"):
+            return i18n.t("sumarry_select_player_goal")
+
+        case i18n.t("yellow"):
+            return i18n.t("sumarry_select_player_yellow")
+
+        case i18n.t("red"):
+            return i18n.t("sumarry_select_player_red")
+
+        case i18n.t("substitution"):
+            return i18n.t("sumarry_select_player_change")
+
+        case i18n.t("injury"):
+            return i18n.t("sumarry_select_player_injury")
+
+        default:
+            return i18n.t("sumarry_select_player")
+    }
 }
 
 export const evaluateGenerateAgain = (matches: IMatch[][][]): boolean => {

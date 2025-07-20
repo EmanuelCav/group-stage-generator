@@ -7,12 +7,13 @@ import TagInformation from './components/TagInformation'
 import { InformationPropsType } from '@/types/match.types'
 
 const Information = ({ match, colors }: InformationPropsType) => {
+
     return (
         <View style={matchStyles.informationContain}>
             <TagInformation
                 colors={colors}
                 source="clock-time-four-outline"
-                info={match.date ? match.date.toString() : i18n.t("not_defined")}
+                info={match.time ? `${match.time.hours}:${match.time.minutes}` : i18n.t("not_defined")}
             />
             <TagInformation
                 colors={colors}

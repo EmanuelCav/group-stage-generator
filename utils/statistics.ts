@@ -18,19 +18,25 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             for (let j = 0; j < group.matches![i].length; j++) {
                 for (let k = 0; k < group.matches![i][j].length; k++) {
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
-                        goals++
+                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === group.players![p].id) {
+                            goals++
+                        }
+
+                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === group.players![p].id) {
+                            assists++
+                        }
                     }
 
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
-                        yellow++
+                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === group.players![p].id) {
+                            yellow++
+                        }
                     }
 
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
-                        reds++
-                    }
-
-                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("assists")).length; t++) {
-                        assists++
+                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
+                            reds++
+                        }
                     }
                 }
             }

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { enGB, registerTranslation } from 'react-native-paper-dates'
+import { enGB, registerTranslation, DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
 import { Dimensions } from 'react-native'
-import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from 'react-native-paper'
+import { Avatar, Button, IconButton, MD3Colors, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
-import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
+import { } from 'react-native-paper-dates';
 import i18n from '@/i18n'
 
 import { View } from '../Themed'
@@ -18,34 +18,47 @@ import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { groupName } from '@/utils/points';
+import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 
 const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday }: FormUpdateMatchPropsType) => {
+
+    const theme = {
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            surface: "#111",
+            background: "#111",
+            primary: "#999",
+            onSurface: "#999",
+
+        },
+    };
 
     registerTranslation('en-GB', enGB)
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "")
-    const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ? match.stadium : "")
-    const [referreSelected, setRefereeSelected] = useState<string>(match.referee ? match.referee : "")
+    const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ?? "")
+    const [referreSelected, setRefereeSelected] = useState<string>(match.referee ?? "")
     const [isFocusStadium, setIsFocusStadium] = useState<boolean>(false)
     const [isFocusReferee, setIsFocusReferee] = useState<boolean>(false)
-    const [date, setDate] = useState<Date | undefined>(undefined);
-    const [time, setTime] = useState<{ hours: number; minutes: number } | undefined>(undefined);
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [date, setDate] = useState<string | undefined>(match.date ?? undefined);
+    const [time, setTime] = useState<{ hours: number; minutes: number } | undefined>(match.time ?? undefined);
+    const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+    const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
 
     const handleUpdateMatch = () => {
 
         const dataUpdated: IMatch = {
             isEdit: true,
-            local: { ...match.local, score: Number(scoreLocal) },
+            local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : null },
             referee: referreSelected,
             stadium: stadiumSelected,
             statistics: match.statistics,
             players: match.players,
             summary: match.summary,
-            visitant: { ...match.visitant, score: Number(scoreVisitant) },
-            date: match.date,
+            visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : null },
+            date,
             time: {
                 hours: time?.hours!,
                 minutes: time?.minutes!
@@ -77,7 +90,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
         });
 
         hideAndShowUpdateMatch(false)
-    };
+    }
 
     return (
         <ContainerBackground zIndex={20}>
@@ -118,7 +131,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         const formattedText = text.replace(/\D/g, '');
                         setScoreLocal(formattedText);
                     }}
-                    value={scoreLocal}
+                    value={String(scoreLocal)}
                     style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
                     maxLength={3}
                 />
@@ -148,7 +161,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         const formattedText = text.replace(/\D/g, '');
                         setScoreVisitant(formattedText);
                     }}
-                    value={scoreVisitant}
+                    value={String(scoreVisitant)}
                     style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
                     maxLength={3}
                 />
@@ -159,24 +172,25 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 <Text variant="labelLarge">{i18n.t("select_match_date")}</Text>
 
                 <Button onPress={() => setShowDatePicker(true)}>
-                    {date ? date.toLocaleDateString() : i18n.t("select_date")}
+                    {date ?? i18n.t("select_date")}
                 </Button>
 
                 <Button onPress={() => setShowTimePicker(true)}>
                     {time ? `${time.hours}:${time.minutes.toString().padStart(2, '0')}` : i18n.t("select_hour")}
                 </Button>
 
-                <DatePickerModal
-                    locale="en-GB"
-                    mode="single"
-                    visible={showDatePicker}
-                    onDismiss={() => setShowDatePicker(false)}
-                    date={date}
-                    onConfirm={(d: any) => {
-                        setShowDatePicker(false);
-                        setDate(d);
-                    }}
-                />
+                <PaperProvider theme={theme}>
+                    <DatePickerModal
+                        locale="en-GB"
+                        mode="single"
+                        visible={showDatePicker}
+                        onDismiss={() => setShowDatePicker(false)}
+                        onConfirm={(d: { date: CalendarDate }) => {
+                            setShowDatePicker(false);
+                            setDate(d.date?.toISOString().split("T")[0]);
+                        }}
+                    />
+                </PaperProvider>
 
                 <TimePickerModal
                     visible={showTimePicker}

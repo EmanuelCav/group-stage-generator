@@ -8,11 +8,6 @@ export const matchSchema = object().shape({
 });
 
 export const summarySchema = object().shape({
-  title: string()
-    .trim()
-    .matches(/^[^<>'\"/;`%]*$/, i18n.t("validation.summary.title.invalid"))
-    .max(20, i18n.t("validation.summary.title.max"))
-    .required(i18n.t("validation.summary.title.required")),
   time: string()
     .trim()
     .matches(/[0-9]*$/, i18n.t("validation.summary.time.invalid"))

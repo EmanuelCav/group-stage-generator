@@ -137,30 +137,49 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
             <View style={[matchStyles.containerLineUp, { backgroundColor: colors.background }]}>
                 <ScrollView>
                     <TeamView team={match.local} colors={colors} />
-                    {group.players
-                        ?.filter((p) => p.team?.name === match.local.team.name)
-                        .map((player) => (
-                            <Checkbox.Item
-                                key={player.id}
-                                label={player.name!}
-                                status={playersLocal[player.id!] ? 'checked' : 'unchecked'}
-                                onPress={() => toggleCheckboxLocal(String(player.id))}
-                            />
-                        ))}
+                    {
+                        group.players?.filter((p) => p.team?.name === match.local.team.name).length === 0 ?
+                            <Text variant="bodySmall" style={{
+                                textAlign: 'center',
+                                marginTop: Dimensions.get("window").height / 106
+                            }}>{i18n.t("noPlayers")}</Text>
+                            : <View style={{ backgroundColor: colors.background }}>
+                                {group.players
+                                    ?.filter((p) => p.team?.name === match.local.team.name)
+                                    .map((player) => (
+                                        <Checkbox.Item
+                                            key={player.id}
+                                            label={player.name!}
+                                            labelVariant="bodyMedium"
+                                            status={playersLocal[player.id!] ? 'checked' : 'unchecked'}
+                                            onPress={() => toggleCheckboxLocal(String(player.id))}
+                                        />
+                                    ))}
+                            </View>
+                    }
                 </ScrollView>
 
                 <ScrollView>
                     <TeamView team={match.visitant} colors={colors} />
-                    {group.players
-                        ?.filter((p) => p.team?.name === match.visitant.team.name)
-                        .map((player) => (
-                            <Checkbox.Item
-                                key={player.id}
-                                label={player.name!}
-                                status={playersVisitant[player.id!] ? 'checked' : 'unchecked'}
-                                onPress={() => toggleCheckboxVisitant(String(player.id))}
-                            />
-                        ))}
+                    {
+                        group.players?.filter((p) => p.team?.name === match.visitant.team.name).length === 0 ?
+                            <Text variant="bodySmall" style={{
+                                textAlign: 'center',
+                                marginTop: Dimensions.get("window").height / 106
+                            }}>{i18n.t("noPlayers")}</Text>
+                            : <View style={{ backgroundColor: colors.background }}>
+                                {group.players
+                                    ?.filter((p) => p.team?.name === match.visitant.team.name)
+                                    .map((player) => (
+                                        <Checkbox.Item
+                                            key={player.id}
+                                            label={player.name!}
+                                            status={playersVisitant[player.id!] ? 'checked' : 'unchecked'}
+                                            onPress={() => toggleCheckboxVisitant(String(player.id))}
+                                        />
+                                    ))}
+                            </View>
+                    }
                 </ScrollView>
             </View>
 
