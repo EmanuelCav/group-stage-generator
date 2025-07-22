@@ -1,7 +1,73 @@
 import i18n from '@/i18n'
 
 import { IGroup } from "@/interface/Group";
-import { IValueStatistic } from "@/interface/Player";
+import { IPlayer, IValueStatistic } from "@/interface/Player";
+
+export const playerStatistics: string[] = [i18n.t("goals"), i18n.t("yellow"), i18n.t("red"), i18n.t("assists")]
+
+export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic[] => {
+
+    let summary: IValueStatistic[] = []
+
+    let goals = 0
+    let yellow = 0
+    let reds = 0
+    let assists = 0
+
+    for (let i = 0; i < group.matches!.length; i++) {
+        for (let j = 0; j < group.matches![i].length; j++) {
+            for (let k = 0; k < group.matches![i][j].length; k++) {
+                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === player.id) {
+                        goals++
+                    }
+
+                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === player.id) {
+                        assists++
+                    }
+                }
+
+                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === player.id) {
+                        yellow++
+                    }
+                }
+
+                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === player.id) {
+                        reds++
+                    }
+                }
+            }
+        }
+    }
+
+    summary.push({
+        player: String(player.name),
+        team: String(player.team?.name),
+        value: goals,
+    })
+
+    summary.push({
+        player: String(player.name),
+        team: String(player.team?.name),
+        value: yellow,
+    })
+
+    summary.push({
+        player: String(player.name),
+        team: String(player.team?.name),
+        value: reds,
+    })
+
+    summary.push({
+        player: String(player.name),
+        team: String(player.team?.name),
+        value: assists,
+    })
+
+    return summary
+}
 
 export const statisticTable = (group: IGroup): IValueStatistic[][] => {
 
@@ -18,23 +84,23 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             for (let j = 0; j < group.matches![i].length; j++) {
                 for (let k = 0; k < group.matches![i][j].length; k++) {
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
-                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === group.players![p].id) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === group.players![p].id) {
                             goals++
                         }
 
-                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === group.players![p].id) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === group.players![p].id) {
                             assists++
                         }
                     }
 
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
-                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === group.players![p].id) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === group.players![p].id) {
                             yellow++
                         }
                     }
 
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
-                        if(group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
                             reds++
                         }
                     }
@@ -42,31 +108,45 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             }
         }
 
-        summary[0].push({
-            player: String(group.players![p].name),
-            team: String(group.players![p].team?.name),
-            value: goals,
-        })
+        if (goals > 0) {
+            summary[0].push({
+                player: String(group.players![p].name),
+                team: String(group.players![p].team?.name),
+                value: goals,
+            })
+        }
 
-        summary[1].push({
-            player: String(group.players![p].name),
-            team: String(group.players![p].team?.name),
-            value: yellow,
-        })
+        if (yellow > 0) {
+            summary[1].push({
+                player: String(group.players![p].name),
+                team: String(group.players![p].team?.name),
+                value: yellow,
+            })
+        }
 
-        summary[2].push({
-            player: String(group.players![p].name),
-            team: String(group.players![p].team?.name),
-            value: reds,
-        })
+        if (reds > 0) {
+            summary[2].push({
+                player: String(group.players![p].name),
+                team: String(group.players![p].team?.name),
+                value: reds,
+            })
+        }
 
-        summary[3].push({
-            player: String(group.players![p].name),
-            team: String(group.players![p].team?.name),
-            value: assists,
-        })
+        if (assists > 0) {
+            summary[3].push({
+                player: String(group.players![p].name),
+                team: String(group.players![p].team?.name),
+                value: assists,
+            })
+        }
 
     }
+
+    summary = summary.map(array =>
+        array
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 10)
+    )
 
     return summary
 }
@@ -77,8 +157,8 @@ export const showEvents = (group: IGroup): { value: string, label: string }[] =>
     let eventsValue: { value: string, label: string }[] = []
 
     if (group.players?.length! > 0) {
-        for (let i = 0; i < group.players![0].statistics?.length!; i++) {
-            events.push(group.players![0].statistics![i].title!)
+        for (let i = 0; i < playerStatistics.length; i++) {
+            events.push(playerStatistics[i])
         }
     }
 

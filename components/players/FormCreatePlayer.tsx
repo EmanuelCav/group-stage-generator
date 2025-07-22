@@ -16,11 +16,12 @@ import { FormCreatePlayerPropsType } from "@/types/player.types";
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
-import { generateStatistic, getTeamsName } from "@/utils/defaultGroup";
+import { getTeamsName } from "@/utils/defaultGroup";
 
 import { playerSchema } from "@/schema/player.schema";
+import { playerStatistics, statisticPlayer } from "@/utils/statistics";
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, handleUpdateStatistic }: FormCreatePlayerPropsType) => {
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure }: FormCreatePlayerPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ? player.team?.name : group.teams[0].name!)
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -39,7 +40,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             updatePlayer({
                 id: player.id,
                 name: playerCreated.name,
-                statistics: player.statistics,
+                // statistics: player.statistics,
                 team: group.teams.find((t) => t.name === teamSelected),
                 position: playerCreated.position
             })
@@ -47,7 +48,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             createPlayer({
                 id: group.players?.length as number + 1,
                 name: playerCreated.name,
-                statistics: generateStatistic(group.players!),
+                // statistics: generateStatistic(group.players!),
                 team: group.teams.find((t) => t.name === teamSelected),
                 position: playerCreated.position
             })
@@ -163,7 +164,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 />
             </View>
 
-            {player.name && player.statistics?.length! > 0 && (
+            {player.id && (
                 <>
                     <Text variant="bodyLarge" style={{ color: colors.primary }}>
                         {i18n.t("statistics")}
@@ -171,18 +172,18 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     <ScrollView
                         style={[
                             createStyles.containerStatisticsPlayer,
-                            { borderColor: colors.primary },
+                            { borderColor: colors.primary, borderWidth: 1.5 },
                         ]}
                         nestedScrollEnabled={true}
                         showsVerticalScrollIndicator={false}
                     >
-                        {player.statistics?.map((item, index) => (
+                        {statisticPlayer(group, player).map((item, index) => (
                             <StatisticPlayer
                                 key={index}
                                 statistic={item}
+                                title={playerStatistics[index]}
                                 colors={colors}
-                                handleUpdateStatistic={handleUpdateStatistic}
-                                isLast={(index + 1) === player.statistics?.length}
+                                isLast={(index + 1) === playerStatistics.length}
                             />
                         ))}
                     </ScrollView>

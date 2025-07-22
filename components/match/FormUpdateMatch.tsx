@@ -3,7 +3,6 @@ import { enGB, registerTranslation, DatePickerModal, TimePickerModal } from 'rea
 import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
 import { Dropdown } from 'react-native-element-dropdown';
-import { } from 'react-native-paper-dates';
 import i18n from '@/i18n'
 
 import { View } from '../Themed'
@@ -32,7 +31,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             onSurface: "#999",
 
         },
-    };
+    }
 
     registerTranslation('en-GB', enGB)
 
@@ -48,21 +47,21 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
 
     const handleUpdateMatch = () => {
-
+        
         const dataUpdated: IMatch = {
-            isEdit: true,
-            local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : null },
+            isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
+            local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null },
             referee: referreSelected,
             stadium: stadiumSelected,
             statistics: match.statistics,
             players: match.players,
             summary: match.summary,
-            visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : null },
+            visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : scoreLocal !== "" ? 0 : null },
             date,
-            time: {
-                hours: time?.hours!,
-                minutes: time?.minutes!
-            }
+            time: time?.hours ? {
+                hours: time.hours,
+                minutes: time.minutes
+            } : undefined
         };
 
         const groupIndex = match.local.team.group! - 1;
@@ -102,11 +101,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 onPress={() => hideAndShowUpdateMatch(false)}
             />
 
-            <Text variant="labelLarge"
-                style={{
-                    marginVertical: Dimensions.get("window").height / 28,
-                    color: colors.surface
-                }}>
+            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
                 {i18n.t("team_scores")}
             </Text>
 
@@ -176,7 +171,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 </Button>
 
                 <Button onPress={() => setShowTimePicker(true)}>
-                    {time ? `${time.hours}:${time.minutes.toString().padStart(2, '0')}` : i18n.t("select_hour")}
+                    {time?.hours ? `${time.hours < 10 ? "0" : ""}${time.hours}:${time.minutes < 10 ? "0" : ""}${time.minutes}` : i18n.t("select_hour")}
                 </Button>
 
                 <PaperProvider theme={theme}>

@@ -118,6 +118,7 @@
         "draws": "D",
         "losses": "L",
         "score": "F:A",
+        "scored": "F",
         "numberOfTeams": "Number of teams: {{count}}"
     },
     "team": {

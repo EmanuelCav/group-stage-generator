@@ -93,27 +93,58 @@ export const orderPoints = (group: IGroup, groupData: IPoints[]): IPoints[] => {
 
     switch (group.pointsMode) {
         case 'points':
-            return groupData.sort((a, b) =>
-                (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -
-                (a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!))
+            return groupData.sort((a, b) => {
+                const pointsB = b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!;
+                const pointsA = a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!;                
+
+                return (
+                    (pointsB - pointsA) ||
+                    ((b.positive - b.negative) - (a.positive - a.negative)) ||
+                    (b.positive - a.positive) ||
+                    (b.won - a.won)
+                );
+            })
 
         case 'wins':
-            return groupData.sort((a, b) =>
-                (b.won) - (a.won))
+            return groupData.sort((a, b) => {
+                return (
+                    (b.won) - (a.won) ||
+                    ((b.positive - b.negative) - (a.positive - a.negative)) ||
+                    (b.positive - a.positive)
+                )
+            })
 
         case 'percentage':
-            return groupData.sort((a, b) =>
-                (b.won / (b.won + b.lost)) -
-                (a.won / (a.won + a.lost)))
+            return groupData.sort((a, b) => {
+                return (
+                    (b.won / (b.won + b.lost)) - (a.won / (a.won + a.lost)) ||
+                    ((b.positive - b.negative) - (a.positive - a.negative)) ||
+                    (b.positive - a.positive) ||
+                    (b.won - a.won)
+                )
+            })
 
         case 'scored':
-            return groupData.sort((a, b) =>
-                (b.positive) - (a.positive))
+            return groupData.sort((a, b) => {
+                return (
+                    (b.positive) - (a.positive) ||
+                    ((b.positive - b.negative) - (a.positive - a.negative)) ||
+                    (b.won - a.won)
+                )
+            })
 
         default:
-            return groupData.sort((a, b) =>
-                (b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!) -
-                (a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!))
+            return groupData.sort((a, b) => {
+                const pointsB = b.won * group.pointsWin! + b.tied * group.pointsDraw! + b.lost * group.pointsLoss!;
+                const pointsA = a.won * group.pointsWin! + a.tied * group.pointsDraw! + a.lost * group.pointsLoss!;
+
+                return (
+                    (pointsB - pointsA) ||
+                    ((b.positive - b.negative) - (a.positive - a.negative)) ||
+                    (b.positive - a.positive) ||
+                    (b.won - a.won)
+                );
+            })
     }
 
 }

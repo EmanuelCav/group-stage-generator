@@ -13,12 +13,11 @@ import AddAction from "@/components/general/AddAction";
 import AddButton from "@/components/general/AddButton";
 import Sure from "@/components/general/Sure";
 import SureGeneral from "@/components/general/SureGeneral";
-import FormCreateStatistic from "@/components/statistics/FormCreateStatistic";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
 
-import { IPlayer, IStatistic } from "@/interface/Player";
+import { IPlayer } from "@/interface/Player";
 
 import { groupStore } from "@/store/group.store";
 
@@ -26,11 +25,8 @@ import { playerStore } from "@/store/player.store";
 
 const Players = () => {
 
-    const { showForm, hideAndShowAddPlayer, getPlayer, player, isSure, isSureStatistic, sureRemovePlayer,
-        sureRemoveStatistic, hideAndShowAddStatistic, showFormStatistic, getStatistic, statistic, 
-        removePlayerStatisticValue, updatePlayerStatisticTitle, updatePlayerStatisticValue } = playerStore()
-    const { group, createPlayer, updatePlayer, removePlayer, createStatistic,
-        updateStatisticTitle, updateStatisticValue, removeStatistic, sureRestartGroup, sureRemoveGroup } = groupStore()
+    const { showForm, hideAndShowAddPlayer, getPlayer, player, isSure, sureRemovePlayer, sureRemoveStatistic, getStatistic } = playerStore()
+    const { group, createPlayer, updatePlayer, removePlayer, sureRestartGroup, sureRemoveGroup } = groupStore()
 
     const { colors } = useTheme()
 
@@ -41,26 +37,9 @@ const Players = () => {
         getPlayer({})
     }
 
-    const handleUpdateTitleStatistic = (data: IStatistic) => {
-        updateStatisticTitle(data)
-        updatePlayerStatisticTitle(data)
-        getStatistic({})
-    }
-
-    const handleUpdateValueStatistic = (data: IStatistic) => {
-        updateStatisticValue(data, player)
-        updatePlayerStatisticValue(data)
-        getStatistic({})
-    }
-
     const handleUpdatePlayer = (data: IPlayer) => {
         getPlayer(data)
         hideAndShowAddPlayer(true)
-    }
-
-    const handleUpdateStatistic = (data: IStatistic) => {
-        getStatistic(data)
-        hideAndShowAddStatistic(true)
     }
 
     const openSure = (data: IPlayer) => {
@@ -68,24 +47,11 @@ const Players = () => {
         sureRemovePlayer(true)
     }
 
-    const openSureStatistic = (data: IStatistic) => {
-        getStatistic(data)
-        sureRemoveStatistic(true)
-    }
-
     const handleRemovePlayer = () => {
         sureRemovePlayer(false)
         hideAndShowAddPlayer(false)
         removePlayer(player)
         getPlayer({})
-    }
-
-    const handleRemoveStatistic = () => {
-        sureRemoveStatistic(false)
-        hideAndShowAddStatistic(false)
-        removeStatistic(statistic)
-        removePlayerStatisticValue(statistic)
-        getStatistic({})
     }
 
     const close = () => {
@@ -112,18 +78,11 @@ const Players = () => {
     return (
         <MainScreen colors={colors}>
             {
-                isSureStatistic && <Sure func={handleRemoveStatistic} text={i18n.t("areYouSureDelete")} close={close} labelButton={i18n.t("remove")} />
-            }
-            {
                 isSure && <Sure func={handleRemovePlayer} text={i18n.t("areYouSureDelete")} close={close} labelButton={i18n.t("remove")} />
             }
             {
-                showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure} handleUpdateStatistic={handleUpdateStatistic}
+                showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure}
                     hideAndShowAddPlayer={hideAndShowAddPlayer} createPlayer={createPlayer} updatePlayer={handleUpdate} />
-            }
-            {
-                showFormStatistic && <FormCreateStatistic group={group} colors={colors} statistic={statistic} handleUpdateTitleStatistic={handleUpdateTitleStatistic}
-                    hideAndShowAddStatistic={hideAndShowAddStatistic} createStatistic={createStatistic} openSure={openSureStatistic} handleUpdateValueStatistic={handleUpdateValueStatistic} />
             }
             <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack} 
             sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />

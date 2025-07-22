@@ -118,6 +118,7 @@
         "draws": "E",
         "losses": "P",
         "score": "F:C",
+        "scored": "F",
         "numberOfTeams": "Número de equipos: {{count}}"
     },
     "team": {
@@ -340,5 +341,6 @@
     "semi_finals": "Semifinales",
     "quarter_finals": "Cuartos de final",
     "round_of": "Ronda de",
-    "select_hour": "Seleccionar hora"
+    "select_hour": "Seleccionar hora",
+    "noPlayers": "No hay jugadores aquí"
 }

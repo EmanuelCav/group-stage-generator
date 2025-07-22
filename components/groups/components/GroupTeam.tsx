@@ -3,13 +3,13 @@ import { Text } from 'react-native-paper'
 import i18n from '@/i18n'
 
 import { View } from '@/components/Themed'
+import Cell from './components/Cell'
 
 import { GroupTeamPropsType } from '@/types/groups.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
 import { generatePoints } from '@/utils/points'
-import Cell from './components/Cell'
 
 const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
 
@@ -29,8 +29,8 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                 }
                 {
                     group.pointsMode === "wins" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
+                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.losses')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.score')}</Text>
@@ -50,7 +50,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                 }
                 {
                     group.pointsMode === "scored" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.score')}</Text>
+                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.scored')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
@@ -96,7 +96,10 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                 group.pointsMode === "percentage" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
                                     <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
                                         <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
-                                            {(item.won / (item.won + item.lost)).toFixed(2)}
+                                            {(item.won + item.lost > 0
+                                                ? (item.won / (item.won + item.lost)).toFixed(2)
+                                                : '0.00'
+                                            )}
                                         </Text>
                                     </View>
                                     <Cell colors={colors} item={String(item.played)} />
@@ -111,7 +114,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                 group.pointsMode === "scored" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
                                     <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
                                         <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
-                                            {`${item.positive}:${item.negative}`}
+                                            {item.positive}
                                         </Text>
                                     </View>
                                     <Cell colors={colors} item={String(item.played)} />

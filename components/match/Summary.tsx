@@ -1,5 +1,6 @@
 import { Pressable } from "react-native"
 import { Icon, Text } from "react-native-paper"
+import i18n from "@/i18n"
 
 import { View } from "../Themed"
 
@@ -7,7 +8,6 @@ import { SummaryPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 import { iconEvent } from "@/utils/matchday"
-import i18n from "@/i18n"
 
 const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsType) => {
     return (

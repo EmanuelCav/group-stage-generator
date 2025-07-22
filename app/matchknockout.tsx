@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
-import { IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
+import { Button, IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -55,6 +55,7 @@ const Matchknockout = () => {
         const editMatch: IMatch = {
             isEdit: matchknockout.match!.isEdit,
             local: matchknockout.match!.local,
+            time: matchknockout.match?.time,
             referee: matchknockout.match!.referee!,
             stadium: matchknockout.match!.stadium!,
             statistics: matchknockout.match!.statistics,
@@ -134,6 +135,7 @@ const Matchknockout = () => {
         const editMatch: IMatch = {
             isEdit: matchknockout.match!.isEdit,
             local: matchknockout.match!.local,
+            time: matchknockout.match?.time,
             referee: matchknockout.match!.referee,
             stadium: matchknockout.match!.stadium,
             statistics: matchknockout.match!.statistics.filter((s) => s.id !== statistic.id),
@@ -219,6 +221,8 @@ const Matchknockout = () => {
         hideAndShowSummary(false)
         sureRemoveStatistic(false)
         sureRemoveSummary(false)
+        getSummary({})
+        getStatistic({})
     }, [])
 
     return (
@@ -292,8 +296,8 @@ const Matchknockout = () => {
                 />
             }
 
-            <View style={matchStyles.containerMatch}>
-                <View style={matchStyles.titleMatch}>
+            <View style={[matchStyles.containerMatch, { backgroundColor: "transparent" }]}>
+                <View style={[matchStyles.titleMatch, { backgroundColor: colors.background }]}>
                     <Text variant='titleMedium' style={{ color: colors.primary }}>
                         {columnTitle(matchknockout.round!, group.eliminationMatches?.length!)}
                     </Text>
@@ -341,18 +345,28 @@ const Matchknockout = () => {
                 {
                     segmentedButton === "summary" &&
                     <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
-                        {
-                            matchknockout.match?.summary.length! > 0 ?
+                        {matchknockout.match?.summary.length! > 0 ?
+                            <View style={{ backgroundColor: colors.background }}>
+                                <Button
+                                    mode="contained"
+                                    onPress={() => hideAndShowSummary(true)}
+                                    style={[{ backgroundColor: colors.primary, marginBottom: Dimensions.get("window").height / 74 }]}
+                                    labelStyle={{ color: "#ffffff" }}
+                                >
+                                    {i18n.t("summary_add")}
+                                </Button>
                                 <FlatList
                                     style={{ width: '100%' }}
                                     data={matchknockout.match?.summary}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => <Summary summary={item} match={matchknockout.match!} colors={colors}
                                         handleUpdateSummary={handleUpdateSummary} />}
-                                /> : <View style={matchStyles.containAdd}>
-                                    <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>
-                                    <AddAction openForm={hideAndShowSummary} colors={colors} text={i18n.t("summary_add")} />
-                                </View>
+                                />
+                            </View>
+                            : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
+                                <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>
+                                <AddAction openForm={hideAndShowSummary} colors={colors} text={i18n.t("summary_add")} />
+                            </View>
                         }
                     </View>
                 }
@@ -367,7 +381,7 @@ const Matchknockout = () => {
                                         matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.visitant.team.id)!)}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => <PlayersMatch player={item} colors={colors} hideAndShowPlayers={hideAndShowPlayers} />}
-                                /> : <View style={matchStyles.containAdd}>
+                                /> : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                     <Text variant="bodyMedium">{i18n.t("lineup_empty")}</Text>
                                     <AddAction openForm={hideAndShowPlayers} colors={colors} text={i18n.t("lineup_add")} />
                                 </View>
@@ -383,7 +397,7 @@ const Matchknockout = () => {
                                 data={matchknockout.match?.statistics}
                                 keyExtractor={(_, index) => index.toString()}
                                 renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}
-                            /> : <View style={matchStyles.containAdd}>
+                            /> : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
                                 <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
                             </View>

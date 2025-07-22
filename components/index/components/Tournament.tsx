@@ -1,4 +1,4 @@
-import { Card, IconButton, MD3Colors, Text } from "react-native-paper";
+import { Card, IconButton, Text } from "react-native-paper";
 import { View, Image, Dimensions } from "react-native";
 import i18n from '@/i18n'
 

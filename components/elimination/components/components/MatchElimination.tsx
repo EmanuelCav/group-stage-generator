@@ -22,14 +22,11 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36 }} variant="bodyMedium">{match.local.team.name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text variant="labelLarge">
+                        {match.local.score}
+                    </Text>
                     {
-                        match.local.score &&
-                        <Text variant="labelLarge">
-                            {match.local.score}
-                        </Text>
-                    }
-                    {
-                        group.isRoundTripElimination && match.local.scoreTrip && <Text variant="labelLarge"
+                        group.isRoundTripElimination && match.local.scoreTrip !== null && <Text variant="labelLarge"
                             style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
                             {match.local.scoreTrip}
                         </Text>
@@ -37,16 +34,13 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     {
                         (group.isRoundTripElimination ? ((match.local.score! + match.local.scoreTrip!) === (match.visitant.score! + match.visitant.scoreTrip!)) &&
                             (match.visitant.scoreTieBreaker !== match.local.scoreTieBreaker) :
-                            (match.local.score === match.visitant.score)) && match.visitant.scoreTieBreaker && match.local.scoreTieBreaker &&
+                            (match.local.score === match.visitant.score)) && match.visitant.scoreTieBreaker !== null && match.local.scoreTieBreaker !== null &&
                         (match.visitant.scoreTieBreaker !== match.local.scoreTieBreaker) &&
                         <Text variant="labelSmall" style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
                             {
                                 group.isRoundTripElimination && match.local.scoreTrip && match.local.score &&
-                                <Text variant="labelLarge" style={{ marginRight: Dimensions.get("window").width / 180 }}>
-                                    {match.local.score + match.local.scoreTrip}
-                                </Text>
+                                `${match.local.score + match.local.scoreTrip} (${match.local.scoreTieBreaker})`
                             }
-                            {`(${match.local.scoreTieBreaker})`}
                         </Text>
                     }
                 </View>
@@ -61,31 +55,20 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36, }} variant="bodyMedium">{match.visitant.team.name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text variant="labelLarge">
+                        {match.visitant.score}
+                    </Text>
                     {
-                        match.visitant.score &&
-                        <Text variant="labelLarge">
-                            {match.visitant.score}
-                        </Text>
-                    }
-                    {
-                        group.isRoundTripElimination && match.visitant.scoreTrip && <Text variant="labelLarge"
+                        group.isRoundTripElimination && match.visitant.scoreTrip !== null && <Text variant="labelLarge"
                             style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
                             {match.visitant.scoreTrip}
                         </Text>
                     }
                     {
-                        (group.isRoundTripElimination ? ((match.local.score! + match.local.scoreTrip!) === (match.visitant.score! + match.visitant.scoreTrip!)) &&
-                            (match.visitant.scoreTieBreaker !== match.local.scoreTieBreaker) :
-                            (match.local.score === match.visitant.score)) && match.visitant.scoreTieBreaker && match.local.scoreTieBreaker &&
-                        (match.visitant.scoreTieBreaker !== match.local.scoreTieBreaker) &&
+                        match.visitant.score !== null && match.visitant.scoreTieBreaker !== null &&
                         <Text variant="labelSmall" style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
-                            {
-                                group.isRoundTripElimination && match.visitant.scoreTrip && match.visitant.score &&
-                                <Text variant="labelLarge" style={{ marginRight: Dimensions.get("window").width / 180 }}>
-                                    {match.visitant.score + match.visitant.scoreTrip}
-                                </Text>
-                            }
-                            {`(${match.visitant.scoreTieBreaker})`}
+                                {/* {match.visitant.score + match.visitant.scoreTrip!} ${match.visitant.scoreTieBreaker} */}
+                                {match.visitant.scoreTieBreaker}
                         </Text>
                     }
                 </View>

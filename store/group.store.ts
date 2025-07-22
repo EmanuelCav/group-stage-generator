@@ -7,7 +7,7 @@ import { IGroup, IGroupStore } from "@/interface/Group";
 import { ITeam } from "@/interface/Team";
 import { IReferee } from "@/interface/Referee";
 import { IStadium } from "@/interface/Stadium";
-import { IPlayer, IStatistic } from "@/interface/Player";
+import { IPlayer } from "@/interface/Player";
 import { IAvoidingMatches } from "@/interface/Avoiding";
 
 export const groupStore = create(
@@ -62,10 +62,6 @@ export const groupStore = create(
                 group: { ...state.group, players: [...state.group.players!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: [...state.group.players!, data] } : g)
             })),
-            createStatistic: (data: IStatistic) => set((state) => ({
-                group: { ...state.group, players: state.group.players?.map((p) => ({ ...p, statistics: [...p.statistics!, data] })) },
-                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: state.group.players?.map((p) => ({ ...p, statistics: [...p.statistics!, data] })) } : g)
-            })),
             createAvoiding: (data: IAvoidingMatches) => set((state) => ({
                 group: { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] } : g)
@@ -94,19 +90,6 @@ export const groupStore = create(
                 group: { ...state.group, players: state.group.players!.map((p) => p.id === data.id ? data : p) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: state.group.players!.map((p) => p.id === data.id ? data : p) } : g)
             })),
-            updateStatisticTitle: (data: IStatistic) => set((state) => ({
-                group: { ...state.group, players: state.group.players?.map((p) => ({ ...p, statistics: p.statistics?.map((s) => ({ ...s, title: data.title })) })) },
-                groups: state.groups.map((g) => g.id === state.group.id ? {
-                    ...state.group, players: state.group.players?.map((p) => (
-                        { ...p, statistics: p.statistics?.map((s) => ({ ...s, title: data.title })) }))
-                } : g)
-            })),
-            updateStatisticValue: (data: IStatistic, player: IPlayer) => set((state) => ({
-                group: { ...state.group, players: state.group.players?.map((p) => player.id === p.id ? { ...p, statistics: p.statistics?.map((s) => s.id === data.id ? { ...s, value: data.value } : s) } : p) },
-                groups: state.groups.map((g) => g.id === state.group.id ? {
-                    ...state.group, players: state.group.players?.map((p) => player.id === p.id ? { ...p, statistics: p.statistics?.map((s) => s.id === data.id ? { ...s, value: data.value } : s) } : p)
-                } : g)
-            })),
             updateMatchGroup: (data: IMatch[][][]) => set((state) => ({
                 group: { ...state.group, matches: data, isGeneratedAgain: false },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: data, isGeneratedAgain: false } : g)
@@ -134,13 +117,6 @@ export const groupStore = create(
             removePlayer: (data: IPlayer) => set((state) => ({
                 group: { ...state.group, players: state.group.players!.filter((p) => p.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: state.group.players!.filter((p) => p.id !== data.id) } : g)
-            })),
-            removeStatistic: (data: IStatistic) => set((state) => ({
-                group: { ...state.group, players: state.group.players?.map((p) => ({ ...p, statistics: p.statistics?.filter((s) => s.id !== data.id) })) },
-                groups: state.groups.map((g) => g.id === state.group.id ? {
-                    ...state.group, players: state.group.players?.map((p) => (
-                        { ...p, statistics: p.statistics?.filter((s) => s.id !== data.id) }))
-                } : g)
             })),
             removeAvoiding: (data: IAvoidingMatches) => set((state) => ({
                 group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) },

@@ -33,12 +33,10 @@ export type FormCreateStatisticPropsType = {
 export type ShowStatisticsPropsType = {
     colors: MD3Colors;
     group: IGroup;
-    hideAndShowAddStatistic: (show: boolean) => void;
 }
 
 export type TableStatisticPropsType = {
     colors: MD3Colors;
-    group: IGroup;
     itemStatistic: IValueStatistic[];
     indexStatistic: number;
 }

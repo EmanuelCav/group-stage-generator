@@ -55,8 +55,8 @@ export interface IMatch {
 export interface IMatchTeam {
     team: ITeam;
     score: null | number;
-    scoreTrip?: number;
-    scoreTieBreaker?: number;
+    scoreTrip?: null | number;
+    scoreTieBreaker?: null | number;
 }
 
 export interface ISummary {

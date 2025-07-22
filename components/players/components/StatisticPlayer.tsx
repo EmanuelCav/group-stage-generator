@@ -1,17 +1,17 @@
-import { Pressable } from 'react-native'
+import { View } from '@/components/Themed'
 import { Text } from 'react-native-paper'
 
 import { StatisticPlayerPropsType } from '@/types/player.types'
 
 import { createStyles } from '@/styles/create.styles'
 
-const StatisticPlayer = ({ statistic, colors, isLast, handleUpdateStatistic }: StatisticPlayerPropsType) => {
+const StatisticPlayer = ({ statistic, colors, isLast, title }: StatisticPlayerPropsType) => {
     return (
-        <Pressable style={[createStyles.statisticPlayer, { borderBottomColor: colors.secondary, 
-        borderBottomWidth: isLast ? 0 : 2 }]} onPress={() => handleUpdateStatistic(statistic)}>
-            <Text variant='bodyLarge'>{statistic.title}</Text>
+        <View style={[createStyles.statisticPlayer, { borderBottomColor: colors.secondary, backgroundColor: colors.tertiary, 
+        borderBottomWidth: isLast ? 0 : 2 }]}>
+            <Text variant='bodyLarge'>{title}</Text>
             <Text variant='bodyMedium'>{statistic.value}</Text>
-        </Pressable>
+        </View>
     )
 }
 

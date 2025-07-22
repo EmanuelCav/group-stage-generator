@@ -1,10 +1,11 @@
+import i18n from '@/i18n'
+
 import { IAvoidingMatches } from "@/interface/Avoiding";
 import { IGroup } from "@/interface/Group";
-import { IPlayer, IStatistic } from "@/interface/Player";
+import { IPlayer } from "@/interface/Player";
 import { IReferee } from "@/interface/Referee";
 import { IStadium } from "@/interface/Stadium";
 import { IDropdown, IPlot, ITeam } from "@/interface/Team";
-import i18n from '@/i18n'
 
 export const groupValue = (id: number): IGroup => {
 
@@ -123,35 +124,6 @@ export const getPlayerName = (players: IPlayer[]): IDropdown[] => {
     }
 
     return playersName
-
-}
-
-export const generateStatistic = (players: IPlayer[]): IStatistic[] => {
-
-    let statistics: IStatistic[] = []
-    const statisticsData: string[] = [i18n.t("goals"), i18n.t("yellow"), i18n.t("red"), i18n.t("assists")]
-
-    if (players.length > 0) {
-        for (let i = 0; i < players[0].statistics!.length; i++) {
-            statistics.push({
-                id: players[0].statistics![i].id,
-                title: players[0].statistics![i].title,
-                value: players[0].statistics![i].defaultValue,
-                defaultValue: players[0].statistics![i].defaultValue,
-            })
-        }
-    } else {
-        for (let i = 0; i < 4; i++) {
-            statistics.push({
-                id: i + 1,
-                title: statisticsData[i],
-                value: 0,
-                defaultValue: 0,
-            })
-        }
-    }
-
-    return statistics
 
 }
 

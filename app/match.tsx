@@ -57,6 +57,7 @@ const Match = () => {
         const editMatch: IMatch = {
             isEdit: match.match!.isEdit,
             local: match.match!.local,
+            time: match.match?.time,
             referee: match.match!.referee!,
             stadium: match.match!.stadium!,
             statistics: match.match!.statistics,
@@ -100,6 +101,7 @@ const Match = () => {
         const editMatch: IMatch = {
             isEdit: match.match!.isEdit,
             local: match.match!.local,
+            time: match.match?.time,
             referee: match.match!.referee,
             stadium: match.match!.stadium,
             statistics: match.match!.statistics.filter((s) => s.id !== statistic.id),
@@ -147,6 +149,7 @@ const Match = () => {
         sureRemoveStatistic(false)
         sureRemoveSummary(false)
         getSummary({})
+        getStatistic({})
     }, [])
 
     return (

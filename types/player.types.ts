@@ -1,6 +1,6 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
-import { IPlayer, IStatistic } from "@/interface/Player";
+import { IPlayer, IValueStatistic } from "@/interface/Player";
 import { IGroup } from "@/interface/Group";
 
 export type FormCreatePlayerPropsType = {
@@ -9,7 +9,6 @@ export type FormCreatePlayerPropsType = {
     createPlayer: (team: IPlayer) => void;
     updatePlayer: (data: IPlayer) => void;
     openSure: (data: IPlayer) => void;
-    handleUpdateStatistic: (data: IStatistic) => void;
     player: IPlayer;
     group: IGroup;
 }
@@ -23,6 +22,6 @@ export type PlayerPropsType = {
 export type StatisticPlayerPropsType = {
     isLast: boolean;
     colors: MD3Colors;
-    statistic: IStatistic;
-    handleUpdateStatistic: (data: IStatistic) => void;
+    statistic: IValueStatistic;
+    title: string;
 }
