@@ -1,4 +1,5 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import { InterstitialAd } from "react-native-google-mobile-ads";
 
 import { IPlayer, IValueStatistic } from "@/interface/Player";
 import { IGroup } from "@/interface/Group";
@@ -11,6 +12,8 @@ export type FormCreatePlayerPropsType = {
     openSure: (data: IPlayer) => void;
     player: IPlayer;
     group: IGroup;
+    interstitial: InterstitialAd;
+    isIntersitialLoaded: boolean;
 }
 
 export type PlayerPropsType = {

@@ -1,6 +1,7 @@
 import { View, Keyboard, KeyboardEvent, Dimensions, ScrollView } from "react-native"
 import { useEffect, useState } from "react";
 import { useTheme } from "react-native-paper";
+import Toast from 'react-native-toast-message';
 
 import { generalStyles } from "../../styles/general.styles"
 
@@ -36,6 +37,7 @@ const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType)
       zIndex, height: Dimensions.get("window").height - keyboardHeight,
       backgroundColor: "rgba(58, 64, 73, 0.5)"
     }]}>
+      <Toast />
       <ScrollView style={[generalStyles.cardBackground,
       { backgroundColor: colors.background }]}>
         {children}

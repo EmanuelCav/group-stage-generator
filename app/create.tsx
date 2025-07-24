@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
+import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 
 import { View } from "@/components/Themed";
 import TeamAdded from "@/components/create/TeamAdded";
@@ -30,6 +31,13 @@ import { responseStore } from "@/store/response.store";
 
 import { groupValue, powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
+import Banner from "@/components/general/Banner";
+
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_INTERSTITIAL}`;
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  keywords: ['fashion', 'clothing'],
+});
 
 const Create = () => {
 
@@ -41,6 +49,8 @@ const Create = () => {
   const { colors } = useTheme()
 
   const router = useRouter()
+
+  const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
 
   const generateGroups = () => {
 
@@ -161,6 +171,33 @@ const Create = () => {
     }
   }, [])
 
+  useEffect(() => {
+
+    const loadInterstitialAd = () => {
+      try {
+        interstitial.load();
+      } catch (error) {
+        console.error("Error loading interstitial ad:", error);
+      }
+    };
+
+    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+      setIsIntersitialLoaded(true)
+    });
+
+    const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+      setIsIntersitialLoaded(false)
+      loadInterstitialAd();
+    });
+
+    loadInterstitialAd();
+
+    return () => {
+      unsubscribeLoaded()
+      unsubscribedClosed()
+    };
+  }, []);
+
   return (
     <MainScreen colors={colors}>
 
@@ -186,6 +223,8 @@ const Create = () => {
           hideAndShowAddTeam={hideAndShowAddTeam}
           createTeam={createTeam}
           updateTeam={handleUpdate}
+          interstitial={interstitial}
+          isIntersitialLoaded={isIntersitialLoaded}
         />
       )}
 
@@ -208,6 +247,8 @@ const Create = () => {
       )}
 
       <SureGeneral />
+
+      <Banner />
 
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {group.teams.length > 0 ? (

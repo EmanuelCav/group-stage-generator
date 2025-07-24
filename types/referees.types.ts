@@ -1,4 +1,5 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import { InterstitialAd } from "react-native-google-mobile-ads";
 
 import { IReferee } from "@/interface/Referee";
 import { IGroup } from "@/interface/Group";
@@ -11,6 +12,8 @@ export type FormCreateRefereePropsType = {
     openSure: (data: IReferee) => void;
     referee: IReferee;
     group: IGroup;
+    interstitial: InterstitialAd;
+    isIntersitialLoaded: boolean;
 }
 
 export type RefereePropsType = {

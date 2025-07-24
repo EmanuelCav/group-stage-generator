@@ -10,7 +10,7 @@ import { createStyles } from "@/styles/create.styles"
 const AddTeam = ({ openForm, colors, length }: AddTeamPropsType) => {
 
     return (
-        <View style={createStyles.containerAddTeam}>
+        <View style={[createStyles.containerAddTeam, { backgroundColor: colors.background }]}>
             <Text variant="titleLarge" style={[createStyles.textHeader, { color: colors.primary }]}>
                 {length <= 1 ? i18n.t("groupStage.welcome") : i18n.t("groupStage.createStage")}
             </Text>

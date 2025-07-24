@@ -21,7 +21,7 @@ import { getTeamsName } from "@/utils/defaultGroup";
 import { playerSchema } from "@/schema/player.schema";
 import { playerStatistics, statisticPlayer } from "@/utils/statistics";
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure }: FormCreatePlayerPropsType) => {
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded }: FormCreatePlayerPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ? player.team?.name : group.teams[0].name!)
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -40,7 +40,6 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             updatePlayer({
                 id: player.id,
                 name: playerCreated.name,
-                // statistics: player.statistics,
                 team: group.teams.find((t) => t.name === teamSelected),
                 position: playerCreated.position
             })
@@ -48,10 +47,21 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             createPlayer({
                 id: group.players?.length as number + 1,
                 name: playerCreated.name,
-                // statistics: generateStatistic(group.players!),
                 team: group.teams.find((t) => t.name === teamSelected),
                 position: playerCreated.position
             })
+
+            try {
+                if (group.players?.length !== 0) {
+                    if (group.players?.length === 1 || group.players!.length % 8 === 0) {
+                        if (interstitial.loaded || isIntersitialLoaded) {
+                            interstitial.show()
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
 
             reset()
         }

@@ -7,6 +7,8 @@ import { View } from '@/components/Themed';
 import Tournaments from '@/components/index/Tournaments';
 import AddGroupStage from '@/components/index/AddGroupStage';
 import Banner from '@/components/general/Banner';
+import MainScreen from '@/components/general/MainScreen';
+import HeaderTournaments from '@/components/index/HeaderTournaments';
 
 import { IGroup } from '@/interface/Group';
 
@@ -53,12 +55,15 @@ export default function TabOneScreen() {
   }, [isMounted, groups, router])
 
   return (
-    <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
-      <Banner />
-      <Text variant='titleLarge' style={{ color: colors.primary }}>{i18n.t("titleIndex")}</Text>
-      <Text variant='titleMedium'>{i18n.t("selectGroupStage")}</Text>
-      <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
-      <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
-    </View>
+    <MainScreen colors={colors}>
+      <HeaderTournaments />
+      <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
+        <Banner />
+        <Text variant='titleLarge' style={{ color: colors.primary }}>{i18n.t("titleIndex")}</Text>
+        <Text variant='titleMedium'>{i18n.t("selectGroupStage")}</Text>
+        <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
+        <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
+      </View>
+    </MainScreen>
   );
 }

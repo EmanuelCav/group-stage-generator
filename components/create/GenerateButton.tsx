@@ -10,7 +10,7 @@ import { GenerateButtonPropsType } from '@/types/create.types'
 
 const GenerateButton = ({ teams, colors, generateGroups }: GenerateButtonPropsType) => {
     return (
-        <View style={createStyles.containerGenerateButton}>
+        <View style={[createStyles.containerGenerateButton, { backgroundColor: colors.background }]}>
             <Button mode="contained" onPress={generateGroups}
                 style={[{ backgroundColor: teams.length < 2 ? "#bbbbbb" : colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }} disabled={teams.length < 2}>

@@ -1,4 +1,5 @@
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
+import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
 
 import { generalStyles } from "@/styles/general.styles";
@@ -25,14 +26,29 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
             if (group.isManualConfiguration) {
 
                 if (group.teamsPerGroup === 1) {
+                    Toast.show({
+                        type: 'error',
+                        text1: i18n.t("validation.teamsPerGroup.title"),
+                        text2: i18n.t("validation.teamsPerGroup.message")
+                    });
                     return
                 }
 
                 if (Math.ceil(group.amountGroups! / 2) > group.teams.length) {
+                    Toast.show({
+                        type: 'error',
+                        text1: i18n.t("validation.numberOfGroups.title"),
+                        text2: i18n.t("validation.numberOfGroups.message")
+                    });
                     return
                 }
 
                 if ((group.amountGroups! * group.teamsPerGroup!) > group.teams.length) {
+                    Toast.show({
+                        type: 'error',
+                        text1: i18n.t("validation.numberOfTeams.title"),
+                        text2: i18n.t("validation.numberOfTeams.message")
+                    });
                     return
                 }
             }

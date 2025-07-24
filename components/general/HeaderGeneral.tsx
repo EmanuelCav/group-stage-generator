@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { Appbar, Menu } from "react-native-paper";
+import { Appearance, Dimensions } from "react-native";
+import { Appbar, Menu, useTheme } from "react-native-paper";
 import i18n from '@/i18n'
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
-import { Dimensions } from "react-native";
 
 const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
+    const { dark } = useTheme()
+
+    const iconName = dark ? "white-balance-sunny" : "moon-waning-crescent";
 
     return (
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
@@ -16,8 +19,10 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
             <Menu
                 visible={visible}
                 onDismiss={() => setVisible(false)}
-                contentStyle={{ backgroundColor: colors.tertiary, borderColor: colors.secondary, borderWidth: 2, 
-                    shadowColor: "dddddd", width: Dimensions.get("window").width / 1.75, flex: 1 }}
+                contentStyle={{
+                    backgroundColor: colors.tertiary, borderColor: colors.secondary, borderWidth: 2,
+                    shadowColor: "dddddd", width: Dimensions.get("window").width / 1.75, flex: 1
+                }}
                 anchor={<Appbar.Action icon="dots-vertical" color="#ffffff" onPress={() => setVisible(true)} />}
             >
 
@@ -43,6 +48,12 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                     onPress={() => router.replace("/players")}
                     title={i18n.t("menu.players")}
                     leadingIcon="account-group"
+                />
+
+                <Menu.Item
+                    onPress={() => Appearance.setColorScheme(dark ? "light" : "dark")}
+                    title={dark ? i18n.t("lightMode") : i18n.t("darkMode")}
+                    leadingIcon={iconName}
                 />
 
                 <Menu.Item

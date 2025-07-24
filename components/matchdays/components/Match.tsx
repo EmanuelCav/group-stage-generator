@@ -8,6 +8,8 @@ import { MatchPropsType } from '@/types/props.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
+import { groupName } from '@/utils/points'
+
 const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, group }: MatchPropsType) => {
 
     return (
@@ -33,7 +35,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                         ) : (
                             <Avatar.Icon icon="shield-outline" size={24} />
                         )}
-                        <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{match.local.team.name}</Text>
+                        <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{groupName(match.local.team.name!)}</Text>
                     </View>
                 </DataTable.Cell>
                 {
@@ -51,7 +53,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                 }
                 <DataTable.Cell style={groupStyles.rowEnd}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
-                        <Text style={{ marginRight: Dimensions.get("window").width / 36 }}>{match.visitant.team.name}</Text>
+                        <Text style={{ marginRight: Dimensions.get("window").width / 36 }}>{groupName(match.visitant.team.name!)}</Text>
                         {match.visitant.team.logo ? (
                             <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
                         ) : (

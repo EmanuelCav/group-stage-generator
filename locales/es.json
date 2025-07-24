@@ -17,6 +17,7 @@
     "avoidingMatches": "Evitar enfrentamientos",
     "generating": "Generando...",
     "teams": "Equipos",
+    "groupstages": "Group stages",
     "addTeamsToGenerate": "Agrega equipos para generar la fase de grupos",
     "addAtLeastTwo": "Agrega 2 o más equipos para generar",
     "match_title": "Partido",
@@ -74,7 +75,7 @@
         "selectShield": "Seleccionar escudo (opcional)",
         "teamName": "Nombre del equipo",
         "selectLogo": "Selecciona un logo (opcional)",
-        "plotOptional": "Argumento (opcional):",
+        "plotOptional": "Bombo (opcional):",
         "add": "AGREGAR",
         "update": "ACTUALIZAR",
         "remove": "ELIMINAR"
@@ -342,5 +343,13 @@
     "quarter_finals": "Cuartos de final",
     "round_of": "Ronda de",
     "select_hour": "Seleccionar hora",
-    "noPlayers": "No hay jugadores aquí"
+    "noPlayers": "No hay jugadores aquí",
+    "darkMode": "Modo oscuro",
+    "lightMode": "Modo claro",
+    "errorTeamNameTitle": "Nombre del equipo",
+    "errorTeamNameDescription": "El nombre del equipo ya existe",
+    "errorSummaryEventTitle": "Selecciona un evento",
+    "errorSummaryEventDescription": "Selecciona el evento para el resumen",
+    "errorSummaryPlayerTitle": "Selecciona un jugador",
+    "errorSummaryPlayerDescription": "Selecciona un jugador principal"
 }

@@ -15,7 +15,7 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { refereeSchema } from "@/schema/referee.schema";
 
-const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure }: FormCreateRefereePropsType) => {
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded }: FormCreateRefereePropsType) => {
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(refereeSchema),
@@ -45,6 +45,18 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                 id: group.referees?.length as number + 1,
                 name: refereeCreated.name
             })
+
+            try {
+                if (group.referees?.length !== 0) {
+                    if (group.referees?.length === 1 || group.referees!.length % 8 === 0) {
+                        if (interstitial.loaded || isIntersitialLoaded) {
+                            interstitial.show()
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
 
             reset()
         }

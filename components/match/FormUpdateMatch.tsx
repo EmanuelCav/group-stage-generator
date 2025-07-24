@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { enGB, registerTranslation, DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
 import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
+import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
 
@@ -17,7 +18,6 @@ import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { groupName } from '@/utils/points';
-import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 
 const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday }: FormUpdateMatchPropsType) => {
 

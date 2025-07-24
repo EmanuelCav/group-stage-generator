@@ -17,6 +17,8 @@ import { generalStyles } from "@/styles/general.styles"
 import { matchStyles } from "@/styles/match.styles"
 import { createStyles } from "@/styles/create.styles"
 
+import { groupName } from "@/utils/points";
+
 import { statisticSchema } from "@/schema/statistic.schema";
 
 const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup }: FormStatisticsMatchPropsType) => {
@@ -221,7 +223,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         variant="bodyMedium"
                         style={{ marginTop: Dimensions.get('window').height / 106 }}
                     >
-                        {match.local.team.name}
+                        {groupName(match.local.team.name!)}
                     </Text>
                 </View>
                 <TextInput
@@ -239,8 +241,8 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
             <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
                 <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
-                    {match.local.team.logo ? (
-                        <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
+                    {match.visitant.team.logo ? (
+                        <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} />
                     )}
@@ -248,7 +250,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         variant="bodyMedium"
                         style={{ marginTop: Dimensions.get('window').height / 106 }}
                     >
-                        {match.local.team.name}
+                        {groupName(match.visitant.team.name!)}
                     </Text>
                 </View>
                 <TextInput

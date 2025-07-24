@@ -22,7 +22,7 @@ import { uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
 
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure }: FormCreateTeamPropsType) => {
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [image, setImage] = useState<string>(team.logo ?? "")
@@ -66,8 +66,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     if (group.teams.find((t) => t.name === teamCreated.name)) {
       Toast.show({
         type: 'error',
-        text1: "Team's name",
-        text2: 'The name of the team already exists'
+        text1: i18n.t("errorTeamNameTitle"),
+        text2: i18n.t("errorTeamNameDescription")
       });
       return
     }
@@ -92,6 +92,19 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           group.teams.length + 1, imageUrl || "", teamCreated.name.trim(), Number(plot[plot.length - 1])
         )
       )
+
+      try {
+        if (group.teams.length !== 0) {
+          if (group.teams.length === 1 || group.teams.length % 8 === 0) {
+            if (interstitial.loaded || isIntersitialLoaded) {
+              interstitial.show()
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       reset()
       setImage("")
     }
@@ -101,6 +114,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   return (
     <ContainerBackground zIndex={20}>
+
       <IconButton
         icon="close"
         style={generalStyles.buttonClose}
@@ -146,7 +160,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       />
 
       {group.isManualConfiguration && (
-        <View style={[createStyles.selectInputContain, { backgroundColor: colors.background }]}>
+        <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
           <Text variant="labelLarge">{i18n.t("teamForm.plotOptional")}</Text>
           <Dropdown
             style={[

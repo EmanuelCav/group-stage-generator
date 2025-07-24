@@ -17,6 +17,7 @@
     "avoidingMatches": "Avoiding matches",
     "generating": "Generating...",
     "teams": "Teams",
+    "groupstages": "Fases de grupo",
     "addTeamsToGenerate": "Add teams to generate the group stage",
     "addAtLeastTwo": "Add 2 or more teams to generate",
     "match_title": "Match",
@@ -342,5 +343,13 @@
     "quarter_finals": "Quarter-finals",
     "round_of": "Round of",
     "select_hour": "Select hour",
-    "noPlayers": "There are no players here"
+    "noPlayers": "There are no players here",
+    "darkMode": "Dark mode",
+    "lightMode": "Light Mode",
+    "errorTeamNameTitle": "Team name",
+    "errorTeamNameDescription": "The team name already exists",
+    "errorSummaryEventTitle": "Select an event",
+    "errorSummaryEventDescription": "Select the event for the summary",
+    "errorSummaryPlayerTitle": "Select a player",
+    "errorSummaryPlayerDescription": "Select a main player"
 }

@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Icon, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
+import Toast from 'react-native-toast-message';
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
 
@@ -45,10 +46,20 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
     const handleAddSummary = (summaryCreated: ICreateSummary) => {
 
         if (!statisticSelected) {
+            Toast.show({
+                type: 'error',
+                text1: i18n.t("errorSummaryEventTitle"),
+                text2: i18n.t("errorSummaryEventDescription")
+            });
             return
         }
 
         if (!playerSelected) {
+            Toast.show({
+                type: 'error',
+                text1: i18n.t("errorSummaryPlayerTitle"),
+                text2: i18n.t("errorSummaryPlayerDescription")
+            });
             return
         }
 
@@ -492,7 +503,10 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
                     </View>
                     :
-                    <View style={{ marginTop: Dimensions.get("window").height / 28 }}>
+                    <View style={{
+                        marginTop: Dimensions.get("window").height / 28, justifyContent: 'center',
+                        alignItems: 'center', backgroundColor: colors.background
+                    }}>
                         <Text variant='titleLarge' style={{ color: colors.primary }}>
                             {i18n.t("statistics")}
                         </Text>

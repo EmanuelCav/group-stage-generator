@@ -13,7 +13,8 @@ const Information = ({ match, colors }: InformationPropsType) => {
             <TagInformation
                 colors={colors}
                 source="clock-time-four-outline"
-                info={match.time?.hours ? `${match.time.hours < 10 ? "0" : ""}${match.time.hours}:${match.time.minutes < 10 ? "0" : ""}${match.time.minutes}` : i18n.t("not_defined")}
+                info={(match.time?.hours && match.date) ? `${match.date} - ${match.time.hours < 10 ? "0" : ""}${match.time.hours}:${match.time.minutes < 10 ? "0" : ""}${match.time.minutes}` :
+                    i18n.t("not_defined")}
             />
             <TagInformation
                 colors={colors}

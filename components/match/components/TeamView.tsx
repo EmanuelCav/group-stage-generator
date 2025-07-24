@@ -7,6 +7,8 @@ import { TeamViewPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 
+import { groupName } from "@/utils/points"
+
 const TeamView = ({ team, colors }: TeamViewPropsType) => {
     return (
         <View style={[matchStyles.teamView, {  backgroundColor: colors.background }]}>
@@ -16,7 +18,7 @@ const TeamView = ({ team, colors }: TeamViewPropsType) => {
                 <Avatar.Icon icon="shield-outline" size={32} />
             )}
             <Text variant="bodyMedium" style={{ marginTop: Dimensions.get("window").height / 106 }}>
-                {team.team.name}
+                {groupName(team.team.name!)}
             </Text>
         </View>
     )

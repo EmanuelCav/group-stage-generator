@@ -15,7 +15,7 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { stadiumSchema } from "@/schema/stadium.schema";
 
-const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure }: FormCreateStadiumPropsType) => {
+const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded }: FormCreateStadiumPropsType) => {
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(stadiumSchema),
@@ -46,6 +46,18 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                 name: stadiumCreated.name
             })
 
+            try {
+                if (group.stadiums?.length !== 0) {
+                    if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
+                        if (interstitial.loaded || isIntersitialLoaded) {
+                            interstitial.show()
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
             reset()
         }
 
@@ -54,8 +66,6 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
 
     return (
         <ContainerBackground zIndex={20}>
-
-            <Toast />
 
             <IconButton
                 icon="close"

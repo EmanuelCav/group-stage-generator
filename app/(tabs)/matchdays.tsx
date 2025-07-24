@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router'
 import { useTheme } from 'react-native-paper'
 import i18n from '@/i18n'
 import { Dimensions } from 'react-native'
+import Toast from 'react-native-toast-message';
 
 import { View } from '@/components/Themed'
 import MainScreen from '@/components/general/MainScreen'
@@ -48,6 +49,7 @@ const Matchdays = () => {
             {
                 (group.isGeneratedAgain || evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />
             }
+            <Toast />
             <View style={{ padding: Dimensions.get("window").height / 106, flex: 1, backgroundColor: colors.background }}>
                 <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
                 <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} />

@@ -1,6 +1,6 @@
 import { IAvoidingMatches } from "./Avoiding";
 import { IMatch } from "./Match";
-import { IPlayer, IStatistic } from "./Player";
+import { IPlayer } from "./Player";
 import { IReferee } from "./Referee";
 import { IStadium } from "./Stadium";
 import { ITeam } from "./Team";
@@ -21,8 +21,6 @@ export interface IGroupStore {
     updateStadium: (data: IStadium) => void;
     updatePlayer: (data: IPlayer) => void;
     updateAvoiding: (data: IAvoidingMatches) => void;
-    // updateStatisticTitle: (data: IStatistic) => void;
-    // updateStatisticValue: (data: IStatistic, player: IPlayer) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
     updateMatchKnockGroup: (data: IMatch[][]) => void;
     getGroup: (data: IGroup) => void;
@@ -34,13 +32,11 @@ export interface IGroupStore {
     createReferee: (data: IReferee) => void;
     createStadium: (data: IStadium) => void;
     createPlayer: (data: IPlayer) => void;
-    // createStatistic: (data: IStatistic) => void;
     createAvoiding: (data: IAvoidingMatches) => void;
     removeTeam: (data: ITeam) => void;
     removeReferee: (data: IReferee) => void;
     removeStadium: (data: IStadium) => void;
     removePlayer: (data: IPlayer) => void;
-    // removeStatistic: (data: IStatistic) => void;
     removeAvoiding: (data: IAvoidingMatches) => void;
     updateCreateElimination: (data: boolean) => void;
     updateGenerateAgain: (data: boolean) => void;

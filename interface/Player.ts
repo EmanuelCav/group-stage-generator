@@ -13,9 +13,6 @@ export interface IPlayerStore {
     sureRemoveStatistic: (sure: boolean) => void;
     getPlayer: (data: IPlayer) => void;
     getStatistic: (data: IStatistic) => void;
-    // updatePlayerStatisticTitle: (data: IStatistic) => void;
-    // updatePlayerStatisticValue: (data: IStatistic) => void;
-    // removePlayerStatisticValue: (data: IStatistic) => void;
 }
 
 export interface IPlayer {
@@ -23,7 +20,6 @@ export interface IPlayer {
     name?: string;
     team?: ITeam;
     position?: string;
-    // statistics?: IStatistic[];
 }
 
 export interface IStatistic {

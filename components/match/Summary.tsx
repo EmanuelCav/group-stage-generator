@@ -14,9 +14,9 @@ const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsTy
         <Pressable style={[matchStyles.summaryDesign, { borderColor: "#ffffff", backgroundColor: colors.primary }]}
             onPress={() => handleUpdateSummary(summary)} >
             <View style={[matchStyles.containerSummary,
-            { alignSelf: summary.player?.team?.name === match.local.team ? "flex-start" : "flex-end", backgroundColor: colors.primary }]}>
+            { alignSelf: summary.player?.team?.name === match.local.team.name ? "flex-start" : "flex-end", backgroundColor: colors.primary }]}>
                 {
-                    summary.player?.team?.name === match.local.team ?
+                    summary.player?.team?.name === match.local.team.name ?
                         <>
                             <View style={{ backgroundColor: colors.primary }}>
                                 <Icon source={iconEvent(summary.title!)} size={24}

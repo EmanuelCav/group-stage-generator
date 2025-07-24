@@ -42,6 +42,34 @@ export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic
         }
     }
 
+    if (group.eliminationMatches?.length! > 0) {
+        for (let i = 0; i < group.eliminationMatches!.length; i++) {
+            for (let j = 0; j < group.eliminationMatches![i].length; j++) {
+                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === player.id) {
+                        goals++
+                    }
+
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === player.id) {
+                        assists++
+                    }
+                }
+
+                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === player.id) {
+                        yellow++
+                    }
+                }
+
+                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red")).length; t++) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === player.id) {
+                        reds++
+                    }
+                }
+            }
+        }
+    }
+
     summary.push({
         player: String(player.name),
         team: String(player.team?.name),
@@ -101,6 +129,34 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
 
                     for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
                         if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
+                            reds++
+                        }
+                    }
+                }
+            }
+        }
+
+        if (group.eliminationMatches?.length! > 0) {
+            for (let i = 0; i < group.eliminationMatches!.length; i++) {
+                for (let j = 0; j < group.eliminationMatches![i].length; j++) {
+                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === group.players![p].id) {
+                            goals++
+                        }
+
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === group.players![p].id) {
+                            assists++
+                        }
+                    }
+
+                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === group.players![p].id) {
+                            yellow++
+                        }
+                    }
+
+                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red")).length; t++) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
                             reds++
                         }
                     }
@@ -182,7 +238,7 @@ export const namePlayerStatistic = (name: string): string => {
     }
 
     if (nameSplit.length >= 2) {
-        return `${nameSplit[0].slice(0, nameSplit[0].length >= 12 ? 12 : nameSplit[0].length)}.`
+        return `${nameSplit[0].slice(0, 1)}.`
             + " " + `${nameSplit[1].slice(0, nameSplit[1].length >= 12 ? 12 : nameSplit[1].length)}${nameSplit[1].length > 12 ? "..." : ""}`
     }
 

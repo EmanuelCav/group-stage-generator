@@ -93,10 +93,14 @@ export const groupStyles = StyleSheet.create({
         marginVertical: Dimensions.get("window").height / 106
     },
 
+    textDateGroup: {
+        marginRight: Dimensions.get("window").width / 28,
+        marginVertical: Dimensions.get("window").height / 106
+    },
+
     statisticsCell: {
         width: Dimensions.get("window").width / 3,
-        textAlign: "center",
-        color: "#ffffff"
+        textAlign: "center"
     },
 
     statisticsCellMain: {

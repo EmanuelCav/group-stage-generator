@@ -7,6 +7,8 @@ import { MatchEliminationPropsType } from "@/types/elimination.types";
 
 import { eliminationStyles } from "@/styles/elimination.styles";
 
+import { groupName } from "@/utils/points";
+
 const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, group }: MatchEliminationPropsType) => {
 
     return (
@@ -19,7 +21,7 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={24} />
                     )}
-                    <Text style={{ marginLeft: Dimensions.get("window").width / 36 }} variant="bodyMedium">{match.local.team.name}</Text>
+                    <Text style={{ marginLeft: Dimensions.get("window").width / 36 }} variant="bodyMedium">{groupName(match.local.team.name!)}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                     <Text variant="labelLarge">
@@ -32,15 +34,15 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                         </Text>
                     }
                     {
-                        (group.isRoundTripElimination ? ((match.local.score! + match.local.scoreTrip!) === (match.visitant.score! + match.visitant.scoreTrip!)) &&
-                            (match.visitant.scoreTieBreaker !== match.local.scoreTieBreaker) :
-                            (match.local.score === match.visitant.score)) && match.visitant.scoreTieBreaker !== null && match.local.scoreTieBreaker !== null &&
-                        (match.visitant.scoreTieBreaker !== match.local.scoreTieBreaker) &&
+                        group.isRoundTripElimination && match.local.score !== null && match.local.scoreTrip !== null && <Text variant="labelLarge"
+                            style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
+                            {match.local.score + match.local.scoreTrip!}
+                        </Text>
+                    }
+                    {
+                        match.local.score !== null && match.local.scoreTieBreaker !== null &&
                         <Text variant="labelSmall" style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
-                            {
-                                group.isRoundTripElimination && match.local.scoreTrip && match.local.score &&
-                                `${match.local.score + match.local.scoreTrip} (${match.local.scoreTieBreaker})`
-                            }
+                            ({match.local.scoreTieBreaker})
                         </Text>
                     }
                 </View>
@@ -52,7 +54,7 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={24} />
                     )}
-                    <Text style={{ marginLeft: Dimensions.get("window").width / 36, }} variant="bodyMedium">{match.visitant.team.name}</Text>
+                    <Text style={{ marginLeft: Dimensions.get("window").width / 36, }} variant="bodyMedium">{groupName(match.visitant.team.name!)}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                     <Text variant="labelLarge">
@@ -65,10 +67,15 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                         </Text>
                     }
                     {
+                        group.isRoundTripElimination && match.visitant.score !== null && match.visitant.scoreTrip !== null && <Text variant="labelLarge"
+                            style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
+                            {match.visitant.score + match.visitant.scoreTrip!}
+                        </Text>
+                    }
+                    {
                         match.visitant.score !== null && match.visitant.scoreTieBreaker !== null &&
                         <Text variant="labelSmall" style={{ marginHorizontal: Dimensions.get("window").width / 72 }}>
-                                {/* {match.visitant.score + match.visitant.scoreTrip!} ${match.visitant.scoreTieBreaker} */}
-                                {match.visitant.scoreTieBreaker}
+                            ({match.visitant.scoreTieBreaker})
                         </Text>
                     }
                 </View>

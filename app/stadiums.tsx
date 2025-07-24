@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
@@ -23,6 +24,12 @@ import { groupStore } from "@/store/group.store";
 
 import { stadiumStore } from "@/store/stadium.store";
 
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_INTERSTITIAL}`;
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+  keywords: ['fashion', 'clothing'],
+});
+
 const Stadiums = () => {
 
   const { showForm, hideAndShowAddStadium, getStadium, stadium, isSure, sureRemoveStadium } = stadiumStore()
@@ -31,6 +38,8 @@ const Stadiums = () => {
   const { colors } = useTheme()
 
   const router = useRouter()
+
+  const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
 
   const handleUpdate = (data: IStadium) => {
     updateStadium(data)
@@ -73,6 +82,33 @@ const Stadiums = () => {
     getStadium({})
   }, [])
 
+  useEffect(() => {
+
+    const loadInterstitialAd = () => {
+      try {
+        interstitial.load();
+      } catch (error) {
+        console.error("Error loading interstitial ad:", error);
+      }
+    };
+
+    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+      setIsIntersitialLoaded(true)
+    });
+
+    const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+      setIsIntersitialLoaded(false)
+      loadInterstitialAd();
+    });
+
+    loadInterstitialAd();
+
+    return () => {
+      unsubscribeLoaded()
+      unsubscribedClosed()
+    };
+  }, []);
+
   return (
     <MainScreen colors={colors}>
       {
@@ -95,6 +131,8 @@ const Stadiums = () => {
             hideAndShowAddStadium={hideAndShowAddStadium}
             createStadium={createStadium}
             updateStadium={handleUpdate}
+            interstitial={interstitial}
+            isIntersitialLoaded={isIntersitialLoaded}
           />
         )
       }
