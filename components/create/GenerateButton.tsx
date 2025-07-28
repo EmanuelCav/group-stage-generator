@@ -8,12 +8,12 @@ import { generalStyles } from '@/styles/general.styles'
 
 import { GenerateButtonPropsType } from '@/types/create.types'
 
-const GenerateButton = ({ teams, colors, generateGroups }: GenerateButtonPropsType) => {
+const GenerateButton = ({ teams, colors, generateGroups, loading }: GenerateButtonPropsType) => {
     return (
         <View style={[createStyles.containerGenerateButton, { backgroundColor: colors.background }]}>
-            <Button mode="contained" onPress={generateGroups}
+            <Button mode="contained" onPress={generateGroups} loading={loading}
                 style={[{ backgroundColor: teams.length < 2 ? "#bbbbbb" : colors.primary }, generalStyles.generateButton]}
-                labelStyle={{ color: "#ffffff" }} disabled={teams.length < 2}>
+                labelStyle={{ color: "#ffffff" }} disabled={teams.length < 2 || loading}>
                 {i18n.t("generate")}
             </Button>
         </View>

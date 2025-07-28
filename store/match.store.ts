@@ -62,6 +62,16 @@ export const matchStore = create(
       })),
       updateEliminationMatch: (data: IGetMatchKnockout) => set(() => ({
         matchknockout: data
+      })),
+      handleGetMatch: () => set(() => ({
+        showForm: false,
+        showFormPlayers: false,
+        showFormStatistics: false,
+        showFormSummary: false,
+        isSureStatistic: false,
+        isSureSummary: false,
+        statistic: {},
+        summary: {}
       }))
     }),
     {

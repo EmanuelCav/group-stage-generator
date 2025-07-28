@@ -30,7 +30,6 @@ const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType)
     };
   }, []);
 
-
   return (
     <View style={[generalStyles.containerBackground,
     {

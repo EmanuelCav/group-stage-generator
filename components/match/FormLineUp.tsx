@@ -19,6 +19,8 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
     const [playersLocal, setPlayersLocal] = useState<Record<string, boolean>>({});
     const [playersVisitant, setPlayersVisitant] = useState<Record<string, boolean>>({});
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const toggleCheckboxLocal = (playerId: string) => {
         setPlayersLocal((prev) => ({
             ...prev,
@@ -38,6 +40,8 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
         const arrPlayersLocal = Object.keys(playersLocal).map(Number)
         const arrPlayersVisitant = Object.keys(playersVisitant).map(Number)
         const concatArrPlayers = arrPlayersLocal.concat(arrPlayersVisitant)
+
+        setLoading(true)
 
         let updatePlayers: IPlayer[] = []
 
@@ -98,7 +102,10 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
             })
         }
 
-        hideAndShowPlayers(false)
+        setTimeout(() => {
+            hideAndShowPlayers(false)
+            setLoading(false)
+        }, 800)
     }
 
     useEffect(() => {
@@ -184,6 +191,8 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
             </View>
 
             <Button
+                loading={loading}
+                disabled={loading}
                 mode="contained"
                 style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: '#ffffff' }}

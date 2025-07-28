@@ -27,6 +27,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [isFocus, setIsFocus] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(teamSchema),
@@ -72,10 +73,23 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       return
     }
 
+    setLoading(true)
+
     let imageUrl = image
+    let timeLoading = 500
 
     if (image) {
-      imageUrl = await uploadImageToCloudinary(image);
+
+      try {
+        imageUrl = await uploadImageToCloudinary(image);
+        timeLoading = 1800
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          text1: i18n.t("errorUploadImageTitle"),
+          text2: i18n.t("errorUploadImageDescription")
+        });
+      }
     }
 
     if (team.id) {
@@ -109,7 +123,10 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       setImage("")
     }
 
-    hideAndShowAddTeam(false)
+    setTimeout(() => {
+      setLoading(false)
+      hideAndShowAddTeam(false)
+    }, timeLoading)
   }
 
   return (
@@ -124,7 +141,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       />
 
       {image ? (
-        <Card style={createStyles.cardAddTeam} onPress={pickImage}>
+        <Card style={[createStyles.cardAddTeam, { backgroundColor: colors.tertiary }]} onPress={pickImage}>
           <Image source={{ uri: image }} style={createStyles.imageCard} />
         </Card>
       ) : (
@@ -202,6 +219,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       )}
 
       <Button
+        disabled={loading}
+        loading={loading}
         mode="contained"
         style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
         labelStyle={{ color: "#ffffff" }}

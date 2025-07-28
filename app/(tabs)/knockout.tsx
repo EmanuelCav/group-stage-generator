@@ -13,7 +13,6 @@ import CreateElimination from "@/components/elimination/CreateElimination"
 import { IGetMatchKnockout } from "@/interface/Match"
 
 import { groupStore } from "@/store/group.store"
-import { responseStore } from "@/store/response.store"
 import { matchStore } from "@/store/match.store"
 
 import { detectChangesElimination, getElimationTeams } from "@/utils/elimination"
@@ -23,7 +22,6 @@ const Elimination = () => {
     const router = useRouter()
     const { colors } = useTheme()
     const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group } = groupStore()
-    const { handleLoading } = responseStore()
     const { getMatchKnockout } = matchStore()
 
     const handleGetMatch = (data: IGetMatchKnockout) => {
@@ -57,7 +55,7 @@ const Elimination = () => {
                     <>
                         {
                             !group.isDrawed &&
-                            <ShuffleAgain colors={colors} handleLoading={handleLoading} updateShuffledKnockout={updateShuffledKnockout}
+                            <ShuffleAgain colors={colors} updateShuffledKnockout={updateShuffledKnockout}
                                 group={group} generateElimination={generateElimination} />
                         }
                         <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} />

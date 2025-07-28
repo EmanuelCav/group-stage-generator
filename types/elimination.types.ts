@@ -28,7 +28,6 @@ export type MatchEliminationPropsType = {
 
 export type ShuffleAgainPropsType = {
     colors: MD3Colors;
-    handleLoading: (data: boolean) => void;
     updateShuffledKnockout: (data: boolean) => void;
     generateElimination: (data: IMatch[][]) => void;
     group: IGroup;

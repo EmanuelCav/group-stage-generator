@@ -21,10 +21,11 @@ import { groupName } from "@/utils/points";
 
 import { statisticSchema } from "@/schema/statistic.schema";
 
-const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup }: FormStatisticsMatchPropsType) => {
+const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, getStatistic }: FormStatisticsMatchPropsType) => {
 
     const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "")
     const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "")
+    const [loading, setLoading] = useState<boolean>(false)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(statisticSchema),
@@ -37,6 +38,8 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
         const groupIndex = match.local.team.group! - 1;
         const matchdayIndex = matchday - 1;
+
+        setLoading(true)
 
         if (statistic.id) {
 
@@ -162,7 +165,11 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
             reset()
         }
 
-        hideAndShowStatistics(false)
+        setTimeout(() => {
+            hideAndShowStatistics(false)
+            getStatistic({})
+            setLoading(false)
+        }, 800)
     }
 
     return (
@@ -172,7 +179,10 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 style={generalStyles.buttonClose}
                 iconColor={MD3Colors.error50}
                 size={24}
-                onPress={() => hideAndShowStatistics(false)}
+                onPress={() => {
+                    getStatistic({})
+                    hideAndShowStatistics(false)
+                }}
             />
 
             <Controller
@@ -277,6 +287,8 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
             {statistic.id && (
                 <Button
+                    loading={loading}
+                    disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                     labelStyle={{ color: '#ffffff' }}

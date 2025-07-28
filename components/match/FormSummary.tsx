@@ -24,7 +24,7 @@ import { summarySchema } from "@/schema/match.schema";
 import { getTeamsName, getPlayerName } from "@/utils/defaultGroup";
 import { labelSummaryEvent } from "@/utils/matchday";
 
-const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router }: FormSummaryPropsType) => {
+const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary }: FormSummaryPropsType) => {
 
     const [statisticSelected, setStatisticSelected] = useState<string>("")
     const [teamSelected, setTeamSelected] = useState<string>("")
@@ -35,6 +35,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
     const [isFocusTeam, setIsFocusTeam] = useState<boolean>(false)
     const [isFocusPlayer, setIsFocusPlayer] = useState<boolean>(false)
     const [isFocusSecondaryPlayer, setIsFocusSecondaryPlayer] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(summarySchema),
@@ -62,6 +63,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             });
             return
         }
+
+        setLoading(true)
 
         const groupIndex = match.local.team.group! - 1;
         const matchdayIndex = matchday - 1;
@@ -186,7 +189,11 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             reset()
         }
 
-        hideAndShowSummary(false)
+        setTimeout(() => {
+            hideAndShowSummary(false)
+            getSummary({})
+            setLoading(false)
+        }, 800)
     }
 
     return (
@@ -196,7 +203,10 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 style={generalStyles.buttonClose}
                 iconColor={MD3Colors.error50}
                 size={24}
-                onPress={() => hideAndShowSummary(false)}
+                onPress={() => {
+                    hideAndShowSummary(false)
+                    getSummary({})
+                }}
             />
             {
                 group.players?.length! > 0 ?
@@ -229,19 +239,19 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 }}
                                 activeColor={colors.primary}
                                 data={[{
-                                    value: "Goles",
+                                    value: "goal",
                                     label: i18n.t("goal")
                                 }, {
-                                    value: "Tarjetas amarillas",
+                                    value: "yellow card",
                                     label: i18n.t("yellows")
                                 }, {
-                                    value: "Tarjetas rojas",
+                                    value: "red card",
                                     label: i18n.t("reds")
                                 }, {
-                                    value: "Lesión",
+                                    value: "injury",
                                     label: i18n.t("injury")
                                 }, {
-                                    value: "Sustitución",
+                                    value: "substitution",
                                     label: i18n.t("substitution")
                                 }]}
                                 maxHeight={Dimensions.get("window").height / 3.8}
@@ -519,6 +529,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             {i18n.t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
                         </Text>
                         <Button
+                            loading={loading}
+                            disabled={loading}
                             mode="contained"
                             icon="account-multiple-plus"
                             style={[{ backgroundColor: colors.primary }, createStyles.buttonAdd]}

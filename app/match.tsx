@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
 import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
@@ -37,8 +37,13 @@ const Match = () => {
     const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup, updateMatchKnockGroup } = groupStore()
     const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic, getSummary, matchknockout,
         hideAndShowPlayers, hideAndShowStatistics, hideAndShowSummary, showFormPlayers, showFormStatistics, showFormSummary,
-        summary, isSureSummary, sureRemoveSummary, getStatistic, isSureStatistic, sureRemoveStatistic, updateEliminationMatch
+        summary, isSureSummary, sureRemoveSummary, getStatistic, isSureStatistic, sureRemoveStatistic, updateEliminationMatch,
+        handleGetMatch
     } = matchStore()
+
+    const sortedSummary = useMemo(() => {
+        return [...(match.match?.summary ?? [])].sort((a, b) => Number(b.time) - Number(a.time))
+    }, [match.match?.summary]);
 
     const handleUpdateSummary = (data: ISummary) => {
         getSummary(data)
@@ -142,14 +147,7 @@ const Match = () => {
     }
 
     useEffect(() => {
-        hideAndShowUpdateMatch(false)
-        hideAndShowPlayers(false)
-        hideAndShowStatistics(false)
-        hideAndShowSummary(false)
-        sureRemoveStatistic(false)
-        sureRemoveSummary(false)
-        getSummary({})
-        getStatistic({})
+        handleGetMatch()
     }, [])
 
     return (
@@ -211,6 +209,7 @@ const Match = () => {
                     matchday={match.matchday!}
                     sureRemoveStatistic={sureRemoveStatistic}
                     isKnockout={false}
+                    getStatistic={getStatistic}
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
                 />
@@ -230,6 +229,7 @@ const Match = () => {
                     matchday={match.matchday!}
                     sureRemoveSummary={sureRemoveSummary}
                     isKnockout={false}
+                    getSummary={getSummary}
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
                 />
@@ -298,7 +298,7 @@ const Match = () => {
                                 </Button>
                                 <FlatList
                                     style={{ width: '100%' }}
-                                    data={match.match?.summary.sort((a, b) => Number(b.time) - Number(a.time))}
+                                    data={sortedSummary}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => (
                                         <Summary summary={item} match={match.match!} colors={colors} handleUpdateSummary={handleUpdateSummary} />

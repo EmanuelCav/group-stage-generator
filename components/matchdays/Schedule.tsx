@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { DataTable, Title } from 'react-native-paper';
 import { FlatList } from 'react-native';
 import i18n from '@/i18n'
@@ -17,7 +18,11 @@ type RenderMatchday = {
     index: number;
 }
 
-const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
+const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) => {
+
+    const matchdays = useMemo(() => {
+        return getMatchdaysGroupState(group.matches!, group.matchdayView!, router);
+    }, [group.matches, group.matchdayView]);
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
@@ -57,7 +62,7 @@ const Schedule = ({ group, colors, handleGetMatch }: SchedulePropsType) => {
 
     return (
         <FlatList
-            data={getMatchdaysGroupState(group.matches!, group.matchdayView!)}
+            data={matchdays}
             renderItem={renderMatchday}
             keyExtractor={(_, index) => index.toString()}
         />

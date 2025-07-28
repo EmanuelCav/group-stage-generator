@@ -7,22 +7,15 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { getElimationTeams } from "@/utils/elimination";
 
-const ShuffleAgain = ({ colors, handleLoading, group, generateElimination, updateShuffledKnockout }: ShuffleAgainPropsType) => {
+const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnockout }: ShuffleAgainPropsType) => {
 
     const generateKnockoutStage = () => {
 
-        handleLoading(true)
-
         try {
-
             generateElimination(getElimationTeams(group, true))
-
         } catch (error) {
             console.error(error);
-        } finally {
-            handleLoading(false)
         }
-
     }
 
     return (

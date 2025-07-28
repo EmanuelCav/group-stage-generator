@@ -27,7 +27,6 @@ export const createStyles = StyleSheet.create({
         alignItems: "center",
         padding: Dimensions.get("window").height / 72,
         marginTop: Dimensions.get("window").height / 28,
-        backgroundColor: '#ffffff'
     },
 
     cardShieldTeam: {

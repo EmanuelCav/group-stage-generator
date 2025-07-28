@@ -23,8 +23,9 @@ import { playerStatistics, statisticPlayer } from "@/utils/statistics";
 
 const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded }: FormCreatePlayerPropsType) => {
 
-    const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ? player.team?.name : group.teams[0].name!)
+    const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ?? group.teams[0].name!)
     const [isFocus, setIsFocus] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(playerSchema),
@@ -35,6 +36,8 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
     })
 
     const handleAddPlayer = (playerCreated: ICreatePlayer) => {
+
+        setLoading(true)
 
         if (player.name) {
             updatePlayer({
@@ -66,7 +69,10 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             reset()
         }
 
-        hideAndShowAddPlayer(false)
+        setTimeout(() => {
+            setLoading(false)
+            hideAndShowAddPlayer(false)
+        }, 800)
     }
 
     return (
@@ -214,6 +220,8 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
 
             {player.name && (
                 <Button
+                    loading={loading}
+                    disabled={loading}
                     mode="contained"
                     style={[
                         { backgroundColor: MD3Colors.error50 },

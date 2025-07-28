@@ -7,7 +7,6 @@ import { generalStyles } from "@/styles/general.styles";
 import { GenerateAgainPropsType } from "@/types/props.types";
 
 import { groupStore } from "@/store/group.store";
-import { responseStore } from "@/store/response.store";
 
 import { groupGenerator } from "@/utils/generator";
 import { powerRange } from "@/utils/defaultGroup";
@@ -15,11 +14,8 @@ import { powerRange } from "@/utils/defaultGroup";
 const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
     const { updateGenerateAgain, generateMatches, updateTeam, group } = groupStore()
-    const { handleLoading } = responseStore()
 
     const generateGroups = () => {
-
-        handleLoading(true)
 
         try {
 
@@ -76,8 +72,6 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
         } catch (error) {
             console.error(error);
-        } finally {
-            handleLoading(false)
         }
 
     }

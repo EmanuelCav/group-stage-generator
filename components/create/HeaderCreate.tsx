@@ -19,6 +19,8 @@ const HeaderCreate = ({ colors, groups, router, group }: HeaderCreatePropsType) 
             <Appbar.Content title={i18n.t("teams")} color="#ffffff" />
             <Appbar.Action icon={iconName} color="#ffffff"
                 onPress={() => Appearance.setColorScheme(dark ? "light" : "dark")} />
+            <Appbar.Action icon="cog" color="#ffffff"
+                onPress={() => router.replace("/config")} />
         </Appbar.Header>
     )
 }

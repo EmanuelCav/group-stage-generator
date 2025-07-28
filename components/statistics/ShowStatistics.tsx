@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { FlatList } from 'react-native';
 import { View } from '../Themed';
 
@@ -11,11 +12,15 @@ import { statisticTable } from '@/utils/statistics';
 
 const ShowStatistics = ({ group, colors }: ShowStatisticsPropsType) => {
 
+    const statistic = useMemo(() => {
+        return statisticTable(group)
+    }, [group.matches, group.eliminationMatches])
+
     return (
         <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
             <FlatList
                 style={{ width: '100%' }}
-                data={statisticTable(group)}
+                data={statistic}
                 keyExtractor={(_, index) => String(index)}
                 renderItem={({ item, index }) =>
                     <TableStatistic

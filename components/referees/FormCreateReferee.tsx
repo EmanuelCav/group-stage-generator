@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,6 +18,8 @@ import { refereeSchema } from "@/schema/referee.schema";
 
 const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded }: FormCreateRefereePropsType) => {
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(refereeSchema),
         defaultValues: {
@@ -34,6 +37,8 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             });
             return
         }
+
+        setLoading(true)
 
         if (referee.name) {
             updateReferee({
@@ -60,8 +65,11 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
 
             reset()
         }
-
-        hideAndShowAddReferee(false)
+        
+        setTimeout(() => {
+            setLoading(false)
+            hideAndShowAddReferee(false)
+        }, 800)
     }
 
     return (
@@ -114,6 +122,8 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
 
             {referee.id && (
                 <Button
+                    loading={loading}
+                    disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                     labelStyle={{ color: "#ffffff" }}

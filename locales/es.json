@@ -17,7 +17,7 @@
     "avoidingMatches": "Evitar enfrentamientos",
     "generating": "Generando...",
     "teams": "Equipos",
-    "groupstages": "Group stages",
+    "groupstages": "Fases de grupo",
     "addTeamsToGenerate": "Agrega equipos para generar la fase de grupos",
     "addAtLeastTwo": "Agrega 2 o más equipos para generar",
     "match_title": "Partido",
@@ -179,7 +179,7 @@
     "number_of_wins": "Cantidad de victorias",
     "points_scored": "Puntos anotados",
     "all_matches": "Todos los partidos",
-    "titleIndex": "Fases de Grupos",
+    "titleIndex": "Fases de Grupo",
     "selectGroupStage": "Selecciona una fase de grupo",
     "validation": {
         "team": {
@@ -351,5 +351,7 @@
     "errorSummaryEventTitle": "Selecciona un evento",
     "errorSummaryEventDescription": "Selecciona el evento para el resumen",
     "errorSummaryPlayerTitle": "Selecciona un jugador",
-    "errorSummaryPlayerDescription": "Selecciona un jugador principal"
+    "errorSummaryPlayerDescription": "Selecciona un jugador principal",
+    "errorUploadImageTitle": "Error al subir la imagen",
+    "errorUploadImageDescription": "Revisa tu conexión a internet o intenta más tarde"
 }

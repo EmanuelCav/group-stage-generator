@@ -45,9 +45,12 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
     const [time, setTime] = useState<{ hours: number; minutes: number } | undefined>(match.time ?? undefined);
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleUpdateMatch = () => {
-        
+
+        setLoading(true)
+
         const dataUpdated: IMatch = {
             isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
             local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null },
@@ -88,7 +91,10 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             match: { ...dataUpdated }
         });
 
-        hideAndShowUpdateMatch(false)
+        setTimeout(() => {
+            hideAndShowUpdateMatch(false)
+            setLoading(false)
+        }, 1600)
     }
 
     return (
@@ -281,6 +287,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <Button
+                disabled={loading}
+                loading={loading}
                 mode="contained"
                 style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }}

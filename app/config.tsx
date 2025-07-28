@@ -58,6 +58,7 @@ const Config = () => {
     const [pointsModeSelected, setPointsSelected] = useState<string>(group.pointsMode!)
     const [image, setImage] = useState<string>(group.logo ?? "")
     const [isFocus, setIsFocus] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const [initialData, setInitialData] = useState<{ label: string, id: string }[]>(
         [{ label: "points", id: "1" },
@@ -144,10 +145,22 @@ const Config = () => {
 
     const handleConfig = async (data: ISetting) => {
 
+        setLoading(true)
+
         let imageUrl = image
+        let timeLoading = 500
 
         if (image) {
-            imageUrl = await uploadImageToCloudinary(image);
+            try {
+                imageUrl = await uploadImageToCloudinary(image);
+                timeLoading = 1800
+            } catch (error) {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("errorUploadImageTitle"),
+                    text2: i18n.t("errorUploadImageDescription")
+                });
+            }
         }
 
         const updateData: IGroup = {
@@ -183,11 +196,15 @@ const Config = () => {
 
         updateGroup!(updateData)
 
-        if (group.isGenerated) {
-            router.replace("/(tabs)/matchdays")
-        } else {
-            router.replace("/create")
-        }
+        setTimeout(() => {
+            if (group.isGenerated) {
+                router.replace("/(tabs)/matchdays")
+            } else {
+                router.replace("/create")
+            }
+
+            setLoading(false)
+        }, timeLoading)
     }
 
     const handleChangeAutomatize = (v: boolean) => {
@@ -218,6 +235,7 @@ const Config = () => {
         <MainScreen colors={colors}>
 
             <Toast />
+
             {isTieBreakCriteria && (
                 <TieBreakCriteria initialData={initialData} setInitialData={setInitialData} />
             )}
@@ -267,7 +285,7 @@ const Config = () => {
             <ScrollView style={configStyles.containerSettings}>
 
                 {image ? (
-                    <Card style={createStyles.cardAddTeam} onPress={pickImage}>
+                    <Card style={[createStyles.cardAddTeam, { backgroundColor: colors.tertiary }]} onPress={pickImage}>
                         <Image source={{ uri: image }} style={createStyles.imageCard} />
                     </Card>
                 ) : (
@@ -442,6 +460,7 @@ const Config = () => {
 
             <SettingsButton
                 colors={colors}
+                loading={loading}
                 handleSumbit={handleSubmit}
                 handleConfig={handleConfig}
             />

@@ -1,4 +1,3 @@
-import { CalendarDate } from "react-native-paper-dates/lib/typescript/Date/Calendar";
 import { IPlayer, IStatistic } from "./Player";
 import { ITeam } from "./Team";
 
@@ -27,6 +26,7 @@ export interface IMatchStore {
     hideAndShowSummary: (show: boolean) => void;
     updateMatch: (data: IGetMatch) => void;
     updateEliminationMatch: (data: IGetMatchKnockout) => void;
+    handleGetMatch: () => void;
 }
 
 export interface IGetMatch {

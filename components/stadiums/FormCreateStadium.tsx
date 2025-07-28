@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,6 +18,8 @@ import { stadiumSchema } from "@/schema/stadium.schema";
 
 const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded }: FormCreateStadiumPropsType) => {
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(stadiumSchema),
         defaultValues: {
@@ -34,6 +37,8 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             });
             return
         }
+
+        setLoading(true)
 
         if (stadium.name) {
             updateStadium({
@@ -61,7 +66,10 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             reset()
         }
 
-        hideAndShowAddStadium(false)
+        setTimeout(() => {
+            hideAndShowAddStadium(false)
+            setLoading(false)
+        }, 800)
     }
 
     return (
@@ -111,6 +119,8 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
 
             {stadium.name && (
                 <Button
+                    loading={loading}
+                    disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                     labelStyle={{ color: "#ffffff" }}

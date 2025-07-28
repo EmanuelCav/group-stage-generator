@@ -275,14 +275,14 @@ const Matchknockout = () => {
 
             {
                 showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
-                    match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch}
+                    match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch} getStatistic={getStatistic}
                     matchday={matchknockout.round!} sureRemoveStatistic={sureRemoveStatistic} round={matchknockout.round!}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {
                 showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
-                    summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch}
+                    summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch} getSummary={getSummary}
                     matchday={matchknockout.round!} sureRemoveSummary={sureRemoveSummary} round={matchknockout.round!}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} router={router} />
             }

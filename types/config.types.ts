@@ -28,6 +28,7 @@ export type SettingsButtonPropsType = {
     colors: MD3Colors;
     handleSumbit: UseFormHandleSubmit<ISetting>;
     handleConfig: (data: ISetting) => void;
+    loading: boolean;
 }
 
 export type HeaderConfigPropsType = {

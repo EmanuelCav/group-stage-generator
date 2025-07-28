@@ -1,5 +1,6 @@
-import { View } from '@/components/Themed'
 import { Text } from 'react-native-paper'
+
+import { View } from '@/components/Themed'
 
 import { StatisticPlayerPropsType } from '@/types/player.types'
 

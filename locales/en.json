@@ -17,7 +17,7 @@
     "avoidingMatches": "Avoiding matches",
     "generating": "Generating...",
     "teams": "Teams",
-    "groupstages": "Fases de grupo",
+    "groupstages": "Group stages",
     "addTeamsToGenerate": "Add teams to generate the group stage",
     "addAtLeastTwo": "Add 2 or more teams to generate",
     "match_title": "Match",
@@ -351,5 +351,7 @@
     "errorSummaryEventTitle": "Select an event",
     "errorSummaryEventDescription": "Select the event for the summary",
     "errorSummaryPlayerTitle": "Select a player",
-    "errorSummaryPlayerDescription": "Select a main player"
+    "errorSummaryPlayerDescription": "Select a main player",
+    "errorUploadImageTitle": "Error uploading image",
+    "errorUploadImageDescription": "Check your internet connection or try again later"
 }

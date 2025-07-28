@@ -17,8 +17,8 @@ import SettingsFAB from "@/components/general/SettingsFAB";
 import Sure from "@/components/general/Sure";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
 import SureGeneral from "@/components/general/SureGeneral";
-import Loading from "@/components/general/Loading";
 import MainScreen from "@/components/general/MainScreen";
+import Banner from "@/components/general/Banner";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -27,11 +27,9 @@ import { ITeam } from "@/interface/Team";
 
 import { teamStore } from "@/store/team.store";
 import { groupStore } from "@/store/group.store";
-import { responseStore } from "@/store/response.store";
 
 import { groupValue, powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
-import Banner from "@/components/general/Banner";
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_INTERSTITIAL}`;
 
@@ -44,17 +42,17 @@ const Create = () => {
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
   const { createGroup, group, groups, createTeam, generateMatches, updateGenerateAgain,
     updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
-  const { isLoading, handleLoading } = responseStore()
 
   const { colors } = useTheme()
 
   const router = useRouter()
 
   const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const generateGroups = () => {
 
-    handleLoading(true)
+    setLoading(true)
 
     try {
 
@@ -114,7 +112,7 @@ const Create = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      handleLoading(false)
+      setLoading(false)
     }
 
   }
@@ -202,8 +200,6 @@ const Create = () => {
     <MainScreen colors={colors}>
 
       <Toast />
-
-      {isLoading && <Loading text={i18n.t('generating')} />}
 
       {isSure && (
         <Sure
@@ -298,6 +294,7 @@ const Create = () => {
         <GenerateButton
           teams={group.teams}
           colors={colors}
+          loading={loading}
           generateGroups={generateGroups}
         />
       )}

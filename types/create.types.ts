@@ -9,6 +9,7 @@ export type GenerateButtonPropsType = {
     teams: ITeam[];
     colors: MD3Colors;
     generateGroups: () => void;
+    loading: boolean;
 }
 
 export type AddTeamPropsType = {

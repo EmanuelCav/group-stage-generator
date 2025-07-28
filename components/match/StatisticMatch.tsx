@@ -1,3 +1,4 @@
+import { Pressable } from "react-native"
 import { Text } from "react-native-paper"
 
 import { View } from "../Themed"
@@ -5,7 +6,6 @@ import { View } from "../Themed"
 import { StatisticMatchPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
-import { Pressable } from "react-native"
 
 const StatisticMatch = ({ statistic, colors, handleUpdateStatistic }: StatisticMatchPropsType) => {
     return (

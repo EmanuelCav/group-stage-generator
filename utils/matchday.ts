@@ -1,10 +1,17 @@
+import { Router } from "expo-router"
 import i18n from "@/i18n"
+
 import { IMatch } from "@/interface/Match"
 import { ILineup, IPlayer } from "@/interface/Player"
 
-export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string): IMatch[][] => {
+export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, router: Router): IMatch[][] => {
 
     let schedule: IMatch[][] = []
+
+    if (matches.length === 0) {
+        router.replace("/create")
+        return []
+    }
 
     for (let k = 0; k < matches[0].length; k++) {
 
@@ -33,19 +40,19 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
 
 export const iconEvent = (event: string): string => {
     switch (event) {
-        case i18n.t("goals"):
+        case "goal":
             return "soccer"
 
-        case i18n.t("yellow"):
+        case "yellow card":
             return "card"
 
-        case i18n.t("red"):
+        case "red card":
             return "card"
 
-        case i18n.t("substitution"):
+        case "injury":
             return "swap-horizontal"
 
-        case i18n.t("injury"):
+        case "substitution":
             return "medical-bag"
 
         default:

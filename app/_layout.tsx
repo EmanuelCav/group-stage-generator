@@ -9,8 +9,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { PaperProvider } from 'react-native-paper';
 import i18n from '@/i18n'
 
-import { responseStore } from '@/store/response.store';
-
 import { darkTheme, lightTheme } from '@/utils/theme';
 
 export {
@@ -45,17 +43,12 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
 
-  const { handleLoading } = responseStore()
   const colorScheme = useColorScheme()
 
   useEffect(() => {
     mobileAds().initialize().then(() => {
       console.log('AdMob initialized')
     })
-  }, [])
-
-  useEffect(() => {
-    handleLoading(false)
   }, [])
 
   return (

@@ -1,0 +1,357 @@
+{
+    "areYouSureDelete": "Sind Sie sicher, dass Sie löschen möchten?",
+    "remove": "ENTFERNEN",
+    "settings": "Einstellungen",
+    "groupStageName": "Name der Gruppenphase",
+    "manuallyTitle": "Gruppenphase manuell generieren",
+    "numberOfGroups": "Anzahl der Gruppen",
+    "teamsPerGroup": "Teams pro Gruppe",
+    "numberOfClassifieds": "Anzahl der qualifizierten Teams",
+    "showPoints": "Punkte anzeigen",
+    "pointsToTheWinner": "Punkte für den Sieger",
+    "pointsToTie": "Punkte bei Unentschieden",
+    "pointsToTheLoser": "Punkte für den Verlierer",
+    "roundTripGroupStage": "Hin‑ und Rückspiel in der Gruppenphase",
+    "roundTripElimination": "Hin‑ und Rückspiel in der K.-o.-Phase",
+    "tieBreakCriteria": "Kriterien zur Entscheidungsfindung",
+    "avoidingMatches": "Kollisionen vermeiden",
+    "generating": "Generierung läuft...",
+    "teams": "Teams",
+    "groupstages": "Gruppenphasen",
+    "addTeamsToGenerate": "Teams hinzufügen, um die Gruppenphase zu generieren",
+    "addAtLeastTwo": "Mindestens 2 Teams hinzufügen, um zu generieren",
+    "match_title": "Spiel",
+    "summary_title": "Zusammenfassung",
+    "lineup_title": "Aufstellung",
+    "statistics_title": "Statistiken",
+    "summary_empty": "Zusammenfassung zum Spiel hinzufügen",
+    "summary_add": "ZUSAMMENFASSUNG HINZUFÜGEN",
+    "lineup_empty": "Aufstellung für das Spiel hinzufügen",
+    "lineup_add": "AUFSTELLUNG HINZUFÜGEN",
+    "statistics_empty": "Statistiken für das Spiel hinzufügen",
+    "statistics_add": "STATISTIK HINZUFÜGEN",
+    "players_title": "Spieler",
+    "add_player": "SPIELER HINZUFÜGEN",
+    "players_emptyStatistics": "Spieler hinzufügen, um Statistiken anzuzeigen",
+    "referees_title": "Schiedsrichter",
+    "add_referee": "SCHIEDSRICHTER HINZUFÜGEN",
+    "referees_empty": "Schiedsrichter für Spiele hinzufügen",
+    "stadiums_title": "Stadien",
+    "add_stadium": "STADION HINZUFÜGEN",
+    "stadiums_empty": "Stadien für Spiele hinzufügen",
+    "groups": "Gruppen",
+    "statistics": "Statistiken",
+    "matchdays": "Spieltage",
+    "matchday": "Spieltag",
+    "knockout": "K.-o.-Phase",
+    "generate": "GENERIEREN",
+    "playerName": "Spielername",
+    "positionOptional": "Position (optional)",
+    "selectPlayerTeam": "Team des Spielers wählen",
+    "selectMode": "Punktetyp",
+    "avoiding": {
+        "addAvoidingMatch": "Kollisionen HINZUFÜGEN",
+        "teamsCount": "Teams: {{count}}",
+        "description": "Verhindert, dass bestimmte Teams in derselben Gruppe landen",
+        "title": "Titel der Kollisionseinstellungen",
+        "maxTeamsLabel": "Maximale Anzahl dieser Teams pro Gruppe",
+        "selectTeams": "Teams auswählen:"
+    },
+    "general": {
+        "start": "START",
+        "setup": "Einrichtung",
+        "add": "HINZUFÜGEN",
+        "update": "AKTUALISIEREN",
+        "remove": "ENTFERNEN",
+        "applyChanges": "ÄNDERUNGEN ANWENDEN"
+    },
+    "groupStage": {
+        "welcome": "Willkommen!",
+        "createStage": "Gruppenphase erstellen",
+        "addTeam": "TEAM HINZUFÜGEN"
+    },
+    "teamForm": {
+        "changeImage": "Bild ändern",
+        "selectShield": "Wappen wählen (optional)",
+        "selectLogo": "Logo wählen (optional)",
+        "teamName": "Teamname",
+        "plotOptional": "Platz (optional):",
+        "add": "HINZUFÜGEN",
+        "update": "AKTUALISIEREN",
+        "remove": "ENTFERNEN"
+    },
+    "knockoutStage": {
+        "title": "K.-o.-Phase",
+        "description": "Erstelle eine K.-o.-Phase für das Turnier"
+    },
+    "teamScores": "Team‑Punkte",
+    "tiebreakerOptional": "Tiebreaker (optional)",
+    "selectMatchDateLabel": "Datum des Spiels wählen",
+    "matchDateLabel": "Spieltermin",
+    "selectDatePlaceholder": "Datum wählen",
+    "selectMatchStadiumLabel": "Stadion des Spiels wählen",
+    "selectMatchRefereeLabel": "Schiedsrichter des Spiels wählen",
+    "updateButton": "AKTUALISIEREN",
+    "drawKnockoutQuestion": "Möchten Sie die K.-o.-Phase auslosen?",
+    "drawButton": "AUSLOSEN",
+    "generateGroupStageAgainQuestion": "Möchten Sie die Gruppenphase erneut generieren?",
+    "generateAgainButton": "ERNEUT GENERIEREN",
+    "menu": {
+        "teams": "Teams",
+        "referees": "Schiedsrichter",
+        "stadiums": "Stadien",
+        "players": "Spieler",
+        "settings": "Einstellungen",
+        "restart": "Neustart",
+        "remove": "Entfernen",
+        "goBack": "Zurück"
+    },
+    "sure": {
+        "removeGroupStage": "Sind Sie sicher, dass Sie die Gruppenphase löschen möchten?",
+        "restartGroupStage": "Sind Sie sicher, dass Sie die Gruppenphase zurücksetzen möchten?",
+        "restart": "NEUSTART"
+    },
+    "group": {
+        "title": "Gruppe",
+        "points": "PTE",
+        "played": "SP",
+        "wins": "S",
+        "draws": "U",
+        "losses": "N",
+        "score": "T:GT",
+        "scored": "T",
+        "numberOfTeams": "Anzahl der Teams: {{count}}"
+    },
+    "team": {
+        "label": "Team"
+    },
+    "lineup": {
+        "selectPlayers": "Spieler für die Startaufstellung auswählen",
+        "accept": "AKZEPTIEREN"
+    },
+    "statistic": {
+        "title": "Statistik‑Titel",
+        "value": "Wert der Statistik",
+        "add": "HINZUFÜGEN",
+        "update": "AKTUALISIEREN",
+        "remove": "ENTFERNEN"
+    },
+    "sumarry_select_event": "Ereignis auswählen",
+    "sumarry_select_team": "Team für Zusammenfassung auswählen (optional)",
+    "sumarry_select_secondaryPlayerAssist": "Assistent wählen",
+    "sumarry_select_change": "Auswechselspieler auswählen",
+    "sumarry_select_player": "Spieler für Zusammenfassung wählen",
+    "sumarry_select_player_goal": "Torschütze auswählen",
+    "sumarry_select_player_yellow": "Gespielte gelbe Karte – Spieler auswählen",
+    "sumarry_select_player_red": "Platzverweis – Spieler auswählen",
+    "sumarry_select_player_injury": "Verletzter Spieler auswählen",
+    "sumarry_select_player_change": "Ausgetauschter Spieler auswählen",
+    "sumarry_minute": "Spielminute",
+    "team_scores": "Team‑Punkte",
+    "select_match_date": "Datum des Spiels wählen",
+    "match_date": "Spieltermin",
+    "select_date": "Datum wählen",
+    "select_stadium": "Stadion des Spiels wählen",
+    "select_referee": "Schiedsrichter des Spiels wählen",
+    "update": "AKTUALISIEREN",
+    "not_defined": "Nicht definiert",
+    "local": "Heim",
+    "score": "Ergebnis",
+    "visitant": "Gast",
+    "refereeName": "Name des Schiedsrichters",
+    "stadiumName": "Name des Stadions",
+    "addPlayersToDisplayAndVisualizeTournamentStatistics": "Spieler hinzufügen, um Turnier‑Statistiken anzuzeigen",
+    "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Statistiken hinzufügen, um Turnier‑Statistiken anzuzeigen",
+    "addPlayers": "Spieler hinzufügen",
+    "addStatistics": "Statistiken hinzufügen",
+    "statisticTitle": "Statistik‑Titel",
+    "statisticValue": "Statistikwert",
+    "statisticInitialValueOptional": "Initialwert der Statistik (optional)",
+    "create": "ERSTELLEN",
+    "createStatistic": "STATISTIK ERSTELLEN",
+    "player": "Spieler",
+    "teamName": "Team",
+    "index": "Index",
+    "config": "Konfiguration",
+    "add": "Hinzufügen",
+    "points_earned": "Erreichte Punkte",
+    "win_percentage": "Sieg‑Prozentsatz",
+    "number_of_wins": "Anzahl der Siege",
+    "points_scored": "Punkte erzielt",
+    "all_matches": "Alle Spiele",
+    "titleIndex": "Gruppenphasen",
+    "selectGroupStage": "Wählen Sie eine Gruppenphase",
+    "validation": {
+        "team": {
+            "name": {
+                "required": "Teamname eingeben",
+                "max": "Teamname darf nicht länger als 35 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            }
+        },
+        "statistic": {
+            "title": {
+                "required": "Statistik‑Titel eingeben",
+                "max": "Statistik‑Titel darf nicht länger als 12 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            }
+        },
+        "stadium": {
+            "name": {
+                "required": "Stadionname eingeben",
+                "max": "Stadionname darf nicht länger als 30 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            }
+        },
+        "referee": {
+            "name": {
+                "required": "Schiedsrichtername eingeben",
+                "max": "Schiedsrichtername darf nicht länger als 30 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            }
+        },
+        "player": {
+            "name": {
+                "required": "Spielername eingeben",
+                "max": "Spielername darf nicht länger als 30 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            },
+            "position": {
+                "max": "Position darf nicht länger als 16 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            }
+        },
+        "match": {
+            "score": {
+                "min": "Mindestpunktzahl ist 0"
+            }
+        },
+        "summary": {
+            "title": {
+                "required": "Zusammenfassungstitel eingeben",
+                "max": "Maximal 20 Zeichen",
+                "invalid": "Sonderzeichen prüfen"
+            },
+            "time": {
+                "required": "Spielminute eingeben",
+                "max": "Spielminute darf nicht länger als 20 Zeichen sein",
+                "invalid": "Nur Zahlen erlaubt"
+            }
+        },
+        "statisticMatch": {
+            "title": {
+                "required": "Statistik‑Titel eingeben",
+                "max": "Maximal 20 Zeichen",
+                "invalid": "Sonderzeichen prüfen"
+            }
+        },
+        "config": {
+            "title": {
+                "required": "Feld ‚Titel‘ ist erforderlich"
+            },
+            "teamsPerGroup": {
+                "typeError": "Bitte eine Zahl eingeben",
+                "min": "Teams pro Gruppe müssen mehr als 1 sein",
+                "required": "Dieses Feld ist erforderlich"
+            },
+            "amountGroups": {
+                "typeError": "Bitte eine Zahl eingeben",
+                "min": "Anzahl der Gruppen eingeben",
+                "required": "Dieses Feld ist erforderlich"
+            },
+            "amountClassified": {
+                "typeError": "Bitte eine Zahl eingeben",
+                "min": "Qualifizierte Teams eingeben",
+                "required": "Dieses Feld ist erforderlich",
+                "powerOfTwo": "Anzahl der qualifizierten Teams muss eine Zweierpotenz sein (z. B. 2, 4, 8, 16…)"
+            },
+            "pointsWin": {
+                "min": "Punkte für Sieg eingeben",
+                "required": "Dieses Feld ist erforderlich"
+            },
+            "pointsDraw": {
+                "min": "Punkte für Unentschieden eingeben",
+                "required": "Dieses Feld ist erforderlich"
+            },
+            "pointsLoss": {
+                "min": "Punkte für Niederlage eingeben",
+                "required": "Dieses Feld ist erforderlich"
+            }
+        },
+        "avoiding": {
+            "title": {
+                "required": "Titel für Vermeidung eingeben",
+                "max": "Titel darf nicht länger als 22 Zeichen sein",
+                "invalid": "Sonderzeichen prüfen"
+            },
+            "max": {
+                "typeError": "Bitte eine Zahl eingeben",
+                "min": "Maximale Anzahl pro Gruppe muss größer als 0 sein",
+                "required": "Dieses Feld ist erforderlich"
+            }
+        },
+        "teamsPerGroup": {
+            "title": "Teams pro Gruppe",
+            "message": "Mindestens 2 Teams pro Gruppe erforderlich"
+        },
+        "numberOfGroups": {
+            "title": "Anzahl der Gruppen",
+            "message": "Die Hälfte der Gruppenanzahl muss geringer sein als die Anzahl der Teams"
+        },
+        "numberOfTeams": {
+            "title": "Anzahl der Teams",
+            "message": "Teams pro Gruppe × Gruppenanzahl müssen ≤ der Gesamtzahl der Teams sein"
+        }
+    },
+    "permissions": {
+        "galleryAccess": {
+            "title": "Berechtigung erforderlich",
+            "message": "Zugriff auf Galerie ist erforderlich"
+        }
+    },
+    "stadium": {
+        "name": {
+            "title": "Name des Stadions",
+            "existsError": "Ein Stadion mit diesem Namen existiert bereits"
+        }
+    },
+    "referee": {
+        "name": {
+            "title": "Name des Schiedsrichters",
+            "existsError": "Ein Schiedsrichter mit diesem Namen existiert bereits"
+        }
+    },
+    "statisticForm": {
+        "name": {
+            "title": "Statistik‑Titel",
+            "existsError": "Eine Statistik mit diesem Titel existiert bereits"
+        }
+    },
+    "goals": "Tore",
+    "yellow": "Gelbe Karten",
+    "red": "Rote Karten",
+    "assists": "Assists",
+    "goal": "Tor",
+    "yellows": "Gelbe Karte",
+    "reds": "Rote Karte",
+    "substitution": "Auswechslung",
+    "injury": "Verletzung",
+    "plot": "Platz",
+    "winner": "Sieger",
+    "final": "Finale",
+    "semi_finals": "Halbfinale",
+    "quarter_finals": "Viertelfinale",
+    "round_of": "Runde der",
+    "select_hour": "Stunde auswählen",
+    "noPlayers": "Keine Spieler vorhanden",
+    "darkMode": "Dunkler Modus",
+    "lightMode": "Heller Modus",
+    "errorTeamNameTitle": "Teamname",
+    "errorTeamNameDescription": "Dieser Teamname existiert bereits",
+    "errorSummaryEventTitle": "Ereignis auswählen",
+    "errorSummaryEventDescription": "Bitte ein Ereignis für die Zusammenfassung auswählen",
+    "errorSummaryPlayerTitle": "Spieler auswählen",
+    "errorSummaryPlayerDescription": "Bitte einen Hauptspieler auswählen",
+    "errorUploadImageTitle": "Fehler beim Hochladen des Bildes",
+    "errorUploadImageDescription": "Überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut"
+}
