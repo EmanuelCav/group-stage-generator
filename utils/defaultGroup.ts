@@ -46,6 +46,7 @@ export const teamValue = (id: number, logo: string | undefined, name: string, pl
     return {
         id,
         logo,
+        color: generateColour()!,
         name,
         plot
     }
@@ -155,4 +156,8 @@ export const powerRange = (num: number): number => {
     const upper = Math.pow(2, power + 1) - (Math.pow(2, power + 1) / 2) - 1
 
     return Math.abs(num - lower) <= Math.abs(num - upper) ? (decimal > 0.5 ? power : power - 1) : (decimal > 0.5 ? power : power - 1)
+}
+
+export const generateColour = (): string => {
+    return "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
 }

@@ -1,0 +1,360 @@
+{
+  "areYouSureDelete": "Silmek istediğinizden emin misiniz?",
+  "remove": "KALDIR",
+  "settings": "Ayarlar",
+  "groupStageName": "Grup Aşaması adı",
+  "manuallyTitle": "Grup aşamasını manuel oluştur",
+  "numberOfGroups": "Grup sayısı",
+  "teamsPerGroup": "Her gruptaki takım sayısı",
+  "numberOfClassifieds": "Toplam eleme sayısı",
+  "showPoints": "Puanları göster",
+  "pointsToTheWinner": "Kazanana puan",
+  "pointsToTie": "Berabereye puan",
+  "pointsToTheLoser": "Kaybedene puan",
+  "roundTripGroupStage": "Grup aşamasında çift maç (gidip gelmeli)",
+  "roundTripElimination": "Eleme aşamasında çift maç (gidip gelmeli)",
+  "tieBreakCriteria": "Beraberlik bozma kriteri",
+  "avoidingMatches": "Eşleşmelerden kaçınma",
+  "generating": "Oluşturuluyor...",
+  "teams": "Takımlar",
+  "noteCreate": "Not: Grup aşamasını manuel oluşturmak için ayarlarda seçeneği etkinleştirin",
+  "groupstages": "Grup aşamaları",
+  "addTeamsToGenerate": "Grup aşamasını oluşturmak için takımlar ekle",
+  "addAtLeastTwo": "Oluşturmak için en az 2 takım ekleyin",
+  "match_title": "Maç",
+  "summary_title": "Özet",
+  "lineup_title": "Kadrosu",
+  "statistics_title": "İstatistikler",
+  "summary_empty": "Maç için bir özet ekleyin",
+  "summary_add": "ÖZET EKLE",
+  "lineup_empty": "Maç için bir kadro ekleyin",
+  "lineup_add": "KADRO EKLE",
+  "statistics_empty": "Maç için istatistik ekleyin",
+  "statistics_add": "İSTATİSTİK EKLE",
+  "players_title": "Oyuncular",
+  "add_player": "OYUNCU EKLE",
+  "players_emptyStatistics": "İstatistikleri görüntülemek için oyuncular ekleyin",
+  "referees_title": "Hakemler",
+  "add_referee": "HAKEM EKLE",
+  "referees_empty": "Maçlara eklemek için hakem ekleyin",
+  "stadiums_title": "Stadyumlar",
+  "add_stadium": "STADYUM EKLE",
+  "stadiums_empty": "Maçlara eklemek için stadyum ekleyin",
+  "groups": "Gruplar",
+  "statistics": "İstatistikler",
+  "matchdays": "Maç Günleri",
+  "matchday": "Maç Günü",
+  "knockout": "Eleme",
+  "generate": "OLUŞTUR",
+  "playerName": "Oyuncu adı",
+  "positionOptional": "Pozisyon (isteğe bağlı)",
+  "selectPlayerTeam": "Oyuncunun takımını seç",
+  "selectMode": "Puanlama türü",
+  "avoiding": {
+    "addAvoidingMatch": "KAÇINILACAK MAÇ EKLE",
+    "teamsCount": "Takımlar: {{count}}",
+    "description": "Bazı takımların aynı grupta olmasını engeller",
+    "title": "Kaçınma eşleşmeleri başlığı",
+    "maxTeamsLabel": "Bir grupta yer alabilecek bu takımların maksimum sayısı",
+    "selectTeams": "Takımları seç:"
+  },
+  "general": {
+    "start": "BAŞLAT",
+    "setup": "Kurulum",
+    "add": "EKLE",
+    "update": "GÜNCELLE",
+    "remove": "KALDIR",
+    "applyChanges": "DEĞİŞİKLİĞİ UYGULA"
+  },
+  "groupStage": {
+    "welcome": "Hoş geldiniz!",
+    "createStage": "Bir Grup Aşaması Oluştur",
+    "addTeam": "TAKIM EKLE"
+  },
+  "teamForm": {
+    "changeImage": "Resmi değiştir",
+    "selectShield": "Kalkan seç (isteğe bağlı)",
+    "selectLogo": "Logo seç (isteğe bağlı)",
+    "teamName": "Takım adı",
+    "plotOptional": "Açıklama (isteğe bağlı):",
+    "add": "EKLE",
+    "update": "GÜNCELLE",
+    "remove": "KALDIR"
+  },
+  "knockoutStage": {
+    "title": "Eleme Aşaması",
+    "description": "Turnuva için bir eleme aşaması oluştur"
+  },
+  "teamScores": "Takım skorları",
+  "tiebreakerOptional": "Beraberlik bozucu (isteğe bağlı)",
+  "selectMatchDateLabel": "Maç tarihini seç",
+  "matchDateLabel": "Maç Tarihi",
+  "selectDatePlaceholder": "Tarih seç",
+  "selectMatchStadiumLabel": "Maçın stadyumunu seç",
+  "selectMatchRefereeLabel": "Maçın hakemini seç",
+  "updateButton": "GÜNCELLE",
+  "drawKnockoutQuestion": "Eleme aşamasını kura ile belirlemek ister misiniz?",
+  "drawButton": "ÇEK",
+  "generateGroupStageAgainQuestion": "Grup aşamasını yeniden oluşturmak ister misiniz?",
+  "generateAgainButton": "YENİDEN OLUŞTUR",
+  "menu": {
+    "teams": "Takımlar",
+    "referees": "Hakemler",
+    "stadiums": "Stadyumlar",
+    "players": "Oyuncular",
+    "settings": "Ayarlar",
+    "restart": "Yeniden başlat",
+    "remove": "Kaldır",
+    "goBack": "Geri dön"
+  },
+  "sure": {
+    "removeGroupStage": "Grup aşamasını silmek istediğinizden emin misiniz?",
+    "restartGroupStage": "Grup aşamasını yeniden başlatmak istediğinizden emin misiniz?",
+    "restart": "YENİDEN BAŞLAT"
+  },
+  "group": {
+    "title": "Grup",
+    "points": "PUAN",
+    "played": "O",
+    "wins": "G",
+    "draws": "B",
+    "losses": "M",
+    "score": "A:Y",
+    "scored": "A",
+    "numberOfTeams": "Takım sayısı: {{count}}"
+  },
+  "team": {
+    "label": "Takım"
+  },
+  "lineup": {
+    "selectPlayers": "Ana kadroya oyuncu seç",
+    "accept": "KABUL ET"
+  },
+  "statistic": {
+    "title": "İstatistik başlığı",
+    "value": "İstatistik değeri",
+    "add": "EKLE",
+    "update": "GÜNCELLE",
+    "remove": "KALDIR"
+  },
+  "sumarry_select_event": "Olayı seç",
+  "sumarry_select_team": "Özetten takım seç (isteğe bağlı)",
+  "sumarry_select_secondaryPlayerAssist": "Asist sağlayan oyuncuyu seç",
+  "sumarry_select_change": "Yedeğe giren oyuncuyu seç",
+  "sumarry_select_player": "Özetten oyuncuyu seç",
+  "sumarry_select_player_goal": "Gol atan oyuncuyu seç",
+  "sumarry_select_player_yellow": "Sarı kartlı oyuncuyu seç",
+  "sumarry_select_player_red": "Kırmızı kartlı oyuncuyu seç",
+  "sumarry_select_player_injury": "Sakatlanan oyuncuyu seç",
+  "sumarry_select_player_change": "Değiştirilen oyuncuyu seç",
+  "sumarry_minute": "Oyun dakikası",
+  "team_scores": "Takım skorları",
+  "select_match_date": "Maç tarihini seç",
+  "match_date": "Maç Tarihi",
+  "select_date": "Tarih seç",
+  "select_stadium": "Maçın stadyumunu seç",
+  "select_referee": "Maçın hakemini seç",
+  "update": "GÜNCELLE",
+  "not_defined": "Tanımsız",
+  "local": "Ev sahibi",
+  "score": "Skor",
+  "visitant": "Deplasman",
+  "refereeName": "Hakem adı",
+  "stadiumName": "Stadyum adı",
+  "addPlayersToDisplayAndVisualizeTournamentStatistics": "Turnuva istatistiklerini görüntülemek ve analiz etmek için oyuncu ekle",
+  "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Turnuva istatistiklerini görüntülemek ve analiz etmek için istatistik ekle",
+  "addPlayers": "Oyuncuları ekle",
+  "addStatistics": "İstatistikleri ekle",
+  "statisticTitle": "İstatistik başlığı",
+  "statisticValue": "İstatistik değeri",
+  "statisticInitialValueOptional": "İstatistik başlangıç değeri (isteğe bağlı)",
+  "create": "OLUŞTUR",
+  "createStatistic": "İSTATİSTİK OLUŞTUR",
+  "player": "Oyuncu",
+  "teamName": "Takım",
+  "index": "Dizin",
+  "config": "Yapılandırma",
+  "add": "Ekle",
+  "points_earned": "Kazanılan puan",
+  "win_percentage": "Galibiyet yüzdesi",
+  "number_of_wins": "Galibiyet sayısı",
+  "points_scored": "Atılan puan",
+  "all_matches": "Tüm Maçlar",
+  "titleIndex": "Grup Aşamaları",
+  "selectGroupStage": "Bir grup aşaması seç",
+  "validation": {
+    "team": {
+      "name": {
+        "required": "Takım adı yazın",
+        "max": "Takım adı 35 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      }
+    },
+    "statistic": {
+      "title": {
+        "required": "İstatistik başlığı yazın",
+        "max": "İstatistik başlığı 12 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      }
+    },
+    "stadium": {
+      "name": {
+        "required": "Stadyum adı yazın",
+        "max": "Stadyum adı 30 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      }
+    },
+    "referee": {
+      "name": {
+        "required": "Hakem adı yazın",
+        "max": "Hakem adı 30 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      }
+    },
+    "player": {
+      "name": {
+        "required": "Oyuncu adı yazın",
+        "max": "Oyuncu adı 30 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      },
+      "position": {
+        "max": "Pozisyon 16 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      }
+    },
+    "match": {
+      "score": {
+        "min": "Skorun minimum değeri 0 olmalı"
+      }
+    },
+    "summary": {
+      "title": {
+        "required": "Özet başlığı yazın",
+        "max": "Özet başlığı 20 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      },
+      "time": {
+        "required": "Oyun dakikasını yazın",
+        "max": "Oyun dakikası 20 karakterden az olmalı",
+        "invalid": "Sadece sayılar olmalı"
+      }
+    },
+    "statisticMatch": {
+      "title": {
+        "required": "İstatistik başlığı yazın",
+        "max": "Başlık 20 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      }
+    },
+    "config": {
+      "title": {
+        "required": "Başlık alanı zorunludur"
+      },
+      "teamsPerGroup": {
+        "typeError": "Lütfen sayı değeri girin",
+        "min": "Her grup için takım sayısı 1’den büyük olmalı",
+        "required": "Bu alan zorunludur"
+      },
+      "amountGroups": {
+        "typeError": "Lütfen sayı değeri girin",
+        "min": "Grup sayısını yazın",
+        "required": "Bu alan zorunludur"
+      },
+      "amountClassified": {
+        "typeError": "Lütfen sayı değeri girin",
+        "min": "Eleme sayısını yazın",
+        "required": "Bu alan zorunludur",
+        "powerOfTwo": "Eleme sayısı 2‑nin katı olmalıdır (ör. 2, 4, 8, 16, 32...)"
+      },
+      "pointsWin": {
+        "min": "Kazanana verilecek puanı yazın",
+        "required": "Bu alan zorunludur"
+      },
+      "pointsDraw": {
+        "min": "Berabereye verilecek puanı yazın",
+        "required": "Bu alan zorunludur"
+      },
+      "pointsLoss": {
+        "min": "Kaybedene verilecek puanı yazın",
+        "required": "Bu alan zorunludur"
+      }
+    },
+    "avoiding": {
+      "title": {
+        "required": "Kaçınma eşleşmesi başlığı yazın",
+        "max": "Başlık 22 karakterden az olmalı",
+        "invalid": "Özel karakterleri kontrol edin"
+      },
+      "max": {
+        "typeError": "Lütfen sayı değeri girin",
+        "min": "Her grup için takım sayısı 0’dan büyük olmalı",
+        "required": "Bu alan zorunludur"
+      }
+    },
+    "teamsPerGroup": {
+      "title": "Her gruptaki takım sayısı",
+      "message": "Her grupta en az 2 takım olmalı"
+    },
+    "numberOfGroups": {
+      "title": "Grup sayısı",
+      "message": "Grup sayısının yarısı, takım sayısından az olmalı"
+    },
+    "numberOfTeams": {
+      "title": "Takım sayısı",
+      "message": "Her gruptaki takım sayısı × grup sayısı takım sayısından fazla olmamalı"
+    }
+  },
+  "permissions": {
+    "galleryAccess": {
+      "title": "İzin Gerekiyor",
+      "message": "Galeriyi erişim izni gereklidir"
+    }
+  },
+  "stadium": {
+    "name": {
+      "title": "Stadyum adı",
+      "existsError": "Stadyum adı zaten var"
+    }
+  },
+  "referee": {
+    "name": {
+      "title": "Hakem adı",
+      "existsError": "Hakem adı zaten var"
+    }
+  },
+  "statisticForm": {
+    "name": {
+      "title": "İstatistik başlığı",
+      "existsError": "İstatistik başlığı zaten var"
+    }
+  },
+  "goals": "Goller",
+  "yellow": "Sarı kartlar",
+  "red": "Kırmızı kartlar",
+  "assists": "Asistler",
+  "goal": "Gol",
+  "yellows": "Sarı kart",
+  "reds": "Kırmızı kart",
+  "substitution": "Oyuncu değişikliği",
+  "injury": "Sakatlık",
+  "plot": "Açıklama",
+  "winner": "Kazanan",
+  "final": "Final",
+  "semi_finals": "Yarı finaller",
+  "quarter_finals": "Çeyrek finaller",
+  "round_of": "Tur",
+  "select_hour": "Saat seç",
+  "noPlayers": "Burada oyuncu yok",
+  "darkMode": "Karanlık mod",
+  "lightMode": "Açık mod",
+  "errorTeamNameTitle": "Takım adı",
+  "errorTeamNameDescription": "Takım adı zaten var",
+  "errorSummaryEventTitle": "Olayı seç",
+  "errorSummaryEventDescription": "Özet için olayı seçin",
+  "errorSummaryPlayerTitle": "Oyuncu seç",
+  "errorSummaryPlayerDescription": "Ana oyuncuyu seçin",
+  "errorUploadImageTitle": "Resim yükleme hatası",
+  "errorUploadImageDescription": "İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin",
+  "home": "İlk maç",
+  "away": "Rövanş maçı"
+}

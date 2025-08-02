@@ -6,7 +6,7 @@
     "manuallyTitle": "Generate the group stage manually",
     "numberOfGroups": "Number of groups",
     "teamsPerGroup": "Number of teams per group",
-    "numberOfClassifieds": "Number of classifieds",
+    "numberOfClassifieds": "Total number of qualifiers",
     "showPoints": "Show points",
     "pointsToTheWinner": "Points to the winner",
     "pointsToTie": "Points to tie",
@@ -17,6 +17,7 @@
     "avoidingMatches": "Avoiding matches",
     "generating": "Generating...",
     "teams": "Teams",
+    "noteCreate": "Note: To manually create a group stage, enable the option in settings",
     "groupstages": "Group stages",
     "addTeamsToGenerate": "Add teams to generate the group stage",
     "addAtLeastTwo": "Add 2 or more teams to generate",
@@ -353,5 +354,7 @@
     "errorSummaryPlayerTitle": "Select a player",
     "errorSummaryPlayerDescription": "Select a main player",
     "errorUploadImageTitle": "Error uploading image",
-    "errorUploadImageDescription": "Check your internet connection or try again later"
+    "errorUploadImageDescription": "Check your internet connection or try again later",
+    "home": "Home",
+    "away": "Away"
 }

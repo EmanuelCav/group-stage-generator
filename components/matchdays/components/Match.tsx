@@ -33,7 +33,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                         {match.local.team.logo ? (
                             <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
                         ) : (
-                            <Avatar.Icon icon="shield-outline" size={24} />
+                            <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.local.team.color }} />
                         )}
                         <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{groupName(match.local.team.name!)}</Text>
                     </View>
@@ -57,7 +57,7 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                         {match.visitant.team.logo ? (
                             <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
                         ) : (
-                            <Avatar.Icon icon="shield-outline" size={24} />
+                            <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.visitant.team.color }} />
                         )}
                     </View>
                 </DataTable.Cell>

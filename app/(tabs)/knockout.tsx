@@ -26,7 +26,7 @@ const Elimination = () => {
 
     const handleGetMatch = (data: IGetMatchKnockout) => {
         getMatchKnockout(data)
-        router.push("/matchknockout")
+        router.replace("/matchknockout")
     }
 
     const goBack = () => {

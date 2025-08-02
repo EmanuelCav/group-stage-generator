@@ -72,7 +72,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
         setTimeout(() => {
             setLoading(false)
             hideAndShowAddPlayer(false)
-        }, 800)
+        }, 300)
     }
 
     return (

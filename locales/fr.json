@@ -6,7 +6,7 @@
     "manuallyTitle": "Générer la phase de groupes manuellement",
     "numberOfGroups": "Nombre de groupes",
     "teamsPerGroup": "Nombre d'équipes par groupe",
-    "numberOfClassifieds": "Nombre de qualifiés",
+    "numberOfClassifieds": "Nombre total de qualifiés",
     "showPoints": "Afficher les points",
     "pointsToTheWinner": "Points pour le vainqueur",
     "pointsToTie": "Points pour un match nul",
@@ -17,6 +17,7 @@
     "avoidingMatches": "Éviter des confrontations",
     "generating": "Génération en cours...",
     "teams": "Équipes",
+    "noteCreate": "Remarque : Pour créer manuellement une phase de groupes, activez l'option dans les paramètres",
     "groupstages": "Phases de groupes",
     "addTeamsToGenerate": "Ajoutez des équipes pour générer la phase de groupes",
     "addAtLeastTwo": "Ajoutez au moins 2 équipes pour générer",
@@ -353,5 +354,7 @@
     "errorSummaryPlayerTitle": "Sélectionnez un joueur",
     "errorSummaryPlayerDescription": "Sélectionnez un joueur principal",
     "errorUploadImageTitle": "Erreur lors du téléversement de l’image",
-    "errorUploadImageDescription": "Vérifiez votre connexion internet ou réessayez plus tard"
+    "errorUploadImageDescription": "Vérifiez votre connexion internet ou réessayez plus tard",
+    "home": "Aller",
+    "away": "Retour"
 }

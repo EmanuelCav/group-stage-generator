@@ -28,7 +28,7 @@ const AddPlayers = ({ colors, router }: AddPlayersPropsType) => {
                 icon="account-multiple-plus"
                 style={[{ backgroundColor: colors.primary }, createStyles.buttonAdd]}
                 labelStyle={{ color: "#ffffff" }}
-                onPress={() => router.push('/players')}
+                onPress={() => router.replace('/players')}
             >
                 {i18n.t("addPlayers")}
             </Button>

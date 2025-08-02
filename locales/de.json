@@ -6,7 +6,7 @@
     "manuallyTitle": "Gruppenphase manuell generieren",
     "numberOfGroups": "Anzahl der Gruppen",
     "teamsPerGroup": "Teams pro Gruppe",
-    "numberOfClassifieds": "Anzahl der qualifizierten Teams",
+    "numberOfClassifieds": "Gesamtzahl der Qualifizierten",
     "showPoints": "Punkte anzeigen",
     "pointsToTheWinner": "Punkte für den Sieger",
     "pointsToTie": "Punkte bei Unentschieden",
@@ -17,6 +17,7 @@
     "avoidingMatches": "Kollisionen vermeiden",
     "generating": "Generierung läuft...",
     "teams": "Teams",
+    "noteCreate": "Hinweis: Um eine Gruppenphase manuell zu erstellen, aktiviere die Option in den Einstellungen",
     "groupstages": "Gruppenphasen",
     "addTeamsToGenerate": "Teams hinzufügen, um die Gruppenphase zu generieren",
     "addAtLeastTwo": "Mindestens 2 Teams hinzufügen, um zu generieren",
@@ -353,5 +354,7 @@
     "errorSummaryPlayerTitle": "Spieler auswählen",
     "errorSummaryPlayerDescription": "Bitte einen Hauptspieler auswählen",
     "errorUploadImageTitle": "Fehler beim Hochladen des Bildes",
-    "errorUploadImageDescription": "Überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut"
+    "errorUploadImageDescription": "Überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut",
+    "home": "Hin",
+    "away": "Rückspiel"
 }

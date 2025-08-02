@@ -21,7 +21,7 @@ const TeamAdded = ({ team, handleUpdateTeam, colors }: TeamAddedPropsType) => {
         {team.logo ? (
           <Avatar.Image source={{ uri: team.logo }} size={50} />
         ) : (
-          <Avatar.Icon icon="shield-outline" size={50} />
+          <Avatar.Icon icon="shield-outline" style={{ backgroundColor: team.color }} color="#ffffff" size={50} />
         )}
         <Text variant="bodyLarge" style={{
           marginLeft: Dimensions.get("window").width / 45,

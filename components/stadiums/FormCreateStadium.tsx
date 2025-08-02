@@ -69,7 +69,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
         setTimeout(() => {
             hideAndShowAddStadium(false)
             setLoading(false)
-        }, 800)
+        }, 300)
     }
 
     return (

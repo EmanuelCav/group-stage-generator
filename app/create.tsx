@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
-import Toast from 'react-native-toast-message';
+import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
 import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 
@@ -31,11 +31,21 @@ import { groupStore } from "@/store/group.store";
 import { groupValue, powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_INTERSTITIAL}`;
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
   keywords: ['fashion', 'clothing'],
 });
+
+const toastConfig = {
+  error: (props: any) => (
+    <ErrorToast
+      {...props}
+      text1NumberOfLines={1}
+      text2NumberOfLines={3}
+    />
+  ),
+};
 
 const Create = () => {
 
@@ -51,8 +61,6 @@ const Create = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const generateGroups = () => {
-
-    setLoading(true)
 
     try {
 
@@ -86,6 +94,8 @@ const Create = () => {
         }
       }
 
+      setLoading(true)
+
       const groupsMatches = groupGenerator(group)
 
       if (group.isManualConfiguration) {
@@ -102,7 +112,8 @@ const Create = () => {
             group: groupsMatches.groupsSorted[i][j].group,
             logo: groupsMatches.groupsSorted[i][j].logo,
             plot: group.teams.find(t => t.id === groupsMatches.groupsSorted[i][j].id)?.plot,
-            name: groupsMatches.groupsSorted[i][j].name
+            name: groupsMatches.groupsSorted[i][j].name,
+            color: groupsMatches.groupsSorted[i][j].color
           })
         }
       }
@@ -199,8 +210,6 @@ const Create = () => {
   return (
     <MainScreen colors={colors}>
 
-      <Toast />
-
       {isSure && (
         <Sure
           func={handleRemoveTeam}
@@ -246,6 +255,8 @@ const Create = () => {
 
       <Banner />
 
+      <Toast config={toastConfig} />
+
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {group.teams.length > 0 ? (
           <AddButton colors={colors} handleAdd={openCreateTeam} />
@@ -284,8 +295,17 @@ const Create = () => {
       {group.teams.length < 2 && (
         <Text
           variant="bodySmall"
-          style={{ color: MD3Colors.error50, textAlign: 'center' }}
+          style={{ textAlign: 'center' }}
         >
+          {i18n.t('noteCreate')}
+        </Text>
+      )}
+
+      {group.teams.length < 2 && (
+        <Text
+          variant="bodySmall"
+          style={{ color: MD3Colors.error50, textAlign: 'center', marginTop: Dimensions.get("window").height / 106 }}
+          >
           {i18n.t('addAtLeastTwo')}
         </Text>
       )}

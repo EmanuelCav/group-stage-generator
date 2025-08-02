@@ -64,25 +64,27 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   const handleAddTeam = async (teamCreated: ICreate) => {
 
-    if (group.teams.find((t) => t.name === teamCreated.name)) {
-      Toast.show({
-        type: 'error',
-        text1: i18n.t("errorTeamNameTitle"),
-        text2: i18n.t("errorTeamNameDescription")
-      });
-      return
+    if(!team.id) {
+      if (group.teams.find((t) => (t.name === teamCreated.name))) {
+        Toast.show({
+          type: 'error',
+          text1: i18n.t("errorTeamNameTitle"),
+          text2: i18n.t("errorTeamNameDescription")
+        });
+        return
+      }
     }
 
     setLoading(true)
 
     let imageUrl = image
-    let timeLoading = 500
+    let timeLoading = 300
 
     if (image) {
 
       try {
         imageUrl = await uploadImageToCloudinary(image);
-        timeLoading = 1800
+        timeLoading = 1500
       } catch (error) {
         Toast.show({
           type: 'error',
@@ -91,14 +93,15 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         });
       }
     }
-
+    
     if (team.id) {
       updateTeam({
         id: team.id,
         group: team.group,
+        color: team.color,
         logo: imageUrl || "",
         name: teamCreated.name.trim(),
-        plot: Number(plot[plot.length - 1])
+        plot: Number(plot)
       })
     } else {
       createTeam(

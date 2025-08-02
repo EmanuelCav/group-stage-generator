@@ -6,7 +6,7 @@
   "manuallyTitle": "Gerar a fase de grupos manualmente",
   "numberOfGroups": "Número de grupos",
   "teamsPerGroup": "Número de times por grupo",
-  "numberOfClassifieds": "Número de classificados",
+  "numberOfClassifieds": "Número total de classificados",
   "showPoints": "Mostrar pontos",
   "pointsToTheWinner": "Pontos para o vencedor",
   "pointsToTie": "Pontos para empate",
@@ -17,6 +17,7 @@
   "avoidingMatches": "Evitar confrontos",
   "generating": "Gerando...",
   "teams": "Times",
+  "noteCreate": "Nota: Para criar manualmente uma fase de grupos, ative a opção nas configurações.",
   "groupstages": "Fases de grupos",
   "addTeamsToGenerate": "Adicione times para gerar a fase de grupos",
   "addAtLeastTwo": "Adicione 2 ou mais times para gerar",
@@ -353,5 +354,7 @@
   "errorSummaryPlayerTitle": "Selecione um jogador",
   "errorSummaryPlayerDescription": "Selecione um jogador principal",
   "errorUploadImageTitle": "Erro ao carregar a imagem",
-  "errorUploadImageDescription": "Verifique sua conexão com a internet ou tente mais tarde"
+  "errorUploadImageDescription": "Verifique sua conexão com a internet ou tente mais tarde",
+  "home": "Ida",
+  "away": "Volta"
 }

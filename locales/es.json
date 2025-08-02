@@ -6,7 +6,7 @@
     "manuallyTitle": "Generar la fase de grupos manualmente",
     "numberOfGroups": "Número de grupos",
     "teamsPerGroup": "Número de equipos por grupo",
-    "numberOfClassifieds": "Número de clasificados",
+    "numberOfClassifieds": "Número total de clasificados",
     "showPoints": "Mostrar puntos",
     "pointsToTheWinner": "Puntos por ganar",
     "pointsToTie": "Puntos por empate",
@@ -17,6 +17,7 @@
     "avoidingMatches": "Evitar enfrentamientos",
     "generating": "Generando...",
     "teams": "Equipos",
+    "noteCreate": "Nota: Para crear una fase de grupos manualmente activa la opción en configuración",
     "groupstages": "Fases de grupo",
     "addTeamsToGenerate": "Agrega equipos para generar la fase de grupos",
     "addAtLeastTwo": "Agrega 2 o más equipos para generar",
@@ -353,5 +354,7 @@
     "errorSummaryPlayerTitle": "Selecciona un jugador",
     "errorSummaryPlayerDescription": "Selecciona un jugador principal",
     "errorUploadImageTitle": "Error al subir la imagen",
-    "errorUploadImageDescription": "Revisa tu conexión a internet o intenta más tarde"
+    "errorUploadImageDescription": "Revisa tu conexión a internet o intenta más tarde",
+    "home": "Ida",
+    "away": "Vuelta"
 }

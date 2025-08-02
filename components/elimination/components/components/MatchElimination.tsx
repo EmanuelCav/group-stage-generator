@@ -10,7 +10,7 @@ import { eliminationStyles } from "@/styles/elimination.styles";
 import { groupName } from "@/utils/points";
 
 const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, group }: MatchEliminationPropsType) => {
-
+    
     return (
         <Pressable style={[eliminationStyles.match, { borderColor: colors.primary, backgroundColor: colors.tertiary }]}
             onPress={() => handleGetMatch({ match, round: indexElimination })}>
@@ -19,7 +19,7 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
                     ) : (
-                        <Avatar.Icon icon="shield-outline" size={24} />
+                        <Avatar.Icon icon="shield-outline" color="#ffffff" style={{ backgroundColor: match.local.team.color }} size={24} />
                     )}
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36 }} variant="bodyMedium">{groupName(match.local.team.name!)}</Text>
                 </View>
@@ -52,7 +52,7 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
                     ) : (
-                        <Avatar.Icon icon="shield-outline" size={24} />
+                        <Avatar.Icon icon="shield-outline" size={24} color="#ffffff" style={{ backgroundColor: match.visitant.team.color }} />
                     )}
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36, }} variant="bodyMedium">{groupName(match.visitant.team.name!)}</Text>
                 </View>

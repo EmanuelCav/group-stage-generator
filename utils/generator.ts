@@ -6,7 +6,7 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
 
     let groupsMatches: IMatch[][][] = []
     let shuffledPlots: ITeam[][] = []
-    let plots = verifyPlots(group.teams, group.teamsPerGroup!)
+    let plots = verifyPlots(group.teams, group.teamsPerGroup!)    
 
     if (!group.isManualConfiguration) {
 

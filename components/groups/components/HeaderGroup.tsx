@@ -29,7 +29,7 @@ const HeaderGroup = ({ group, groupNumber, colors }: HeaderGroupPropsType) => {
                             {item.logo ? (
                                 <Avatar.Image source={{ uri: item.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} />
+                                <Avatar.Icon icon="shield-outline" color="#ffffff" style={{ backgroundColor: item.color }} size={32} />
                             )}
                             <View style={[groupStyles.teamCell, { backgroundColor: colors.tertiary }]}>
                                 <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>{groupName(item.name)}</Text>

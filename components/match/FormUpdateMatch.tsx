@@ -35,8 +35,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
 
     registerTranslation('en-GB', enGB)
 
-    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "")
-    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "")
+    const [scoreLocal, setScoreLocal] = useState<string>(match.visitant.score !== null ? String(match.local.score) : "")
+    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ?? "")
     const [referreSelected, setRefereeSelected] = useState<string>(match.referee ?? "")
     const [isFocusStadium, setIsFocusStadium] = useState<boolean>(false)
@@ -94,7 +94,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
         setTimeout(() => {
             hideAndShowUpdateMatch(false)
             setLoading(false)
-        }, 1600)
+        }, 500)
     }
 
     return (

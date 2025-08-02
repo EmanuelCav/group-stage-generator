@@ -169,7 +169,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
             hideAndShowStatistics(false)
             getStatistic({})
             setLoading(false)
-        }, 800)
+        }, 300)
     }
 
     return (

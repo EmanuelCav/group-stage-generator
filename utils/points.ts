@@ -78,6 +78,7 @@ export const generatePoints = (teams: ITeam[], matches: IMatch[][][], group: IGr
             tied,
             won,
             positive,
+            color: teams[t].color!,
             name: teams[t].name!,
             id: teams[t].id!,
             logo: teams[t].logo!,

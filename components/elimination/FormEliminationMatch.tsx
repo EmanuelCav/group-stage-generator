@@ -35,12 +35,12 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
 
     registerTranslation('en-GB', enGB)
 
-    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score ? String(match.local.score) : "")
-    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score ? String(match.visitant.score) : "")
-    const [scoreLocalTrip, setScoreLocalTrip] = useState<string>(match.local.scoreTrip ? String(match.local.scoreTrip) : "")
-    const [scoreVisitantTrip, setScoreVisitantTrip] = useState<string>(match.visitant.scoreTrip ? String(match.visitant.scoreTrip) : "")
-    const [scoreLocalTieBreaker, setScoreLocalTieBreaker] = useState<string>(match.local.scoreTieBreaker ? String(match.local.scoreTieBreaker) : "")
-    const [scoreVisitantTieBreaker, setScoreVisitantTieBreaker] = useState<string>(match.visitant.scoreTieBreaker ? String(match.visitant.scoreTieBreaker) : "")
+    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
+    const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
+    const [scoreLocalTrip, setScoreLocalTrip] = useState<string>((match.local.scoreTrip !== null && match.local.scoreTrip !== undefined ) ? String(match.local.scoreTrip) : "")
+    const [scoreVisitantTrip, setScoreVisitantTrip] = useState<string>((match.visitant.scoreTrip !== null && match.visitant.scoreTrip !== undefined ) ? String(match.visitant.scoreTrip) : "")
+    const [scoreLocalTieBreaker, setScoreLocalTieBreaker] = useState<string>((match.local.scoreTieBreaker !== null && match.local.scoreTieBreaker !== undefined ) ? String(match.local.scoreTieBreaker) : "")
+    const [scoreVisitantTieBreaker, setScoreVisitantTieBreaker] = useState<string>((match.visitant.scoreTieBreaker !== null && match.visitant.scoreTieBreaker !== undefined ) ? String(match.visitant.scoreTieBreaker) : "")
 
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ?? "")
     const [referreSelected, setRefereeSelected] = useState<string>(match.referee ?? "")
@@ -154,6 +154,12 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 {match.local.team.name}
                             </Text>
                         </View>
+                        {
+                            group.isRoundTripElimination &&
+                            <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                                {i18n.t("home")}
+                            </Text>
+                        }
                         <TextInput
                             inputMode="numeric"
                             keyboardType="numeric"
@@ -166,16 +172,21 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             maxLength={3}
                         />
                         {group.isRoundTripElimination && (
-                            <TextInput
-                                inputMode="numeric"
-                                keyboardType="numeric"
-                                onChangeText={(text) => {
-                                    const formattedText = text.replace(/\D/g, '');
-                                    setScoreLocalTrip(formattedText);
-                                }}
-                                value={scoreLocalTrip}
-                                style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
-                            />
+                            <>
+                                <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                                    {i18n.t("away")}
+                                </Text>
+                                <TextInput
+                                    inputMode="numeric"
+                                    keyboardType="numeric"
+                                    onChangeText={(text) => {
+                                        const formattedText = text.replace(/\D/g, '');
+                                        setScoreLocalTrip(formattedText);
+                                    }}
+                                    value={scoreLocalTrip}
+                                    style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
+                                />
+                            </>
                         )}
                         <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
                             {i18n.t("tiebreakerOptional")}
@@ -204,6 +215,12 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 {match.visitant.team.name}
                             </Text>
                         </View>
+                        {
+                            group.isRoundTripElimination &&
+                            <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                                {i18n.t("home")}
+                            </Text>
+                        }
                         <TextInput
                             inputMode="numeric"
                             keyboardType="numeric"
@@ -216,16 +233,22 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             maxLength={3}
                         />
                         {group.isRoundTripElimination && (
-                            <TextInput
-                                inputMode="numeric"
-                                keyboardType="numeric"
-                                onChangeText={(text) => {
-                                    const formattedText = text.replace(/\D/g, '');
-                                    setScoreVisitantTrip(formattedText);
-                                }}
-                                value={scoreVisitantTrip}
-                                style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
-                            />
+                            <>
+
+                                <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                                    {i18n.t("away")}
+                                </Text>
+                                <TextInput
+                                    inputMode="numeric"
+                                    keyboardType="numeric"
+                                    onChangeText={(text) => {
+                                        const formattedText = text.replace(/\D/g, '');
+                                        setScoreVisitantTrip(formattedText);
+                                    }}
+                                    value={scoreVisitantTrip}
+                                    style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
+                                />
+                            </>
                         )}
                         <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
                             {i18n.t("tiebreakerOptional")}

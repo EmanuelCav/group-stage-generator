@@ -63,6 +63,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                     updateTeam({
                         id: groupsMatches.groupsSorted[i][j].id,
                         group: groupsMatches.groupsSorted[i][j].group,
+                        color: groupsMatches.groupsSorted[i][j].color,
                         logo: groupsMatches.groupsSorted[i][j].logo,
                         plot: group.teams.find(t => t.id === groupsMatches.groupsSorted[i][j].id)?.plot,
                         name: groupsMatches.groupsSorted[i][j].name

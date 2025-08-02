@@ -105,7 +105,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
         setTimeout(() => {
             hideAndShowPlayers(false)
             setLoading(false)
-        }, 800)
+        }, 300)
     }
 
     useEffect(() => {

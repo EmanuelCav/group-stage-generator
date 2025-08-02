@@ -69,7 +69,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
         setTimeout(() => {
             setLoading(false)
             hideAndShowAddReferee(false)
-        }, 800)
+        }, 300)
     }
 
     return (

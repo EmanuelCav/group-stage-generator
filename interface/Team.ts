@@ -9,6 +9,7 @@ export interface ITeamStore {
 
 export interface ITeam {
     id?: number;
+    color?: string;
     logo?: string;
     plot?: number;
     name?: string;
@@ -51,6 +52,7 @@ export interface IPoints {
     id: number;
     name: string;
     won: number;
+    color: string;
     tied: number;
     lost: number;
     played: number;

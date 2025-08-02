@@ -24,7 +24,7 @@ import { groupStore } from "@/store/group.store";
 
 import { playerStore } from "@/store/player.store";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_INTERSTITIAL}`;
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
     keywords: ['fashion', 'clothing'],

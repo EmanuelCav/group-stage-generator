@@ -30,6 +30,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                         id: pointsGroup[0][0].id,
                         logo: pointsGroup[0][0].logo,
                         name: pointsGroup[0][0].name,
+                        color: pointsGroup[0][0].color,
                     }
                 },
                 visitant: {
@@ -38,6 +39,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                         id: pointsGroup[0][1].id,
                         logo: pointsGroup[0][1].logo,
                         name: pointsGroup[0][1].name,
+                        color: pointsGroup[0][1].color,
                     }
                 },
                 isEdit: false,
@@ -123,6 +125,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                     id: positionGroup[first][matchFirst].id,
                     logo: positionGroup[first][matchFirst].logo,
                     name: positionGroup[first][matchFirst].name,
+                    color: positionGroup[first][matchFirst].color,
                 }
             },
             visitant: {
@@ -131,6 +134,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                     id: positionGroup[second][matchSecond].id,
                     logo: positionGroup[second][matchSecond].logo,
                     name: positionGroup[second][matchSecond].name,
+                    color: positionGroup[second][matchSecond].color,
                 }
             },
             isEdit: false,
@@ -219,12 +223,20 @@ export const columnTitle = (index: number, length: number): string => {
 
 export const isScoreElimination = (match: IMatch, isRoundTrip: boolean): boolean => {
 
+    if ((match.local.score === null) || (match.visitant.score === null)) return false
+
     if (isRoundTrip) {
-        if (!match.local.scoreTrip || !match.visitant.scoreTrip) return false
-        if ((match.local.score! + match.local.scoreTrip) === (match.visitant.score! + match.visitant.scoreTrip)) return false
+        if ((match.local.scoreTrip === undefined || match.local.scoreTrip === null) || (match.visitant.scoreTrip == undefined || match.visitant.scoreTrip === null)) return false
+        if ((match.local.score + match.local.scoreTrip) === (match.visitant.score + match.visitant.scoreTrip)) {
+            if ((match.local.scoreTieBreaker === undefined || match.local.scoreTieBreaker === null) || (match.visitant.scoreTieBreaker == undefined || match.visitant.scoreTieBreaker === null)) return false
+            if (match.local.scoreTieBreaker === match.visitant.scoreTieBreaker) return false
+        }
+
+        return true
     }
 
     if (match.local.score === match.visitant.score) {
+        if ((match.local.scoreTieBreaker === undefined || match.local.scoreTieBreaker === null) || (match.visitant.scoreTieBreaker == undefined || match.visitant.scoreTieBreaker === null)) return false
         if (match.local.scoreTieBreaker === match.visitant.scoreTieBreaker) return false
     }
 
@@ -347,6 +359,7 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
                     id: positionGroup[first][matchFirst].id,
                     logo: positionGroup[first][matchFirst].logo,
                     name: positionGroup[first][matchFirst].name,
+                    color: positionGroup[first][matchFirst].color,
                 }
             },
             visitant: {
@@ -355,6 +368,7 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
                     id: positionGroup[second][matchSecond].id,
                     logo: positionGroup[second][matchSecond].logo,
                     name: positionGroup[second][matchSecond].name,
+                    color: positionGroup[second][matchSecond].color,
                 }
             },
             isEdit: false,

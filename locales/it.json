@@ -6,7 +6,7 @@
     "manuallyTitle": "Genera manualmente la fase a gironi",
     "numberOfGroups": "Numero di gruppi",
     "teamsPerGroup": "Numero di squadre per gruppo",
-    "numberOfClassifieds": "Numero di qualificati",
+    "numberOfClassifieds": "Numero totale di qualificati",
     "showPoints": "Mostra punti",
     "pointsToTheWinner": "Punti al vincitore",
     "pointsToTie": "Punti per il pareggio",
@@ -17,6 +17,7 @@
     "avoidingMatches": "Evitare abbinamenti",
     "generating": "Generazione in corso...",
     "teams": "Squadre",
+    "noteCreate": "Hinweis: Um eine Gruppenphase manuell zu erstellen, aktiviere die Option in den Einstellungen",
     "groupstages": "Fasi a gironi",
     "addTeamsToGenerate": "Aggiungi squadre per generare la fase a gironi",
     "addAtLeastTwo": "Aggiungi almeno 2 squadre per generare",
@@ -353,5 +354,7 @@
     "errorSummaryPlayerTitle": "Seleziona un giocatore",
     "errorSummaryPlayerDescription": "Seleziona un giocatore principale",
     "errorUploadImageTitle": "Errore nel caricamento",
-    "errorUploadImageDescription": "Controlla la tua connessione o riprova più tardi"
+    "errorUploadImageDescription": "Controlla la tua connessione o riprova più tardi",
+    "home": "Andata",
+    "away": "Ritorno"
 }
