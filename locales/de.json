@@ -262,7 +262,7 @@
             },
             "amountClassified": {
                 "typeError": "Bitte eine Zahl eingeben",
-                "min": "Qualifizierte Teams eingeben",
+                "min": "Die Gesamtzahl der Qualifizierten muss größer als 1 sein",
                 "required": "Dieses Feld ist erforderlich",
                 "powerOfTwo": "Anzahl der qualifizierten Teams muss eine Zweierpotenz sein (z. B. 2, 4, 8, 16…)"
             },
@@ -328,6 +328,8 @@
             "existsError": "Eine Statistik mit diesem Titel existiert bereits"
         }
     },
+    "errorAmountClasifieldTitle": "Gesamtanzahl der Qualifizierten",
+    "errorAmountClasifieldDescription": "Die Gesamtanzahl der Qualifizierten muss kleiner als die Anzahl der Teams sein.",
     "goals": "Tore",
     "yellow": "Gelbe Karten",
     "red": "Rote Karten",

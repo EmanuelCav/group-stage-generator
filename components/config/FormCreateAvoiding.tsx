@@ -17,7 +17,7 @@ import { configStyles } from "@/styles/config.styles";
 
 import { avoidingSchema } from "@/schema/config.schema";
 
-import { generateAvoidingTeams } from "@/utils/defaultGroup";
+import { generateAvoidingTeams, generateId } from "@/utils/defaultGroup";
 
 const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoiding, avoiding, updateAvoiding, openSure, teamsAvoiding, setTeamsAvoiding }: FormCreateAvoidingPropsType) => {
 
@@ -48,7 +48,7 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
             })
         } else {
             createAvoiding({
-                id: group.avoidingMatches?.length! + 1,
+                id: generateId(),
                 title: avoidingCreated.title,
                 teams: [...updateTeams],
                 max: Number(avoidingCreated.max)

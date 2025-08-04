@@ -15,7 +15,7 @@ const TeamView = ({ team, colors }: TeamViewPropsType) => {
             {team.team.logo ? (
                 <Avatar.Image source={{ uri: team.team.logo }} size={32} />
             ) : (
-                <Avatar.Icon icon="shield-outline" size={32} />
+                <Avatar.Icon icon="shield-outline" color="#ffffff" size={32} style={{ backgroundColor: team.team.color }} />
             )}
             <Text variant="bodyMedium" style={{ marginTop: Dimensions.get("window").height / 106 }}>
                 {groupName(team.team.name!)}

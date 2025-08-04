@@ -262,7 +262,7 @@
             },
             "amountClassified": {
                 "typeError": "Veuillez saisir une valeur numérique",
-                "min": "Indiquez le nombre de qualifiés",
+                "min": "Le nombre total de qualifiés doit être supérieur à 1",
                 "required": "Ce champ est requis",
                 "powerOfTwo": "Le nombre de qualifiés doit être une puissance de 2 (ex : 2, 4, 8, 16, 32...)"
             },
@@ -328,6 +328,8 @@
             "existsError": "Le titre de la statistique existe déjà"
         }
     },
+    "errorAmountClasifieldTitle": "Nombre total de qualifiés",
+    "errorAmountClasifieldDescription": "Le nombre total de qualifiés doit être inférieur au nombre d'équipes.",
     "goals": "Buts",
     "yellow": "Cartons jaunes",
     "red": "Cartons rouges",

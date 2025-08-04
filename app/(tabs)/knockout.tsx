@@ -21,7 +21,7 @@ const Elimination = () => {
 
     const router = useRouter()
     const { colors } = useTheme()
-    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group } = groupStore()
+    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination } = groupStore()
     const { getMatchKnockout } = matchStore()
 
     const handleGetMatch = (data: IGetMatchKnockout) => {
@@ -56,7 +56,7 @@ const Elimination = () => {
                         {
                             !group.isDrawed &&
                             <ShuffleAgain colors={colors} updateShuffledKnockout={updateShuffledKnockout}
-                                group={group} generateElimination={generateElimination} />
+                                group={group} generateElimination={generateElimination} drawedElimination={drawedElimination} />
                         }
                         <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} />
                     </>

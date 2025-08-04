@@ -15,7 +15,7 @@ export const configSchema = object().shape({
     .required(i18n.t("validation.config.amountGroups.required")),
   amountClassified: number()
     .typeError(i18n.t("validation.config.amountClassified.typeError"))
-    .min(1, i18n.t("validation.config.amountClassified.min"))
+    .min(2, i18n.t("validation.config.amountClassified.min"))
     .required(i18n.t("validation.config.amountClassified.required"))
     .test(
       "power-of-two",

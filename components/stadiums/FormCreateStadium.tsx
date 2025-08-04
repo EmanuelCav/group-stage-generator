@@ -16,6 +16,8 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { stadiumSchema } from "@/schema/stadium.schema";
 
+import { generateId } from "@/utils/defaultGroup";
+
 const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded }: FormCreateStadiumPropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
@@ -47,7 +49,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             })
         } else {
             createStadium({
-                id: group.referees?.length as number + 1,
+                id: generateId(),
                 name: stadiumCreated.name
             })
 

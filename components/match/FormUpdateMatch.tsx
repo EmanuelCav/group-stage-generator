@@ -116,7 +116,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
-                        <Avatar.Icon icon="shield-outline" size={32} />
+                        <Avatar.Icon icon="shield-outline" size={32} color="#ffffff" style={{ backgroundColor: match.local.team.color }} />
                     )}
                     <Text variant='bodyMedium' style={{
                         marginTop: Dimensions.get("window").height / 106,
@@ -146,7 +146,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
-                        <Avatar.Icon icon="shield-outline" size={32} />
+                        <Avatar.Icon icon="shield-outline" size={32} color="#ffffff" style={{ backgroundColor: match.visitant.team.color }} />
                     )}
                     <Text variant='bodyMedium' style={{
                         marginTop: Dimensions.get("window").height / 106,

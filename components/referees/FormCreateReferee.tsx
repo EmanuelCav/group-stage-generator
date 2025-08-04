@@ -16,6 +16,8 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { refereeSchema } from "@/schema/referee.schema";
 
+import { generateId } from "@/utils/defaultGroup";
+
 const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded }: FormCreateRefereePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
@@ -47,7 +49,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             })
         } else {
             createReferee({
-                id: group.referees?.length as number + 1,
+                id: generateId(),
                 name: refereeCreated.name
             })
 

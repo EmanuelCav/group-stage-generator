@@ -17,24 +17,24 @@ export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic
     for (let i = 0; i < group.matches!.length; i++) {
         for (let j = 0; j < group.matches![i].length; j++) {
             for (let k = 0; k < group.matches![i][j].length; k++) {
-                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
-                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === player.id) {
+                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === "goal").length; t++) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === "goal")[t].player?.id === player.id) {
                         goals++
                     }
 
-                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === player.id) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === "goal")[t].secondaryPlayer?.id === player.id) {
                         assists++
                     }
                 }
 
-                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
-                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === player.id) {
+                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === "yellow card").length; t++) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === "yellow card")[t].player?.id === player.id) {
                         yellow++
                     }
                 }
 
-                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
-                    if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === player.id) {
+                for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === "red card").length; t++) {
+                    if (group.matches![i][j][k].summary.filter(s => s.title === "red card")[t].player?.id === player.id) {
                         reds++
                     }
                 }
@@ -45,24 +45,24 @@ export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic
     if (group.eliminationMatches?.length! > 0) {
         for (let i = 0; i < group.eliminationMatches!.length; i++) {
             for (let j = 0; j < group.eliminationMatches![i].length; j++) {
-                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
-                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === player.id) {
+                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === "goal").length; t++) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === "goal")[t].player?.id === player.id) {
                         goals++
                     }
 
-                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === player.id) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === "goal")[t].secondaryPlayer?.id === player.id) {
                         assists++
                     }
                 }
 
-                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
-                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === player.id) {
+                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === "yellow card").length; t++) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === "yellow card")[t].player?.id === player.id) {
                         yellow++
                     }
                 }
 
-                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red")).length; t++) {
-                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === player.id) {
+                for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === "red card").length; t++) {
+                    if (group.eliminationMatches![i][j].summary.filter(s => s.title === "red card")[t].player?.id === player.id) {
                         reds++
                     }
                 }
@@ -111,24 +111,24 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
         for (let i = 0; i < group.matches!.length; i++) {
             for (let j = 0; j < group.matches![i].length; j++) {
                 for (let k = 0; k < group.matches![i][j].length; k++) {
-                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
-                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === group.players![p].id) {
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === "goal").length; t++) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === "goal")[t].player?.id === group.players![p].id) {
                             goals++
                         }
 
-                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === group.players![p].id) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === "goal")[t].secondaryPlayer?.id === group.players![p].id) {
                             assists++
                         }
                     }
 
-                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
-                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === group.players![p].id) {
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === "yellow card").length; t++) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === "yellow card")[t].player?.id === group.players![p].id) {
                             yellow++
                         }
                     }
 
-                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red")).length; t++) {
-                        if (group.matches![i][j][k].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
+                    for (let t = 0; t < group.matches![i][j][k].summary.filter(s => s.title === "red card").length; t++) {
+                        if (group.matches![i][j][k].summary.filter(s => s.title === "red card")[t].player?.id === group.players![p].id) {
                             reds++
                         }
                     }
@@ -139,24 +139,24 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
         if (group.eliminationMatches?.length! > 0) {
             for (let i = 0; i < group.eliminationMatches!.length; i++) {
                 for (let j = 0; j < group.eliminationMatches![i].length; j++) {
-                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals")).length; t++) {
-                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].player?.id === group.players![p].id) {
+                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === "goal").length; t++) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === "goal")[t].player?.id === group.players![p].id) {
                             goals++
                         }
 
-                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("goals"))[t].secondaryPlayer?.id === group.players![p].id) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === "goal")[t].secondaryPlayer?.id === group.players![p].id) {
                             assists++
                         }
                     }
 
-                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow")).length; t++) {
-                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("yellow"))[t].player?.id === group.players![p].id) {
+                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === "yellow card").length; t++) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === "yellow card")[t].player?.id === group.players![p].id) {
                             yellow++
                         }
                     }
 
-                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red")).length; t++) {
-                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === i18n.t("red"))[t].player?.id === group.players![p].id) {
+                    for (let t = 0; t < group.eliminationMatches![i][j].summary.filter(s => s.title === "red card").length; t++) {
+                        if (group.eliminationMatches![i][j].summary.filter(s => s.title === "red card")[t].player?.id === group.players![p].id) {
                             reds++
                         }
                     }

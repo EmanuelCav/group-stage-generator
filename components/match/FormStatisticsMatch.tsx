@@ -18,6 +18,7 @@ import { matchStyles } from "@/styles/match.styles"
 import { createStyles } from "@/styles/create.styles"
 
 import { groupName } from "@/utils/points";
+import { generateId } from "@/utils/defaultGroup";
 
 import { statisticSchema } from "@/schema/statistic.schema";
 
@@ -108,7 +109,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 summary: match.summary,
                 players: match.players,
                 statistics: [...match.statistics, {
-                    id: match.statistics.length + 1,
+                    id: generateId(),
                     title: statisticCreated.title,
                     teamLocal: {
                         team: match.local.team,
@@ -227,7 +228,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
-                        <Avatar.Icon icon="shield-outline" size={32} />
+                        <Avatar.Icon icon="shield-outline" size={32} color="#ffffff" style={{ backgroundColor: match.local.team.color }} />
                     )}
                     <Text
                         variant="bodyMedium"
@@ -254,7 +255,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
-                        <Avatar.Icon icon="shield-outline" size={32} />
+                        <Avatar.Icon icon="shield-outline" size={32} color="#ffffff" style={{ backgroundColor: match.visitant.team.color }} />
                     )}
                     <Text
                         variant="bodyMedium"

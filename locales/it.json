@@ -262,7 +262,7 @@
             },
             "amountClassified": {
                 "typeError": "Inserisci un numero",
-                "min": "Inserisci il numero di qualificati",
+                "min": "Il numero totale dei qualificati deve essere superiore a 1",
                 "required": "Campo obbligatorio",
                 "powerOfTwo": "Il numero deve essere una potenza di 2 (es: 2, 4, 8, 16...)"
             },
@@ -328,6 +328,8 @@
             "existsError": "La statistica esiste già"
         }
     },
+    "errorAmountClasifieldTitle": "Numero totale di qualificati",
+    "errorAmountClasifieldDescription": "Il numero totale di qualificati deve essere inferiore al numero di squadre.",
     "goals": "Goal",
     "yellow": "Ammonizioni",
     "red": "Espulsioni",

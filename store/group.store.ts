@@ -144,6 +144,10 @@ export const groupStore = create(
             sureRestartGroup: (sure: boolean) => set(() => ({
                 isSureRestart: sure
             })),
+            drawedElimination: (data: boolean) => set((state) => ({
+                group: { ...state.group, isGroupStageEliminationDrawed: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGroupStageEliminationDrawed: data } : g)
+            })),
         }),
         {
             name: "group_stage_generator_storage",

@@ -262,7 +262,7 @@
             },
             "amountClassified": {
                 "typeError": "Please complete with a number value",
-                "min": "Write the number of classifieds",
+                "min": "The total number of qualified participants must be greater than 1",
                 "required": "This field is required",
                 "powerOfTwo": "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)"
             },
@@ -328,6 +328,8 @@
             "existsError": "The title of the statistic already exists"
         }
     },
+    "errorAmountClasifieldTitle": "Total Number of Qualified Teams",
+    "errorAmountClasifieldDescription": "The total number of qualified teams must be less than the number of teams.",
     "goals": "Goals",
     "yellow": "Yellow cards",
     "red": "Red cards",

@@ -21,7 +21,7 @@ import { statisticsStyles } from "@/styles/statistics.styles";
 
 import { summarySchema } from "@/schema/match.schema";
 
-import { getTeamsName, getPlayerName } from "@/utils/defaultGroup";
+import { getTeamsName, getPlayerName, generateId } from "@/utils/defaultGroup";
 import { labelSummaryEvent } from "@/utils/matchday";
 
 const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary }: FormSummaryPropsType) => {
@@ -135,7 +135,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 referee: match.referee!,
                 stadium: match.stadium!,
                 summary: [...match.summary, {
-                    id: match.summary.length + 1,
+                    id: generateId(),
                     title: statisticSelected,
                     player: group.players?.find((p) => p.name === playerSelected),
                     time: summaryCreated.time

@@ -101,7 +101,7 @@ const Create = () => {
       if (group.isManualConfiguration) {
         generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
       } else {
-        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, group.matches?.length!,
+        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, groupsMatches.groupsSorted.length,
           Math.pow(2, powerRange(group.teams.length)))
       }
 
@@ -305,7 +305,7 @@ const Create = () => {
         <Text
           variant="bodySmall"
           style={{ color: MD3Colors.error50, textAlign: 'center', marginTop: Dimensions.get("window").height / 106 }}
-          >
+        >
           {i18n.t('addAtLeastTwo')}
         </Text>
       )}

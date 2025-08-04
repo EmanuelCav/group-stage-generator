@@ -1,10 +1,10 @@
 import { generatePoints, orderPoints } from "./points";
 import { shuffle } from "./generator";
+import i18n from "@/i18n";
 
 import { IPoints } from "@/interface/Team";
 import { IGroup } from "@/interface/Group";
 import { IDetectChanges, IMatch, IMatchTeam } from "@/interface/Match";
-import i18n from "@/i18n";
 
 export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][] => {
 
@@ -107,15 +107,24 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
         }
     }
 
+    const flat = positionGroup.flat().filter(pg => pg !== undefined);
+
+    const result = [];
+    for (let i = 0; i < flat.length; i += (Number(group.amountClassified) / 2)) {
+        result.push(flat.slice(i, i + (Number(group.amountClassified) / 2)));
+    }
+
+    positionGroup = result;
+
     let first = 0
-    let second = positionGroup.length - 1
+    let second = 1
 
     let matchFirst = 0
-    let matchSecond = 1
+    let matchSecond = group.amountClassified === 2 ? 0 : 1
 
     let match: IMatch[] = []
 
-    let indexPositionGroupMatch = positionGroup[0].length * (second - first) === 0 ? 1 : positionGroup[0].length * (second - first)
+    let indexPositionGroupMatch = positionGroup[0].length
 
     for (let i = 0; i < indexPositionGroupMatch; i++) {
         match.push({
@@ -145,14 +154,6 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
             players: []
         })
 
-        if (second - 1 !== first) {
-            first++
-            second--
-        } else {
-            first = 0
-            second = positionGroup.length - 1
-        }
-
         if (matchSecond === positionGroup[0].length - 1) {
             matchFirst = 1
             matchSecond = 0
@@ -174,7 +175,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
 
             let matchNextRound: IMatch[] = []
 
-            for (let j = 0; j < ((group.amountClassified! / Math.pow(i + 1, 2)) / 2) / Math.log(2); j++) {
+            for (let j = 0; j < (group.amountClassified! / Math.pow(2, i + 1)); j++) {
                 matchNextRound.push({
                     local: {
                         score: null,
@@ -217,7 +218,7 @@ export const columnTitle = (index: number, length: number): string => {
 
     if (index === length - 3) return i18n.t("quarter_finals")
 
-    return `${i18n.t("round_of")} ${Math.pow(2, index)}`
+    return `${i18n.t("round_of")} ${Math.pow(2, length - index)}`
 
 }
 
@@ -274,18 +275,18 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
 
     let areChanges = false
 
-    const matchesGenerated = getElimationTeams(group, false)
-
-    const matchesGeneratedFlat = [...matchesGenerated[0].flat()]
-
-    for (let i = 0; i < matchesGeneratedFlat.length; i++) {
-        if (!group.eliminationMatches![0].find((m) => m.local.team.id === matchesGeneratedFlat[i].local.team.id)) {
+    for (let i = 0; i < group.eliminationMatches![0].length; i++) {
+        if (group.eliminationMatches![0][i].local.score !== null || group.eliminationMatches![0][i].visitant.score !== null) {
             areChanges = true
             break
         }
     }
 
-    if (!areChanges) return {
+    if(group.isGroupStageEliminationDrawed) {
+        areChanges = true
+    }
+
+    if (areChanges) return {
         areChanges,
         eliminationMatches: group.eliminationMatches!
     }
@@ -341,15 +342,24 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
 
     }
 
+    const flat = positionGroup.flat().filter(pg => pg !== undefined);
+
+    const result = [];
+    for (let i = 0; i < flat.length; i += (Number(group.amountClassified) / 2)) {
+        result.push(flat.slice(i, i + (Number(group.amountClassified) / 2)));
+    }
+
+    positionGroup = result;
+
     let first = 0
-    let second = positionGroup.length - 1
+    let second = 1
 
     let matchFirst = 0
-    let matchSecond = 1
+    let matchSecond = group.amountClassified === 2 ? 0 : 1
 
     let match: IMatch[] = []
 
-    let indexPositionGroupMatch = positionGroup[0].length * (second - first) === 0 ? 1 : positionGroup[0].length * (second - first)
+    let indexPositionGroupMatch = positionGroup[0].length
 
     for (let i = 0; i < indexPositionGroupMatch; i++) {
         match.push({
@@ -379,14 +389,6 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
             players: []
         })
 
-        if (second - 1 !== first) {
-            first++
-            second--
-        } else {
-            first = 0
-            second = positionGroup.length - 1
-        }
-
         if (matchSecond === positionGroup[0].length - 1) {
             matchFirst = 1
             matchSecond = 0
@@ -407,8 +409,8 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
         } else {
 
             let matchNextRound: IMatch[] = []
-
-            for (let j = 0; j < ((group.amountClassified! / Math.pow(i + 1, 2)) / 2) / Math.log(2); j++) {
+            
+            for (let j = 0; j < (group.amountClassified! / Math.pow(2, i + 1)); j++) {
                 matchNextRound.push({
                     local: {
                         score: null,

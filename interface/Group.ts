@@ -14,6 +14,7 @@ export interface IGroupStore {
     isSureRestart: boolean;
     sureRemoveGroup: (sure: boolean) => void;
     sureRestartGroup: (sure: boolean) => void;
+    drawedElimination: (data: boolean) => void;
     generateMatches: (data: IMatch[][][], teamsPerGroup: number, amountGroups: number, amountClassified: number) => void;
     generateElimination: (data: IMatch[][]) => void;
     updateTeam: (data: ITeam) => void;
@@ -71,6 +72,7 @@ export interface IGroup {
     isKnockoutGenerated?: boolean;
     pointsMode?: string;
     matchdayView?: string;
+    isGroupStageEliminationDrawed?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
 }

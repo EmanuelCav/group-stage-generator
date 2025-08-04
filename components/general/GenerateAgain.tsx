@@ -55,7 +55,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                 generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
             } else {
                 generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
-                    group.matches?.length!, Math.pow(2, powerRange(group.teams.length)))
+                    groupsMatches.groupsSorted.length, Math.pow(2, powerRange(group.teams.length)))
             }
 
             for (let i = 0; i < groupsMatches.groupsSorted.length; i++) {

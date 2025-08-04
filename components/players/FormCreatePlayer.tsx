@@ -16,7 +16,7 @@ import { FormCreatePlayerPropsType } from "@/types/player.types";
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
-import { getTeamsName } from "@/utils/defaultGroup";
+import { generateId, getTeamsName } from "@/utils/defaultGroup";
 
 import { playerSchema } from "@/schema/player.schema";
 import { playerStatistics, statisticPlayer } from "@/utils/statistics";
@@ -48,7 +48,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             })
         } else {
             createPlayer({
-                id: group.players?.length as number + 1,
+                id: generateId(),
                 name: playerCreated.name,
                 team: group.teams.find((t) => t.name === teamSelected),
                 position: playerCreated.position

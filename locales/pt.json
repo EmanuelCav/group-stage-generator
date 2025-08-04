@@ -262,7 +262,7 @@
       },
       "amountClassified": {
         "typeError": "Complete com um valor numérico",
-        "min": "Digite o número de classificados",
+        "min": "O número total de classificados deve ser maior que 1",
         "required": "Este campo é obrigatório",
         "powerOfTwo": "O número de classificados deve ser uma potência de 2 (ex: 2, 4, 8, 16, 32...)"
       },
@@ -328,6 +328,8 @@
       "existsError": "O título da estatística já existe"
     }
   },
+  "errorAmountClasifieldTitle": "Número total de classificados",
+  "errorAmountClasifieldDescription": "O número total de classificados deve ser menor que a quantidade de equipes.",
   "goals": "Gols",
   "yellow": "Cartões amarelos",
   "red": "Cartões vermelhos",

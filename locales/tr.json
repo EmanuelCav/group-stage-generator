@@ -262,7 +262,7 @@
       },
       "amountClassified": {
         "typeError": "Lütfen sayı değeri girin",
-        "min": "Eleme sayısını yazın",
+        "min": "Toplam eleme sayısı 1'den fazla olmalıdır",
         "required": "Bu alan zorunludur",
         "powerOfTwo": "Eleme sayısı 2‑nin katı olmalıdır (ör. 2, 4, 8, 16, 32...)"
       },
@@ -328,6 +328,8 @@
       "existsError": "İstatistik başlığı zaten var"
     }
   },
+  "errorAmountClasifieldTitle": "Toplam Eleme Sayısı",
+  "errorAmountClasifieldDescription": "Toplam eleme sayısı, takım sayısından az olmalıdır.",
   "goals": "Goller",
   "yellow": "Sarı kartlar",
   "red": "Kırmızı kartlar",

@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
 import { Dropdown } from 'react-native-element-dropdown';
-import Toast from 'react-native-toast-message';
+import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
@@ -47,6 +47,16 @@ const modeData = [{
     value: "scored",
     label: i18n.t("points_scored")
 }]
+
+const toastConfig = {
+  error: (props: any) => (
+    <ErrorToast
+      {...props}
+      text1NumberOfLines={1}
+      text2NumberOfLines={3}
+    />
+  ),
+};
 
 const Config = () => {
 
@@ -145,10 +155,20 @@ const Config = () => {
 
     const handleConfig = async (data: ISetting) => {
 
+        if(data.amountClassified > group.teams.length) {
+            Toast.show({
+                type: 'error',
+                text1: i18n.t("errorAmountClasifieldTitle"),
+                text2: i18n.t("errorAmountClasifieldDescription")
+            });
+            return
+        }
+
         setLoading(true)
 
         let imageUrl = image
         let timeLoading = 500
+
 
         if (image) {
             try {
@@ -234,8 +254,6 @@ const Config = () => {
     return (
         <MainScreen colors={colors}>
 
-            <Toast />
-
             {isTieBreakCriteria && (
                 <TieBreakCriteria initialData={initialData} setInitialData={setInitialData} />
             )}
@@ -281,6 +299,8 @@ const Config = () => {
             ) : (
                 <HeaderConfig colors={colors} comeBack={comeBack} />
             )}
+
+            <Toast config={toastConfig} />
 
             <ScrollView style={configStyles.containerSettings}>
 

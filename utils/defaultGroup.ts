@@ -10,7 +10,7 @@ import { IDropdown, IPlot, ITeam } from "@/interface/Team";
 export const groupValue = (id: number): IGroup => {
 
     return {
-        id,
+        id: generateId(),
         title: `Group Stage ${id}`,
         logo: "",
         matches: [],
@@ -35,6 +35,7 @@ export const groupValue = (id: number): IGroup => {
         isGenerated: false,
         isGeneratedAgain: true,
         isKnockoutGenerated: false,
+        isGroupStageEliminationDrawed: false,
         matchdayView: "all",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -160,4 +161,14 @@ export const powerRange = (num: number): number => {
 
 export const generateColour = (): string => {
     return "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
+}
+
+export const generateId = (): number => {
+  let randomNumber = '';
+
+  for (let i = 0; i < 12; i++) {
+    randomNumber += Math.floor(Math.random() * 10);
+  }
+
+  return Number(randomNumber);
 }

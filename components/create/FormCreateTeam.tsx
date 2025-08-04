@@ -17,7 +17,7 @@ import { ICreate } from "@/interface/Team";
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
-import { dataPlots, teamValue } from "@/utils/defaultGroup";
+import { dataPlots, generateId, teamValue } from "@/utils/defaultGroup";
 import { uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
@@ -106,7 +106,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     } else {
       createTeam(
         teamValue(
-          group.teams.length + 1, imageUrl || "", teamCreated.name.trim(), Number(plot[plot.length - 1])
+          generateId(), imageUrl || "", teamCreated.name.trim(), Number(plot[plot.length - 1])
         )
       )
 

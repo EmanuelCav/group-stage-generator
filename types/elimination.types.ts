@@ -30,6 +30,7 @@ export type ShuffleAgainPropsType = {
     colors: MD3Colors;
     updateShuffledKnockout: (data: boolean) => void;
     generateElimination: (data: IMatch[][]) => void;
+    drawedElimination: (data: boolean) => void;
     group: IGroup;
 }
 
