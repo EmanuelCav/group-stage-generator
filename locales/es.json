@@ -77,6 +77,7 @@
         "teamName": "Nombre del equipo",
         "selectLogo": "Selecciona un logo (opcional)",
         "plotOptional": "Bombo (opcional):",
+        "defineGroupOptional": "Definir grupo (opcional)",
         "add": "AGREGAR",
         "update": "ACTUALIZAR",
         "remove": "ELIMINAR"
@@ -139,7 +140,7 @@
     },
     "sumarry_select_event": "Selecciona el evento",
     "sumarry_select_team": "Selecciona el equipo del resumen (opcional)",
-    "sumarry_select_secondaryPlayerAssist": "Selecciona al asistidor",
+    "sumarry_select_secondaryPlayerAssist": "Selecciona al asistidor (opcional)",
     "sumarry_select_change": "Selecciona al jugador ingresante",
     "sumarry_select_player": "Selecciona el jugador del resumen",
     "sumarry_select_player_goal": "Selecciona al anotador",
@@ -179,7 +180,8 @@
     "win_percentage": "Porcentaje de victorias",
     "number_of_wins": "Cantidad de victorias",
     "points_scored": "Puntos anotados",
-    "all_matches": "Todos los partidos",
+    "all_matches": "Todos los grupos",
+    "all_fixture": "Todas las jornadas",
     "titleIndex": "Fases de Grupo",
     "selectGroupStage": "Selecciona una fase de grupo",
     "validation": {
@@ -357,6 +359,8 @@
     "errorSummaryPlayerDescription": "Selecciona un jugador principal",
     "errorUploadImageTitle": "Error al subir la imagen",
     "errorUploadImageDescription": "Revisa tu conexión a internet o intenta más tarde",
+    "errorLimitTitle": "Límite de equipos",
+    "errorLimitDescription": "Haz alcanzado el límite de 64 equipos",
     "home": "Ida",
     "away": "Vuelta"
 }

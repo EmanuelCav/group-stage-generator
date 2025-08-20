@@ -2,8 +2,7 @@
   "expo": {
     "name": "Group Stage Maker",
     "slug": "GroupStageGenerator",
-    "version": "1.0.4",
-    "orientation": "portrait",
+    "version": "1.0.5",
     "icon": "./assets/images/icon.png",
     "scheme": "groupstagegenerator",
     "userInterfaceStyle": "automatic",
@@ -18,7 +17,7 @@
     },
     "android": {
       "package": "com.emanlogic.groupstagegenerator",
-      "versionCode": 5,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#007AFF"

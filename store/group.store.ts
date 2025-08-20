@@ -13,6 +13,7 @@ import { IAvoidingMatches } from "@/interface/Avoiding";
 export const groupStore = create(
     persist<IGroupStore>(
         (set) => ({
+            idGroup: 1,
             group: {
                 teams: []
             },
@@ -24,7 +25,8 @@ export const groupStore = create(
             })),
             createGroup: (data: IGroup) => set((state) => ({
                 groups: [...state.groups, data],
-                group: data
+                group: data,
+                idGroup: state.idGroup + 1
             })),
             updateGroup: (data: IGroup) => set((state) => ({
                 groups: state.groups.map((g) => g.id === data.id ? data : g),
@@ -38,12 +40,12 @@ export const groupStore = create(
             })),
             restartGroup: () => set((state) => ({
                 group: {
-                    ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false, isKnockoutGenerated: false,
-                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: ["points", "difference", "favor", "won"]
+                    ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false, isKnockoutGenerated: false, teams: [...state.group.teams.map(t => ({ ...t, groupAssigned: undefined, plot: 1 }))],
+                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: ["points", "difference", "favor", "won"], isGroupStageEliminationDrawed: false, matchdayNumber: "all", matchdayView: "all"
                 },
                 groups: state.groups.map((g) => g.id === state.group.id ? {
-                    ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false, isKnockoutGenerated: false,
-                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: ["points", "difference", "favor", "won"]
+                    ...state.group, isGeneratedAgain: true, isGenerated: false, isDrawed: false, isKnockoutGenerated: false, teams: [...state.group.teams.map(t => ({ ...t, groupAssigned: undefined, plot: 1 }))],
+                    matches: [], players: [], referees: [], stadiums: [], eliminationMatches: [], tie_breakCriteria: ["points", "difference", "favor", "won"], isGroupStageEliminationDrawed: false, matchdayNumber: "all", matchdayView: "all"
                 } : g)
             })),
             createTeam: (data: ITeam) => set((state) => ({
@@ -137,6 +139,10 @@ export const groupStore = create(
             matchdayViewUpdated: (data: string) => set((state) => ({
                 group: { ...state.group, matchdayView: data },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matchdayView: data } : g)
+            })),
+            matchdayNumber: (data: string) => set((state) => ({
+                group: { ...state.group, matchdayNumber: data },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matchdayNumber: data } : g)
             })),
             sureRemoveGroup: (sure: boolean) => set(() => ({
                 isSureRemove: sure

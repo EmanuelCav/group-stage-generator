@@ -18,22 +18,23 @@ import { groupStore } from '@/store/group.store'
 import { matchStore } from '@/store/match.store'
 
 import { evaluateGenerateAgain } from '@/utils/matchday'
+import MatchdayLabel from '@/components/matchdays/MatchdayLabel';
 
 const toastConfig = {
-  error: (props: any) => (
-    <ErrorToast
-      {...props}
-      text1NumberOfLines={1}
-      text2NumberOfLines={3}
-    />
-  ),
+    error: (props: any) => (
+        <ErrorToast
+            {...props}
+            text1NumberOfLines={1}
+            text2NumberOfLines={3}
+        />
+    ),
 };
 
 const Matchdays = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { group, sureRemoveGroup, sureRestartGroup, matchdayViewUpdated } = groupStore()
+    const { group, sureRemoveGroup, sureRestartGroup, matchdayViewUpdated, matchdayNumber } = groupStore()
     const { getMatch } = matchStore()
 
     const handleGetMatch = (data: IGetMatch) => {
@@ -55,7 +56,11 @@ const Matchdays = () => {
             }
             <Toast config={toastConfig} />
             <View style={{ padding: Dimensions.get("window").height / 106, flex: 1, backgroundColor: colors.background }}>
-                <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
+                {
+                    group.matches?.length! > 1 &&
+                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
+                }
+                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} />
                 <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} router={router} />
             </View>
         </MainScreen>

@@ -37,18 +37,20 @@ export const groupValue = (id: number): IGroup => {
         isKnockoutGenerated: false,
         isGroupStageEliminationDrawed: false,
         matchdayView: "all",
+        matchdayNumber: "all",
         createdAt: new Date(),
         updatedAt: new Date(),
     }
 }
 
-export const teamValue = (id: number, logo: string | undefined, name: string, plot: number): ITeam => {
+export const teamValue = (id: number, logo: string | undefined, name: string, plot: number, group: number | undefined): ITeam => {
 
     return {
         id,
         logo,
         color: generateColour()!,
         name,
+        groupAssigned: group,
         plot
     }
 
@@ -66,6 +68,21 @@ export const dataPlots = (teamsPerGroup: number): IPlot[] => {
     }
 
     return plots
+
+}
+
+export const dataGroupNumber = (amountGroups: number): IPlot[] => {
+
+    let groups: IPlot[] = []
+
+    for (let i = 1; i <= amountGroups; i++) {
+        groups.push({
+            label: `${i18n.t("group.title")} ${i}`,
+            value: i
+        })
+    }
+
+    return groups
 
 }
 

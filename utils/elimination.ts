@@ -15,48 +15,6 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
         pointsGroup.push(points)
     }
 
-    if (pointsGroup.length === 1) {
-
-        let matchesSameGroup: IMatch[][] = []
-
-        for (let i = 0; i < pointsGroup.length; i++) {
-
-            let matchSameGroup: IMatch[] = []
-
-            matchSameGroup.push({
-                local: {
-                    score: null,
-                    team: {
-                        id: pointsGroup[0][0].id,
-                        logo: pointsGroup[0][0].logo,
-                        name: pointsGroup[0][0].name,
-                        color: pointsGroup[0][0].color,
-                    }
-                },
-                visitant: {
-                    score: null,
-                    team: {
-                        id: pointsGroup[0][1].id,
-                        logo: pointsGroup[0][1].logo,
-                        name: pointsGroup[0][1].name,
-                        color: pointsGroup[0][1].color,
-                    }
-                },
-                isEdit: false,
-                referee: "",
-                stadium: "",
-                statistics: [],
-                summary: [],
-                players: []
-            })
-
-            matchesSameGroup.push(matchSameGroup)
-
-        }
-
-        return matchesSameGroup
-    }
-
     let classifields: IPoints[][] = []
     let amount = group.amountClassified!
 
@@ -83,7 +41,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
         }
 
         positionGroup.push(position)
-    }
+    }    
 
     if (amount < 0) {
         positionGroup[positionGroup.length - 1] = orderPoints(group, positionGroup[positionGroup.length - 1])
@@ -415,14 +373,14 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
                     local: {
                         score: null,
                         team: {
-                            name: `Winner ${winnerIndex}`,
+                            name: `${i18n.t("winner")} ${winnerIndex}`,
                             logo: ""
                         },
                     },
                     visitant: {
                         score: null,
                         team: {
-                            name: `Winner ${winnerIndex + 1}`,
+                            name: `${i18n.t("winner")} ${winnerIndex + 1}`,
                             logo: ""
                         },
                     },

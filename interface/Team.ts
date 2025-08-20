@@ -13,6 +13,7 @@ export interface ITeam {
     logo?: string;
     plot?: number;
     name?: string;
+    groupAssigned?: number;
     group?: number;
 }
 

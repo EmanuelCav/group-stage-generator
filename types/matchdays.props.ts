@@ -16,3 +16,9 @@ export type GroupLabelPropsType = {
     group: IGroup;
     matchdayViewUpdated: (data: string) => void;
 }
+
+export type MatchdayLabelPropsType = {
+    colors: MD3Colors;
+    group: IGroup;
+    matchdayNumber: (data: string) => void;
+}

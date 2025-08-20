@@ -76,7 +76,8 @@
     "selectShield": "Kalkan seç (isteğe bağlı)",
     "selectLogo": "Logo seç (isteğe bağlı)",
     "teamName": "Takım adı",
-    "plotOptional": "Açıklama (isteğe bağlı):",
+    "plotOptional": "Torba (isteğe bağlı):",
+    "defineGroupOptional": "Grup tanımla (isteğe bağlı)",
     "add": "EKLE",
     "update": "GÜNCELLE",
     "remove": "KALDIR"
@@ -139,7 +140,7 @@
   },
   "sumarry_select_event": "Olayı seç",
   "sumarry_select_team": "Özetten takım seç (isteğe bağlı)",
-  "sumarry_select_secondaryPlayerAssist": "Asist sağlayan oyuncuyu seç",
+  "sumarry_select_secondaryPlayerAssist": "Asist sağlayan oyuncuyu seç (isteğe bağlı)",
   "sumarry_select_change": "Yedeğe giren oyuncuyu seç",
   "sumarry_select_player": "Özetten oyuncuyu seç",
   "sumarry_select_player_goal": "Gol atan oyuncuyu seç",
@@ -179,7 +180,8 @@
   "win_percentage": "Galibiyet yüzdesi",
   "number_of_wins": "Galibiyet sayısı",
   "points_scored": "Atılan puan",
-  "all_matches": "Tüm Maçlar",
+  "all_matches": "Tüm gruplar",
+  "all_fixture": "Tüm maç günleri",
   "titleIndex": "Grup Aşamaları",
   "selectGroupStage": "Bir grup aşaması seç",
   "validation": {
@@ -339,7 +341,7 @@
   "reds": "Kırmızı kart",
   "substitution": "Oyuncu değişikliği",
   "injury": "Sakatlık",
-  "plot": "Açıklama",
+  "plot": "Torba",
   "winner": "Kazanan",
   "final": "Final",
   "semi_finals": "Yarı finaller",
@@ -357,6 +359,8 @@
   "errorSummaryPlayerDescription": "Ana oyuncuyu seçin",
   "errorUploadImageTitle": "Resim yükleme hatası",
   "errorUploadImageDescription": "İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin",
+  "errorLimitTitle": "Takım Sınırı",
+  "errorLimitDescription": "64 takımlık sınıra ulaştınız.",
   "home": "İlk maç",
   "away": "Rövanş maçı"
 }

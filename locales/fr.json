@@ -76,7 +76,8 @@
         "selectShield": "Sélectionner un blason (optionnel)",
         "selectLogo": "Sélectionner un logo (optionnel)",
         "teamName": "Nom de l'équipe",
-        "plotOptional": "Description (optionnel) :",
+        "plotOptional": "Chapeau (optionnel) :",
+        "defineGroupOptional": "Définir un groupe (optionnel)",
         "add": "AJOUTER",
         "update": "METTRE À JOUR",
         "remove": "SUPPRIMER"
@@ -139,7 +140,7 @@
     },
     "sumarry_select_event": "Sélectionner l’événement",
     "sumarry_select_team": "Sélectionnez l’équipe du résumé (optionnel)",
-    "sumarry_select_secondaryPlayerAssist": "Sélectionnez le passeur",
+    "sumarry_select_secondaryPlayerAssist": "Sélectionnez le passeur (optionnel)",
     "sumarry_select_change": "Sélectionnez le remplaçant",
     "sumarry_select_player": "Sélectionnez le joueur du résumé",
     "sumarry_select_player_goal": "Sélectionnez le buteur",
@@ -179,7 +180,8 @@
     "win_percentage": "Pourcentage de victoires",
     "number_of_wins": "Nombre de victoires",
     "points_scored": "Points marqués",
-    "all_matches": "Tous les matchs",
+    "all_matches": "Tous les groupes",
+    "all_fixture": "Toutes les journées",
     "titleIndex": "Phases de groupes",
     "selectGroupStage": "Sélectionner une phase de groupes",
     "validation": {
@@ -339,7 +341,7 @@
     "reds": "Carton rouge",
     "substitution": "Remplacement",
     "injury": "Blessure",
-    "plot": "Scénario",
+    "plot": "Chapeau",
     "winner": "Vainqueur",
     "final": "Finale",
     "semi_finals": "Demi-finales",
@@ -357,6 +359,8 @@
     "errorSummaryPlayerDescription": "Sélectionnez un joueur principal",
     "errorUploadImageTitle": "Erreur lors du téléversement de l’image",
     "errorUploadImageDescription": "Vérifiez votre connexion internet ou réessayez plus tard",
+    "errorLimitTitle": "Limite d'équipes",
+    "errorLimitDescription": "Vous avez atteint la limite de 64 équipes.",
     "home": "Aller",
     "away": "Retour"
 }

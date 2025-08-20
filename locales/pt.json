@@ -76,7 +76,8 @@
     "selectShield": "Selecionar escudo (opcional)",
     "selectLogo": "Selecionar logotipo (opcional)",
     "teamName": "Nome do time",
-    "plotOptional": "Descrição (opcional):",
+    "plotOptional": "Pote (opcional):",
+    "defineGroupOptional": "Definir grupo (opcional)",
     "add": "ADICIONAR",
     "update": "ATUALIZAR",
     "remove": "REMOVER"
@@ -139,7 +140,7 @@
   },
   "sumarry_select_event": "Selecione o evento",
   "sumarry_select_team": "Selecione o time do resumo (opcional)",
-  "sumarry_select_secondaryPlayerAssist": "Selecione o jogador da assistência",
+  "sumarry_select_secondaryPlayerAssist": "Selecione o jogador da assistência (opcional)",
   "sumarry_select_change": "Selecione o jogador substituto",
   "sumarry_select_player": "Selecione o jogador do resumo",
   "sumarry_select_player_goal": "Selecione o autor do gol",
@@ -179,7 +180,8 @@
   "win_percentage": "Porcentagem de vitórias",
   "number_of_wins": "Número de vitórias",
   "points_scored": "Pontos marcados",
-  "all_matches": "Todas as partidas",
+  "all_matches": "Todos os grupos",
+  "all_fixture": "Todas as rodadas",
   "titleIndex": "Fases de Grupos",
   "selectGroupStage": "Selecione uma fase de grupos",
   "validation": {
@@ -339,7 +341,7 @@
   "reds": "Cartão vermelho",
   "substitution": "Substituição",
   "injury": "Lesão",
-  "plot": "Descrição",
+  "plot": "Pote",
   "winner": "Vencedor",
   "final": "Final",
   "semi_finals": "Semifinais",
@@ -357,6 +359,8 @@
   "errorSummaryPlayerDescription": "Selecione um jogador principal",
   "errorUploadImageTitle": "Erro ao carregar a imagem",
   "errorUploadImageDescription": "Verifique sua conexão com a internet ou tente mais tarde",
+  "errorLimitTitle": "Limite de equipes",
+  "errorLimitDescription": "Você atingiu o limite de 64 equipes.",
   "home": "Ida",
   "away": "Volta"
 }

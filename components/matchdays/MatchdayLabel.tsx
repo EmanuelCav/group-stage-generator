@@ -3,29 +3,32 @@ import { Dimensions } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
 
-import { GroupLabelPropsType } from "@/types/matchdays.props"
+import { MatchdayLabelPropsType } from "@/types/matchdays.props"
+
 import { createStyles } from "@/styles/create.styles";
 
-const GroupLabel = ({ group, colors, matchdayViewUpdated }: GroupLabelPropsType) => {
+const MatchdayLabel = ({ group, colors, matchdayNumber }: MatchdayLabelPropsType) => {
 
     const [isFocus, setIsFocus] = useState<boolean>(false)
     const [groupsSelected, setGroupsSelected] = useState<{ label: string, value: string }[]>([])
 
     useEffect(() => {
 
-        let matchdaysView: { label: string, value: string }[] = [{
-            label: i18n.t("all_matches"),
+        let matchdaysNumber: { label: string, value: string }[] = [{
+            label: i18n.t("all_fixture"),
             value: "all"
         }]
 
-        for (let i = 0; i < group.matches?.length!; i++) {
-            matchdaysView.push({
-                label: `${i18n.t("group.title")} ${i + 1}`,
-                value: `${i18n.t("group.title")} ${i + 1}`,
+        const maxLength = Math.max(...group.matches!.map(a => a.length));
+
+        for (let i = 0; i < maxLength; i++) {
+            matchdaysNumber.push({
+                label: `${i18n.t("matchday")} ${i + 1}`,
+                value: `${i18n.t("matchday")} ${i + 1}`,
             })
         }
 
-        setGroupsSelected(matchdaysView)
+        setGroupsSelected(matchdaysNumber)
 
     }, [group.matches])
 
@@ -57,16 +60,16 @@ const GroupLabel = ({ group, colors, matchdayViewUpdated }: GroupLabelPropsType)
             maxHeight={Dimensions.get("window").height / 3.8}
             labelField="label"
             valueField="value"
-            placeholder={String(group.matchdayView)}
-            value={group.matchdayView}
+            placeholder={String(group.matchdayNumber)}
+            value={group.matchdayNumber}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {
-                matchdayViewUpdated(item.value);
+                matchdayNumber(item.value);
                 setIsFocus(false);
             }}
         />
     )
 }
 
-export default GroupLabel
+export default MatchdayLabel

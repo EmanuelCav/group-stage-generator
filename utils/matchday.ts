@@ -4,7 +4,7 @@ import i18n from "@/i18n"
 import { IMatch } from "@/interface/Match"
 import { ILineup, IPlayer } from "@/interface/Player"
 
-export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, router: Router): IMatch[][] => {
+export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, matchdayNumber: string, router: Router): IMatch[][] => {
 
     let schedule: IMatch[][] = []
 
@@ -20,13 +20,17 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
         for (let i = 0; i < matches.length; i++) {
             if (matchdayView !== "all") {
                 if (i === (Number(matchdayView.split(" ")[1]) - 1)) {
-                    for (let j = 0; j < matches[i][k].length; j++) {
-                        matchday.push(matches[i][k][j])
+                    if (matches[i][k]) {
+                        for (let j = 0; j < matches[i][k].length; j++) {
+                            matchday.push(matches[i][k][j])
+                        }
                     }
                 }
             } else {
-                for (let j = 0; j < matches[i][k].length; j++) {
-                    matchday.push(matches[i][k][j])
+                if (matches[i][k]) {
+                    for (let j = 0; j < matches[i][k].length; j++) {
+                        matchday.push(matches[i][k][j])
+                    }
                 }
             }
         }
@@ -34,7 +38,9 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
         schedule.push(matchday)
     }
 
-    return schedule
+    if (matchdayNumber === "all") return schedule
+
+    return [[...schedule[Number(matchdayNumber.split(" ")[1]) - 1]]]
 
 }
 
@@ -62,19 +68,19 @@ export const iconEvent = (event: string): string => {
 
 export const labelSummaryEvent = (event: string): string => {
     switch (event) {
-        case i18n.t("goals"):
+        case "goal":
             return i18n.t("sumarry_select_player_goal")
 
-        case i18n.t("yellow"):
+        case "yellow card":
             return i18n.t("sumarry_select_player_yellow")
 
-        case i18n.t("red"):
+        case "red card":
             return i18n.t("sumarry_select_player_red")
 
-        case i18n.t("substitution"):
+        case "substitution":
             return i18n.t("sumarry_select_player_change")
 
-        case i18n.t("injury"):
+        case "injury":
             return i18n.t("sumarry_select_player_injury")
 
         default:

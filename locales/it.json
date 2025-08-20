@@ -76,7 +76,8 @@
         "selectShield": "Seleziona uno stemma (opzionale)",
         "selectLogo": "Seleziona un logo (opzionale)",
         "teamName": "Nome della squadra",
-        "plotOptional": "Campo (opzionale):",
+        "plotOptional": "Urna (opzionale):",
+        "defineGroupOptional": "Definire gruppo (opzionale)",
         "add": "AGGIUNGI",
         "update": "AGGIORNA",
         "remove": "RIMUOVI"
@@ -139,7 +140,7 @@
     },
     "sumarry_select_event": "Seleziona l'evento",
     "sumarry_select_team": "Seleziona la squadra (opzionale)",
-    "sumarry_select_secondaryPlayerAssist": "Seleziona l'assistente",
+    "sumarry_select_secondaryPlayerAssist": "Seleziona l'assistente (opzionale)",
     "sumarry_select_change": "Sostituto",
     "sumarry_select_player": "Seleziona il giocatore",
     "sumarry_select_player_goal": "Marcatore",
@@ -179,7 +180,8 @@
     "win_percentage": "Percentuale di vittorie",
     "number_of_wins": "Numero di vittorie",
     "points_scored": "Punti segnati",
-    "all_matches": "Tutte le partite",
+    "all_matches": "Tutti i gruppi",
+    "all_fixture": "Tutte le giornate",
     "titleIndex": "Fasi a gironi",
     "selectGroupStage": "Seleziona una fase a gironi",
     "validation": {
@@ -339,7 +341,7 @@
     "reds": "Cartellino rosso",
     "substitution": "Sostituzione",
     "injury": "Infortunio",
-    "plot": "Campo",
+    "plot": "Urna",
     "winner": "Vincitore",
     "final": "Finale",
     "semi_finals": "Semifinali",
@@ -357,6 +359,8 @@
     "errorSummaryPlayerDescription": "Seleziona un giocatore principale",
     "errorUploadImageTitle": "Errore nel caricamento",
     "errorUploadImageDescription": "Controlla la tua connessione o riprova più tardi",
+    "errorLimitTitle": "Limite di squadre",
+    "errorLimitDescription": "Hai raggiunto il limite di 64 squadre.",
     "home": "Andata",
     "away": "Ritorno"
 }

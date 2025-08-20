@@ -79,11 +79,14 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 summary: match.summary.map((s) => s.id === summary.id ?
                     {
                         ...summary, title: statisticSelected, time: summaryCreated.time, player: playerSelected ?
-                            group.players?.find((p) => p.name === playerSelected) : s.player
+                            group.players?.find((p) => p.name === playerSelected) : s.player,
+                        secondaryPlayer: secondaryPlayerSelected ?
+                            group.players?.find((p) => p.name === secondaryPlayerSelected) : s.secondaryPlayer
                     } : s),
                 players: match.players,
                 statistics: match.statistics,
                 visitant: match.visitant,
+                time: match.time,
                 date: match.date
             }
 
@@ -138,11 +141,13 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                     id: generateId(),
                     title: statisticSelected,
                     player: group.players?.find((p) => p.name === playerSelected),
-                    time: summaryCreated.time
+                    time: summaryCreated.time,
+                    secondaryPlayer: group.players?.find((p) => p.name === secondaryPlayerSelected),
                 }],
                 players: match.players,
                 statistics: match.statistics,
                 visitant: match.visitant,
+                time: match.time,
                 date: match.date
             }
 
@@ -360,7 +365,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         </View>
 
                         {
-                            statisticSelected === i18n.t("goals") &&
+                            statisticSelected === "goal" &&
                             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                                 <Text variant="labelLarge">
                                     {i18n.t("sumarry_select_secondaryPlayerAssist")}
@@ -411,7 +416,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         }
 
                         {
-                            statisticSelected === i18n.t("substitution") &&
+                            statisticSelected === "substitution" &&
                             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                                 <Text variant="labelLarge">
                                     {i18n.t("sumarry_select_secondaryPlayerAssist")}

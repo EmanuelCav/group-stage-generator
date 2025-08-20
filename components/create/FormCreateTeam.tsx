@@ -17,7 +17,7 @@ import { ICreate } from "@/interface/Team";
 import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
-import { dataPlots, generateId, teamValue } from "@/utils/defaultGroup";
+import { dataGroupNumber, dataPlots, generateId, teamValue } from "@/utils/defaultGroup";
 import { uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
@@ -25,8 +25,10 @@ import { teamSchema } from "@/schema/team.schema";
 const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
+  const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${i18n.t("group.title")} ${team.groupAssigned}` : "")
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [isFocus, setIsFocus] = useState<boolean>(false)
+  const [isFocusGroup, setIsFocusGroup] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -64,12 +66,21 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   const handleAddTeam = async (teamCreated: ICreate) => {
 
-    if(!team.id) {
+    if (!team.id) {
       if (group.teams.find((t) => (t.name === teamCreated.name))) {
         Toast.show({
           type: 'error',
           text1: i18n.t("errorTeamNameTitle"),
           text2: i18n.t("errorTeamNameDescription")
+        });
+        return
+      }
+
+      if (group.teams.length >= 64) {
+        Toast.show({
+          type: 'error',
+          text1: i18n.t("errorLimitTitle"),
+          text2: i18n.t("errorLimitDescription")
         });
         return
       }
@@ -91,22 +102,27 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           text1: i18n.t("errorUploadImageTitle"),
           text2: i18n.t("errorUploadImageDescription")
         });
+        return
       }
     }
-    
+
+    const plotSelected: number = isNaN(Number(plot)) ? Number(plot[plot.length - 1]) : Number(plot)
+    const groupSelected: number = isNaN(Number(groupNumber)) ? Number(groupNumber[groupNumber.length - 1]) : Number(groupNumber)
+
     if (team.id) {
       updateTeam({
         id: team.id,
         group: team.group,
+        groupAssigned: groupSelected,
         color: team.color,
         logo: imageUrl || "",
         name: teamCreated.name.trim(),
-        plot: Number(plot)
+        plot: plotSelected
       })
     } else {
       createTeam(
         teamValue(
-          generateId(), imageUrl || "", teamCreated.name.trim(), Number(plot[plot.length - 1])
+          generateId(), imageUrl || "", teamCreated.name.trim(), plotSelected, groupSelected === 0 ? undefined : groupSelected
         )
       )
 
@@ -221,6 +237,48 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         </View>
       )}
 
+      {group.isManualConfiguration && (
+        <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
+          <Text variant="labelLarge">{i18n.t("teamForm.defineGroupOptional")}</Text>
+          <Dropdown
+            style={[
+              createStyles.dropdownComplete,
+              { backgroundColor: colors.tertiary },
+              isFocusGroup && { borderColor: colors.primary },
+            ]}
+            placeholderStyle={{
+              fontSize: Dimensions.get("window").height / 47,
+              color: colors.surface,
+              backgroundColor: colors.tertiary
+            }}
+            selectedTextStyle={{
+              fontSize: Dimensions.get("window").height / 47,
+              color: colors.surface,
+              backgroundColor: colors.tertiary
+            }}
+            itemTextStyle={{
+              color: colors.surface
+            }}
+            containerStyle={{
+              backgroundColor: colors.tertiary,
+            }}
+            activeColor={colors.primary}
+            data={dataGroupNumber(group.amountGroups!)}
+            maxHeight={Dimensions.get("window").height / 5}
+            labelField="label"
+            valueField="value"
+            placeholder={String(groupNumber)}
+            value={groupNumber}
+            onFocus={() => setIsFocusGroup(true)}
+            onBlur={() => setIsFocusGroup(false)}
+            onChange={item => {
+              setGroupNumber(item.value);
+              setIsFocusGroup(false);
+            }}
+          />
+        </View>
+      )}
+
       <Button
         disabled={loading}
         loading={loading}
@@ -232,7 +290,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         {team.id ? i18n.t("teamForm.update") : i18n.t("teamForm.add")}
       </Button>
 
-      {team.id && group.isGeneratedAgain && (
+      {team.id && !group.isGenerated && (
         <Button
           mode="contained"
           style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}

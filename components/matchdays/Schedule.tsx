@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { DataTable, Title } from 'react-native-paper';
-import { FlatList } from 'react-native';
+import { Dimensions, FlatList } from 'react-native';
 import i18n from '@/i18n'
 
 import Match from './components/Match';
@@ -21,27 +21,35 @@ type RenderMatchday = {
 const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) => {
 
     const matchdays = useMemo(() => {
-        return getMatchdaysGroupState(group.matches!, group.matchdayView!, router);
-    }, [group.matches, group.matchdayView]);
+        return getMatchdaysGroupState(group.matches!, group.matchdayView!, group.matchdayNumber!, router);
+    }, [group.matches, group.matchdayView, group.matchdayNumber]);
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
-            <Title
-                style={[{ color: colors.primary }, generalStyles.titleDataTable]}
-            >
-                {i18n.t("matchday")} {index + 1}
-            </Title>
-            <DataTable.Header style={{ borderBottomColor: colors.primary, backgroundColor: colors.tertiary }}>
-                <DataTable.Title style={groupStyles.rowStart}>
-                    {i18n.t("local")}
-                </DataTable.Title>
-                <DataTable.Title numeric style={groupStyles.rowContainer}>
-                    {i18n.t("score")}
-                </DataTable.Title>
-                <DataTable.Title style={groupStyles.rowEnd}>
-                    {i18n.t("visitant")}
-                </DataTable.Title>
-            </DataTable.Header>
+            {item[index] && group.matchdayNumber === "all" &&
+                <Title
+                    style={[{ color: colors.primary }, generalStyles.titleDataTable]}
+                >
+                    {i18n.t("matchday")} {index + 1}
+                </Title>
+            }
+            {
+                item[index] &&
+                <DataTable.Header style={{
+                    borderBottomColor: colors.primary, backgroundColor: colors.tertiary,
+                    marginTop: group.matchdayNumber === "all" ? 0 : Dimensions.get("window").height / 74
+                }}>
+                    <DataTable.Title style={groupStyles.rowStart}>
+                        {i18n.t("local")}
+                    </DataTable.Title>
+                    <DataTable.Title numeric style={groupStyles.rowContainer}>
+                        {i18n.t("score")}
+                    </DataTable.Title>
+                    <DataTable.Title style={groupStyles.rowEnd}>
+                        {i18n.t("visitant")}
+                    </DataTable.Title>
+                </DataTable.Header>
+            }
 
             {item.map((match, indexItem) => {
                 return (

@@ -6,7 +6,7 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
 
     let groupsMatches: IMatch[][][] = []
     let shuffledPlots: ITeam[][] = []
-    let plots = verifyPlots(group.teams, group.teamsPerGroup!)    
+    let plots = verifyPlots(group.teams, group.teamsPerGroup!)
 
     if (!group.isManualConfiguration) {
 
@@ -169,6 +169,23 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
                     indexGroup = 0
                 } else {
                     indexGroup++
+                }
+            }
+        }
+
+        for (let times = 0; times < 3; times++) {
+            for (let i = 0; i < groupsSorted.length; i++) {
+                for (let j = 0; j < groupsSorted[i].length; j++) {
+                    if (groupsSorted[i][j].groupAssigned) {
+                        if (groupsSorted[i][j].groupAssigned === i + 1) continue
+                        const plotReplace = groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned === groupsSorted[i][j].group) === -1 ?
+                            groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned !== groupsSorted[i][j].groupAssigned) === -1 ? j :
+                                groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned !== groupsSorted[i][j].groupAssigned) :
+                            groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned === groupsSorted[i][j].group)
+                        const teamToReplace = { ...groupsSorted[groupsSorted[i][j].groupAssigned! - 1][plotReplace], group: groupsSorted[i][j].group }
+                        groupsSorted[groupsSorted[i][j].groupAssigned! - 1][plotReplace] = { ...groupsSorted[i][j], group: groupsSorted[i][j].groupAssigned }
+                        groupsSorted[i][j] = teamToReplace as ITeam
+                    }
                 }
             }
         }

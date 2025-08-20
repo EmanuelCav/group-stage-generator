@@ -56,6 +56,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 players: match.players,
                 summary: match.summary,
                 visitant: match.visitant,
+                time: match.time,
                 date: match.date
             }
 
@@ -121,6 +122,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     }
                 }],
                 visitant: match.visitant,
+                time: match.time,
                 date: match.date
             }
 

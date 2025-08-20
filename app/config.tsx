@@ -21,6 +21,7 @@ import Sure from "@/components/general/Sure";
 import ConfigButton from "@/components/config/ConfigButton";
 import MainScreen from "@/components/general/MainScreen";
 import FormCreateAvoiding from "@/components/config/FormCreateAvoiding";
+import SureGeneral from "@/components/general/SureGeneral";
 
 import { IGroup, ISetting } from "@/interface/Group";
 import { IAvoidingMatches } from "@/interface/Avoiding";
@@ -33,6 +34,7 @@ import { avoidingStore } from "@/store/avoiding.store";
 
 import { configSchema } from "@/schema/config.schema";
 import { uploadImageToCloudinary } from "@/utils/cloudinary";
+import { powerRange } from "@/utils/defaultGroup";
 
 const modeData = [{
     value: "points",
@@ -49,13 +51,13 @@ const modeData = [{
 }]
 
 const toastConfig = {
-  error: (props: any) => (
-    <ErrorToast
-      {...props}
-      text1NumberOfLines={1}
-      text2NumberOfLines={3}
-    />
-  ),
+    error: (props: any) => (
+        <ErrorToast
+            {...props}
+            text1NumberOfLines={1}
+            text2NumberOfLines={3}
+        />
+    ),
 };
 
 const Config = () => {
@@ -155,20 +157,10 @@ const Config = () => {
 
     const handleConfig = async (data: ISetting) => {
 
-        if(data.amountClassified > group.teams.length) {
-            Toast.show({
-                type: 'error',
-                text1: i18n.t("errorAmountClasifieldTitle"),
-                text2: i18n.t("errorAmountClasifieldDescription")
-            });
-            return
-        }
-
         setLoading(true)
 
         let imageUrl = image
         let timeLoading = 500
-
 
         if (image) {
             try {
@@ -191,7 +183,7 @@ const Config = () => {
             title: data.title,
             logo: imageUrl || "",
             matches: group.matches,
-            teams: group.teams,
+            teams: (group.amountGroups !== data.amountGroups || group.teamsPerGroup !== data.teamsPerGroup) ? group.teams.map(t => ({...t, groupAssigned: undefined})) : group.teams,
             pointsWin: data.pointsWin,
             pointsDraw: data.pointsDraw,
             pointsLoss: data.pointsLoss,
@@ -207,9 +199,11 @@ const Config = () => {
             stadiums: group.stadiums,
             tie_breakCriteria: group.tie_breakCriteria,
             amountGroups: data.amountGroups,
-            amountClassified: data.amountClassified,
+            isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
+            amountClassified: data.amountClassified > group.teams.length ? (group.teams.length === 0 ? 2 : Math.pow(2, powerRange(group.teams.length))) : (data.amountClassified),
             teamsPerGroup: data.teamsPerGroup,
-            matchdayView: group.matchdayView,
+            matchdayNumber: "all",
+            matchdayView: "all",
             createdAt: group.createdAt,
             updatedAt: new Date()
         }
@@ -299,6 +293,8 @@ const Config = () => {
             ) : (
                 <HeaderConfig colors={colors} comeBack={comeBack} />
             )}
+
+            <SureGeneral />
 
             <Toast config={toastConfig} />
 

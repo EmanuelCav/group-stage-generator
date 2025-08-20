@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import i18n from '@/i18n'
 
@@ -22,14 +22,14 @@ export default function TabOneScreen() {
 
   const { colors } = useTheme()
 
-  const { groups, createGroup, getGroup } = groupStore()
+  const { groups, idGroup, createGroup, getGroup } = groupStore()
 
   const router = useRouter()
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
 
   const handleCreateTournament = () => {
-    createGroup(groupValue(groups.length + 1))
+    createGroup(groupValue(idGroup))
     router.replace("/create")
   }
 
@@ -53,6 +53,8 @@ export default function TabOneScreen() {
       router.replace('/create')
     }
   }, [isMounted, groups, router])
+
+  if (groups.length === 0) return <ActivityIndicator style={{ flex: 1, backgroundColor: colors.background }} size="large" />
 
   return (
     <MainScreen colors={colors}>

@@ -77,6 +77,7 @@
         "selectLogo": "Select a logo (optional)",
         "teamName": "Team name",
         "plotOptional": "Plot (optional):",
+        "defineGroupOptional": "Define group (optional)",
         "add": "ADD",
         "update": "UPDATE",
         "remove": "REMOVE"
@@ -139,7 +140,7 @@
     },
     "sumarry_select_event": "Select the event",
     "sumarry_select_team": "Select the team from the summary (optional)",
-    "sumarry_select_secondaryPlayerAssist": "select the assist provider",
+    "sumarry_select_secondaryPlayerAssist": "select the assist provider (optional)",
     "sumarry_select_change": "Select substitute player",
     "sumarry_select_player": "Select the player from the summary",
     "sumarry_select_player_goal": "Select the goal scorer",
@@ -179,7 +180,8 @@
     "win_percentage": "Win percentage",
     "number_of_wins": "Number of wins",
     "points_scored": "Points scored",
-    "all_matches": "All Matches",
+    "all_matches": "All groups",
+    "all_fixture": "All matchdays",
     "titleIndex": "Group Stages",
     "selectGroupStage": "Select a group stage",
     "validation": {
@@ -357,6 +359,8 @@
     "errorSummaryPlayerDescription": "Select a main player",
     "errorUploadImageTitle": "Error uploading image",
     "errorUploadImageDescription": "Check your internet connection or try again later",
+    "errorLimitTitle": "Team Limit",
+    "errorLimitDescription": "You have reached the limit of 64 teams.",
     "home": "Home",
     "away": "Away"
 }

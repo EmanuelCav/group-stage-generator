@@ -11,14 +11,14 @@ import { iconEvent } from "@/utils/matchday"
 
 const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsType) => {
     return (
-        <Pressable style={[matchStyles.summaryDesign, { borderColor: "#ffffff", backgroundColor: colors.background }]}
+        <Pressable style={[matchStyles.summaryDesign, { borderColor: "#ffffff", backgroundColor: colors.primary }]}
             onPress={() => handleUpdateSummary(summary)} >
             <View style={[matchStyles.containerSummary,
-            { alignSelf: summary.player?.team?.name === match.local.team.name ? "flex-start" : "flex-end", backgroundColor: colors.background }]}>
+            { alignSelf: summary.player?.team?.name === match.local.team.name ? "flex-start" : "flex-end", backgroundColor: colors.primary }]}>
                 {
                     summary.player?.team?.name === match.local.team.name ?
                         <>
-                            <View style={{ backgroundColor: colors.background }}>
+                            <View style={{ backgroundColor: colors.primary }}>
                                 <Icon source={iconEvent(summary.title!)} size={24}
                                     color={summary.title === "red card" ? "#f00" : (summary.title === "yellow card" ? "#ff0" : "#fff")} />
                                 <Text variant="labelSmall" style={{ color: "#ffffff" }}>{summary.player?.name}</Text>
@@ -26,7 +26,7 @@ const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsTy
                             <Text variant="bodyMedium" style={{ color: "#ffffff" }}>{summary.time}'</Text>
                         </> : <>
                             <Text variant="bodyMedium" style={{ color: "#ffffff" }}>{summary.time}'</Text>
-                            <View style={{ backgroundColor: colors.background, alignItems: 'flex-end' }}>
+                            <View style={{ backgroundColor: colors.primary, alignItems: 'flex-end' }}>
                                 <Icon source={iconEvent(summary.title!)} size={24}
                                     color={summary.title === "red card" ? "#f00" : (summary.title === "yellow card" ? "#ff0" : "#fff")} />
                                 <Text variant="labelSmall" style={{ color: "#ffffff" }}>{summary.player?.name}</Text>

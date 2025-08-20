@@ -8,6 +8,7 @@ import { ITeam } from "./Team";
 import { KeyTieBreakCriteriaPropsType } from "@/types/props.types";
 
 export interface IGroupStore {
+    idGroup: number;
     groups: IGroup[];
     group: IGroup;
     isSureRemove: boolean;
@@ -43,6 +44,7 @@ export interface IGroupStore {
     updateGenerateAgain: (data: boolean) => void;
     updateShuffledKnockout: (data: boolean) => void;
     matchdayViewUpdated: (data: string) => void;
+    matchdayNumber: (data: string) => void;
 }
 
 export interface IGroup {
@@ -72,6 +74,7 @@ export interface IGroup {
     isKnockoutGenerated?: boolean;
     pointsMode?: string;
     matchdayView?: string;
+    matchdayNumber?: string;
     isGroupStageEliminationDrawed?: boolean;
     createdAt?: Date;
     updatedAt?: Date;

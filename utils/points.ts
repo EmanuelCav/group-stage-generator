@@ -152,6 +152,8 @@ export const orderPoints = (group: IGroup, groupData: IPoints[]): IPoints[] => {
 
 export const groupName = (name: string): string => {
 
+    if(!name) return ""
+
     let separatedName: string[] = name.split(" ")
 
     if (separatedName.length === 1) {

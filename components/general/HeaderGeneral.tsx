@@ -51,7 +51,9 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                 />
 
                 <Menu.Item
-                    onPress={() => Appearance.setColorScheme(dark ? "light" : "dark")}
+                    onPress={() => {
+                        Appearance.setColorScheme(dark ? "light" : "dark")
+                    }}
                     title={dark ? i18n.t("lightMode") : i18n.t("darkMode")}
                     leadingIcon={iconName}
                 />
@@ -63,13 +65,19 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                 />
 
                 <Menu.Item
-                    onPress={() => sureRestartGroup(true)}
+                    onPress={() => {
+                        sureRestartGroup(true)
+                        setVisible(false)
+                    }}
                     title={i18n.t("menu.restart")}
                     leadingIcon="restart"
                 />
 
                 <Menu.Item
-                    onPress={() => sureRemoveGroup(true)}
+                    onPress={() => {
+                        sureRemoveGroup(true)
+                        setVisible(false)
+                    }}
                     title={i18n.t("menu.remove")}
                     leadingIcon="delete"
                 />

@@ -50,7 +50,7 @@ const toastConfig = {
 const Create = () => {
 
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
-  const { createGroup, group, groups, createTeam, generateMatches, updateGenerateAgain,
+  const { createGroup, group, idGroup, groups, createTeam, generateMatches, updateGenerateAgain,
     updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
 
   const { colors } = useTheme()
@@ -64,42 +64,36 @@ const Create = () => {
 
     try {
 
+      let teamsPerGroupUpdate = Number(group.teamsPerGroup)
+      let amountGroupsUpdate = Number(group.amountGroups)
+
       if (group.isManualConfiguration) {
 
-        if (group.teamsPerGroup === 1) {
-          Toast.show({
-            type: 'error',
-            text1: i18n.t("validation.teamsPerGroup.title"),
-            text2: i18n.t("validation.teamsPerGroup.message")
-          });
-          return;
+        if (teamsPerGroupUpdate < 2) {
+          teamsPerGroupUpdate = 2
         }
 
-        if (Math.ceil(group.amountGroups! / 2) > group.teams.length) {
-          Toast.show({
-            type: 'error',
-            text1: i18n.t("validation.numberOfGroups.title"),
-            text2: i18n.t("validation.numberOfGroups.message")
-          });
-          return;
-        }
+        if ((amountGroupsUpdate * teamsPerGroupUpdate) > group.teams.length) {
+          while ((amountGroupsUpdate * teamsPerGroupUpdate) > group.teams.length) {
+            if (teamsPerGroupUpdate > 2) {
+              teamsPerGroupUpdate -= 1
+            }
 
-        if ((group.amountGroups! * group.teamsPerGroup!) > group.teams.length) {
-          Toast.show({
-            type: 'error',
-            text1: i18n.t("validation.numberOfTeams.title"),
-            text2: i18n.t("validation.numberOfTeams.message")
-          });
-          return;
+            if (amountGroupsUpdate > 1) {
+              amountGroupsUpdate -= 1
+            }
+          }
         }
       }
 
-      setLoading(true)
-
-      const groupsMatches = groupGenerator(group)
+      const groupsMatches = groupGenerator({
+        ...group,
+        teamsPerGroup: teamsPerGroupUpdate,
+        amountGroups: amountGroupsUpdate,
+      })
 
       if (group.isManualConfiguration) {
-        generateMatches(groupsMatches.groupsMatches, group.teamsPerGroup!, group.amountGroups!, group.amountClassified!)
+        generateMatches(groupsMatches.groupsMatches, teamsPerGroupUpdate, amountGroupsUpdate, group.amountClassified!)
       } else {
         generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, groupsMatches.groupsSorted.length,
           Math.pow(2, powerRange(group.teams.length)))
@@ -111,6 +105,7 @@ const Create = () => {
             id: groupsMatches.groupsSorted[i][j].id,
             group: groupsMatches.groupsSorted[i][j].group,
             logo: groupsMatches.groupsSorted[i][j].logo,
+            groupAssigned: groupsMatches.groupsSorted[i][j].groupAssigned,
             plot: group.teams.find(t => t.id === groupsMatches.groupsSorted[i][j].id)?.plot,
             name: groupsMatches.groupsSorted[i][j].name,
             color: groupsMatches.groupsSorted[i][j].color
@@ -176,7 +171,7 @@ const Create = () => {
 
   useEffect(() => {
     if (groups.length === 0) {
-      createGroup(groupValue(groups.length + 1))
+      createGroup(groupValue(idGroup))
     }
   }, [])
 
@@ -292,7 +287,7 @@ const Create = () => {
         )}
       </View>
 
-      {group.teams.length < 2 && (
+      {group.teams.length < 2 && !group.isManualConfiguration && (
         <Text
           variant="bodySmall"
           style={{ textAlign: 'center' }}

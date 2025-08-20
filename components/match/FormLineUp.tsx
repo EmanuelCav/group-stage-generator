@@ -58,6 +58,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
             players: [...updatePlayers],
             summary: match.summary,
             visitant: match.visitant,
+            time: match.time,
             date: match.date
         }
 
