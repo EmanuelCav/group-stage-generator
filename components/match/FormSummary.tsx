@@ -66,7 +66,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
         setLoading(true)
 
-        const groupIndex = match.local.team.group! - 1;
+        const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
         const matchdayIndex = matchday - 1;
 
         if (summary.id) {
@@ -475,8 +475,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <TextInput
+                                        inputMode="numeric"
                                         keyboardType="numeric"
-                                        onChangeText={onChange}
+                                        onChangeText={(text) => {
+                                            const formattedText = text.replace(/\D/g, '');
+                                            onChange(formattedText);
+                                        }}
                                         onBlur={onBlur}
                                         value={value}
                                         maxLength={3}

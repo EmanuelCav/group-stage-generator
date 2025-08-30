@@ -6,8 +6,8 @@ import { PropsWithChildren } from "react";
 
 export type SwitchSettingsPropsType = {
     text: string;
-    name: keyof ISetting;
-    control: Control<ISetting>;
+    setValue: (data: boolean) => void;
+    value: boolean;
     colors: MD3Colors;
 };
 

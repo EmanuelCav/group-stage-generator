@@ -56,7 +56,7 @@ const Match = () => {
     }
 
     const handleRemoveSummary = () => {
-        const groupIndex = match.match?.local.team.group! - 1;
+        const groupIndex = match.match?.local.team.group === undefined ? 0 : match.match.local.team.group - 1;
         const matchdayIndex = match.matchday! - 1;
 
         const editMatch: IMatch = {
@@ -100,7 +100,7 @@ const Match = () => {
 
     const handleRemoveStatistic = () => {
 
-        const groupIndex = match.match?.local.team.group! - 1;
+        const groupIndex = match.match?.local.team.group === undefined ? 0 : match.match.local.team.group - 1;
         const matchdayIndex = match.matchday! - 1;
 
         const editMatch: IMatch = {

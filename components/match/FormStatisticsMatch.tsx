@@ -37,7 +37,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
     const handleAddStatistic = (statisticCreated: ICreateStatistic) => {
 
-        const groupIndex = match.local.team.group! - 1;
+        const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
         const matchdayIndex = matchday - 1;
 
         setLoading(true)

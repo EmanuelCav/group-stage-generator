@@ -78,7 +78,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
             });
 
         } else {
-            const groupIndex = match.local.team.group! - 1;
+            const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
             const matchdayIndex = matchday - 1;
 
             const updatedMatches = group.matches!.map((g, gi) =>

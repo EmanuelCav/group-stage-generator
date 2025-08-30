@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { DataTable, Title } from 'react-native-paper';
+import { DataTable, Text, Title } from 'react-native-paper';
 import { Dimensions, FlatList } from 'react-native';
 import i18n from '@/i18n'
 
@@ -26,30 +26,27 @@ const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) 
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
-            {item[index] && group.matchdayNumber === "all" &&
-                <Title
+            {group.matchdayNumber === "all" &&
+                <Text variant='titleLarge'
                     style={[{ color: colors.primary }, generalStyles.titleDataTable]}
                 >
                     {i18n.t("matchday")} {index + 1}
-                </Title>
+                </Text>
             }
-            {
-                item[index] &&
-                <DataTable.Header style={{
-                    borderBottomColor: colors.primary, backgroundColor: colors.tertiary,
-                    marginTop: group.matchdayNumber === "all" ? 0 : Dimensions.get("window").height / 74
-                }}>
-                    <DataTable.Title style={groupStyles.rowStart}>
-                        {i18n.t("local")}
-                    </DataTable.Title>
-                    <DataTable.Title numeric style={groupStyles.rowContainer}>
-                        {i18n.t("score")}
-                    </DataTable.Title>
-                    <DataTable.Title style={groupStyles.rowEnd}>
-                        {i18n.t("visitant")}
-                    </DataTable.Title>
-                </DataTable.Header>
-            }
+            <DataTable.Header style={{
+                borderBottomColor: colors.primary, backgroundColor: colors.tertiary,
+                marginTop: group.matchdayNumber === "all" ? 0 : Dimensions.get("window").height / 74
+            }}>
+                <DataTable.Title style={groupStyles.rowStart}>
+                    {i18n.t("local")}
+                </DataTable.Title>
+                <DataTable.Title numeric style={groupStyles.rowContainer}>
+                    {i18n.t("score")}
+                </DataTable.Title>
+                <DataTable.Title style={groupStyles.rowEnd}>
+                    {i18n.t("visitant")}
+                </DataTable.Title>
+            </DataTable.Header>
 
             {item.map((match, indexItem) => {
                 return (

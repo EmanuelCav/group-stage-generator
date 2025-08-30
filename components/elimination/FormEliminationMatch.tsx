@@ -18,6 +18,7 @@ import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { isScoreElimination, winner } from '@/utils/elimination';
+import { groupName } from '@/utils/points';
 
 const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round }: FormEliminationMatchPropsType) => {
 
@@ -37,10 +38,10 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
-    const [scoreLocalTrip, setScoreLocalTrip] = useState<string>((match.local.scoreTrip !== null && match.local.scoreTrip !== undefined ) ? String(match.local.scoreTrip) : "")
-    const [scoreVisitantTrip, setScoreVisitantTrip] = useState<string>((match.visitant.scoreTrip !== null && match.visitant.scoreTrip !== undefined ) ? String(match.visitant.scoreTrip) : "")
-    const [scoreLocalTieBreaker, setScoreLocalTieBreaker] = useState<string>((match.local.scoreTieBreaker !== null && match.local.scoreTieBreaker !== undefined ) ? String(match.local.scoreTieBreaker) : "")
-    const [scoreVisitantTieBreaker, setScoreVisitantTieBreaker] = useState<string>((match.visitant.scoreTieBreaker !== null && match.visitant.scoreTieBreaker !== undefined ) ? String(match.visitant.scoreTieBreaker) : "")
+    const [scoreLocalTrip, setScoreLocalTrip] = useState<string>((match.local.scoreTrip !== null && match.local.scoreTrip !== undefined) ? String(match.local.scoreTrip) : "")
+    const [scoreVisitantTrip, setScoreVisitantTrip] = useState<string>((match.visitant.scoreTrip !== null && match.visitant.scoreTrip !== undefined) ? String(match.visitant.scoreTrip) : "")
+    const [scoreLocalTieBreaker, setScoreLocalTieBreaker] = useState<string>((match.local.scoreTieBreaker !== null && match.local.scoreTieBreaker !== undefined) ? String(match.local.scoreTieBreaker) : "")
+    const [scoreVisitantTieBreaker, setScoreVisitantTieBreaker] = useState<string>((match.visitant.scoreTieBreaker !== null && match.visitant.scoreTieBreaker !== undefined) ? String(match.visitant.scoreTieBreaker) : "")
 
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ?? "")
     const [referreSelected, setRefereeSelected] = useState<string>(match.referee ?? "")
@@ -148,10 +149,10 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             {match.local.team.logo ? (
                                 <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} />
+                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.local.team.color}}  />
                             )}
                             <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
-                                {match.local.team.name}
+                                {groupName(match.local.team.name!)}
                             </Text>
                         </View>
                         {
@@ -209,10 +210,10 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             {match.visitant.team.logo ? (
                                 <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} />
+                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.visitant.team.color}} />
                             )}
                             <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
-                                {match.visitant.team.name}
+                                {groupName(match.visitant.team.name!)}
                             </Text>
                         </View>
                         {

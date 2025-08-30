@@ -24,7 +24,8 @@
       },
       "permissions": [
         "READ_MEDIA_IMAGES"
-      ]
+      ],
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
@@ -38,14 +39,6 @@
         "react-native-google-mobile-ads",
         {
           "androidAppId": "ca-app-pub-8789796567862358~4522886678"
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "targetSdkVersion": 35
-          }
         }
       ]
     ],

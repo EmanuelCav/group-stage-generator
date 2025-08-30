@@ -3,8 +3,6 @@ import i18n from '@/i18n'
 
 export const configSchema = object().shape({
   title: string().trim().required(i18n.t("validation.config.title.required")),
-  isRoundTripGroupStage: boolean(),
-  isRoundTripElimination: boolean(),
   teamsPerGroup: number()
     .typeError(i18n.t("validation.config.teamsPerGroup.typeError"))
     .min(2, i18n.t("validation.config.teamsPerGroup.min"))

@@ -82,8 +82,6 @@ export interface IGroup {
 
 export interface ISetting {
     title: string;
-    isRoundTripGroupStage?: boolean;
-    isRoundTripElimination?: boolean;
     amountClassified: number;
     amountGroups: number;
     teamsPerGroup: number;

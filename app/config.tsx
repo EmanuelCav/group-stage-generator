@@ -71,6 +71,8 @@ const Config = () => {
     const [image, setImage] = useState<string>(group.logo ?? "")
     const [isFocus, setIsFocus] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
+    const [isRoundTripElimination, setIsRoundTripElimination] = useState<boolean>(group.isRoundTripElimination!)
+    const [isRoundTripGroupStage, setIsRoundTripGroupStage] = useState<boolean>(group.isRoundTripGroupStage!)
 
     const [initialData, setInitialData] = useState<{ label: string, id: string }[]>(
         [{ label: "points", id: "1" },
@@ -87,15 +89,13 @@ const Config = () => {
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(configSchema),
         defaultValues: {
-            title: group.title,
-            amountClassified: group.amountClassified,
-            teamsPerGroup: group.teamsPerGroup,
-            amountGroups: group.amountGroups,
-            isRoundTripElimination: group.isRoundTripElimination,
-            isRoundTripGroupStage: group.isRoundTripGroupStage,
-            pointsWin: group.pointsWin,
-            pointsDraw: group.pointsDraw,
-            pointsLoss: group.pointsLoss
+            title: group.title as string,
+            amountClassified: group.amountClassified as number,
+            teamsPerGroup: group.teamsPerGroup as number,
+            amountGroups: group.amountGroups as number,
+            pointsWin: group.pointsWin as number,
+            pointsDraw: group.pointsDraw as number,
+            pointsLoss: group.pointsLoss as number
         }
     })
 
@@ -183,14 +183,14 @@ const Config = () => {
             title: data.title,
             logo: imageUrl || "",
             matches: group.matches,
-            teams: (group.amountGroups !== data.amountGroups || group.teamsPerGroup !== data.teamsPerGroup) ? group.teams.map(t => ({...t, groupAssigned: undefined})) : group.teams,
+            teams: (group.amountGroups !== data.amountGroups || group.teamsPerGroup !== data.teamsPerGroup) ? group.teams.map(t => ({ ...t, groupAssigned: undefined })) : group.teams,
             pointsWin: data.pointsWin,
             pointsDraw: data.pointsDraw,
             pointsLoss: data.pointsLoss,
             isGenerated: group.isGenerated,
             pointsMode: pointsModeSelected,
-            isRoundTripElimination: data.isRoundTripElimination,
-            isRoundTripGroupStage: data.isRoundTripGroupStage,
+            isRoundTripElimination: isRoundTripElimination,
+            isRoundTripGroupStage: isRoundTripGroupStage,
             isManualConfiguration,
             avoidingMatches: group.avoidingMatches,
             isGeneratedAgain: group.isGeneratedAgain,
@@ -200,7 +200,7 @@ const Config = () => {
             tie_breakCriteria: group.tie_breakCriteria,
             amountGroups: data.amountGroups,
             isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
-            amountClassified: data.amountClassified > group.teams.length ? (group.teams.length === 0 ? 2 : Math.pow(2, powerRange(group.teams.length))) : (data.amountClassified),
+            amountClassified: data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified,
             teamsPerGroup: data.teamsPerGroup,
             matchdayNumber: "all",
             matchdayView: "all",
@@ -451,14 +451,14 @@ const Config = () => {
 
                 <SwitchSettings
                     text={i18n.t('roundTripGroupStage')}
-                    name="isRoundTripGroupStage"
-                    control={control}
+                    value={isRoundTripGroupStage}
+                    setValue={setIsRoundTripGroupStage}
                     colors={colors}
                 />
                 <SwitchSettings
                     text={i18n.t('roundTripElimination')}
-                    name="isRoundTripElimination"
-                    control={control}
+                    value={isRoundTripElimination}
+                    setValue={setIsRoundTripElimination}
                     colors={colors}
                 />
 

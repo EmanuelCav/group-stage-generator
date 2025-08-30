@@ -93,7 +93,8 @@ const Create = () => {
       })
 
       if (group.isManualConfiguration) {
-        generateMatches(groupsMatches.groupsMatches, teamsPerGroupUpdate, amountGroupsUpdate, group.amountClassified!)
+        generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
+          groupsMatches.groupsSorted.length, group.amountClassified!)
       } else {
         generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length, groupsMatches.groupsSorted.length,
           Math.pow(2, powerRange(group.teams.length)))

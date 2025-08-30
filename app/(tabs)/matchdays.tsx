@@ -11,6 +11,7 @@ import Schedule from '@/components/matchdays/Schedule'
 import GenerateAgain from '@/components/general/GenerateAgain'
 import SureGeneral from '@/components/general/SureGeneral'
 import GroupLabel from '@/components/matchdays/GroupLabel'
+import MatchdayLabel from '@/components/matchdays/MatchdayLabel';
 
 import { IGetMatch } from '@/interface/Match'
 
@@ -18,7 +19,6 @@ import { groupStore } from '@/store/group.store'
 import { matchStore } from '@/store/match.store'
 
 import { evaluateGenerateAgain } from '@/utils/matchday'
-import MatchdayLabel from '@/components/matchdays/MatchdayLabel';
 
 const toastConfig = {
     error: (props: any) => (

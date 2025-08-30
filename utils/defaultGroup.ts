@@ -166,6 +166,8 @@ export const generateAvoidingTeams = (group: IGroup, avoiding: IAvoidingMatches)
 
 export const powerRange = (num: number): number => {
 
+    if(num === 2) return 1
+
     const numLog = Math.log(num) / Math.log(2)
     const power = Math.floor(Math.log(num) / Math.log(2))
     const decimal = numLog - Math.floor(numLog);
