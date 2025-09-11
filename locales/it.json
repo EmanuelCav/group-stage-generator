@@ -362,5 +362,7 @@
     "errorLimitTitle": "Limite di squadre",
     "errorLimitDescription": "Hai raggiunto il limite di 64 squadre.",
     "home": "Andata",
-    "away": "Ritorno"
+    "away": "Ritorno",
+    "updateknockout": "Aggiornamento",
+    "updateknockoutMessage": "Modifica il turno precedente per passare al successivo"
 }

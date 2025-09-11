@@ -200,7 +200,7 @@ const Config = () => {
             tie_breakCriteria: group.tie_breakCriteria,
             amountGroups: data.amountGroups,
             isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
-            amountClassified: data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified,
+            amountClassified: group.teams.length < 2 ? data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified : 2,
             teamsPerGroup: data.teamsPerGroup,
             matchdayNumber: "all",
             matchdayView: "all",

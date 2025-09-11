@@ -362,5 +362,7 @@
   "errorLimitTitle": "Limite de equipes",
   "errorLimitDescription": "Você atingiu o limite de 64 equipes.",
   "home": "Ida",
-  "away": "Volta"
+  "away": "Volta",
+  "updateknockout": "Atualização",
+  "updateknockoutMessage": "Modifique a rodada anterior para avançar para a próxima"
 }

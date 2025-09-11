@@ -362,5 +362,7 @@
     "errorLimitTitle": "Límite de equipos",
     "errorLimitDescription": "Haz alcanzado el límite de 64 equipos",
     "home": "Ida",
-    "away": "Vuelta"
+    "away": "Vuelta",
+    "updateknockout": "Actualización",
+    "updateknockoutMessage": "Modifica la ronda anterior para avanzar a la siguiente"
 }

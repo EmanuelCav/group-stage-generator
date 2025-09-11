@@ -362,5 +362,7 @@
     "errorLimitTitle": "Limite d'équipes",
     "errorLimitDescription": "Vous avez atteint la limite de 64 équipes.",
     "home": "Aller",
-    "away": "Retour"
+    "away": "Retour",
+    "updateknockout": "Mise à jour",
+    "updateknockoutMessage": "Modifiez le tour précédent pour passer au suivant"
 }

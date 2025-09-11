@@ -362,5 +362,7 @@
     "errorLimitTitle": "Team-Limit",
     "errorLimitDescription": "Du hast das Limit von 64 Teams erreicht.",
     "home": "Hin",
-    "away": "Rückspiel"
+    "away": "Rückspiel",
+    "updateknockout": "Aktualisierung",
+    "updateknockoutMessage": "Bearbeiten Sie die vorherige Runde, um zur nächsten zu gelangen"
 }

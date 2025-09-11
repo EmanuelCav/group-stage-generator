@@ -23,7 +23,7 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     )}
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36 }} variant="bodyMedium">{groupName(match.local.team.name!)}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: colors.tertiary }}>
                     <Text variant="labelLarge">
                         {match.local.score}
                     </Text>
@@ -56,7 +56,7 @@ const MatchElimination = ({ match, colors, handleGetMatch, indexElimination, gro
                     )}
                     <Text style={{ marginLeft: Dimensions.get("window").width / 36, }} variant="bodyMedium">{groupName(match.visitant.team.name!)}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: colors.tertiary }}>
                     <Text variant="labelLarge">
                         {match.visitant.score}
                     </Text>

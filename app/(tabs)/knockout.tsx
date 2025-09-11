@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
 import i18n from '@/i18n'
+import Toast from 'react-native-toast-message';
 
 import MainScreen from "@/components/general/MainScreen"
 import HeaderGeneral from "@/components/general/HeaderGeneral"
@@ -15,7 +16,7 @@ import { IGetMatchKnockout } from "@/interface/Match"
 import { groupStore } from "@/store/group.store"
 import { matchStore } from "@/store/match.store"
 
-import { detectChangesElimination, getElimationTeams } from "@/utils/elimination"
+import { columnTitle, detectChangesElimination, getElimationTeams } from "@/utils/elimination"
 
 const Elimination = () => {
 
@@ -25,6 +26,15 @@ const Elimination = () => {
     const { getMatchKnockout } = matchStore()
 
     const handleGetMatch = (data: IGetMatchKnockout) => {
+        if (group.eliminationMatches![Number(data.round) - 1]?.find(match => (match.local.score === null || match.visitant.score === null))) {
+            Toast.show({
+                type: 'error',
+                text1: `${i18n.t("updateknockout")} ${columnTitle(Number(data.round), group.eliminationMatches?.length!)}`,
+                text2: i18n.t("updateknockoutMessage")
+            })
+            return
+        }
+
         getMatchKnockout(data)
         router.replace("/matchknockout")
     }
@@ -34,7 +44,7 @@ const Elimination = () => {
     }
 
     useEffect(() => {
-        if(group.isKnockoutGenerated) {
+        if (group.isKnockoutGenerated) {
             if (group.eliminationMatches?.length! === 0) {
                 generateElimination(getElimationTeams(group, false))
             } else {
@@ -50,6 +60,7 @@ const Elimination = () => {
             <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
             <SureGeneral />
+            <Toast />
             {
                 (group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated) ? (
                     <>

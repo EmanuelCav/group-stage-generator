@@ -57,7 +57,7 @@ const Create = () => {
 
   const router = useRouter()
 
-  const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
+  const [isIntersitialLoaded, setIsInterstitialLoaded] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const generateGroups = () => {
@@ -177,7 +177,6 @@ const Create = () => {
   }, [])
 
   useEffect(() => {
-
     const loadInterstitialAd = () => {
       try {
         interstitial.load();
@@ -186,20 +185,26 @@ const Create = () => {
       }
     };
 
-    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-      setIsIntersitialLoaded(true)
-    });
+    const unsubscribeLoaded = interstitial.addAdEventListener(
+      AdEventType.LOADED,
+      async () => {
+        setIsInterstitialLoaded(true);
+      }
+    );
 
-    const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-      setIsIntersitialLoaded(false)
-      loadInterstitialAd();
-    });
+    const unsubscribeClosed = interstitial.addAdEventListener(
+      AdEventType.CLOSED,
+      async () => {
+        setIsInterstitialLoaded(false);
+        loadInterstitialAd();
+      }
+    );
 
     loadInterstitialAd();
 
     return () => {
-      unsubscribeLoaded()
-      unsubscribedClosed()
+      unsubscribeLoaded();
+      unsubscribeClosed();
     };
   }, []);
 

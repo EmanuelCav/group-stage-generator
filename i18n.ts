@@ -7,6 +7,7 @@ import pt from './locales/pt.json';
 import fr from './locales/fr.json';
 import de from './locales/de.json';
 import it from './locales/it.json';
+import tr from './locales/tr.json';
 
 const i18n = new I18n({
   en,
@@ -14,7 +15,8 @@ const i18n = new I18n({
   pt,
   fr,
   de,
-  it
+  it,
+  tr
 });
 
 const languageCode = Localization.getLocales()[0].languageCode || 'en'

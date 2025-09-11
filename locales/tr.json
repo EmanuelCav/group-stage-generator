@@ -362,5 +362,7 @@
   "errorLimitTitle": "Takım Sınırı",
   "errorLimitDescription": "64 takımlık sınıra ulaştınız.",
   "home": "İlk maç",
-  "away": "Rövanş maçı"
+  "away": "Rövanş maçı",
+  "updateknockout": "Güncelleme",
+  "updateknockoutMessage": "Sonraki tura geçmek için önceki turu düzenleyin"
 }

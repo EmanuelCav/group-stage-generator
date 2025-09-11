@@ -362,5 +362,7 @@
     "errorLimitTitle": "Team Limit",
     "errorLimitDescription": "You have reached the limit of 64 teams.",
     "home": "Home",
-    "away": "Away"
+    "away": "Away",
+    "updateknockout": "Update",
+    "updateknockoutMessage": "Modify the previous round to advance to the next one"
 }
