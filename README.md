@@ -44,7 +44,7 @@ It’s designed to offer an intuitive, comprehensive, and fully customizable exp
 - **Navigation:** Expo Router, React Navigation  
 - **State Management:** Zustand  
 - **Form Handling & Validation:** React Hook Form + Yup  
-- **UI/UX:** React Native Paper, React Native Element Dropdown, NativeWind  
+- **UI/UX:** React Native Paper, React Native Element Dropdown
 - **Localization:** i18n-js  
 - **Notifications & Feedback:** React Native Toast Message  
 - **Ads Integration:** react-native-google-mobile-ads  
