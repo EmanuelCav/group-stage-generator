@@ -10,8 +10,7 @@ A mobile application built with **React Native** and **Expo**, designed to gener
 
 ## Overview
 
-It allows you to organize tournaments from scratch — whether it’s leagues, cups, or championships with group and knockout stages.  
-It’s designed to offer an intuitive, comprehensive, and fully customizable experience for organizers, clubs, and sports enthusiasts.
+Allows you to create, organize, and manage custom leagues with schedules, standings, and detailed results.
 
 ---
 
