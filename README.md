@@ -32,18 +32,18 @@ Allows you to create, organize, and manage custom leagues with schedules, standi
   Track goals, assists, cards, and top performers across all teams and players.
 
 - **Comprehensive Management**  
-  Manage teams, players, referees, venues, and match schedules — all in one place.
+  Manage teams, players, referees, venues, and match schedules.
 
 ---
 
 ## Technologies Used
 
-- **Programming Language:** TypeScript  
-- **Framework:** React Native (Expo)  
-- **Navigation:** Expo Router, React Navigation  
-- **State Management:** Zustand  
-- **Form Handling & Validation:** React Hook Form + Yup  
-- **UI/UX:** React Native Paper, React Native Element Dropdown
+ **Programming Language:** TypeScript  
+ **Framework:** React Native (Expo)  
+ **Navigation:** Expo Router, React Navigation  
+ **State Management:** Zustand  
+ **Form Handling & Validation:** React Hook Form + Yup  
+ **UI/UX:** React Native Paper, React Native Element Dropdown
 - **Localization:** i18n-js  
 - **Notifications & Feedback:** React Native Toast Message  
 - **Ads Integration:** react-native-google-mobile-ads  
