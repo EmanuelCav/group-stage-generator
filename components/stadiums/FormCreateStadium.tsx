@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
 
@@ -18,7 +19,7 @@ import { stadiumSchema } from "@/schema/stadium.schema";
 
 import { generateId } from "@/utils/defaultGroup";
 
-const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded }: FormCreateStadiumPropsType) => {
+const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded, premium }: FormCreateStadiumPropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -29,20 +30,33 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
         }
     })
 
-    const handleAddStadium = (stadiumCreated: ICreate) => {
+    const handleAddStadium = async (stadiumCreated: ICreate) => {
 
-        if (group.stadiums!.find((s) => s.name === stadiumCreated.name)) {
-            Toast.show({
-                type: 'error',
-                text1: i18n.t("stadium.name.title"),
-                text2: i18n.t("stadium.name.existsError")
-            });
-            return
+        if (!stadium.id) {
+
+            if (group.stadiums!.find((s) => s.name === stadiumCreated.name)) {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("stadium.name.title"),
+                    text2: i18n.t("stadium.name.existsError")
+                });
+                return
+            }
+
+            if (!premium && group.stadiums?.length! >= 48) {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("limit_stadiums"),
+                    text2: i18n.t("limit_stadiums_description")
+                });
+                return
+            }
+
         }
 
         setLoading(true)
 
-        if (stadium.name) {
+        if (stadium.id) {
             updateStadium({
                 id: stadium.id,
                 name: stadiumCreated.name
@@ -54,9 +68,13 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             })
 
             try {
+
+                const storedCount = await AsyncStorage.getItem("reviewCount");
+                const count = storedCount ? parseInt(storedCount, 10) : 0;
+
                 if (group.stadiums?.length !== 0) {
                     if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
-                        if (interstitial.loaded || isIntersitialLoaded) {
+                        if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
                             interstitial.show()
                         }
                     }

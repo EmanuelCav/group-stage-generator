@@ -28,6 +28,7 @@ export type FormCreateTeamPropsType = {
     team: ITeam;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
+    premium: boolean;
 }
 
 export type HeaderCreatePropsType = {
@@ -44,6 +45,9 @@ export type AddButtonPropsType = {
 
 export type TeamAddedPropsType = {
     team: ITeam;
+    isManualConfiguration: boolean;
+    teams: ITeam[];
     handleUpdateTeam: (data: ITeam) => void;
     colors: MD3Colors;
+    index: number;
 }

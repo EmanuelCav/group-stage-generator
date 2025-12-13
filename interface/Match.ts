@@ -16,7 +16,7 @@ export interface IMatchStore {
     getMatch: (data: IGetMatch) => void;
     getMatchKnockout: (data: IGetMatchKnockout) => void;
     getSummary: (data: ISummary) => void;
-    getStatistic: (data: IStatistic) => void;
+    getStatistic: (data: IMatchStatistic) => void;
     sureRemoveSummary: (show: boolean) => void;
     sureRemoveStatistic: (show: boolean) => void;
     handleSegmented: (data: string) => void;
@@ -60,7 +60,7 @@ export interface IMatchTeam {
 }
 
 export interface ISummary {
-    id?: number;
+    id?: string;
     title?: string;
     player?: IPlayer;
     secondaryPlayer?: IPlayer;
@@ -68,7 +68,7 @@ export interface ISummary {
 }
 
 export interface IMatchStatistic {
-    id?: number;
+    id?: string;
     title?: string;
     teamLocal?: IMatchStatisticTeam;
     teamVisitant?: IMatchStatisticTeam;

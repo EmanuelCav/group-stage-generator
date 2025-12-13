@@ -4,6 +4,8 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import { Dropdown } from 'react-native-element-dropdown';
+import Toast from 'react-native-toast-message';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from '@/i18n'
 
 import { View } from "../Themed";
@@ -17,11 +19,11 @@ import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
 import { generateId, getTeamsName } from "@/utils/defaultGroup";
-
-import { playerSchema } from "@/schema/player.schema";
 import { playerStatistics, statisticPlayer } from "@/utils/statistics";
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded }: FormCreatePlayerPropsType) => {
+import { playerSchema } from "@/schema/player.schema";
+
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded, premium }: FormCreatePlayerPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ?? group.teams[0].name!)
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -35,11 +37,26 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
         }
     })
 
-    const handleAddPlayer = (playerCreated: ICreatePlayer) => {
+    const handleAddPlayer = async (playerCreated: ICreatePlayer) => {
+
+        if (!player.id) {
+
+            const countPlayerTeam = group.players?.filter(pl => pl.team?.id === player.team?.id).length!
+
+            if (!premium && countPlayerTeam >= 15) {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("limit_players"),
+                    text2: i18n.t("limit_players_description")
+                });
+                return
+            }
+
+        }
 
         setLoading(true)
 
-        if (player.name) {
+        if (player.id) {
             updatePlayer({
                 id: player.id,
                 name: playerCreated.name,
@@ -55,9 +72,13 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             })
 
             try {
+
+                const storedCount = await AsyncStorage.getItem("reviewCount");
+                const count = storedCount ? parseInt(storedCount, 10) : 0;
+
                 if (group.players?.length !== 0) {
                     if (group.players?.length === 1 || group.players!.length % 8 === 0) {
-                        if (interstitial.loaded || isIntersitialLoaded) {
+                        if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
                             interstitial.show()
                         }
                     }

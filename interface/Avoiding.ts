@@ -10,7 +10,7 @@ export interface IAvoidingStore {
 }
 
 export interface IAvoidingMatches {
-    id?: number;
+    id?: string;
     teams?: ITeam[];
     title?: string;
     max?: number;

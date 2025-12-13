@@ -1,9 +1,10 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import { InterstitialAd } from "react-native-google-mobile-ads";
+import { Router } from "expo-router";
 
 import { IGetMatch, IGetMatchKnockout, IMatch, IMatchStatistic, IMatchTeam, ISummary } from "@/interface/Match"
 import { IGroup } from "@/interface/Group";
-import { ILineup, IStatistic } from "@/interface/Player";
-import { Router } from "expo-router";
+import { ILineup } from "@/interface/Player";
 
 export type TitleMatchPropsType = {
     match: IGetMatch;
@@ -35,6 +36,9 @@ export type FormUpdateMatchPropsType = {
     match: IMatch;
     group: IGroup;
     matchday: number;
+    premium: boolean;
+    interstitial: InterstitialAd;
+    isIntersitialLoaded: boolean;
 }
 
 export type TeamUpdateScorePropsType = {
@@ -66,7 +70,7 @@ export type FormStatisticsMatchPropsType = {
     updateMatchGroup: (data: IMatch[][][]) => void;
     updateEliminationMatch: (data: IGetMatchKnockout) => void;
     updateMatchKnockGroup: (data: IMatch[][]) => void;
-    getStatistic: (data: IStatistic) => void;
+    getStatistic: (data: IMatchStatistic) => void;
     matchday: number;
     round: number;
     isKnockout: boolean;

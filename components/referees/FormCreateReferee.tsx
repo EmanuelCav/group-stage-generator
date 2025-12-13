@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
 
@@ -18,7 +19,7 @@ import { refereeSchema } from "@/schema/referee.schema";
 
 import { generateId } from "@/utils/defaultGroup";
 
-const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded }: FormCreateRefereePropsType) => {
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded, premium }: FormCreateRefereePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -29,20 +30,33 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
         }
     })
 
-    const handleAddReferee = (refereeCreated: ICreate) => {
+    const handleAddReferee = async (refereeCreated: ICreate) => {
 
-        if (group.referees!.find((r) => r.name === refereeCreated.name)) {
-            Toast.show({
-                type: 'error',
-                text1: i18n.t("referee.name.title"),
-                text2: i18n.t("referee.name.existsError")
-            });
-            return
+        if (!referee.id) {
+
+            if (group.referees!.find((r) => r.name === refereeCreated.name)) {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("referee.name.title"),
+                    text2: i18n.t("referee.name.existsError")
+                });
+                return
+            }
+
+            if (!premium && group.referees?.length! >= 15) {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("limit_referees"),
+                    text2: i18n.t("limit_referees_description")
+                });
+                return
+            }
+
         }
 
         setLoading(true)
 
-        if (referee.name) {
+        if (referee.id) {
             updateReferee({
                 id: referee.id,
                 name: refereeCreated.name
@@ -54,9 +68,13 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             })
 
             try {
+
+                const storedCount = await AsyncStorage.getItem("reviewCount");
+                const count = storedCount ? parseInt(storedCount, 10) : 0;
+
                 if (group.referees?.length !== 0) {
                     if (group.referees?.length === 1 || group.referees!.length % 8 === 0) {
-                        if (interstitial.loaded || isIntersitialLoaded) {
+                        if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
                             interstitial.show()
                         }
                     }
@@ -67,7 +85,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
 
             reset()
         }
-        
+
         setTimeout(() => {
             setLoading(false)
             hideAndShowAddReferee(false)

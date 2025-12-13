@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import { TextInput, Card, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import { Dropdown } from 'react-native-element-dropdown';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from '@/i18n'
 
 import { View } from "../Themed";
@@ -18,16 +19,17 @@ import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
 import { dataGroupNumber, dataPlots, generateId, teamValue } from "@/utils/defaultGroup";
-import { uploadImageToCloudinary } from "@/utils/cloudinary";
+import { normalizeUri, uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
 
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded }: FormCreateTeamPropsType) => {
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded, premium }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${i18n.t("group.title")} ${team.groupAssigned}` : "")
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [isFocus, setIsFocus] = useState<boolean>(false)
+  const [picking, setPicking] = useState<boolean>(false)
   const [isFocusGroup, setIsFocusGroup] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -40,33 +42,49 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   const pickImage = async () => {
 
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!premium && group.teams.filter(t => t.logo).length >= 24) {
+      Toast.show({
+        type: 'error',
+        text1: i18n.t("limit_images"),
+        text2: i18n.t("limit_images_description")
+      });
+      return
+    }
 
-    if (status !== 'granted') {
+    if (picking) return;
+
+    setPicking(true)
+
+    try {
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        const normalizedUri = await normalizeUri(result.assets[0].uri);
+        setImage(normalizedUri);
+      }
+
+    } catch (error) {
       Toast.show({
         type: 'error',
         text1: i18n.t("permissions.galleryAccess.title"),
         text2: i18n.t("permissions.galleryAccess.message")
       });
-      return;
+    } finally {
+      setPicking(false)
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
+  }
 
   const handleAddTeam = async (teamCreated: ICreate) => {
 
     if (!team.id) {
+
       if (group.teams.find((t) => (t.name === teamCreated.name))) {
         Toast.show({
           type: 'error',
@@ -76,7 +94,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         return
       }
 
-      if (group.teams.length >= 64) {
+      if (!premium && group.teams.length >= 48) {
         Toast.show({
           type: 'error',
           text1: i18n.t("errorLimitTitle"),
@@ -127,9 +145,13 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       )
 
       try {
+
+        const storedCount = await AsyncStorage.getItem("reviewCount");
+        const count = storedCount ? parseInt(storedCount, 10) : 0;
+
         if (group.teams.length !== 0) {
           if (group.teams.length === 1 || group.teams.length % 8 === 0) {
-            if (interstitial.loaded || isIntersitialLoaded) {
+            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
               interstitial.show()
             }
           }

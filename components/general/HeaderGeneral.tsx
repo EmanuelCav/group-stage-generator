@@ -5,7 +5,9 @@ import i18n from '@/i18n'
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
-const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup }: HeaderGeneralPropsTypes) => {
+import { duplicateGroup } from "@/utils/defaultGroup";
+
+const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, groups, group, premium }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
     const { dark } = useTheme()
@@ -21,7 +23,7 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                 onDismiss={() => setVisible(false)}
                 contentStyle={{
                     backgroundColor: colors.tertiary, borderColor: colors.secondary, borderWidth: 2,
-                    shadowColor: "dddddd", width: Dimensions.get("window").width / 1.75, flex: 1
+                    shadowColor: "#dddddd", width: Dimensions.get("window").width / 1.75, flex: 1
                 }}
                 anchor={<Appbar.Action icon="dots-vertical" color="#ffffff" onPress={() => setVisible(true)} />}
             >
@@ -63,6 +65,33 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                     title={i18n.t("menu.settings")}
                     leadingIcon="cog"
                 />
+
+                <Menu.Item
+                    onPress={() => {
+                        setVisible(false)
+                        router.navigate("/tent")
+                    }}
+                    title="Premium"
+                    leadingIcon="crown"
+                />
+
+                {
+                    (groups.length < 2 || premium) &&
+                    <Menu.Item
+                        onPress={() => {
+                            setTimeout(() => {
+                                const duplicatedGroup = duplicateGroup(group)
+                                createGroup(duplicatedGroup)
+                                setVisible(false)
+                            }, 0);
+                            
+                            router.replace("/create")
+                        }}
+                        title={i18n.t("duplicate")}
+                        leadingIcon="content-copy"
+                    />
+
+                }
 
                 <Menu.Item
                     onPress={() => {

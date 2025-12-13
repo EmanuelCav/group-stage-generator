@@ -1,3 +1,5 @@
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from "uuid";
 import i18n from '@/i18n'
 
 import { IAvoidingMatches } from "@/interface/Avoiding";
@@ -7,10 +9,11 @@ import { IReferee } from "@/interface/Referee";
 import { IStadium } from "@/interface/Stadium";
 import { IDropdown, IPlot, ITeam } from "@/interface/Team";
 
-export const groupValue = (id: number): IGroup => {
+export const groupValue = (id: number, user_id: string | null): IGroup => {
 
     return {
-        id: generateId(),
+        id: uuidv4(),
+        user_id,
         title: `Group Stage ${id}`,
         logo: "",
         matches: [],
@@ -43,7 +46,7 @@ export const groupValue = (id: number): IGroup => {
     }
 }
 
-export const teamValue = (id: number, logo: string | undefined, name: string, plot: number, group: number | undefined): ITeam => {
+export const teamValue = (id: string, logo: string | undefined, name: string, plot: number, group: number | undefined): ITeam => {
 
     return {
         id,
@@ -166,7 +169,7 @@ export const generateAvoidingTeams = (group: IGroup, avoiding: IAvoidingMatches)
 
 export const powerRange = (num: number): number => {
 
-    if(num === 2) return 1
+    if (num === 2) return 1
 
     const numLog = Math.log(num) / Math.log(2)
     const power = Math.floor(Math.log(num) / Math.log(2))
@@ -182,12 +185,33 @@ export const generateColour = (): string => {
     return "#000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
 }
 
-export const generateId = (): number => {
-  let randomNumber = '';
+export const generateId = (): string => {
+    let randomNumber = '';
 
-  for (let i = 0; i < 12; i++) {
-    randomNumber += Math.floor(Math.random() * 10);
-  }
+    for (let i = 0; i < 20; i++) {
+        randomNumber += Math.floor(Math.random() * 10);
+    }
 
-  return Number(randomNumber);
+    return randomNumber;
+}
+
+export const duplicateGroup = (group: IGroup): IGroup => {
+
+    return {
+        ...group,
+        title: `${group.title} copy`,
+        id: uuidv4(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isDrawed: false,
+        isGenerated: false,
+        isGeneratedAgain: true,
+        isKnockoutGenerated: false,
+        isGroupStageEliminationDrawed: false,
+        matchdayView: "all",
+        matchdayNumber: "all",
+        matches: [],
+        eliminationMatches: [],
+    }        
+
 }

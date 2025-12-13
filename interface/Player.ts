@@ -16,7 +16,7 @@ export interface IPlayerStore {
 }
 
 export interface IPlayer {
-    id?: number;
+    id?: string;
     name?: string;
     team?: ITeam;
     position?: string;

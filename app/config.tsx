@@ -31,10 +31,12 @@ import { createStyles } from "@/styles/create.styles";
 
 import { groupStore } from "@/store/group.store";
 import { avoidingStore } from "@/store/avoiding.store";
+import { userStore } from "@/store/user.store";
+
+import { normalizeUri, uploadImageToCloudinary } from "@/utils/cloudinary";
+import { powerRange } from "@/utils/defaultGroup";
 
 import { configSchema } from "@/schema/config.schema";
-import { uploadImageToCloudinary } from "@/utils/cloudinary";
-import { powerRange } from "@/utils/defaultGroup";
 
 const modeData = [{
     value: "points",
@@ -62,15 +64,18 @@ const toastConfig = {
 
 const Config = () => {
 
-    const { colors } = useTheme()
-    const { group, updateGroup, sureRemoveGroup, sureRestartGroup, updateAvoiding, removeAvoiding, createAvoiding } = groupStore()
+    const { group, updateGroup, sureRemoveGroup, sureRestartGroup, updateAvoiding, removeAvoiding, createAvoiding, groups, createGroup } = groupStore()
     const { avoiding, hideAndShowAddAvoiding, showForm, isSure, getAvoiding, sureRemoveAvoiding } = avoidingStore()
+    const { premium } = userStore()
+
+    const { colors } = useTheme()
 
     const [isManualConfiguration, setIsManuelConfiguration] = useState<boolean>(group.isManualConfiguration!)
     const [pointsModeSelected, setPointsSelected] = useState<string>(group.pointsMode!)
     const [image, setImage] = useState<string>(group.logo ?? "")
     const [isFocus, setIsFocus] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
+    const [picking, setPicking] = useState<boolean>(false)
     const [isRoundTripElimination, setIsRoundTripElimination] = useState<boolean>(group.isRoundTripElimination!)
     const [isRoundTripGroupStage, setIsRoundTripGroupStage] = useState<boolean>(group.isRoundTripGroupStage!)
 
@@ -101,27 +106,34 @@ const Config = () => {
 
     const pickImage = async () => {
 
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (picking) return;
 
-        if (status !== 'granted') {
+        setPicking(true)
+
+        try {
+
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ["images"],
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            if (!result.canceled) {
+                const normalizedUri = await normalizeUri(result.assets[0].uri);
+                setImage(normalizedUri);
+            }
+
+        } catch (error) {
             Toast.show({
                 type: 'error',
                 text1: i18n.t("permissions.galleryAccess.title"),
                 text2: i18n.t("permissions.galleryAccess.message")
             });
-            return;
+        } finally {
+            setPicking(false)
         }
 
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
     }
 
     const handleUpdate = (data: IAvoidingMatches) => {
@@ -200,7 +212,7 @@ const Config = () => {
             tie_breakCriteria: group.tie_breakCriteria,
             amountGroups: data.amountGroups,
             isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
-            amountClassified: group.teams.length < 2 ? data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified : 2,
+            amountClassified: group.teams.length >= 2 ? data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified : 2,
             teamsPerGroup: data.teamsPerGroup,
             matchdayNumber: "all",
             matchdayView: "all",
@@ -289,6 +301,10 @@ const Config = () => {
                     goBack={goBack}
                     sureRemoveGroup={sureRemoveGroup}
                     sureRestartGroup={sureRestartGroup}
+                    group={group}
+                    groups={groups}
+                    createGroup={createGroup}
+                    premium={premium}
                 />
             ) : (
                 <HeaderConfig colors={colors} comeBack={comeBack} />

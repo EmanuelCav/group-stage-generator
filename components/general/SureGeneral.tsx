@@ -19,12 +19,11 @@ const SureGeneral = () => {
     }
 
     const handleRemove = () => {
-        router.replace("/")
+        router.replace("/home")
         setTimeout(() => {
             sureRemoveGroup(false)
             removeGroup(group)
         }, 0);
-
     }
 
     const close = () => {

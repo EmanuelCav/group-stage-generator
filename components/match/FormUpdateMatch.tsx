@@ -4,6 +4,7 @@ import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import { Dropdown } from 'react-native-element-dropdown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n'
 
 import { View } from '../Themed'
@@ -19,7 +20,7 @@ import { matchStyles } from '@/styles/match.styles';
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { groupName } from '@/utils/points';
 
-const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday }: FormUpdateMatchPropsType) => {
+const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, interstitial, isIntersitialLoaded }: FormUpdateMatchPropsType) => {
 
     const theme = {
         ...DefaultTheme,
@@ -47,7 +48,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const handleUpdateMatch = () => {
+    const handleUpdateMatch = async () => {
 
         setLoading(true)
 
@@ -90,6 +91,27 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             matchday,
             match: { ...dataUpdated }
         });
+
+        try {
+
+            const storedCount = await AsyncStorage.getItem("reviewCount");
+            const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+            const storedCountMatch = await AsyncStorage.getItem("matchCount");
+            const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
+
+
+            if (countMatch !== 0 && countMatch % 8 === 0) {
+                if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
+                    interstitial.show()
+                }
+            }
+
+            await AsyncStorage.setItem("matchCount", (countMatch + 1).toString());
+
+        } catch (error) {
+            console.log(error);
+        }
 
         setTimeout(() => {
             hideAndShowUpdateMatch(false)

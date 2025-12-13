@@ -31,7 +31,7 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
 
     const handleAddAvoiding = (avoidingCreated: ICreateAvoiding) => {
 
-        const arrTeamsAvoid = Object.keys(teamsAvoiding).map(Number)
+        const arrTeamsAvoid = Object.keys(teamsAvoiding).map(String)
 
         let updateTeams: ITeam[] = []
 

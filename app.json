@@ -2,11 +2,11 @@
   "expo": {
     "name": "Group Stage Maker",
     "slug": "GroupStageGenerator",
-    "version": "1.0.5",
+    "version": "1.1.1",
     "icon": "./assets/images/icon.png",
     "scheme": "groupstagegenerator",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -17,15 +17,31 @@
     },
     "android": {
       "package": "com.emanlogic.groupstagegenerator",
-      "versionCode": 6,
+      "versionCode": 12,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#007AFF"
       },
       "permissions": [
-        "READ_MEDIA_IMAGES"
+        "com.android.vending.BILLING"
       ],
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "groupstagegenerator",
+              "host": "auth",
+              "pathPrefix": "/callback"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "bundler": "metro",

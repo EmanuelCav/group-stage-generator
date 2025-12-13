@@ -8,6 +8,6 @@ export interface IRefereeStore {
 }
 
 export interface IReferee {
-    id?: number;
+    id?: string;
     name?: string;
 }

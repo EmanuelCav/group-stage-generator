@@ -20,6 +20,9 @@ export const groupStore = create(
             groups: [],
             isSureRemove: false,
             isSureRestart: false,
+            setGroups: (data: IGroup[]) => set(() => ({
+                groups: data
+            })),
             getGroup: (data: IGroup) => set(() => ({
                 group: data
             })),

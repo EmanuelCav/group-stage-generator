@@ -1,3 +1,5 @@
+import * as FileSystem from "expo-file-system";
+
 export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
 
     const data = new FormData()
@@ -27,4 +29,13 @@ export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
         console.error("Cloudinary upload error:", error)
         return ""
     }
+}
+
+export const normalizeUri = async (uri: string) => {
+    if (uri.startsWith("content://")) {
+        const fileUri = `${FileSystem.cacheDirectory}image.jpg`
+        await FileSystem.copyAsync({ from: uri, to: fileUri })
+        return fileUri;
+    }
+    return uri;
 }

@@ -15,15 +15,18 @@ import { IGetMatchKnockout } from "@/interface/Match"
 
 import { groupStore } from "@/store/group.store"
 import { matchStore } from "@/store/match.store"
+import { userStore } from "@/store/user.store";
 
 import { columnTitle, detectChangesElimination, getElimationTeams } from "@/utils/elimination"
 
 const Elimination = () => {
 
+    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, groups, createGroup } = groupStore()
+    const { premium } = userStore()
+    const { getMatchKnockout } = matchStore()
+
     const router = useRouter()
     const { colors } = useTheme()
-    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination } = groupStore()
-    const { getMatchKnockout } = matchStore()
 
     const handleGetMatch = (data: IGetMatchKnockout) => {
         if (group.eliminationMatches![Number(data.round) - 1]?.find(match => (match.local.score === null || match.visitant.score === null))) {
@@ -40,7 +43,7 @@ const Elimination = () => {
     }
 
     const goBack = () => {
-        router.replace("/")
+        router.replace("/home")
     }
 
     useEffect(() => {
@@ -57,8 +60,9 @@ const Elimination = () => {
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("groups")} goBack={goBack}
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
+                createGroup={createGroup} group={group} groups={groups} premium={premium} />
             <SureGeneral />
             <Toast />
             {

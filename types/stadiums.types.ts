@@ -11,6 +11,7 @@ export type FormCreateStadiumPropsType = {
     updateStadium: (data: IStadium) => void;
     openSure: (data: IStadium) => void;
     stadium: IStadium;
+    premium: boolean;
     group: IGroup;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;

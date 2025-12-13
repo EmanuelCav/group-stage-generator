@@ -17,6 +17,7 @@ import { IGetMatch } from '@/interface/Match'
 
 import { groupStore } from '@/store/group.store'
 import { matchStore } from '@/store/match.store'
+import { userStore } from '@/store/user.store';
 
 import { evaluateGenerateAgain } from '@/utils/matchday'
 
@@ -32,10 +33,12 @@ const toastConfig = {
 
 const Matchdays = () => {
 
+    const { group, sureRemoveGroup, sureRestartGroup, matchdayViewUpdated, matchdayNumber, createGroup, groups } = groupStore()
+    const { premium } = userStore()
+    const { getMatch } = matchStore()
+
     const { colors } = useTheme()
     const router = useRouter()
-    const { group, sureRemoveGroup, sureRestartGroup, matchdayViewUpdated, matchdayNumber } = groupStore()
-    const { getMatch } = matchStore()
 
     const handleGetMatch = (data: IGetMatch) => {
         getMatch(data)
@@ -43,13 +46,14 @@ const Matchdays = () => {
     }
 
     const goBack = () => {
-        router.replace("/")
+        router.replace("/home")
     }
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} router={router} title={i18n.t("matchdays")} goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("statistics")} goBack={goBack}
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
+                group={group} groups={groups} premium={premium} />
             <SureGeneral />
             {
                 (group.isGeneratedAgain || evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />

@@ -11,6 +11,7 @@ export type FormCreateRefereePropsType = {
     updateReferee: (data: IReferee) => void;
     openSure: (data: IReferee) => void;
     referee: IReferee;
+    premium: boolean;
     group: IGroup;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;

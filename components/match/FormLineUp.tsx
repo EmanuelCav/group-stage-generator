@@ -37,8 +37,8 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
 
     const handleLineUp = () => {
 
-        const arrPlayersLocal = Object.keys(playersLocal).map(Number)
-        const arrPlayersVisitant = Object.keys(playersVisitant).map(Number)
+        const arrPlayersLocal = Object.keys(playersLocal).map(String)
+        const arrPlayersVisitant = Object.keys(playersVisitant).map(String)
         const concatArrPlayers = arrPlayersLocal.concat(arrPlayersVisitant)
 
         setLoading(true)

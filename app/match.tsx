@@ -1,7 +1,8 @@
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
 import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
+import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -27,19 +28,29 @@ import { matchStyles } from "@/styles/match.styles"
 
 import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
+import { userStore } from "@/store/user.store"
 
 import { lineupPlayers } from "@/utils/matchday"
+
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
+
+const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
+    keywords: ['fashion', 'clothing'],
+});
 
 const Match = () => {
 
     const { colors } = useTheme()
     const router = useRouter()
-    const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup, updateMatchKnockGroup } = groupStore()
+    const { sureRemoveGroup, sureRestartGroup, group, updateMatchGroup, updateMatchKnockGroup, createGroup, groups } = groupStore()
     const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic, getSummary, matchknockout,
         hideAndShowPlayers, hideAndShowStatistics, hideAndShowSummary, showFormPlayers, showFormStatistics, showFormSummary,
         summary, isSureSummary, sureRemoveSummary, getStatistic, isSureStatistic, sureRemoveStatistic, updateEliminationMatch,
         handleGetMatch
     } = matchStore()
+    const { premium } = userStore()
+
+    const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
 
     const sortedSummary = useMemo(() => {
         return [...(match.match?.summary ?? [])].sort((a, b) => Number(b.time) - Number(a.time))
@@ -150,6 +161,33 @@ const Match = () => {
         handleGetMatch()
     }, [])
 
+    useEffect(() => {
+
+        const loadInterstitialAd = () => {
+            try {
+                interstitial.load();
+            } catch (error) {
+                console.error("Error loading interstitial ad:", error);
+            }
+        };
+
+        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
+            setIsIntersitialLoaded(true)
+        });
+
+        const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
+            setIsIntersitialLoaded(false)
+            loadInterstitialAd();
+        });
+
+        loadInterstitialAd();
+
+        return () => {
+            unsubscribeLoaded()
+            unsubscribedClosed()
+        };
+    }, []);
+
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral
@@ -159,6 +197,10 @@ const Match = () => {
                 title={i18n.t("match_title")}
                 sureRemoveGroup={sureRemoveGroup}
                 sureRestartGroup={sureRestartGroup}
+                group={group}
+                createGroup={createGroup}
+                groups={groups}
+                premium={premium}
             />
             <SureGeneral />
 
@@ -244,6 +286,9 @@ const Match = () => {
                     updateMatch={updateMatch}
                     matchday={match.matchday!}
                     updateMatchGroup={updateMatchGroup}
+                    premium={premium}
+                    interstitial={interstitial}
+                    isIntersitialLoaded={isIntersitialLoaded}
                 />
             )}
 

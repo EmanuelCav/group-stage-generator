@@ -9,21 +9,25 @@ import AddPlayers from "@/components/statistics/AddPlayers"
 import SureGeneral from "@/components/general/SureGeneral"
 
 import { groupStore } from "@/store/group.store"
+import { userStore } from "@/store/user.store"
 
 const Statistics = () => {
 
+    const { group, sureRemoveGroup, sureRestartGroup, createGroup, groups } = groupStore()
+    const { premium } = userStore()
+
     const router = useRouter()
     const { colors } = useTheme()
-    const { group, sureRemoveGroup, sureRestartGroup } = groupStore()
 
     const goBack = () => {
-        router.replace("/")
+        router.replace("/home")
     }
 
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("statistics")} goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
+                group={group} groups={groups} premium={premium} />
             <SureGeneral />
             {
                 group.players?.length! > 0 ?

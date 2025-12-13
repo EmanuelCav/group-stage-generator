@@ -14,6 +14,7 @@ export type FormCreatePlayerPropsType = {
     group: IGroup;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
+    premium: boolean;
 }
 
 export type PlayerPropsType = {

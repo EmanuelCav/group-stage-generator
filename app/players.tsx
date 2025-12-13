@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Dimensions, FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import Toast, { ErrorToast } from 'react-native-toast-message';
 import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
@@ -23,19 +24,31 @@ import { IPlayer } from "@/interface/Player";
 
 import { groupStore } from "@/store/group.store";
 import { playerStore } from "@/store/player.store";
+import { userStore } from "@/store/user.store";
 
 import { getTeamsName } from "@/utils/defaultGroup";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_PLAYER}`;
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
     keywords: ['fashion', 'clothing'],
 });
 
+const toastConfig = {
+    error: (props: any) => (
+        <ErrorToast
+            {...props}
+            text1NumberOfLines={1}
+            text2NumberOfLines={3}
+        />
+    ),
+}
+
 const Players = () => {
 
     const { showForm, hideAndShowAddPlayer, getPlayer, player, isSure, sureRemovePlayer, sureRemoveStatistic, getStatistic } = playerStore()
-    const { group, createPlayer, updatePlayer, removePlayer, sureRestartGroup, sureRemoveGroup } = groupStore()
+    const { group, createPlayer, updatePlayer, removePlayer, sureRestartGroup, sureRemoveGroup, createGroup, groups } = groupStore()
+    const { premium } = userStore()
 
     const { colors } = useTheme()
 
@@ -123,11 +136,15 @@ const Players = () => {
             {
                 showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure}
                     hideAndShowAddPlayer={hideAndShowAddPlayer} createPlayer={createPlayer} updatePlayer={handleUpdate}
-                    interstitial={interstitial} isIntersitialLoaded={isIntersitialLoaded} />
+                    interstitial={interstitial} isIntersitialLoaded={isIntersitialLoaded} premium={premium} />
             }
             <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} />
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup} group={group} groups={groups} premium={premium} />
+
             <SureGeneral />
+
+            <Toast config={toastConfig} />
+
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {
                     group.players!.length > 0 &&

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import Toast, { ErrorToast } from 'react-native-toast-message';
 import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
@@ -21,19 +22,30 @@ import { createStyles } from "@/styles/create.styles";
 import { IReferee } from "@/interface/Referee";
 
 import { groupStore } from "@/store/group.store";
-
 import { refereeStore } from "@/store/referee.store";
+import { userStore } from "@/store/user.store";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_REFEREE}`;
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
     keywords: ['fashion', 'clothing'],
 });
 
+const toastConfig = {
+    error: (props: any) => (
+        <ErrorToast
+            {...props}
+            text1NumberOfLines={1}
+            text2NumberOfLines={3}
+        />
+    ),
+}
+
 const Referees = () => {
 
     const { showForm, hideAndShowAddReferee, getReferee, referee, isSure, sureRemoveReferee } = refereeStore()
-    const { group, createReferee, updateReferee, removeReferee, sureRestartGroup, sureRemoveGroup } = groupStore()
+    const { group, createReferee, updateReferee, removeReferee, sureRestartGroup, sureRemoveGroup, createGroup, groups } = groupStore()
+    const { premium } = userStore()
 
     const { colors } = useTheme()
 
@@ -133,18 +145,17 @@ const Referees = () => {
                         updateReferee={handleUpdate}
                         interstitial={interstitial}
                         isIntersitialLoaded={isIntersitialLoaded}
+                        premium={premium}
                     />
                 )
             }
-            <HeaderGeneral
-                colors={colors}
-                router={router}
-                title={i18n.t("referees_title")}
-                goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup}
-                sureRestartGroup={sureRestartGroup}
-            />
+            <HeaderGeneral colors={colors} router={router} title={i18n.t("referees_title")} goBack={goBack}
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup} group={group} groups={groups} premium={premium} />
+
             <SureGeneral />
+
+            <Toast config={toastConfig} />
+
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {
                     group.referees!.length > 0 ? (

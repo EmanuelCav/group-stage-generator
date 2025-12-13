@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
+import Toast, { ErrorToast } from 'react-native-toast-message';
 import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
@@ -21,19 +22,30 @@ import { createStyles } from "@/styles/create.styles";
 import { IStadium } from "@/interface/Stadium";
 
 import { groupStore } from "@/store/group.store";
-
 import { stadiumStore } from "@/store/stadium.store";
+import { userStore } from "@/store/user.store";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_STADIUM}`;
 
 const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
   keywords: ['fashion', 'clothing'],
 });
 
+const toastConfig = {
+  error: (props: any) => (
+    <ErrorToast
+      {...props}
+      text1NumberOfLines={1}
+      text2NumberOfLines={3}
+    />
+  ),
+}
+
 const Stadiums = () => {
 
   const { showForm, hideAndShowAddStadium, getStadium, stadium, isSure, sureRemoveStadium } = stadiumStore()
-  const { group, createStadium, updateStadium, removeStadium, sureRestartGroup, sureRemoveGroup } = groupStore()
+  const { group, createStadium, updateStadium, removeStadium, sureRestartGroup, sureRemoveGroup, createGroup, groups } = groupStore()
+  const { premium } = userStore()
 
   const { colors } = useTheme()
 
@@ -124,6 +136,7 @@ const Stadiums = () => {
       {
         showForm && (
           <FormCreateStadium
+            premium={premium}
             group={group}
             colors={colors}
             stadium={stadium}
@@ -143,8 +156,16 @@ const Stadiums = () => {
         goBack={goBack}
         sureRemoveGroup={sureRemoveGroup}
         sureRestartGroup={sureRestartGroup}
+        createGroup={createGroup}
+        group={group}
+        groups={groups}
+        premium={premium}
       />
+
       <SureGeneral />
+
+      <Toast config={toastConfig} />
+
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {
           group.stadiums!.length > 0 ? (

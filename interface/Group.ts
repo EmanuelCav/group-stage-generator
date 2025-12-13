@@ -13,6 +13,7 @@ export interface IGroupStore {
     group: IGroup;
     isSureRemove: boolean;
     isSureRestart: boolean;
+    setGroups: (data: IGroup[]) => void;
     sureRemoveGroup: (sure: boolean) => void;
     sureRestartGroup: (sure: boolean) => void;
     drawedElimination: (data: boolean) => void;
@@ -48,7 +49,8 @@ export interface IGroupStore {
 }
 
 export interface IGroup {
-    id?: number;
+    id?: string;
+    user_id?: string | null;
     logo?: string;
     title?: string;
     matches?: IMatch[][][];

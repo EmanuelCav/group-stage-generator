@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Dimensions, FlatList } from "react-native";
-import { MD3Colors, Text, useTheme } from "react-native-paper";
+import { ActivityIndicator, MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
@@ -27,9 +27,12 @@ import { ITeam } from "@/interface/Team";
 
 import { teamStore } from "@/store/team.store";
 import { groupStore } from "@/store/group.store";
+import { userStore } from "@/store/user.store";
 
 import { groupValue, powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
+
+import { useAuth } from "@/hooks/auth";
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
 
@@ -52,10 +55,12 @@ const Create = () => {
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
   const { createGroup, group, idGroup, groups, createTeam, generateMatches, updateGenerateAgain,
     updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
+  const { premium } = userStore()
 
   const { colors } = useTheme()
-
   const router = useRouter()
+
+  const { user } = useAuth()
 
   const [isIntersitialLoaded, setIsInterstitialLoaded] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -172,7 +177,7 @@ const Create = () => {
 
   useEffect(() => {
     if (groups.length === 0) {
-      createGroup(groupValue(idGroup))
+      createGroup(groupValue(idGroup, user ? user.id : null))
     }
   }, [])
 
@@ -223,6 +228,7 @@ const Create = () => {
       {showForm && (
         <FormCreateTeam
           colors={colors}
+          premium={premium}
           group={group}
           team={team}
           openSure={openSure}
@@ -242,6 +248,10 @@ const Create = () => {
           goBack={goBack}
           sureRemoveGroup={sureRemoveGroup}
           sureRestartGroup={sureRestartGroup}
+          createGroup={createGroup}
+          group={group}
+          groups={groups}
+          premium={premium}
         />
       ) : (
         <HeaderCreate
@@ -254,7 +264,9 @@ const Create = () => {
 
       <SureGeneral />
 
-      <Banner />
+      {
+        !premium && <Banner />
+      }
 
       <Toast config={toastConfig} />
 
@@ -276,13 +288,16 @@ const Create = () => {
         {group.teams.length > 0 ? (
           <FlatList
             style={{ width: '100%' }}
-            data={group.teams}
+            data={group.teams.sort((a, b) => a.plot! - b.plot!)}
             keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <TeamAdded
+                teams={group.teams}
+                isManualConfiguration={group.isManualConfiguration!}
                 team={item}
                 handleUpdateTeam={handleUpdateTeam}
                 colors={colors}
+                index={index}
               />
             )}
           />

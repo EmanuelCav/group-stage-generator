@@ -14,7 +14,7 @@ const HeaderCreate = ({ colors, groups, router, group }: HeaderCreatePropsType) 
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
             {
                 groups.length > 0 && <Appbar.BackAction color="#ffffff"
-                    onPress={() => group.isGenerated ? router.replace("/(tabs)/groups") : router.replace("/")} />
+                    onPress={() => group.isGenerated ? router.replace("/(tabs)/groups") : router.replace("/home")} />
             }
             <Appbar.Content title={i18n.t("teams")} color="#ffffff" />
             <Appbar.Action icon={iconName} color="#ffffff"

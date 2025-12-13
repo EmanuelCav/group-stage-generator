@@ -4,6 +4,7 @@ import { Avatar, Button, DefaultTheme, IconButton, MD3Colors, PaperProvider, Tex
 import { DatePickerModal, enGB, registerTranslation, TimePickerModal } from 'react-native-paper-dates';
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import { Dropdown } from 'react-native-element-dropdown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n'
 
 import { View } from '../Themed'
@@ -20,7 +21,7 @@ import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { isScoreElimination, winner } from '@/utils/elimination';
 import { groupName } from '@/utils/points';
 
-const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round }: FormEliminationMatchPropsType) => {
+const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, interstitial, isIntersitialLoaded, premium }: FormEliminationMatchPropsType) => {
 
     const theme = {
         ...DefaultTheme,
@@ -30,7 +31,6 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             background: "#111",
             primary: "#999",
             onSurface: "#999",
-
         },
     }
 
@@ -52,7 +52,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
 
-    const handleUpdateMatch = () => {
+    const handleUpdateMatch = async () => {
 
         const dataUpdated: IMatch = {
             isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
@@ -125,6 +125,26 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             match: { ...dataUpdated }
         })
 
+        try {
+
+            const storedCount = await AsyncStorage.getItem("reviewCount");
+            const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+            const storedCountMatch = await AsyncStorage.getItem("matchCount");
+            const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
+
+            if (countMatch !== 0 && countMatch % 8 === 0) {
+                if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
+                    interstitial.show()
+                }
+            }
+
+            await AsyncStorage.setItem("matchCount", (countMatch + 1).toString());
+
+        } catch (error) {
+            console.log(error);
+        }
+
         hideAndShowUpdateMatch(false)
     }
 
@@ -149,7 +169,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             {match.local.team.logo ? (
                                 <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.local.team.color}}  />
+                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.local.team.color }} />
                             )}
                             <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
                                 {groupName(match.local.team.name!)}
@@ -210,7 +230,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             {match.visitant.team.logo ? (
                                 <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.visitant.team.color}} />
+                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.visitant.team.color }} />
                             )}
                             <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
                                 {groupName(match.visitant.team.name!)}
