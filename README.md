@@ -38,13 +38,14 @@ Allows you to create, organize, and manage custom leagues with schedules, standi
 
 ## Technologies Used
 
- **Programming Language:** TypeScript  
- **Framework:** React Native (Expo)  
- **Navigation:** Expo Router, React Navigation  
- **State Management:** Zustand  
- **Form Handling & Validation:** React Hook Form + Yup  
- **UI/UX:** React Native Paper, React Native Element Dropdown
-- **Localization:** i18n-js  
-- **Notifications & Feedback:** React Native Toast Message  
-- **Ads Integration:** react-native-google-mobile-ads  
-- **Local Storage:** Async Storage  
+ - **Programming Language:** TypeScript  
+ - **Framework:** React Native (Expo)  
+ - **Navigation:** Expo Router, React Navigation  
+ - **State Management:** Zustand  
+ - **Backend:** Supabase
+ - **Form Handling & Validation:** React Hook Form + Yup  
+ - **UI/UX:** React Native Paper, React Native Paper Dates, React Native Element Dropdown, Expo Vector Icons
+ - **Localization:** i18n-js, Expo Localization
+ - **Notifications & Feedback:** React Native Toast Message, Expo Store Review
+ - **Ads & Monetization:** react-native-google-mobile-ads, react-native-purchases
+ - **Local Storage:** Async Storage, Expo Secure Store
