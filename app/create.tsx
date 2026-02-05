@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Dimensions, FlatList } from "react-native";
-import { ActivityIndicator, MD3Colors, Text, useTheme } from "react-native-paper";
+import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
@@ -32,7 +32,7 @@ import { userStore } from "@/store/user.store";
 import { groupValue, powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
 
-import { useAuth } from "@/hooks/auth";
+import { useAuth } from "@/hooks/useAuth";
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
 
@@ -179,7 +179,7 @@ const Create = () => {
     if (groups.length === 0) {
       createGroup(groupValue(idGroup, user ? user.id : null))
     }
-  }, [])
+  }, [groups.length])
 
   useEffect(() => {
     const loadInterstitialAd = () => {

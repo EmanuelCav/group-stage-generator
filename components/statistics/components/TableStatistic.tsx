@@ -17,10 +17,10 @@ const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisti
     <View style={groupStyles.groupList}>
       <View>
         <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
-          <Text variant="labelMedium" style={groupStyles.statisticsCellMain}>
+          <Text variant="labelSmall" style={groupStyles.statisticsCellMain}>
             {i18n.t("player")}
           </Text>
-          <Text variant="labelMedium" style={groupStyles.statisticsCellMain}>
+          <Text variant="labelSmall" style={groupStyles.statisticsCellMain}>
             {i18n.t("teamName")}
           </Text>
         </View>
@@ -31,9 +31,9 @@ const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisti
               keyExtractor={(_, index) => String(index)}
               renderItem={({ item }) => (
                 <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
-                  <Text style={groupStyles.statisticsCell} variant="bodyMedium">{namePlayerStatistic(item.player)}</Text>
+                  <Text style={groupStyles.statisticsCell} variant="bodySmall">{namePlayerStatistic(item.player)}</Text>
                   <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.tertiary }}>
-                    <Text style={groupStyles.statisticsCell} variant="bodyMedium">{groupName(item.team)}</Text>
+                    <Text style={groupStyles.statisticsCell} variant="bodySmall">{groupName(item.team)}</Text>
                   </View>
                 </View>
               )}
@@ -44,7 +44,7 @@ const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisti
       </View>
       <View>
         <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
-          <Text variant="labelMedium" style={groupStyles.statisticsCellMain}>
+          <Text variant="bodySmall" style={groupStyles.statisticsCellMain}>
             {playerStatistics[indexStatistic]}
           </Text>
         </View>
@@ -53,7 +53,7 @@ const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisti
           keyExtractor={(_, index) => String(index)}
           renderItem={({ item }) => (
             <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
-              <Text style={groupStyles.statisticsCell} variant="bodyMedium">{item.value}</Text>
+              <Text style={groupStyles.statisticsCell} variant="bodySmall">{item.value}</Text>
             </View>
           )}
         />

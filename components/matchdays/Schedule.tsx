@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { DataTable, Text, Title } from 'react-native-paper';
+import { useMemo, useState } from 'react';
+import { DataTable, Text } from 'react-native-paper';
 import { Dimensions, FlatList } from 'react-native';
 import i18n from '@/i18n'
 
@@ -20,8 +20,16 @@ type RenderMatchday = {
 
 const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) => {
 
+    const [errorMatchdays, setErrorMatchdays] = useState<string>("")
+
     const matchdays = useMemo(() => {
-        return getMatchdaysGroupState(group.matches!, group.matchdayView!, group.matchdayNumber!, router);
+        try {
+            return getMatchdaysGroupState(group.matches!, group.matchdayView!, group.matchdayNumber!, router);
+        } catch (error) {
+            console.log(error);
+            setErrorMatchdays(i18n.t("tryRestoring"))
+            return []
+        }
     }, [group.matches, group.matchdayView, group.matchdayNumber]);
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
@@ -66,11 +74,18 @@ const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) 
     );
 
     return (
-        <FlatList
-            data={matchdays}
-            renderItem={renderMatchday}
-            keyExtractor={(_, index) => index.toString()}
-        />
+        <>
+            {
+                errorMatchdays && <Text variant='bodyMedium'>
+                    {errorMatchdays}
+                </Text>
+            }
+            <FlatList
+                data={matchdays}
+                renderItem={renderMatchday}
+                keyExtractor={(_, index) => index.toString()}
+            />
+        </>
     )
 };
 

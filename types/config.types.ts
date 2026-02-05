@@ -22,6 +22,7 @@ export type InputSettingsPropsType = {
     error?: string;
     defaultValue: string;
     colors: MD3Colors;
+    handleFocus: (v: number) => void;
 };
 
 export type SettingsButtonPropsType = {

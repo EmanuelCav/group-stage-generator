@@ -1,4 +1,4 @@
-import { IPlayer, IStatistic } from "./Player";
+import { IPlayer } from "./Player";
 import { ITeam } from "./Team";
 
 export interface IMatchStore {

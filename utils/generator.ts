@@ -257,21 +257,29 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
     const lengthArr = array.length % 2 === 0 ? (array.length - 1) : (array.length)
 
+    const sizeArray = array.length
+
+    if (sizeArray % 2 !== 0) {
+        array.unshift({})
+    }
+
     for (let i = 0; i < (isTrip ? lengthArr * 2 : lengthArr); i++) {
 
         let matchs: IMatch[] = []
 
         for (let j = 0; j < (array.length === 2 ? 1 : array.length % 2 === 0 ? Math.ceil(lengthArr / 2) : Math.floor(lengthArr / 2)); j++) {
 
+            if (isEmptyObject(array[array.length % 2 === 0 ? j : j + 1]) || isEmptyObject(array[array.length - 1 - j])) continue
+
             if (i > lengthArr - 1) {
                 matchs.push({
                     local: {
                         score: null,
-                        team: j % 2 !== 0 ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1],
+                        team: (i % 2 === 0 && j === 0) ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1]
                     },
                     visitant: {
                         score: null,
-                        team: j % 2 !== 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
+                        team: (i % 2 === 0 && j === 0) ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j]
                     },
                     referee: "",
                     stadium: "",
@@ -284,11 +292,11 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
                 matchs.push({
                     local: {
                         score: null,
-                        team: j % 2 === 0 ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1],
+                        team: (i % 2 !== 0 && j === 0) ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j]
                     },
                     visitant: {
                         score: null,
-                        team: j % 2 === 0 ? array[array.length % 2 === 0 ? j : j + 1] : array[array.length - 1 - j],
+                        team: (i % 2 !== 0 && j === 0) ? array[array.length - 1 - j] : array[array.length % 2 === 0 ? j : j + 1]
                     },
                     referee: "",
                     stadium: "",
@@ -304,14 +312,26 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
         matches.push(matchs)
 
-        const element = array.pop()
+        const arrLength = array.length
+        const pivot = array[0]
 
-        if (array.length % 2 !== 0) {
-            array.splice(1, 0, element as ITeam)
-        } else {
-            array.unshift(element as ITeam)
+        const nextRoundBegin = array.slice(1, Math.ceil(arrLength / 2) + 1)
+        const nextRoundEnd = array.slice(Math.ceil(arrLength / 2) + 1, arrLength)
+
+        array = [pivot]
+
+        for (let j = 0; j < nextRoundEnd.length; j++) {
+            array.push(nextRoundEnd[j])
         }
 
+        for (let j = 0; j < nextRoundBegin.length; j++) {
+            array.push(nextRoundBegin[j])
+        }
+
+    }
+
+    if (sizeArray % 2 !== 0) {
+        array.shift()
     }
 
     return matches
@@ -331,6 +351,15 @@ export const shuffle = (array: any[]): any[] => {
     }
 
     return array
+}
+
+const isEmptyObject = (obj: ITeam) => {
+
+    if (typeof obj === 'object' && obj !== null) {
+        return Object.keys(obj).length === 0
+    }
+
+    return false
 }
 
 

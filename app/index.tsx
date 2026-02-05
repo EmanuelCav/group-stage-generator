@@ -19,7 +19,7 @@ import { supabase } from '../lib/supabase';
 import { signInWithGoogle } from '../lib/providerAuth';
 import { getGroupsFromSupabase } from '@/lib/save';
 
-import { useAuth } from '@/hooks/auth';
+import { useAuth } from '@/hooks/useAuth';
 
 const Index = () => {
 

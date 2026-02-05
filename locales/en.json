@@ -6,7 +6,7 @@
     "manuallyTitle": "Generate the group stage manually",
     "numberOfGroups": "Number of groups",
     "teamsPerGroup": "Number of teams per group",
-    "numberOfClassifieds": "Total number of qualifiers",
+    "numberOfClassifieds": "Total number of qualifiers to knockout",
     "showPoints": "Show points",
     "pointsToTheWinner": "Points to the winner",
     "pointsToTie": "Points to tie",
@@ -418,5 +418,6 @@
     "duplicate": "Duplicate",
     "titleTent": "Subscribe to Premium and access all the benefits",
     "titleIsPremium": "Congratulations! You are now a premium member",
-    "allTeams": "All teams"
+    "allTeams": "All teams",
+    "tryRestoring": "Error retrieving the match schedule. Try restoring the tournament."
 }

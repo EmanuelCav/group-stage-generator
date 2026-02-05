@@ -25,9 +25,9 @@ const TeamAdded = ({ team, handleUpdateTeam, colors, index, teams, isManualConfi
         <View
           style={{ flexDirection: "row", alignItems: "center", backgroundColor: colors.tertiary }}>
           {team.logo ? (
-            <Avatar.Image source={{ uri: team.logo }} size={25} />
+            <Avatar.Image source={{ uri: team.logo }} size={34} />
           ) : (
-            <Avatar.Icon icon="shield-outline" style={{ backgroundColor: team.color }} color="#ffffff" size={25} />
+            <Avatar.Icon icon="shield-outline" style={{ backgroundColor: team.color }} color="#ffffff" size={34} />
           )}
           <Text variant="bodyLarge" style={{
             marginLeft: Dimensions.get("window").width / 45,

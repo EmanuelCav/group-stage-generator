@@ -15,7 +15,7 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { userStore } from "@/store/user.store";
 
-import { useAuth } from "@/hooks/auth";
+import { useAuth } from "@/hooks/useAuth";
 
 const Tent = () => {
 

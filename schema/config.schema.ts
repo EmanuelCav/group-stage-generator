@@ -1,4 +1,4 @@
-import { boolean, number, object, string } from "yup";
+import { number, object, string } from "yup";
 import i18n from '@/i18n'
 
 export const configSchema = object().shape({

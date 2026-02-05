@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
 import { Button, IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
@@ -48,6 +49,7 @@ const Matchknockout = () => {
         summary, sureRemoveSummary, getStatistic, sureRemoveStatistic, updateEliminationMatch, updateMatch, isSureStatistic, isSureSummary
     } = matchStore()
     const { premium } = userStore()
+    const insets = useSafeAreaInsets()
 
     const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
 
@@ -398,7 +400,7 @@ const Matchknockout = () => {
                                     {i18n.t("summary_add")}
                                 </Button>
                                 <FlatList
-                                    style={{ width: '100%' }}
+                                    style={{ width: '100%', marginBottom: insets.bottom }}
                                     data={matchknockout.match?.summary}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => <Summary summary={item} match={matchknockout.match!} colors={colors}
@@ -418,7 +420,7 @@ const Matchknockout = () => {
                         {
                             matchknockout.match?.players.length! > 0 ?
                                 <FlatList
-                                    style={{ width: '100%' }}
+                                    style={{ width: '100%', marginBottom: insets.bottom }}
                                     data={lineupPlayers(matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.local.team.id)!,
                                         matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.visitant.team.id)!)}
                                     keyExtractor={(_, index) => index.toString()}
@@ -435,7 +437,7 @@ const Matchknockout = () => {
                     <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {
                             matchknockout.match?.statistics.length! > 0 ? <FlatList
-                                style={{ width: '100%' }}
+                                style={{ width: '100%', marginBottom: insets.bottom }}
                                 data={matchknockout.match?.statistics}
                                 keyExtractor={(_, index) => index.toString()}
                                 renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}

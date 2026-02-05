@@ -26,8 +26,8 @@ import { labelSummaryEvent } from "@/utils/matchday";
 
 const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary }: FormSummaryPropsType) => {
 
-    const [statisticSelected, setStatisticSelected] = useState<string>("")
-    const [teamSelected, setTeamSelected] = useState<string>("")
+    const [statisticSelected, setStatisticSelected] = useState<string>(summary.title ?? "")
+    const [teamSelected, setTeamSelected] = useState<string>(summary.player?.team?.name ?? "")
     const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ?? "")
     const [secondaryPlayerSelected, setSecondaryPlayerSelected] = useState<string>(summary.secondaryPlayer?.name ?? "")
 

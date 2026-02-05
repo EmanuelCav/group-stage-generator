@@ -18,15 +18,10 @@ export const generalStyles = StyleSheet.create({
     },
 
     containerBackground: {
-        position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        top: 0,
-        left: 0,
-        width: '100%',
+        ...StyleSheet.absoluteFillObject,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: Dimensions.get("window").width / 36,
-        flex: 1,
+        paddingHorizontal: Dimensions.get("window").width / 36
     },
 
     cardBackground: {

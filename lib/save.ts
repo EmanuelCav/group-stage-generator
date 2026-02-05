@@ -33,3 +33,15 @@ export const getGroupsFromSupabase = async (userId: string) => {
 
     return data;
 }
+
+export const deleteGroupFromSupabase = async (groupId: string, userId: string) => {
+    const { error } = await supabase
+        .from('groups')
+        .delete()
+        .eq('id', groupId)
+        .eq('user_id', userId);
+
+    if (error) {
+        console.error('Error eliminando group:', error);
+    }
+}

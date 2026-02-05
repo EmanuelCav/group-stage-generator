@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Card, IconButton, MD3Colors, Switch, Text, TextInput, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
@@ -63,6 +63,8 @@ const toastConfig = {
 };
 
 const Config = () => {
+
+    const scrollRef = useRef<ScrollView>(null);
 
     const { group, updateGroup, sureRemoveGroup, sureRestartGroup, updateAvoiding, removeAvoiding, createAvoiding, groups, createGroup } = groupStore()
     const { avoiding, hideAndShowAddAvoiding, showForm, isSure, getAvoiding, sureRemoveAvoiding } = avoidingStore()
@@ -167,6 +169,10 @@ const Config = () => {
         hideAndShowAddAvoiding(true)
     }
 
+    const handleFocus = (y: number) => {
+        scrollRef.current?.scrollTo({ y, animated: true });
+    }
+
     const handleConfig = async (data: ISetting) => {
 
         setLoading(true)
@@ -189,6 +195,7 @@ const Config = () => {
 
         const updateData: IGroup = {
             id: group.id,
+            user_id: group.user_id,
             eliminationMatches: group.eliminationMatches,
             isDrawed: group.isDrawed,
             isKnockoutGenerated: group.isKnockoutGenerated,
@@ -370,6 +377,7 @@ const Config = () => {
                 {isManualConfiguration && (
                     <>
                         <InputSettings
+                            handleFocus={handleFocus}
                             colors={colors}
                             text={i18n.t('numberOfGroups')}
                             name="amountGroups"
@@ -378,6 +386,7 @@ const Config = () => {
                             defaultValue={String(group.amountGroups)}
                         />
                         <InputSettings
+                            handleFocus={handleFocus}
                             colors={colors}
                             text={i18n.t('teamsPerGroup')}
                             name="teamsPerGroup"
@@ -386,6 +395,7 @@ const Config = () => {
                             defaultValue={String(group.teamsPerGroup)}
                         />
                         <InputSettings
+                            handleFocus={handleFocus}
                             colors={colors}
                             text={i18n.t('numberOfClassifieds')}
                             name="amountClassified"
@@ -439,6 +449,7 @@ const Config = () => {
                 {pointsModeSelected === "points" && (
                     <>
                         <InputSettings
+                            handleFocus={handleFocus}
                             colors={colors}
                             text={i18n.t('pointsToTheWinner')}
                             name="pointsWin"
@@ -447,6 +458,7 @@ const Config = () => {
                             defaultValue={String(group.pointsWin)}
                         />
                         <InputSettings
+                            handleFocus={handleFocus}
                             colors={colors}
                             text={i18n.t('pointsToTie')}
                             name="pointsDraw"
@@ -455,6 +467,7 @@ const Config = () => {
                             defaultValue={String(group.pointsDraw)}
                         />
                         <InputSettings
+                            handleFocus={handleFocus}
                             colors={colors}
                             text={i18n.t('pointsToTheLoser')}
                             name="pointsLoss"

@@ -113,7 +113,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
       try {
         imageUrl = await uploadImageToCloudinary(image);
-        timeLoading = 1500
+        timeLoading = 1200
       } catch (error) {
         Toast.show({
           type: 'error',

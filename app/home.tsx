@@ -23,7 +23,7 @@ import { userStore } from '@/store/user.store';
 
 import { groupValue } from '@/utils/defaultGroup';
 
-import { useAuth } from '@/hooks/auth';
+import { useAuth } from '@/hooks/useAuth';
 
 import { handleSignOut } from '@/lib/providerAuth';
 import { saveGroupsToSupabase } from '@/lib/save';

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router"
 import { Dimensions, FlatList } from "react-native"
 import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
@@ -49,6 +50,7 @@ const Match = () => {
         handleGetMatch
     } = matchStore()
     const { premium } = userStore()
+    const insets = useSafeAreaInsets()
 
     const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
 
@@ -342,7 +344,7 @@ const Match = () => {
                                     {i18n.t("summary_add")}
                                 </Button>
                                 <FlatList
-                                    style={{ width: '100%' }}
+                                    style={{ width: '100%', marginBottom: insets.bottom }}
                                     data={sortedSummary}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => (
@@ -364,7 +366,7 @@ const Match = () => {
                     <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {match.match?.players.length! > 0 ? (
                             <FlatList
-                                style={{ width: '100%' }}
+                                style={{ width: '100%', marginBottom: insets.bottom }}
                                 data={lineupPlayers(
                                     match.match?.players.filter(p => p.team?.id === match.match?.local.team.id)!,
                                     match.match?.players.filter(p => p.team?.id === match.match?.visitant.team.id)!
@@ -388,7 +390,7 @@ const Match = () => {
                     <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
                         {match.match?.statistics.length! > 0 ? (
                             <FlatList
-                                style={{ width: '100%' }}
+                                style={{ width: '100%', marginBottom: insets.bottom }}
                                 data={match.match?.statistics}
                                 keyExtractor={(_, index) => index.toString()}
                                 renderItem={({ item }) => (

@@ -5,10 +5,15 @@ import Sure from "./Sure"
 
 import { groupStore } from "@/store/group.store"
 
+import { useAuth } from "@/hooks/useAuth"
+
+import { deleteGroupFromSupabase } from "@/lib/save"
+
 const SureGeneral = () => {
 
-    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup } = groupStore()
+    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup, groups } = groupStore()
     const router = useRouter()
+    const { user } = useAuth()
 
     const handleRestart = () => {
         router.replace("/create")
@@ -19,7 +24,17 @@ const SureGeneral = () => {
     }
 
     const handleRemove = () => {
-        router.replace("/home")
+
+        if (user && group.user_id) {
+            deleteGroupFromSupabase(group.id!, user.id)
+        }
+
+        if (groups.length <= 1) {
+            router.replace("/create")
+        } else {
+            router.replace("/home")
+        }
+
         setTimeout(() => {
             sureRemoveGroup(false)
             removeGroup(group)

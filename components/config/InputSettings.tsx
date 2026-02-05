@@ -8,7 +8,7 @@ import { InputSettingsPropsType } from '@/types/config.types';
 
 import { configStyles } from '@/styles/config.styles';
 
-const InputSettings = ({ text, name, control, error, defaultValue, colors }: InputSettingsPropsType) => {
+const InputSettings = ({ text, name, control, error, defaultValue, colors, handleFocus }: InputSettingsPropsType) => {
     return (
         <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
             <Text variant="bodyLarge">{text}</Text>
@@ -24,6 +24,7 @@ const InputSettings = ({ text, name, control, error, defaultValue, colors }: Inp
                             onChange(formattedText);
                         }}
                         onBlur={onBlur}
+                        onFocus={() => handleFocus(100)}
                         defaultValue={defaultValue}
                         value={value as string}
                         style={[configStyles.inputSettingsNumber, { backgroundColor: colors.tertiary }]}

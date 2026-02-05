@@ -60,7 +60,7 @@ const Groups = () => {
           const storedCount = await AsyncStorage.getItem("reviewCount");
           const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-          if (count !== 0 && count % 3 === 0) {
+          if (count !== 0 && (count === 3 || count % 50 === 0)) {
             requestAppReview();
           }
 
