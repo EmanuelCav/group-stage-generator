@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Dimensions, ScrollView } from "react-native";
+import { useMemo, useState } from "react";
+import { ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
@@ -23,7 +23,7 @@ import { playerStatistics, statisticPlayer } from "@/utils/statistics";
 
 import { playerSchema } from "@/schema/player.schema";
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded, premium }: FormCreatePlayerPropsType) => {
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreatePlayerPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ?? group.teams[0].name!)
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -76,10 +76,12 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (group.players?.length !== 0) {
-                    if (group.players?.length === 1 || group.players!.length % 8 === 0) {
-                        if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                            interstitial.show()
+                if (interstitial) {
+                    if (group.players?.length !== 0) {
+                        if (group.players?.length === 1 || group.players!.length % 8 === 0) {
+                            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
+                                interstitial.show()
+                            }
                         }
                     }
                 }
@@ -95,6 +97,16 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             hideAndShowAddPlayer(false)
         }, 300)
     }
+
+    const teamsOptions = useMemo(
+        () => getTeamsName(group.teams),
+        [group.teams]
+    )
+
+    const statistics = useMemo(() => {
+        if (!player.id) return []
+        return statisticPlayer(group, player);
+    }, [group, player])
 
     return (
         <ContainerBackground zIndex={20}>
@@ -127,7 +139,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     variant="labelMedium"
                     style={{
                         color: MD3Colors.error50,
-                        marginTop: Dimensions.get("window").height / 106,
+                        marginTop: spacing.h106,
                     }}
                 >
                     {errors.name.message}
@@ -154,7 +166,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     variant="labelMedium"
                     style={{
                         color: MD3Colors.error50,
-                        marginTop: Dimensions.get("window").height / 106,
+                        marginTop: spacing.h106,
                     }}
                 >
                     {errors.position.message}
@@ -170,12 +182,12 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         isFocus && { borderColor: colors.primary },
                     ]}
                     placeholderStyle={{
-                        fontSize: Dimensions.get("window").height / 47,
+                        fontSize: spacing.h47,
                         color: colors.surface,
                         backgroundColor: colors.tertiary
                     }}
                     selectedTextStyle={{
-                        fontSize: Dimensions.get("window").height / 47,
+                        fontSize: spacing.h47,
                         color: colors.surface,
                         backgroundColor: colors.tertiary
                     }}
@@ -186,8 +198,8 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         backgroundColor: colors.tertiary,
                     }}
                     activeColor={colors.primary}
-                    data={getTeamsName(group.teams)}
-                    maxHeight={Dimensions.get("window").height / 3.8}
+                    data={teamsOptions}
+                    maxHeight={spacing.h3_8}
                     labelField="label"
                     valueField="value"
                     placeholder={String(teamSelected)}
@@ -214,7 +226,7 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                         nestedScrollEnabled={true}
                         showsVerticalScrollIndicator={false}
                     >
-                        {statisticPlayer(group, player).map((item, index) => (
+                        {statistics.map((item, index) => (
                             <StatisticPlayer
                                 key={index}
                                 statistic={item}

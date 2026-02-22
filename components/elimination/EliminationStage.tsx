@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ScrollView } from 'react-native';
 
 import ColumnElimination from './components/ColumnElimination';
@@ -8,7 +9,7 @@ import { eliminationStyles } from '@/styles/elimination.styles';
 
 import { columnTitle } from '@/utils/elimination';
 
-const EliminationStage = ({ group, colors, handleGetMatch }: EliminationStagePropsType) => {
+const EliminationStage = memo(({ group, colors, handleGetMatch, spacing, isFullName }: EliminationStagePropsType) => {
 
   return (
     <ScrollView horizontal>
@@ -16,7 +17,8 @@ const EliminationStage = ({ group, colors, handleGetMatch }: EliminationStagePro
 
         {
           group.eliminationMatches?.map((matches, index) => {
-            return <ColumnElimination matches={matches} colors={colors} indexElimination={index}
+            return <ColumnElimination matches={matches} colors={colors}
+              indexElimination={index} spacing={spacing} isFullName={isFullName}
               text={columnTitle(index, group.eliminationMatches?.length!)}
               handleGetMatch={handleGetMatch} group={group} key={index} />
           })
@@ -25,6 +27,6 @@ const EliminationStage = ({ group, colors, handleGetMatch }: EliminationStagePro
       </ScrollView>
     </ScrollView>
   )
-}
+})
 
 export default EliminationStage;

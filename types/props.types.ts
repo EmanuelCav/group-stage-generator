@@ -46,6 +46,7 @@ export type MatchPropsType = {
     index: number;
     handleGetMatch: (data: IGetMatch) => void;
     matchdayNumber: number;
+    spacing: Spacing;
 }
 
 export type AddActionPropsType = {
@@ -60,3 +61,24 @@ export type SettingsFABPropsType = {
 }
 
 export type KeyTieBreakCriteriaPropsType = 'points' | 'won' | 'difference' | 'favor'
+
+export type Spacing = {
+    h106: number;
+    w72: number;
+    h47: number;
+    h74: number;
+    w36: number;
+    h28: number;
+    h3_8: number;
+    w45: number;
+    h5: number;
+    h148: number;
+    w18: number;
+    h185: number;
+    h192: number;
+    h41: number;
+    w120: number;
+    w3: number;
+    w6: number;
+    w57: number;
+}

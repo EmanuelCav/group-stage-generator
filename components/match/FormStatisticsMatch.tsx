@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { Dimensions } from "react-native"
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { TestIds } from "react-native-google-mobile-ads";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
 import i18n from '@/i18n'
 
@@ -17,16 +18,22 @@ import { generalStyles } from "@/styles/general.styles"
 import { matchStyles } from "@/styles/match.styles"
 import { createStyles } from "@/styles/create.styles"
 
-import { groupName } from "@/utils/points";
-import { generateId } from "@/utils/defaultGroup";
-
 import { statisticSchema } from "@/schema/statistic.schema";
 
-const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, getStatistic }: FormStatisticsMatchPropsType) => {
+import { groupName, nameParticipant } from "@/utils/points";
+import { generateId } from "@/utils/defaultGroup";
 
-    const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value ? String(statistic.teamLocal.value) : "")
-    const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value ? String(statistic.teamVisitant.value) : "")
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_EVENTS}`;
+
+const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, getStatistic, spacing, isFullName, premium }: FormStatisticsMatchPropsType) => {
+
+    const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value !== undefined ? String(statistic.teamLocal.value) : "")
+    const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value !== undefined ? String(statistic.teamVisitant.value) : "")
     const [loading, setLoading] = useState<boolean>(false)
+
+    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(statisticSchema),
@@ -35,7 +42,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
         }
     })
 
-    const handleAddStatistic = (statisticCreated: ICreateStatistic) => {
+    const handleAddStatistic = async (statisticCreated: ICreateStatistic) => {
 
         const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
         const matchdayIndex = matchday - 1;
@@ -51,7 +58,14 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 stadium: match.stadium!,
                 statistics: match.statistics.map((s) => s.id === statistic.id ?
                     {
-                        ...statistic, title: statisticCreated.title
+                        ...statistic, title: statisticCreated.title, teamLocal: {
+                        team: match.local.team,
+                        value: valueLocal ? Number(valueLocal) : 0
+                    },
+                    teamVisitant: {
+                        team: match.visitant.team,
+                        value: valueVisitant ? Number(valueVisitant) : 0
+                    }
                     } : s),
                 players: match.players,
                 summary: match.summary,
@@ -114,11 +128,11 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     title: statisticCreated.title,
                     teamLocal: {
                         team: match.local.team,
-                        value: Number(valueLocal)
+                        value: valueLocal ? Number(valueLocal) : 0
                     },
                     teamVisitant: {
                         team: match.visitant.team,
-                        value: Number(valueVisitant)
+                        value: valueVisitant ? Number(valueVisitant) : 0
                     }
                 }],
                 visitant: match.visitant,
@@ -163,6 +177,24 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     match: { ...createMatch },
                     matchday
                 })
+            }
+
+            try {
+
+                const storedCount = await AsyncStorage.getItem("reviewCount");
+                const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                if (interstitial) {
+                    if (match.statistics.length !== 0) {
+                        if (match.statistics.length === 1 || match.statistics.length % 8 === 0) {
+                            if ((interstitial.loaded || isInterstitialLoaded) && count > 3 && !premium) {
+                                interstitial.show()
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error);
             }
 
             reset()
@@ -211,7 +243,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     variant="labelMedium"
                     style={{
                         color: MD3Colors.error50,
-                        marginTop: Dimensions.get('window').height / 106,
+                        marginTop: spacing.h106,
                     }}
                 >
                     {errors.title.message}
@@ -220,13 +252,13 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
             <Text
                 variant="labelLarge"
-                style={{ marginVertical: Dimensions.get('window').height / 74 }}
+                style={{ marginVertical: spacing.h74 }}
             >
                 {i18n.t('statistic.value')}
             </Text>
 
             <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
-                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background, alignItems: isFullName ? 'flex-start' : 'center' }]}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
@@ -234,9 +266,11 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     )}
                     <Text
                         variant="bodyMedium"
-                        style={{ marginTop: Dimensions.get('window').height / 106 }}
+                        style={{ marginTop: spacing.h106 }}
                     >
-                        {groupName(match.local.team.name!)}
+                        {
+                            isFullName ? nameParticipant(match.local.team.name!) : groupName(match.local.team.name!)
+                        }
                     </Text>
                 </View>
                 <TextInput
@@ -253,7 +287,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
             </View>
 
             <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
-                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background, alignItems: isFullName ? 'flex-start' : 'center' }]}>
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
@@ -261,9 +295,11 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     )}
                     <Text
                         variant="bodyMedium"
-                        style={{ marginTop: Dimensions.get('window').height / 106 }}
+                        style={{ marginTop: spacing.h106 }}
                     >
-                        {groupName(match.visitant.team.name!)}
+                        {
+                            isFullName ? nameParticipant(match.visitant.team.name!) : groupName(match.visitant.team.name!)
+                        }
                     </Text>
                 </View>
                 <TextInput
@@ -280,6 +316,8 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
             </View>
 
             <Button
+                loading={loading}
+                disabled={loading}
                 mode="contained"
                 style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: '#ffffff' }}
@@ -290,8 +328,6 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
             {statistic.id && (
                 <Button
-                    loading={loading}
-                    disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                     labelStyle={{ color: '#ffffff' }}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, ActivityIndicator, Alert } from "react-native";
 import Purchases, { PurchasesOffering, PurchasesPackage } from "react-native-purchases";
 import { Text, useTheme } from "react-native-paper";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/i18n";
 
@@ -12,6 +12,7 @@ import Offering from "@/components/tent/Offering";
 import Benefits from "@/components/tent/Benefits";
 
 import { generalStyles } from "@/styles/general.styles";
+import { tentStyles } from "@/styles/tent.styles";
 
 import { userStore } from "@/store/user.store";
 
@@ -26,6 +27,8 @@ const Tent = () => {
     const { setPremium, premium } = userStore()
     const { colors } = useTheme()
     const router = useRouter()
+
+    const { message } = useLocalSearchParams<{ message?: string }>();
 
     useEffect(() => {
 
@@ -67,17 +70,16 @@ const Tent = () => {
         } catch (error: any) {
 
             if (error.code === Purchases.PURCHASES_ERROR_CODE.PURCHASE_CANCELLED_ERROR) {
-                console.log("Compra cancelada por el usuario.");
                 return;
             }
 
             if (error.code === Purchases.PURCHASES_ERROR_CODE.PURCHASE_NOT_ALLOWED_ERROR) {
-                Alert.alert("No permitido", "La tienda no permite realizar compras.");
+                Alert.alert("Not allowed", "The store does not allow purchases.");
                 return;
             }
 
             if (error.code === Purchases.PURCHASES_ERROR_CODE.NETWORK_ERROR) {
-                Alert.alert("Sin conexión", "No fue posible conectarse. Intenta nuevamente.");
+                Alert.alert("Offline", "Unable to connect. Please try again.");
                 return;
             }
 
@@ -91,6 +93,11 @@ const Tent = () => {
         <MainScreen colors={colors}>
             <HeaderTent colors={colors} router={router} />
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
+                {
+                    message && <Text variant="bodyMedium" style={tentStyles.reachedTournament}>
+                        {message}
+                    </Text>
+                }
                 <Text variant="titleMedium" style={{ textAlign: "center" }}>
                     {premium ? i18n.t("titleIsPremium") : i18n.t("titleTent")}
                 </Text>

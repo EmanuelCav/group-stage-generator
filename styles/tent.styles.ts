@@ -12,6 +12,12 @@ export const tentStyles = StyleSheet.create({
     benefitContainer: {
         marginVertical: Dimensions.get("window").height / 106,
         gap: 4,
+    },
+
+    reachedTournament: {
+        textAlign: 'center', 
+        color: "#f00", 
+        marginVertical: 12
     }
 
 })

@@ -3,6 +3,7 @@ import { InterstitialAd } from "react-native-google-mobile-ads";
 
 import { IPlayer, IValueStatistic } from "@/interface/Player";
 import { IGroup } from "@/interface/Group";
+import { Spacing } from "./props.types";
 
 export type FormCreatePlayerPropsType = {
     colors: MD3Colors;
@@ -15,6 +16,7 @@ export type FormCreatePlayerPropsType = {
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
     premium: boolean;
+    spacing: Spacing;
 }
 
 export type PlayerPropsType = {

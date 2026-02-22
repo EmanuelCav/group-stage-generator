@@ -69,7 +69,8 @@
   "groupStage": {
     "welcome": "Bem-vindo!",
     "createStage": "Criar uma fase de grupos",
-    "addTeam": "ADICIONAR TIME"
+    "addTeam": "ADICIONAR TIME",
+    "addTournament": "CRIAR FASE DE GRUPOS"
   },
   "teamForm": {
     "changeImage": "Trocar imagem",
@@ -111,6 +112,7 @@
   "sure": {
     "removeGroupStage": "Tem certeza de que deseja excluir a fase de grupos?",
     "restartGroupStage": "Tem certeza de que deseja reiniciar a fase de grupos?",
+    "restartKnockout": "Tem certeza de que deseja reiniciar a fase eliminatória?",
     "restart": "REINICIAR"
   },
   "group": {
@@ -360,7 +362,7 @@
   "errorUploadImageTitle": "Erro ao carregar a imagem",
   "errorUploadImageDescription": "Verifique sua conexão com a internet ou tente mais tarde",
   "errorLimitTitle": "Limite de equipes",
-  "errorLimitDescription": "Você atingiu o limite de 64 equipes.",
+  "errorLimitDescription": "Você atingiu o limite de 48 equipes.",
   "home": "Ida",
   "away": "Volta",
   "updateknockout": "Atualização",
@@ -418,5 +420,18 @@
   "duplicate": "Duplicar",
   "titleTent": "Assine o Premium e tenha acesso a todos os benefícios",
   "titleIsPremium": "Parabéns! Agora você é um membro Premium",
-  "allTeams": "Todos os times"
+  "allTeams": "Todos os times",
+  "tryRestoring": "Erro ao recuperar o calendário das partidas. Tente restaurar o torneio.",
+  "displayFullName": "Exibir nome completo das equipes",
+  "language": "Idioma",
+  "selectLanguage": "Selecionar idioma",
+  "TeamFullName": "Nome completo da equipe",
+  "reachedTournament": "Você atingiu o limite de torneios do seu plano atual. Para criar mais, faça upgrade para Premium ou exclua um torneio existente.",
+  "emptyFields": "Há campos vazios. Por favor, preencha-os",
+  "invalidEmail": "E-mail inválido",
+  "manyAttempts": "Muitas tentativas. Tente novamente mais tarde",
+  "appSettings": "Configurações App",
+  "random": "Aleatório",
+  "weakPassword": "A senha é fraca. Certifique-se de incluir letras, números e que não seja comum",
+  "beforeKnockoutStage": "Nota: Recomendamos concluir todos os resultados da fase de grupos antes de gerar a fase eliminatória"
 }

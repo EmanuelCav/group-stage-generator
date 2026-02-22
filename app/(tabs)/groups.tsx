@@ -32,9 +32,9 @@ const Groups = () => {
   const { group, sureRemoveGroup, sureRestartGroup, createGroup, groups } = groupStore()
   const { premium } = userStore()
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     router.replace("/home")
-  }
+  }, [router])
 
   const requestAppReview = async () => {
 

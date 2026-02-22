@@ -1,4 +1,3 @@
-import { Dimensions } from 'react-native';
 import { MD3Colors, Text, TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
 
@@ -8,7 +7,7 @@ import { InputSettingsPropsType } from '@/types/config.types';
 
 import { configStyles } from '@/styles/config.styles';
 
-const InputSettings = ({ text, name, control, error, defaultValue, colors, handleFocus }: InputSettingsPropsType) => {
+const InputSettings = ({ text, name, control, error, defaultValue, colors, handleFocus, spacing }: InputSettingsPropsType) => {
     return (
         <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
             <Text variant="bodyLarge">{text}</Text>
@@ -33,12 +32,12 @@ const InputSettings = ({ text, name, control, error, defaultValue, colors, handl
                 )}
             />
             {error && <Text variant='bodySmall'
-                style={{ color: MD3Colors.error50, textAlign: "center", marginTop: Dimensions.get("window").height / 185 }}>
+                style={{ color: MD3Colors.error50, textAlign: "center", marginTop: spacing.h185 }}>
                 {error}
             </Text>
             }
         </View>
     );
-};
+}
 
 export default InputSettings;

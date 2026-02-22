@@ -4,14 +4,11 @@ export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
 
     const data = new FormData()
 
-    const fileName = uri.split("/").pop() || `photo.jpg`
-    const fileType = fileName.split(".").pop()
-
     data.append("file", {
         uri,
-        name: fileName,
-        type: `image/${fileType}`,
-    } as any);
+        name: `photo_${Date.now()}.jpg`,
+        type: "image/jpeg"
+    } as any)
 
     data.append("upload_preset", `${process.env.EXPO_PUBLIC_UPLOAD_PRESET}`)
     data.append("cloud_name", `${process.env.EXPO_PUBLIC_CLOUD_NAME}`)
@@ -32,10 +29,23 @@ export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
 }
 
 export const normalizeUri = async (uri: string) => {
-    if (uri.startsWith("content://")) {
-        const fileUri = `${FileSystem.cacheDirectory}image.jpg`
-        await FileSystem.copyAsync({ from: uri, to: fileUri })
-        return fileUri;
+
+    try {
+        
+        if (!uri.startsWith("content://")) return uri
+
+        const fileName = `image_${Date.now()}_${Math.random()}.jpg`
+        const fileUri = `${FileSystem.cacheDirectory}${fileName}`
+
+        await FileSystem.copyAsync({
+            from: uri,
+            to: fileUri,
+        })
+
+        return fileUri
+
+    } catch (error) {
+        console.log("FileSystem copy error:", error);
+        return uri;
     }
-    return uri;
 }

@@ -1,5 +1,5 @@
+import { useCallback } from "react";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
-import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
 
 import { generalStyles } from "@/styles/general.styles";
@@ -15,7 +15,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
     const { updateGenerateAgain, generateMatches, updateTeam, group } = groupStore()
 
-    const generateGroups = () => {
+    const generateGroups = useCallback(() => {
 
         try {
 
@@ -73,7 +73,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
             console.error(error);
         }
 
-    }
+    }, [group])
 
     return (
         <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>

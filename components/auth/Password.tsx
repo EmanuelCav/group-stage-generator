@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Dimensions } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
 import { PasswordPropsType } from '@/types/auth.types';
 
-const Password = ({ label, value, setValue, colors }: PasswordPropsType) => {
+const Password = ({ label, value, setValue, colors, spacing }: PasswordPropsType) => {
     
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
@@ -21,7 +20,7 @@ const Password = ({ label, value, setValue, colors }: PasswordPropsType) => {
                     onPress={() => setShowPassword(!showPassword)}
                 />
             }
-            style={{ marginBottom: Dimensions.get('window').height / 41, backgroundColor: colors.tertiary }}
+            style={{ marginBottom: spacing.h41, backgroundColor: colors.tertiary }}
         />
     )
 }

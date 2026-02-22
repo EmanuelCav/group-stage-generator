@@ -69,7 +69,8 @@
     "groupStage": {
         "welcome": "Welcome!",
         "createStage": "Create a Group Stage",
-        "addTeam": "ADD TEAM"
+        "addTeam": "ADD TEAM",
+        "addTournament": "CREATE GROUP STAGE"
     },
     "teamForm": {
         "changeImage": "Change image",
@@ -111,6 +112,7 @@
     "sure": {
         "removeGroupStage": "Are you sure you want to delete group stage?",
         "restartGroupStage": "Are you sure you want to restart group stage?",
+        "restartKnockout": "Are you sure you want to restart knockout state?",
         "restart": "RESTART"
     },
     "group": {
@@ -386,7 +388,7 @@
     "send_email": "Send email",
     "back": "Go back",
     "passwordDontMatch": "Passwords do not match",
-    "sixCharacters": "The password must have at least 6 characters",
+    "sixCharacters": "The password must have at least 8 characters",
     "successfullyRegister": "Successfully registered!",
     "checkToVerify": "Check your email to verify your account.",
     "startNow": "Start now",
@@ -419,5 +421,17 @@
     "titleTent": "Subscribe to Premium and access all the benefits",
     "titleIsPremium": "Congratulations! You are now a premium member",
     "allTeams": "All teams",
-    "tryRestoring": "Error retrieving the match schedule. Try restoring the tournament."
+    "tryRestoring": "Error retrieving the match schedule. Try restoring the tournament.",
+    "displayFullName": "Display full name to teams",
+    "language": "Language",
+    "selectLanguage": "Select language",
+    "TeamFullName": "Team full name",
+    "reachedTournament": "You have reached the tournament limit for your current plan. To create more, upgrade to Premium or delete an existing tournament.",
+    "emptyFields": "There are empty fields. Please complete",
+    "invalidEmail": "Invalid email",
+    "manyAttempts": "Too many attempts. Please try again later",
+    "appSettings": "App Settings",
+    "random": "Random",
+    "weakPassword": "The password is weak. Make sure to add letters, numbers, and that it is not common",
+    "beforeKnockoutStage": "Note: We recommend completing all group stage results before generating the knockout stage"
 }

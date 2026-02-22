@@ -1,6 +1,5 @@
 import { Router } from "expo-router";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
-import { User } from "@supabase/supabase-js";
 
 import { IGroup } from "@/interface/Group"
 
@@ -22,7 +21,10 @@ export type AddGroupStagePropsType = {
 }
 
 export type HeaderTournamentsPropsType = {
-    user: User | null;
     router: Router;
-    setIsSureLogOut: (isSureLogOut: boolean) => void;
+}
+
+export type AddTournamentPropsType = {
+    colors: MD3Colors;
+    handleCreateTournament: () => void;
 }

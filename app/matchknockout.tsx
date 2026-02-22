@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router"
-import { Dimensions, FlatList } from "react-native"
+import { FlatList } from "react-native"
 import { Button, IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
-import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -33,11 +33,11 @@ import { userStore } from "@/store/user.store"
 
 import { lineupPlayers } from "@/utils/matchday"
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
+import { useSpacing } from "@/hooks/useSpacing";
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { useIsFullName } from "@/hooks/useIsFullName";
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-    keywords: ['fashion', 'clothing'],
-});
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
 
 const Matchknockout = () => {
 
@@ -50,18 +50,31 @@ const Matchknockout = () => {
     } = matchStore()
     const { premium } = userStore()
     const insets = useSafeAreaInsets()
+    const spacing = useSpacing()
+    const { isFullName } = useIsFullName()
 
-    const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
+    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
-    const handleUpdateSummary = (data: ISummary) => {
+    const sortedSummary = useMemo(() => {
+        return [...(matchknockout.match?.summary ?? [])].sort((a, b) => Number(b.time) - Number(a.time))
+    }, [matchknockout.match?.summary])
+
+    const showLineUp = useMemo(() => {
+        return lineupPlayers(
+            matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.local.team.id)!,
+            matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.visitant.team.id)!
+        )
+    }, [matchknockout.match])
+
+    const handleUpdateSummary = useCallback((data: ISummary) => {
         getSummary(data)
         hideAndShowSummary(true)
-    }
+    }, [])
 
-    const handleUpdateStatistic = (data: IMatchStatistic) => {
+    const handleUpdateStatistic = useCallback((data: IMatchStatistic) => {
         getStatistic(data)
         hideAndShowStatistics(true)
-    }
+    }, [])
 
     const handleRemoveSummary = () => {
 
@@ -223,9 +236,9 @@ const Matchknockout = () => {
         getStatistic({})
     }
 
-    const goBack = () => {
-        router.replace("/(tabs)/knockout")
-    }
+    const goBack = useCallback(() => {
+        router.back()
+    }, [router])
 
     useEffect(() => {
         hideAndShowUpdateMatch(false)
@@ -237,33 +250,6 @@ const Matchknockout = () => {
         getSummary({})
         getStatistic({})
     }, [])
-
-    useEffect(() => {
-
-        const loadInterstitialAd = () => {
-            try {
-                interstitial.load();
-            } catch (error) {
-                console.error("Error loading interstitial ad:", error);
-            }
-        };
-
-        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-            setIsIntersitialLoaded(true)
-        });
-
-        const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-            setIsIntersitialLoaded(false)
-            loadInterstitialAd();
-        });
-
-        loadInterstitialAd();
-
-        return () => {
-            unsubscribeLoaded()
-            unsubscribedClosed()
-        };
-    }, []);
 
     return (
         <MainScreen colors={colors}>
@@ -291,41 +277,25 @@ const Matchknockout = () => {
                 />
             )}
 
-            {showFormPlayers && (
-                <FormLineUp
-                    colors={colors}
-                    hideAndShowPlayers={hideAndShowPlayers}
-                    round={matchknockout.round!}
-                    match={matchknockout.match!}
-                    group={group}
-                    matchday={matchknockout.round!}
-                    updateMatch={updateMatch}
-                    updateMatchGroup={updateMatchGroup}
-                    isKnockout={false}
-                    updateEliminationMatch={updateEliminationMatch}
-                    updateMatchKnockGroup={updateMatchKnockGroup}
-                />
-            )}
-
             {
                 showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers}
-                    match={matchknockout.match!} group={group} matchday={matchknockout.round!}
-                    updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} round={matchknockout.round!}
+                    match={matchknockout.match!} group={group} matchday={matchknockout.round!} spacing={spacing}
+                    updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} round={matchknockout.round!} isFullName={isFullName}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
             }
 
             {
                 showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
                     match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch} getStatistic={getStatistic}
-                    matchday={matchknockout.round!} sureRemoveStatistic={sureRemoveStatistic} round={matchknockout.round!}
-                    isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
+                    matchday={matchknockout.round!} sureRemoveStatistic={sureRemoveStatistic} round={matchknockout.round!} spacing={spacing}
+                    isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} isFullName={isFullName} premium={premium} />
             }
 
             {
                 showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
                     summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch} getSummary={getSummary}
-                    matchday={matchknockout.round!} sureRemoveSummary={sureRemoveSummary} round={matchknockout.round!}
-                    isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} router={router} />
+                    matchday={matchknockout.round!} sureRemoveSummary={sureRemoveSummary} round={matchknockout.round!} spacing={spacing}
+                    isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} router={router} premium={premium} />
             }
 
             {
@@ -335,8 +305,10 @@ const Matchknockout = () => {
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
                     premium={premium}
-                    interstitial={interstitial}
-                    isIntersitialLoaded={isIntersitialLoaded}
+                    interstitial={interstitial!}
+                    isIntersitialLoaded={isInterstitialLoaded}
+                    spacing={spacing}
+                    isFullName={isFullName}
                 />
             }
 
@@ -352,10 +324,10 @@ const Matchknockout = () => {
                         iconColor={colors.primary}
                     />
                 </View>
-                <ScoreTeams match={matchknockout.match!} colors={colors} />
+                <ScoreTeams match={matchknockout.match!} colors={colors} spacing={spacing} isFullName={isFullName} />
                 <Information match={matchknockout.match!} colors={colors} />
                 <SegmentedButtons
-                    style={{ marginTop: Dimensions.get("window").height / 47 }}
+                    style={{ marginTop: spacing.h47 }}
                     value={segmentedButton}
                     onValueChange={handleSegmented}
                     buttons={[
@@ -388,21 +360,21 @@ const Matchknockout = () => {
                 />
                 {
                     segmentedButton === "summary" &&
-                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
+                    <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {matchknockout.match?.summary.length! > 0 ?
                             <View style={{ backgroundColor: colors.background }}>
                                 <Button
                                     mode="contained"
                                     onPress={() => hideAndShowSummary(true)}
-                                    style={[{ backgroundColor: colors.primary, marginBottom: Dimensions.get("window").height / 74 }]}
+                                    style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
                                     labelStyle={{ color: "#ffffff" }}
                                 >
                                     {i18n.t("summary_add")}
                                 </Button>
                                 <FlatList
                                     style={{ width: '100%', marginBottom: insets.bottom }}
-                                    data={matchknockout.match?.summary}
-                                    keyExtractor={(_, index) => index.toString()}
+                                    data={sortedSummary}
+                                    keyExtractor={(item) => item.id!}
                                     renderItem={({ item }) => <Summary summary={item} match={matchknockout.match!} colors={colors}
                                         handleUpdateSummary={handleUpdateSummary} />}
                                 />
@@ -416,13 +388,12 @@ const Matchknockout = () => {
                 }
                 {
                     segmentedButton === "players" &&
-                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
+                    <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {
                             matchknockout.match?.players.length! > 0 ?
                                 <FlatList
                                     style={{ width: '100%', marginBottom: insets.bottom }}
-                                    data={lineupPlayers(matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.local.team.id)!,
-                                        matchknockout.match?.players.filter(p => p.team?.id === matchknockout.match?.visitant.team.id)!)}
+                                    data={showLineUp}
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => <PlayersMatch player={item} colors={colors} hideAndShowPlayers={hideAndShowPlayers} />}
                                 /> : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
@@ -434,12 +405,12 @@ const Matchknockout = () => {
                 }
                 {
                     segmentedButton === "statistics" &&
-                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
+                    <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {
                             matchknockout.match?.statistics.length! > 0 ? <FlatList
                                 style={{ width: '100%', marginBottom: insets.bottom }}
                                 data={matchknockout.match?.statistics}
-                                keyExtractor={(_, index) => index.toString()}
+                                keyExtractor={(item) => item.id!}
                                 renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}
                             /> : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>

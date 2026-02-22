@@ -12,7 +12,7 @@ const SettingsFAB = ({ colors, router }: SettingsFABPropsType) => {
         icon="cog"
         size="medium"
         color="#ffffff"
-        onPress={() => router.replace("/config")}
+        onPress={() => router.navigate("/config")}
         style={{
           backgroundColor: colors.primary,
         }}

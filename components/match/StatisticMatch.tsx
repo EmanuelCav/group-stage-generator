@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { Pressable } from "react-native"
 import { Text } from "react-native-paper"
 
@@ -7,11 +8,11 @@ import { StatisticMatchPropsType } from "@/types/match.types"
 
 import { matchStyles } from "@/styles/match.styles"
 
-const StatisticMatch = ({ statistic, colors, handleUpdateStatistic }: StatisticMatchPropsType) => {
+const StatisticMatch = memo(({ statistic, colors, handleUpdateStatistic }: StatisticMatchPropsType) => {
     return (
         <Pressable style={matchStyles.containerStatisticMatch} onPress={() => handleUpdateStatistic(statistic)}>
             <Text variant="bodyLarge">{statistic.title}</Text>
-            <View style={matchStyles.containerBarStatisticMatch}>
+            <View style={[matchStyles.containerBarStatisticMatch, { backgroundColor: colors.background }]}>
                 <Text variant="bodyLarge">{statistic.teamLocal?.value}</Text>
                 <View style={matchStyles.containStatistic}>
                     <View style={[{ height: '100%' },
@@ -23,7 +24,6 @@ const StatisticMatch = ({ statistic, colors, handleUpdateStatistic }: StatisticM
             </View>
         </Pressable>
     )
-}
+})
 
 export default StatisticMatch
-

@@ -13,7 +13,6 @@ const MainScreen = ({ children, colors }: MainScreenPropsType) => {
         {
           flex: 1,
           backgroundColor: colors.background,
-          // paddingTop: insets.top,
           paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right

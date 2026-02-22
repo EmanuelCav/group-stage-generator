@@ -10,7 +10,11 @@ import Email from "@/components/auth/Email";
 import { generalStyles } from "@/styles/general.styles";
 import { authStyles } from "@/styles/auth.styles";
 
+import { isValidEmail } from "@/utils/auth";
+
 import { supabase } from "@/lib/supabase";
+
+import { useSpacing } from "@/hooks/useSpacing";
 
 const ResetPassword = () => {
 
@@ -21,28 +25,46 @@ const ResetPassword = () => {
     const [errorData, setErrorData] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
 
+    const spacing = useSpacing()
+
     const handleComeback = () => {
-        router.back()
+        router.replace("/")
     }
 
     const handleSendEmail = async () => {
 
-        setLoading(true)
+        try {
 
-        const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: "groupstagegenerator://auth/update"
-        })
+            if (!email) {
+                setErrorData(i18n.t("emptyFields"));
+                return;
+            }
 
-        setLoading(false);
+            if (!isValidEmail(email)) {
+                setErrorData(i18n.t("invalidEmail"));
+                return;
+            }
 
-        if (error) {
-            setErrorData(error.message)
-            return
-        }
+            setLoading(true)
 
-        if (data) {
-            setErrorData("")
-            Alert.alert(i18n.t("email_sent"), i18n.t("check_email"))
+            const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: "groupstagegenerator://auth/update"
+            })
+
+            if (error) {
+                setErrorData(error.message)
+                return
+            }
+
+            if (data) {
+                setErrorData("")
+                Alert.alert(i18n.t("email_sent"), i18n.t("check_email"))
+            }
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false)
         }
 
     }
@@ -60,6 +82,7 @@ const ResetPassword = () => {
                     email={email}
                     setEmail={setEmail}
                     colors={colors}
+                    spacing={spacing}
                 />
 
                 {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Dimensions, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button, Checkbox } from "react-native-paper";
@@ -19,7 +19,7 @@ import { avoidingSchema } from "@/schema/config.schema";
 
 import { generateAvoidingTeams, generateId } from "@/utils/defaultGroup";
 
-const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoiding, avoiding, updateAvoiding, openSure, teamsAvoiding, setTeamsAvoiding }: FormCreateAvoidingPropsType) => {
+const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoiding, avoiding, updateAvoiding, openSure, teamsAvoiding, setTeamsAvoiding, spacing }: FormCreateAvoidingPropsType) => {
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(avoidingSchema),
@@ -112,14 +112,14 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
             {errors.title && (
                 <Text
                     variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                    style={{ color: MD3Colors.error50, marginTop: spacing.h106 }}
                 >
                     {errors.title.message}
                 </Text>
             )}
 
             <View style={configStyles.labelSettings}>
-                <Text variant="bodyLarge" style={{ textAlign: 'center', marginTop: Dimensions.get("window").height / 28 }}>
+                <Text variant="bodyLarge" style={{ textAlign: 'center', marginTop: spacing.h28 }}>
                     {i18n.t("avoiding.maxTeamsLabel")}
                 </Text>
                 <Controller
@@ -141,7 +141,7 @@ const FormCreateAvoiding = ({ colors, group, hideAndShowAddAvoiding, createAvoid
                 />
             </View>
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
+            <Text variant="labelLarge" style={{ marginVertical: spacing.h28 }}>
                 {i18n.t("avoiding.selectTeams")}
             </Text>
 

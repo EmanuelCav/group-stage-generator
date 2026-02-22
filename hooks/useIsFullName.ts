@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useIsFullName = () => {
 
-    const [isFullName, setIsFullName] = useState<boolean>(true);
+    const [isFullName, setIsFullName] = useState<boolean>(false);
 
     useEffect(() => {
         const loadIsFullName = async () => {
@@ -11,13 +11,13 @@ export const useIsFullName = () => {
                 const value = await AsyncStorage.getItem("isFullName");
 
                 if (value === null) {
-                    setIsFullName(true);
+                    setIsFullName(false);
                 } else {
                     setIsFullName(value === "yes")
                 }
             } catch (error) {
                 console.error("Error loading isFullName", error);
-                setIsFullName(true)
+                setIsFullName(false)
             }
         }
 

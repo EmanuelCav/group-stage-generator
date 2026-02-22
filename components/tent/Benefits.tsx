@@ -26,10 +26,10 @@ const Benefits = ({ colors }: { colors: MD3Colors }) => {
             backgroundColor: colors.tertiary
         }}>
             <Card.Content>
-                <Text variant='titleLarge' style={{ fontWeight: 'bold' }}>
+                <Text variant='titleLarge' style={{ fontFamily: 'Raleway_Bold' }}>
                     {i18n.t("benefits")}
                 </Text>
-                <View style={tentStyles.benefitContainer}>
+                <View style={[tentStyles.benefitContainer, { backgroundColor: colors.tertiary }]}>
                     {benefits.map((benefit, index) => (
                         <Text key={index}>• {benefit}</Text>
                     ))}

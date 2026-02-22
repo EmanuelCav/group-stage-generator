@@ -3,6 +3,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 import { IStadium } from "@/interface/Stadium";
 import { IGroup } from "@/interface/Group";
+import { Spacing } from "./props.types";
 
 export type FormCreateStadiumPropsType = {
     colors: MD3Colors;
@@ -15,10 +16,12 @@ export type FormCreateStadiumPropsType = {
     group: IGroup;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
+    spacing: Spacing;
 }
 
 export type StadiumPropsType = {
     stadium: IStadium;
     handleUpdateStadium: (stadium: IStadium) => void;
     colors: MD3Colors;
+    spacing: Spacing;
 }

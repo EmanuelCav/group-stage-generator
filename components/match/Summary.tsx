@@ -1,3 +1,4 @@
+import { memo } from "react"
 import { Pressable } from "react-native"
 import { Icon, Text } from "react-native-paper"
 
@@ -9,7 +10,7 @@ import { matchStyles } from "@/styles/match.styles"
 
 import { iconEvent } from "@/utils/matchday"
 
-const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsType) => {
+const Summary = memo(({ summary, match, colors, handleUpdateSummary }: SummaryPropsType) => {
     return (
         <Pressable style={[matchStyles.summaryDesign, { borderColor: "#ffffff", backgroundColor: colors.primary }]}
             onPress={() => handleUpdateSummary(summary)} >
@@ -36,6 +37,6 @@ const Summary = ({ summary, match, colors, handleUpdateSummary }: SummaryPropsTy
             </View>
         </Pressable>
     )
-}
+})
 
 export default Summary

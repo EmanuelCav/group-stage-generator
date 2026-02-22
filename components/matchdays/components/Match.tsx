@@ -1,4 +1,5 @@
-import { Dimensions, Pressable } from 'react-native'
+import { memo } from 'react'
+import { Pressable } from 'react-native'
 import { Avatar, DataTable, Text } from 'react-native-paper'
 import i18n from '@/i18n'
 
@@ -8,9 +9,13 @@ import { MatchPropsType } from '@/types/props.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
-import { groupName } from '@/utils/points'
+import { groupName, nameParticipant } from '@/utils/points'
 
-const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, group }: MatchPropsType) => {
+import { useIsFullName } from '@/hooks/useIsFullName'
+
+const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item, group, spacing }: MatchPropsType) => {
+
+    const { isFullName } = useIsFullName()
 
     return (
         <Pressable onPress={() => handleGetMatch({
@@ -35,15 +40,30 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                         ) : (
                             <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.local.team.color }} />
                         )}
-                        <Text style={{ marginLeft: Dimensions.get("window").width / 36 }}>{groupName(match.local.team.name!)}</Text>
+                        <Text variant={isFullName ? 'bodySmall' : 'bodyMedium'} style={{ marginLeft: spacing.w36 }}>
+                            {
+                                isFullName ? nameParticipant(match.local.team.name!) : groupName(match.local.team.name!)
+                            }
+                        </Text>
                     </View>
                 </DataTable.Cell>
                 {
                     match.isEdit ? <>
-                        <DataTable.Cell numeric style={groupStyles.rowContainer}>
+                        <DataTable.Cell
+                            numeric
+                            style={[
+                                groupStyles.rowContainer,
+                                groupStyles.smallScoreCell
+                            ]}>
                             {match.local.score}
                         </DataTable.Cell>
-                        <DataTable.Cell numeric style={groupStyles.rowContainer}>
+                        <DataTable.Cell
+                            numeric
+                            style={[
+                                groupStyles.rowContainer,
+                                groupStyles.smallScoreCell
+                            ]}
+                        >
                             {match.visitant.score}
                         </DataTable.Cell>
                     </> :
@@ -53,7 +73,11 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
                 }
                 <DataTable.Cell style={groupStyles.rowEnd}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
-                        <Text style={{ marginRight: Dimensions.get("window").width / 36 }}>{groupName(match.visitant.team.name!)}</Text>
+                        <Text variant={isFullName ? 'bodySmall' : 'bodyMedium'} style={{ marginRight: spacing.w36 }}>
+                            {
+                                isFullName ? nameParticipant(match.visitant.team.name!) : groupName(match.visitant.team.name!)
+                            }
+                        </Text>
                         {match.visitant.team.logo ? (
                             <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
                         ) : (
@@ -64,6 +88,6 @@ const Match = ({ match, colors, index, handleGetMatch, matchdayNumber, item, gro
             </DataTable.Row>
         </Pressable>
     )
-}
+})
 
 export default Match

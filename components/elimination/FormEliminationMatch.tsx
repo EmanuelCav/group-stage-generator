@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Dimensions, ScrollView } from 'react-native'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { ScrollView } from 'react-native'
 import { Avatar, Button, DefaultTheme, IconButton, MD3Colors, PaperProvider, Text, TextInput } from 'react-native-paper'
 import { DatePickerModal, enGB, registerTranslation, TimePickerModal } from 'react-native-paper-dates';
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
@@ -19,22 +19,9 @@ import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { isScoreElimination, winner } from '@/utils/elimination';
-import { groupName } from '@/utils/points';
+import { groupName, nameParticipant } from '@/utils/points';
 
-const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, interstitial, isIntersitialLoaded, premium }: FormEliminationMatchPropsType) => {
-
-    const theme = {
-        ...DefaultTheme,
-        colors: {
-            ...DefaultTheme.colors,
-            surface: "#111",
-            background: "#111",
-            primary: "#999",
-            onSurface: "#999",
-        },
-    }
-
-    registerTranslation('en-GB', enGB)
+const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, interstitial, isIntersitialLoaded, premium, spacing, isFullName }: FormEliminationMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -52,7 +39,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
 
-    const handleUpdateMatch = async () => {
+    const handleUpdateMatch = useCallback(async () => {
 
         const dataUpdated: IMatch = {
             isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
@@ -133,9 +120,11 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             const storedCountMatch = await AsyncStorage.getItem("matchCount");
             const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
 
-            if (countMatch !== 0 && countMatch % 8 === 0) {
-                if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
-                    interstitial.show()
+            if (interstitial) {
+                if (countMatch !== 0 && countMatch % 7 === 0) {
+                    if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
+                        interstitial.show()
+                    }
                 }
             }
 
@@ -146,7 +135,33 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
         }
 
         hideAndShowUpdateMatch(false)
-    }
+    }, [scoreLocal, scoreVisitant, scoreLocalTrip, scoreVisitantTrip, scoreLocalTieBreaker, scoreVisitantTieBreaker, stadiumSelected,
+        referreSelected, match, group, round, updateMatchKnockGroup, updateEliminationMatch, hideAndShowUpdateMatch, interstitial, isIntersitialLoaded, premium])
+
+    const theme = useMemo(() => ({
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            surface: "#111",
+            background: "#111",
+            primary: "#999",
+            onSurface: "#999",
+        },
+    }), [])
+
+    const stadiumsData = useMemo(
+        () => getStadiumsName(group.stadiums!),
+        [group.stadiums]
+    )
+
+    const refereesData = useMemo(
+        () => getRefereeName(group.referees!),
+        [group.referees]
+    )
+
+    useEffect(() => {
+        registerTranslation('en-GB', enGB)
+    }, [])
 
     return (
         <ContainerBackground zIndex={20}>
@@ -158,7 +173,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                 onPress={() => hideAndShowUpdateMatch(false)}
             />
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
+            <Text variant="labelLarge" style={{ marginVertical: spacing.h28 }}>
                 {i18n.t("teamScores")}
             </Text>
 
@@ -169,15 +184,19 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             {match.local.team.logo ? (
                                 <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.local.team.color }} />
+                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.local.team.color }} color='#ffffff' />
                             )}
-                            <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
-                                {groupName(match.local.team.name!)}
-                            </Text>
+                            {
+                                isFullName ? <Text variant='bodyMedium' style={{ marginTop: spacing.h106 }}>
+                                    {nameParticipant(match.local.team.name!)}
+                                </Text> : <Text variant='bodyMedium' style={{ marginTop: spacing.h106 }}>
+                                    {groupName(match.local.team.name!)}
+                                </Text>
+                            }
                         </View>
                         {
                             group.isRoundTripElimination &&
-                            <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                            <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                                 {i18n.t("home")}
                             </Text>
                         }
@@ -194,7 +213,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         />
                         {group.isRoundTripElimination && (
                             <>
-                                <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                                <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                                     {i18n.t("away")}
                                 </Text>
                                 <TextInput
@@ -209,7 +228,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 />
                             </>
                         )}
-                        <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                        <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                             {i18n.t("tiebreakerOptional")}
                         </Text>
                         <TextInput
@@ -232,13 +251,17 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             ) : (
                                 <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.visitant.team.color }} />
                             )}
-                            <Text variant='bodyMedium' style={{ marginTop: Dimensions.get("window").height / 106 }}>
-                                {groupName(match.visitant.team.name!)}
-                            </Text>
+                            {
+                                isFullName ? <Text variant='bodyMedium' style={{ marginTop: spacing.h106 }}>
+                                    {nameParticipant(match.visitant.team.name!)}
+                                </Text> : <Text variant='bodyMedium' style={{ marginTop: spacing.h106 }}>
+                                    {groupName(match.visitant.team.name!)}
+                                </Text>
+                            }
                         </View>
                         {
                             group.isRoundTripElimination &&
-                            <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                            <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                                 {i18n.t("home")}
                             </Text>
                         }
@@ -256,7 +279,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         {group.isRoundTripElimination && (
                             <>
 
-                                <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                                <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                                     {i18n.t("away")}
                                 </Text>
                                 <TextInput
@@ -271,7 +294,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                 />
                             </>
                         )}
-                        <Text variant="labelMedium" style={{ marginVertical: Dimensions.get("window").height / 106 }}>
+                        <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                             {i18n.t("tiebreakerOptional")}
                         </Text>
                         <TextInput
@@ -330,10 +353,10 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                 <Text variant="labelLarge">{i18n.t("selectMatchStadiumLabel")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, { backgroundColor: colors.tertiary }, isFocusStadium && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    data={getStadiumsName(group.stadiums!)}
-                    maxHeight={Dimensions.get("window").height / 3.8}
+                    placeholderStyle={{ fontSize: spacing.h47 }}
+                    selectedTextStyle={{ fontSize: spacing.h47 }}
+                    data={stadiumsData}
+                    maxHeight={spacing.h3_8}
                     labelField="label"
                     valueField="value"
                     placeholder={String(stadiumSelected)}
@@ -351,10 +374,10 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                 <Text variant="labelLarge">{i18n.t("selectMatchRefereeLabel")}</Text>
                 <Dropdown
                     style={[createStyles.dropdownComplete, { backgroundColor: colors.tertiary }, isFocusReferee && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    selectedTextStyle={{ fontSize: Dimensions.get("window").height / 47 }}
-                    data={getRefereeName(group.referees!)}
-                    maxHeight={Dimensions.get("window").height / 3.8}
+                    placeholderStyle={{ fontSize: spacing.h47 }}
+                    selectedTextStyle={{ fontSize: spacing.h47 }}
+                    data={refereesData}
+                    maxHeight={spacing.h3_8}
                     labelField="label"
                     valueField="value"
                     placeholder={String(referreSelected)}

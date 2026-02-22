@@ -69,7 +69,8 @@
   "groupStage": {
     "welcome": "Hoş geldiniz!",
     "createStage": "Bir Grup Aşaması Oluştur",
-    "addTeam": "TAKIM EKLE"
+    "addTeam": "TAKIM EKLE",
+    "addTournament": "GRUP AŞAMASI OLUŞTUR"
   },
   "teamForm": {
     "changeImage": "Resmi değiştir",
@@ -111,6 +112,7 @@
   "sure": {
     "removeGroupStage": "Grup aşamasını silmek istediğinizden emin misiniz?",
     "restartGroupStage": "Grup aşamasını yeniden başlatmak istediğinizden emin misiniz?",
+    "restartKnockout": "Eleme aşamasını yeniden başlatmak istediğinize emin misiniz?",
     "restart": "YENİDEN BAŞLAT"
   },
   "group": {
@@ -360,7 +362,7 @@
   "errorUploadImageTitle": "Resim yükleme hatası",
   "errorUploadImageDescription": "İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin",
   "errorLimitTitle": "Takım Sınırı",
-  "errorLimitDescription": "64 takımlık sınıra ulaştınız.",
+  "errorLimitDescription": "48 takımlık sınıra ulaştınız.",
   "home": "İlk maç",
   "away": "Rövanş maçı",
   "updateknockout": "Güncelleme",
@@ -418,5 +420,18 @@
   "duplicate": "Kopyala",
   "titleTent": "Premium’a abone olun ve tüm avantajlara erişin",
   "titleIsPremium": "Tebrikler! Artık Premium üyesisiniz",
-  "allTeams": "Tüm takımlar"
+  "allTeams": "Tüm takımlar",
+  "tryRestoring": "Maç takvimi alınırken hata oluştu. Turnuvayı geri yüklemeyi deneyin.",
+  "displayFullName": "Takımların tam adını göster",
+  "language": "Dil",
+  "selectLanguage": "Dil seç",
+  "TeamFullName": "Takımın tam adı",
+  "reachedTournament": "Mevcut planınız için turnuva limitine ulaştınız. Daha fazlasını oluşturmak için Premium’a yükseltin veya mevcut bir turnuvayı silin.",
+  "emptyFields": "Boş alanlar var. Lütfen doldurun",
+  "invalidEmail": "Geçersiz e-posta",
+  "manyAttempts": "Çok fazla deneme. Lütfen daha sonra tekrar deneyin",
+  "appSettings": "Uygulama Ayarları",
+  "random": "Rastgele",
+  "weakPassword": "Şifre zayıf. Harf ve rakam eklediğinizden ve yaygın bir şifre olmadığından emin olun",
+  "beforeKnockoutStage": "Not: Eleme aşamasını oluşturmadan önce grup aşamasındaki tüm sonuçları tamamlamanızı öneririz"
 }

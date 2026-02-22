@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import { DataTable, Text } from 'react-native-paper';
-import { Dimensions, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import i18n from '@/i18n'
 
 import Match from './components/Match';
@@ -13,24 +13,29 @@ import { generalStyles } from '@/styles/general.styles';
 
 import { getMatchdaysGroupState } from '@/utils/matchday';
 
+import { useIsFullName } from '@/hooks/useIsFullName';
+
 type RenderMatchday = {
     item: IMatch[];
     index: number;
 }
 
-const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) => {
+const Schedule = memo(({ group, colors, handleGetMatch, router, spacing }: SchedulePropsType) => {
 
-    const [errorMatchdays, setErrorMatchdays] = useState<string>("")
+    const { isFullName } = useIsFullName()
 
     const matchdays = useMemo(() => {
         try {
-            return getMatchdaysGroupState(group.matches!, group.matchdayView!, group.matchdayNumber!, router);
-        } catch (error) {
-            console.log(error);
-            setErrorMatchdays(i18n.t("tryRestoring"))
-            return []
+            return getMatchdaysGroupState(
+                group.matches!,
+                group.matchdayView!,
+                group.matchdayNumber!,
+                router
+            )
+        } catch {
+            return null
         }
-    }, [group.matches, group.matchdayView, group.matchdayNumber]);
+    }, [group.matches, group.matchdayView, group.matchdayNumber, router, isFullName])
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
@@ -43,7 +48,7 @@ const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) 
             }
             <DataTable.Header style={{
                 borderBottomColor: colors.primary, backgroundColor: colors.tertiary,
-                marginTop: group.matchdayNumber === "all" ? 0 : Dimensions.get("window").height / 74
+                marginTop: group.matchdayNumber === "all" ? 0 : spacing.h74
             }}>
                 <DataTable.Title style={groupStyles.rowStart}>
                     {i18n.t("local")}
@@ -66,6 +71,7 @@ const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) 
                         colors={colors}
                         index={indexItem}
                         handleGetMatch={handleGetMatch}
+                        spacing={spacing}
                         key={indexItem}
                     />
                 );
@@ -75,11 +81,9 @@ const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) 
 
     return (
         <>
-            {
-                errorMatchdays && <Text variant='bodyMedium'>
-                    {errorMatchdays}
-                </Text>
-            }
+            {!matchdays && (
+                <Text variant="bodyMedium">{i18n.t("tryRestoring")}</Text>
+            )}
             <FlatList
                 data={matchdays}
                 renderItem={renderMatchday}
@@ -87,6 +91,6 @@ const Schedule = ({ group, colors, handleGetMatch, router }: SchedulePropsType) 
             />
         </>
     )
-};
+})
 
 export default Schedule;

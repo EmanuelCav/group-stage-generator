@@ -9,9 +9,11 @@ import { GroupTeamPropsType } from '@/types/groups.types'
 
 import { groupStyles } from '@/styles/group.styles'
 
-import { generatePoints } from '@/utils/points'
+import { useGroupPoints } from '@/hooks/useGroupPoints'
 
 const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
+
+    const points = useGroupPoints(group, groupNumber)
 
     return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -59,14 +61,14 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     </View>
                 }
                 <FlatList
-                    data={generatePoints(group.teams.filter(t => t.group === groupNumber + 1), group.matches!, group)}
+                    data={points}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
                         <View style={{ backgroundColor: "#f00" }}>
                             {
                                 group.pointsMode === "points" && <View style={[groupStyles.row, , { backgroundColor: colors.tertiary }]}>
                                     <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
-                                        <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
+                                        <Text variant="titleSmall">
                                             {(item.won * group.pointsWin!) + (item.tied * group.pointsDraw!) + (item.lost * group.pointsLoss!)}
                                         </Text>
                                     </View>
@@ -81,7 +83,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                             {
                                 group.pointsMode === "wins" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
                                     <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
-                                        <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
+                                        <Text variant="titleSmall">
                                             {item.won}
                                         </Text>
                                     </View>
@@ -95,7 +97,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                             {
                                 group.pointsMode === "percentage" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
                                     <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
-                                        <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
+                                        <Text variant="titleSmall">
                                             {(item.won + item.lost > 0
                                                 ? (item.won / (item.won + item.lost)).toFixed(2)
                                                 : '0.00'
@@ -113,7 +115,7 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                             {
                                 group.pointsMode === "scored" && <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
                                     <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
-                                        <Text variant="bodyMedium" style={{ fontWeight: 'bold' }}>
+                                        <Text variant="titleSmall">
                                             {item.positive}
                                         </Text>
                                     </View>

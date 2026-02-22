@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
@@ -19,7 +18,7 @@ import { stadiumSchema } from "@/schema/stadium.schema";
 
 import { generateId } from "@/utils/defaultGroup";
 
-const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded, premium }: FormCreateStadiumPropsType) => {
+const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreateStadiumPropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -72,10 +71,12 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (group.stadiums?.length !== 0) {
-                    if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
-                        if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                            interstitial.show()
+                if(interstitial) {
+                    if (group.stadiums?.length !== 0) {
+                        if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
+                            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
+                                interstitial.show()
+                            }
                         }
                     }
                 }
@@ -122,7 +123,7 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             {errors.name && (
                 <Text
                     variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                    style={{ color: MD3Colors.error50, marginTop: spacing.h106 }}
                 >
                     {errors.name.message}
                 </Text>

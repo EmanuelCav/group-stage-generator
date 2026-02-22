@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { enGB, registerTranslation, DatePickerModal, TimePickerModal } from 'react-native-paper-dates'
-import { Dimensions } from 'react-native'
 import { Avatar, Button, IconButton, MD3Colors, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -18,23 +17,9 @@ import { createStyles } from '@/styles/create.styles'
 import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
-import { groupName } from '@/utils/points';
+import { groupName, nameParticipant } from '@/utils/points';
 
-const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, interstitial, isIntersitialLoaded }: FormUpdateMatchPropsType) => {
-
-    const theme = {
-        ...DefaultTheme,
-        colors: {
-            ...DefaultTheme.colors,
-            surface: "#111",
-            background: "#111",
-            primary: "#999",
-            onSurface: "#999",
-
-        },
-    }
-
-    registerTranslation('en-GB', enGB)
+const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, interstitial, isIntersitialLoaded, spacing, isFullName }: FormUpdateMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.visitant.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -100,10 +85,11 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             const storedCountMatch = await AsyncStorage.getItem("matchCount");
             const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
 
-
-            if (countMatch !== 0 && countMatch % 8 === 0) {
-                if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
-                    interstitial.show()
+            if (interstitial) {
+                if (countMatch !== 0 && countMatch % 7 === 0) {
+                    if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
+                        interstitial.show()
+                    }
                 }
             }
 
@@ -119,6 +105,31 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
         }, 500)
     }
 
+    const theme = useMemo(() => ({
+        ...DefaultTheme,
+        colors: {
+            ...DefaultTheme.colors,
+            surface: "#111",
+            background: "#111",
+            primary: "#999",
+            onSurface: "#999",
+        },
+    }), [])
+
+    const stadiumsData = useMemo(
+        () => getStadiumsName(group.stadiums!),
+        [group.stadiums]
+    )
+
+    const refereesData = useMemo(
+        () => getRefereeName(group.referees!),
+        [group.referees]
+    )
+
+    useEffect(() => {
+        registerTranslation('en-GB', enGB)
+    }, [])
+
     return (
         <ContainerBackground zIndex={20}>
             <IconButton
@@ -129,22 +140,24 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 onPress={() => hideAndShowUpdateMatch(false)}
             />
 
-            <Text variant="labelLarge" style={{ marginVertical: Dimensions.get("window").height / 28 }}>
+            <Text variant="labelLarge" style={{ marginVertical: spacing.h28 }}>
                 {i18n.t("team_scores")}
             </Text>
 
             <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
-                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background, alignItems: isFullName ? 'flex-start' : 'center' }]}>
                     {match.local.team.logo ? (
                         <Avatar.Image source={{ uri: match.local.team.logo }} size={32} />
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} color="#ffffff" style={{ backgroundColor: match.local.team.color }} />
                     )}
                     <Text variant='bodyMedium' style={{
-                        marginTop: Dimensions.get("window").height / 106,
+                        marginTop: spacing.h106,
                         color: colors.surface
                     }}>
-                        {groupName(match.local.team.name!)}
+                        {
+                            isFullName ? nameParticipant(match.local.team.name!) : groupName(match.local.team.name!)
+                        }
                     </Text>
                 </View>
                 <TextInput
@@ -161,20 +174,22 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <View style={[matchStyles.scoreTeamForm, {
-                marginVertical: Dimensions.get("window").height / 74,
+                marginVertical: spacing.h74,
                 backgroundColor: colors.background
             }]}>
-                <View style={[matchStyles.teamForm, { backgroundColor: colors.background }]}>
+                <View style={[matchStyles.teamForm, { backgroundColor: colors.background, alignItems: isFullName ? 'flex-start' : 'center' }]}>
                     {match.visitant.team.logo ? (
                         <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                     ) : (
                         <Avatar.Icon icon="shield-outline" size={32} color="#ffffff" style={{ backgroundColor: match.visitant.team.color }} />
                     )}
                     <Text variant='bodyMedium' style={{
-                        marginTop: Dimensions.get("window").height / 106,
+                        marginTop: spacing.h106,
                         color: colors.surface
                     }}>
-                        {groupName(match.visitant.team.name!)}
+                        {
+                            isFullName ? nameParticipant(match.visitant.team.name!) : groupName(match.visitant.team.name!)
+                        }
                     </Text>
                 </View>
                 <TextInput
@@ -237,12 +252,12 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         isFocusStadium && { borderColor: colors.primary },
                     ]}
                     placeholderStyle={{
-                        fontSize: Dimensions.get("window").height / 47,
+                        fontSize: spacing.h47,
                         color: colors.surface,
                         backgroundColor: colors.tertiary
                     }}
                     selectedTextStyle={{
-                        fontSize: Dimensions.get("window").height / 47,
+                        fontSize: spacing.h47,
                         color: colors.surface,
                         backgroundColor: colors.tertiary
                     }}
@@ -253,8 +268,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         backgroundColor: colors.tertiary,
                     }}
                     activeColor={colors.primary}
-                    data={getStadiumsName(group.stadiums!)}
-                    maxHeight={Dimensions.get("window").height / 3.8}
+                    data={stadiumsData}
+                    maxHeight={spacing.h3_8}
                     labelField="label"
                     valueField="value"
                     placeholder={String(stadiumSelected)}
@@ -277,12 +292,12 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         isFocusReferee && { borderColor: colors.primary },
                     ]}
                     placeholderStyle={{
-                        fontSize: Dimensions.get("window").height / 47,
+                        fontSize: spacing.h47,
                         color: colors.surface,
                         backgroundColor: colors.tertiary
                     }}
                     selectedTextStyle={{
-                        fontSize: Dimensions.get("window").height / 47,
+                        fontSize: spacing.h47,
                         color: colors.surface,
                         backgroundColor: colors.tertiary
                     }}
@@ -293,8 +308,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                         backgroundColor: colors.tertiary,
                     }}
                     activeColor={colors.primary}
-                    data={getRefereeName(group.referees!)}
-                    maxHeight={Dimensions.get("window").height / 3.8}
+                    data={refereesData}
+                    maxHeight={spacing.h3_8}
                     labelField="label"
                     valueField="value"
                     placeholder={String(referreSelected)}

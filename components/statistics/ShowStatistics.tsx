@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { FlatList } from 'react-native';
 import { View } from '../Themed';
 
@@ -10,11 +10,15 @@ import { generalStyles } from '@/styles/general.styles';
 
 import { statisticTable } from '@/utils/statistics';
 
-const ShowStatistics = ({ group, colors }: ShowStatisticsPropsType) => {
+import { useIsFullName } from '@/hooks/useIsFullName';
+
+const ShowStatistics = memo(({ group, colors }: ShowStatisticsPropsType) => {
+
+    const { isFullName } = useIsFullName()
 
     const statistic = useMemo(() => {
         return statisticTable(group)
-    }, [group.matches, group.eliminationMatches])
+    }, [group, isFullName])
 
     return (
         <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
@@ -32,6 +36,6 @@ const ShowStatistics = ({ group, colors }: ShowStatisticsPropsType) => {
             />
         </View>
     );
-};
+})
 
 export default ShowStatistics;

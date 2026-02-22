@@ -7,20 +7,20 @@ export const groupStyles = StyleSheet.create({
         backgroundColor: "#ddd",
         paddingVertical: Dimensions.get("window").height / 123,
         borderBottomWidth: 1,
-        borderColor: "#ccc",
+        borderColor: "#ccc"
     },
 
     headerCellPosition: {
         width: Dimensions.get("window").width / 11.25,
         textAlign: "center",
-        fontWeight: "bold",
+        fontFamily: 'Raleway_Bold',
         color: "#ffffff"
     },
 
     headerCell: {
         width: Dimensions.get("window").width / 9,
         textAlign: "center",
-        fontWeight: "bold",
+        fontFamily: 'Raleway_Bold',
         color: "#ffffff"
     },
 
@@ -32,7 +32,7 @@ export const groupStyles = StyleSheet.create({
     },
 
     cellPosition: {
-        fontWeight: '600',
+        fontFamily: 'Raleway_SemiBold',
         width: Dimensions.get("window").width / 9,
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
@@ -48,7 +48,7 @@ export const groupStyles = StyleSheet.create({
 
     teamCell: {
         width: Dimensions.get("window").width / 6,
-        fontWeight: '600',
+        fontFamily: 'Raleway_SemiBold',
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
         alignItems: 'center',
@@ -106,7 +106,7 @@ export const groupStyles = StyleSheet.create({
     statisticsCellMain: {
         width: Dimensions.get("window").width / 3,
         textAlign: "center",
-        fontWeight: "bold",
+        fontFamily: "Raleway_Bold",
         color: "#ffffff"
     },
 
@@ -122,6 +122,14 @@ export const groupStyles = StyleSheet.create({
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    smallScoreCell: {
+        maxWidth: 40,
+        minWidth: 40,
+        flexGrow: 0,
+        flexShrink: 0,
+        justifyContent: 'center'
     }
 
 })

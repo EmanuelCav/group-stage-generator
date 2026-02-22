@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Card, IconButton, Text } from "react-native-paper";
 import { View, Image, Dimensions } from "react-native";
 import i18n from '@/i18n'
@@ -6,7 +7,7 @@ import { TournamentPropsType } from "@/types/index.types";
 
 import { indexStyles } from "@/styles/index.styles";
 
-const Tournament = ({ group, colors, handleGroup }: TournamentPropsType) => {
+const Tournament = memo(({ group, colors, handleGroup }: TournamentPropsType) => {
     return (
         <Card style={{
             marginTop: Dimensions.get("window").height / 74,
@@ -47,6 +48,6 @@ const Tournament = ({ group, colors, handleGroup }: TournamentPropsType) => {
             </Card.Content>
         </Card>
     );
-};
+})
 
 export default Tournament;

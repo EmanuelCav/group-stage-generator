@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
@@ -25,11 +25,10 @@ import { groupStore } from "@/store/group.store";
 import { stadiumStore } from "@/store/stadium.store";
 import { userStore } from "@/store/user.store";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_STADIUM}`;
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { useSpacing } from "@/hooks/useSpacing";
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
-});
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_STADIUM}`;
 
 const toastConfig = {
   error: (props: any) => (
@@ -51,17 +50,19 @@ const Stadiums = () => {
 
   const router = useRouter()
 
-  const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
+  const spacing = useSpacing()
+
+  const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
   const handleUpdate = (data: IStadium) => {
     updateStadium(data)
     getStadium({})
   }
 
-  const handleUpdateStadium = (data: IStadium) => {
+  const handleUpdateStadium = useCallback((data: IStadium) => {
     getStadium(data)
     hideAndShowAddStadium(true)
-  }
+  }, [])
 
   const openSure = (data: IStadium) => {
     getStadium(data)
@@ -84,42 +85,27 @@ const Stadiums = () => {
     hideAndShowAddStadium(true)
   }
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     router.replace("/(tabs)/groups")
-  }
+  }, [router])
+
+  const renderStadium = useCallback(
+    ({ item }: { item: IStadium }) => (
+      <Stadium
+        stadium={item}
+        handleUpdateStadium={handleUpdateStadium}
+        colors={colors}
+        spacing={spacing}
+      />
+    ),
+    [handleUpdateStadium, colors, spacing]
+  )
 
   useEffect(() => {
     hideAndShowAddStadium(false)
     sureRemoveStadium(false)
     getStadium({})
   }, [])
-
-  useEffect(() => {
-
-    const loadInterstitialAd = () => {
-      try {
-        interstitial.load();
-      } catch (error) {
-        console.error("Error loading interstitial ad:", error);
-      }
-    };
-
-    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-      setIsIntersitialLoaded(true)
-    });
-
-    const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-      setIsIntersitialLoaded(false)
-      loadInterstitialAd();
-    });
-
-    loadInterstitialAd();
-
-    return () => {
-      unsubscribeLoaded()
-      unsubscribedClosed()
-    };
-  }, []);
 
   return (
     <MainScreen colors={colors}>
@@ -144,8 +130,9 @@ const Stadiums = () => {
             hideAndShowAddStadium={hideAndShowAddStadium}
             createStadium={createStadium}
             updateStadium={handleUpdate}
-            interstitial={interstitial}
-            isIntersitialLoaded={isIntersitialLoaded}
+            interstitial={interstitial!}
+            isIntersitialLoaded={isInterstitialLoaded}
+            spacing={spacing}
           />
         )
       }
@@ -183,10 +170,11 @@ const Stadiums = () => {
             <FlatList
               style={{ width: '100%' }}
               data={group.stadiums!}
-              keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Stadium stadium={item} handleUpdateStadium={handleUpdateStadium} colors={colors} />
-              )}
+              keyExtractor={(item) => item.id!}
+              renderItem={renderStadium}
+              initialNumToRender={10}
+              windowSize={5}
+              removeClippedSubviews
             />
           ) : (
             <Text variant="bodyMedium" style={createStyles.advideText}>

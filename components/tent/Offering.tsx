@@ -28,12 +28,12 @@ const Offering = ({ pkg, handlePurchase, colors }: OfferingPropsType) => {
         }}>
             <Card.Content>
                 <View style={tentStyles.headerOffering}>
-                    <Text variant="titleLarge" style={{ fontWeight: 'bold' }}>{pkg.product.title.split("(")[0]}</Text>
+                    <Text variant="titleLarge" style={{ fontFamily: 'Raleway_Bold' }}>{pkg.product.title.split("(")[0]}</Text>
                     <View style={{ alignItems: "flex-end" }}>
-                        <Text variant="titleLarge" style={{ fontWeight: 'bold', color: colors.secondary }}>
+                        <Text variant="titleLarge" style={{ color: colors.secondary }}>
                             {pkg.product.priceString}
                         </Text>
-                        <Text variant="titleMedium" style={{ fontWeight: 'bold' }}>
+                        <Text variant="titleMedium" style={{ fontFamily: 'Raleway_Bold' }}>
                             {periodLabel}
                         </Text>
                     </View>

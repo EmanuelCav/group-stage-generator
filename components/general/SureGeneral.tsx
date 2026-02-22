@@ -1,4 +1,5 @@
 import { useRouter } from "expo-router"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import i18n from '@/i18n'
 
 import Sure from "./Sure"
@@ -23,17 +24,16 @@ const SureGeneral = () => {
         }, 0);
     }
 
-    const handleRemove = () => {
+    const handleRemove = async () => {
 
         if (user && group.user_id) {
             deleteGroupFromSupabase(group.id!, user.id)
         }
 
-        if (groups.length <= 1) {
-            router.replace("/create")
-        } else {
-            router.replace("/home")
-        }
+        router.replace("/home")
+
+        const getAmountGroups = await AsyncStorage.getItem("amount_groups_general")
+        await AsyncStorage.setItem("amount_groups_general", String(Number(getAmountGroups) - 1))
 
         setTimeout(() => {
             sureRemoveGroup(false)

@@ -17,12 +17,12 @@ export default function AuthCallback() {
     const code = params.code as string | undefined;
 
     if (!code) {
-      router.replace("/create");
+      router.replace("/home");
       return
     }
 
     supabase.auth.exchangeCodeForSession(code)
-      .then(() => router.replace("/create"))
+      .then(() => router.replace("/home"))
       .catch((err) => console.log("Error al intercambiar código:", err));
   }, [params])
 

@@ -1,20 +1,26 @@
+import { memo, useCallback } from 'react';
 import { FlatList } from 'react-native';
 
 import Tournament from './components/Tournament';
 
+import { IGroup } from '@/interface/Group';
 import { TournamentsPropsType } from '@/types/index.types';
 
-const Tournaments = ({ groups, colors, handleGroup }: TournamentsPropsType) => {
+const Tournaments = memo(({ groups, colors, handleGroup }: TournamentsPropsType) => {
+
+  const renderTournaments = useCallback(({ item }: { item: IGroup }) => (
+    <Tournament group={item} colors={colors} handleGroup={handleGroup} />),
+    [colors, handleGroup]
+  )
+
   return (
     <FlatList
       style={{ width: '100%' }}
       data={groups}
       keyExtractor={(group) => group.id!.toString()}
-      renderItem={({ item }) =>
-        <Tournament group={item} colors={colors} handleGroup={handleGroup} />
-      }
+      renderItem={renderTournaments}
     />
   )
-}
+})
 
 export default Tournaments

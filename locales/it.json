@@ -69,7 +69,8 @@
     "groupStage": {
         "welcome": "Benvenuto!",
         "createStage": "Crea una fase a gironi",
-        "addTeam": "AGGIUNGI SQUADRA"
+        "addTeam": "AGGIUNGI SQUADRA",
+        "addTournament": "CREA FASE A GIRONI"
     },
     "teamForm": {
         "changeImage": "Cambia immagine",
@@ -111,6 +112,7 @@
     "sure": {
         "removeGroupStage": "Sei sicuro di voler eliminare la fase a gironi?",
         "restartGroupStage": "Sei sicuro di voler riavviare la fase a gironi?",
+        "restartKnockout": "Sei sicuro di voler riavviare la fase a eliminazione diretta?",
         "restart": "RIAVVIA"
     },
     "group": {
@@ -360,7 +362,7 @@
     "errorUploadImageTitle": "Errore nel caricamento",
     "errorUploadImageDescription": "Controlla la tua connessione o riprova più tardi",
     "errorLimitTitle": "Limite di squadre",
-    "errorLimitDescription": "Hai raggiunto il limite di 64 squadre.",
+    "errorLimitDescription": "Hai raggiunto il limite di 48 squadre.",
     "home": "Andata",
     "away": "Ritorno",
     "updateknockout": "Aggiornamento",
@@ -418,5 +420,18 @@
     "duplicate": "Duplica",
     "titleTent": "Abbonati a Premium e accedi a tutti i vantaggi",
     "titleIsPremium": "Congratulazioni! Ora sei un membro Premium",
-    "allTeams": "Tutte le squadre"
+    "allTeams": "Tutte le squadre",
+    "tryRestoring": "Errore nel recupero del calendario delle partite. Prova a ripristinare il torneo.",
+    "displayFullName": "Mostra il nome completo delle squadre",
+    "language": "Lingua",
+    "selectLanguage": "Seleziona lingua",
+    "TeamFullName": "Nome completo della squadra",
+    "reachedTournament": "Hai raggiunto il limite di tornei del tuo piano attuale. Per crearne altri, passa a Premium o elimina un torneo esistente.",
+    "emptyFields": "Ci sono campi vuoti. Per favore completali",
+    "invalidEmail": "Email non valida",
+    "manyAttempts": "Troppi tentativi. Riprova più tardi",
+    "appSettings": "Impostazioni App",
+    "random": "Casuale",
+    "weakPassword": "La password è debole. Assicurati di includere lettere, numeri e che non sia comune",
+    "beforeKnockoutStage": "Nota: Ti consigliamo di completare tutti i risultati della fase a gironi prima di generare la fase a eliminazione diretta"
 }

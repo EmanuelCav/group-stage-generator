@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Dimensions, Image, TouchableOpacity } from "react-native";
+import React, { useMemo, useState } from "react";
+import { Image, TouchableOpacity } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
@@ -23,7 +23,7 @@ import { normalizeUri, uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
 
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded, premium }: FormCreateTeamPropsType) => {
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${i18n.t("group.title")} ${team.groupAssigned}` : "")
@@ -57,14 +57,24 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
     try {
 
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+      if (status !== "granted") {
+        Toast.show({
+          type: 'error',
+          text1: i18n.t("permissions.galleryAccess.title"),
+          text2: i18n.t("permissions.galleryAccess.message")
+        })
+        return
+      }
+
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ["images"],
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 1
       });
 
-      if (!result.canceled) {
+      if (!result.canceled && result.assets.length > 0) {
         const normalizedUri = await normalizeUri(result.assets[0].uri);
         setImage(normalizedUri);
       }
@@ -120,6 +130,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           text1: i18n.t("errorUploadImageTitle"),
           text2: i18n.t("errorUploadImageDescription")
         });
+        setLoading(false)
         return
       }
     }
@@ -149,10 +160,12 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         const storedCount = await AsyncStorage.getItem("reviewCount");
         const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-        if (group.teams.length !== 0) {
-          if (group.teams.length === 1 || group.teams.length % 8 === 0) {
-            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-              interstitial.show()
+        if (interstitial) {
+          if (group.teams.length !== 0) {
+            if (group.teams.length === 1 || group.teams.length % 8 === 0) {
+              if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
+                interstitial.show()
+              }
             }
           }
         }
@@ -169,6 +182,16 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       hideAndShowAddTeam(false)
     }, timeLoading)
   }
+
+  const plotsData = useMemo(
+    () => dataPlots(group.teamsPerGroup!),
+    [group.teamsPerGroup]
+  )
+
+  const groupsData = useMemo(
+    () => dataGroupNumber(group.amountGroups!),
+    [group.amountGroups]
+  )
 
   return (
     <ContainerBackground zIndex={20}>
@@ -227,12 +250,12 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
               isFocus && { borderColor: colors.primary },
             ]}
             placeholderStyle={{
-              fontSize: Dimensions.get("window").height / 47,
+              fontSize: spacing.h47,
               color: colors.surface,
               backgroundColor: colors.tertiary
             }}
             selectedTextStyle={{
-              fontSize: Dimensions.get("window").height / 47,
+              fontSize: spacing.h47,
               color: colors.surface,
               backgroundColor: colors.tertiary
             }}
@@ -243,8 +266,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
               backgroundColor: colors.tertiary,
             }}
             activeColor={colors.primary}
-            data={dataPlots(group.teamsPerGroup!)}
-            maxHeight={Dimensions.get("window").height / 5}
+            data={plotsData}
+            maxHeight={spacing.h5}
             labelField="label"
             valueField="value"
             placeholder={String(plot)}
@@ -269,12 +292,12 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
               isFocusGroup && { borderColor: colors.primary },
             ]}
             placeholderStyle={{
-              fontSize: Dimensions.get("window").height / 47,
+              fontSize: spacing.h47,
               color: colors.surface,
               backgroundColor: colors.tertiary
             }}
             selectedTextStyle={{
-              fontSize: Dimensions.get("window").height / 47,
+              fontSize: spacing.h47,
               color: colors.surface,
               backgroundColor: colors.tertiary
             }}
@@ -285,8 +308,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
               backgroundColor: colors.tertiary,
             }}
             activeColor={colors.primary}
-            data={dataGroupNumber(group.amountGroups!)}
-            maxHeight={Dimensions.get("window").height / 5}
+            data={groupsData}
+            maxHeight={spacing.h5}
             labelField="label"
             valueField="value"
             placeholder={String(groupNumber)}

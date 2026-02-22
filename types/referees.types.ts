@@ -3,6 +3,7 @@ import { InterstitialAd } from "react-native-google-mobile-ads";
 
 import { IReferee } from "@/interface/Referee";
 import { IGroup } from "@/interface/Group";
+import { Spacing } from "./props.types";
 
 export type FormCreateRefereePropsType = {
     colors: MD3Colors;
@@ -15,10 +16,12 @@ export type FormCreateRefereePropsType = {
     group: IGroup;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
+    spacing: Spacing;
 }
 
 export type RefereePropsType = {
     referee: IReferee;
     handleUpdateReferee: (referee: IReferee) => void;
     colors: MD3Colors;
+    spacing: Spacing;
 }

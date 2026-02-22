@@ -1,7 +1,7 @@
 {
     "areYouSureDelete": "¿Estás seguro de que deseas eliminar?",
     "remove": "ELIMINAR",
-    "settings": "Configuración",
+    "settings": "Ajustes",
     "groupStageName": "Nombre de la fase de grupos",
     "manuallyTitle": "Generar la fase de grupos manualmente",
     "numberOfGroups": "Número de grupos",
@@ -69,7 +69,8 @@
     "groupStage": {
         "welcome": "¡Bienvenido!",
         "createStage": "Crear una fase de grupos",
-        "addTeam": "AGREGAR EQUIPO"
+        "addTeam": "AGREGAR EQUIPO",
+        "addTournament": "CREAR FASE DE GRUPOS"
     },
     "teamForm": {
         "changeImage": "Cambiar imagen",
@@ -111,6 +112,7 @@
     "sure": {
         "removeGroupStage": "¿Estás seguro de que deseas eliminar la fase de grupos?",
         "restartGroupStage": "¿Estás seguro de que deseas reiniciar la fase de grupos?",
+        "restartKnockout": "¿Estás seguro de que deseas reiniciar la fase eliminatoria?",
         "restart": "REINICIAR"
     },
     "group": {
@@ -386,7 +388,7 @@
     "send_email": "Enviar correo electrónico",
     "back": "Regresar",
     "passwordDontMatch": "Las contraseñas no coinciden",
-    "sixCharacters": "La contraseña debe tener al menos 6 caracteres",
+    "sixCharacters": "La contraseña debe tener al menos 8 caracteres",
     "successfullyRegister": "¡Registro exitoso!",
     "checkToVerify": "Revisa tu correo para verificar tu cuenta.",
     "startNow": "Empezar ahora",
@@ -418,5 +420,18 @@
     "duplicate": "Duplicar",
     "titleTent": "Suscribite a Premium y accede a todos los beneficios",
     "titleIsPremium": "¡Felicidades! Ya eres premium",
-    "allTeams": "Todos los equipos"
+    "allTeams": "Todos los equipos",
+    "tryRestoring": "Error al recuperar el calendario de partidos. Intenta restaurar el torneo.",
+    "displayFullName": "Mostrar nombre completo de los equipos",
+    "language": "Idioma",
+    "selectLanguage": "Seleccionar idioma",
+    "TeamFullName": "Nombre completo del equipo",
+    "reachedTournament": "Has alcanzado el límite de torneos de tu plan actual. Para crear más, actualiza a Premium o elimina un torneo existente.",
+    "emptyFields": "Hay campos vacíos. Por favor, complétalos",
+    "invalidEmail": "Correo electrónico inválido",
+    "manyAttempts": "Demasiados intentos. Inténtalo más tarde",
+    "appSettings": "Configuración App",
+    "random": "Aleatorio",
+    "weakPassword": "La contraseña es débil. Asegúrate de incluir letras, números y que no sea común",
+    "beforeKnockoutStage": "Nota: Te recomendamos completar todos los resultados de la fase de grupos antes de generar la fase de eliminación"
 }

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { FlatList } from "react-native";
 import { Text } from "react-native-paper";
 import i18n from '@/i18n'
@@ -10,9 +11,14 @@ import { groupStyles } from "@/styles/group.styles";
 import { statisticsStyles } from "@/styles/statistics.styles";
 
 import { namePlayerStatistic, playerStatistics } from "@/utils/statistics";
-import { groupName } from "@/utils/points";
+import { groupName, nameParticipant } from "@/utils/points";
 
-const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisticPropsType) => {
+import { useIsFullName } from "@/hooks/useIsFullName";
+
+const TableStatistic = memo(({ colors, itemStatistic, indexStatistic }: TableStatisticPropsType) => {
+
+  const { isFullName } = useIsFullName()
+
   return (
     <View style={groupStyles.groupList}>
       <View>
@@ -33,11 +39,14 @@ const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisti
                 <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
                   <Text style={groupStyles.statisticsCell} variant="bodySmall">{namePlayerStatistic(item.player)}</Text>
                   <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.tertiary }}>
-                    <Text style={groupStyles.statisticsCell} variant="bodySmall">{groupName(item.team)}</Text>
+                    {
+                      isFullName ? <Text style={groupStyles.statisticsCell} variant="bodySmall">{nameParticipant(item.team).slice(0, 10)}</Text> :
+                        <Text style={groupStyles.statisticsCell} variant="bodySmall">{groupName(item.team)}</Text>
+                    }
                   </View>
                 </View>
               )}
-            /> : <View style={statisticsStyles.noPlayerStatistics}>
+            /> : <View style={[statisticsStyles.noPlayerStatistics, { backgroundColor: colors.tertiary }]}>
               <Text variant="bodySmall">{i18n.t("noPlayers")}</Text>
             </View>
         }
@@ -60,6 +69,6 @@ const TableStatistic = ({ colors, itemStatistic, indexStatistic }: TableStatisti
       </View>
     </View>
   )
-}
+})
 
 export default TableStatistic

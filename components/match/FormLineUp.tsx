@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Button, Checkbox, IconButton, MD3Colors, Text } from "react-native-paper"
-import { Dimensions, ScrollView } from "react-native"
+import { ScrollView } from "react-native"
 import i18n from '@/i18n'
 
 import { View } from "../Themed"
@@ -14,25 +14,49 @@ import { IPlayer } from "@/interface/Player"
 import { generalStyles } from "@/styles/general.styles"
 import { matchStyles } from "@/styles/match.styles"
 
-const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, updateMatch, updateMatchGroup, isKnockout, updateEliminationMatch, updateMatchKnockGroup, round }: FormLineUpPropsType) => {
+const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, updateMatch, updateMatchGroup, isKnockout, updateEliminationMatch, updateMatchKnockGroup, round, spacing, isFullName }: FormLineUpPropsType) => {
 
     const [playersLocal, setPlayersLocal] = useState<Record<string, boolean>>({});
     const [playersVisitant, setPlayersVisitant] = useState<Record<string, boolean>>({});
 
     const [loading, setLoading] = useState<boolean>(false)
 
+    const localPlayers = useMemo(
+        () => group.players?.filter(p => p.team?.id === match.local.team.id) ?? [],
+        [group.players, match.local.team.id]
+    )
+
+    const visitantPlayers = useMemo(
+        () => group.players?.filter(p => p.team?.id === match.visitant.team.id) ?? [],
+        [group.players, match.visitant.team.id]
+    )
+
     const toggleCheckboxLocal = (playerId: string) => {
-        setPlayersLocal((prev) => ({
-            ...prev,
-            [playerId]: !prev[playerId],
-        }))
+        setPlayersLocal(prev => {
+            const updated = { ...prev }
+
+            if (updated[playerId]) {
+                delete updated[playerId]
+            } else {
+                updated[playerId] = true
+            }
+
+            return updated
+        })
     }
 
     const toggleCheckboxVisitant = (playerId: string) => {
-        setPlayersVisitant((prev) => ({
-            ...prev,
-            [playerId]: !prev[playerId],
-        }))
+        setPlayersVisitant(prev => {
+            const updated = { ...prev }
+
+            if (updated[playerId]) {
+                delete updated[playerId]
+            } else {
+                updated[playerId] = true
+            }
+
+            return updated
+        })
     }
 
     const handleLineUp = () => {
@@ -137,55 +161,51 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
 
             <Text
                 variant="labelLarge"
-                style={{ marginVertical: Dimensions.get("window").height / 28 }}
+                style={{ marginVertical: spacing.h28 }}
             >
                 {i18n.t('lineup.selectPlayers')}
             </Text>
 
             <View style={[matchStyles.containerLineUp, { backgroundColor: colors.background }]}>
                 <ScrollView>
-                    <TeamView team={match.local} colors={colors} />
+                    <TeamView team={match.local} colors={colors} spacing={spacing} isFullName={isFullName} />
                     {
-                        group.players?.filter((p) => p.team?.name === match.local.team.name).length === 0 ?
+                        localPlayers.length === 0 ?
                             <Text variant="bodySmall" style={{
                                 textAlign: 'center',
-                                marginTop: Dimensions.get("window").height / 106
+                                marginTop: spacing.h106
                             }}>{i18n.t("noPlayers")}</Text>
                             : <View style={{ backgroundColor: colors.background }}>
-                                {group.players
-                                    ?.filter((p) => p.team?.name === match.local.team.name)
-                                    .map((player) => (
-                                        <Checkbox.Item
-                                            key={player.id}
-                                            label={player.name!}
-                                            labelVariant="bodyMedium"
-                                            status={playersLocal[player.id!] ? 'checked' : 'unchecked'}
-                                            onPress={() => toggleCheckboxLocal(String(player.id))}
-                                        />
-                                    ))}
+                                {localPlayers.map((player) => (
+                                    <Checkbox.Item
+                                        key={player.id}
+                                        label={player.name!}
+                                        labelVariant="bodyMedium"
+                                        status={playersLocal[player.id!] ? 'checked' : 'unchecked'}
+                                        onPress={() => toggleCheckboxLocal(String(player.id))}
+                                    />
+                                ))}
                             </View>
                     }
                 </ScrollView>
 
                 <ScrollView>
-                    <TeamView team={match.visitant} colors={colors} />
+                    <TeamView team={match.visitant} colors={colors} spacing={spacing} isFullName={isFullName} />
                     {
-                        group.players?.filter((p) => p.team?.name === match.visitant.team.name).length === 0 ?
+                        visitantPlayers.length === 0 ?
                             <Text variant="bodySmall" style={{
                                 textAlign: 'center',
-                                marginTop: Dimensions.get("window").height / 106
+                                marginTop: spacing.h106
                             }}>{i18n.t("noPlayers")}</Text>
                             : <View style={{ backgroundColor: colors.background }}>
-                                {group.players
-                                    ?.filter((p) => p.team?.name === match.visitant.team.name)
-                                    .map((player) => (
-                                        <Checkbox.Item
-                                            key={player.id}
-                                            label={player.name!}
-                                            status={playersVisitant[player.id!] ? 'checked' : 'unchecked'}
-                                            onPress={() => toggleCheckboxVisitant(String(player.id))}
-                                        />
-                                    ))}
+                                {visitantPlayers.map((player) => (
+                                    <Checkbox.Item
+                                        key={player.id}
+                                        label={player.name!}
+                                        status={playersVisitant[player.id!] ? 'checked' : 'unchecked'}
+                                        onPress={() => toggleCheckboxVisitant(String(player.id))}
+                                    />
+                                ))}
                             </View>
                     }
                 </ScrollView>

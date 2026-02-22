@@ -69,7 +69,8 @@
     "groupStage": {
         "welcome": "Bienvenue !",
         "createStage": "Créer une phase de groupes",
-        "addTeam": "AJOUTER UNE ÉQUIPE"
+        "addTeam": "AJOUTER UNE ÉQUIPE",
+        "addTournament": "CRÉER LA PHASE DE GROUPES"
     },
     "teamForm": {
         "changeImage": "Changer l'image",
@@ -111,6 +112,7 @@
     "sure": {
         "removeGroupStage": "Êtes-vous sûr de vouloir supprimer la phase de groupes ?",
         "restartGroupStage": "Êtes-vous sûr de vouloir redémarrer la phase de groupes ?",
+        "restartKnockout": "Êtes-vous sûr de vouloir redémarrer la phase à élimination directe ?",
         "restart": "REDÉMARRER"
     },
     "group": {
@@ -360,7 +362,7 @@
     "errorUploadImageTitle": "Erreur lors du téléversement de l'image",
     "errorUploadImageDescription": "Vérifiez votre connexion internet ou réessayez plus tard",
     "errorLimitTitle": "Limite d'équipes",
-    "errorLimitDescription": "Vous avez atteint la limite de 64 équipes.",
+    "errorLimitDescription": "Vous avez atteint la limite de 48 équipes.",
     "home": "Aller",
     "away": "Retour",
     "updateknockout": "Mise à jour",
@@ -418,5 +420,18 @@
     "duplicate": "Dupliquer",
     "titleTent": "Abonnez-vous à Premium et accédez à tous les avantages",
     "titleIsPremium": "Félicitations ! Vous êtes maintenant membre Premium",
-    "allTeams": "Toutes les équipes"
+    "allTeams": "Toutes les équipes",
+    "tryRestoring": "Erreur lors de la récupération du calendrier des matchs. Essayez de restaurer le tournoi.",
+    "displayFullName": "Afficher le nom complet des équipes",
+    "language": "Langue",
+    "selectLanguage": "Sélectionner la langue",
+    "TeamFullName": "Nom complet de l'équipe",
+    "reachedTournament": "Vous avez atteint la limite de tournois de votre abonnement actuel. Pour en créer davantage, passez à Premium ou supprimez un tournoi existant.",
+    "emptyFields": "Des champs sont vides. Veuillez les compléter",
+    "invalidEmail": "Adresse e-mail invalide",
+    "manyAttempts": "Trop de tentatives. Veuillez réessayer plus tard",
+    "appSettings": "Paramètres App",
+    "random": "Aléatoire",
+    "weakPassword": "Le mot de passe est trop faible. Ajoutez des lettres, des chiffres et évitez les mots de passe courants",
+    "beforeKnockoutStage": "Remarque : Nous vous recommandons de compléter tous les résultats de la phase de groupes avant de générer la phase à élimination directe"
 }

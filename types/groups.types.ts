@@ -1,6 +1,8 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 import { IGroup } from "@/interface/Group"
+import { IPoints } from "@/interface/Team";
+import { Spacing } from "./props.types";
 
 export type GroupsListPropsType = {
     group: IGroup;
@@ -14,12 +16,21 @@ export type GroupTeamPropsType = {
 }
 
 export type HeaderGroupPropsType = {
-    group: IGroup; 
-    groupNumber: number; 
+    group: IGroup;
+    groupNumber: number;
     colors: MD3Colors;
+    spacing: Spacing;
 }
 
 export type CellPropsType = {
     item: string;
     colors: MD3Colors;
+}
+
+export type NameGroupPropsType = {
+    colors: MD3Colors;
+    index: number;
+    item: IPoints;
+    isFullName: boolean;
+    spacing: Spacing;
 }

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Dimensions, FlatList } from "react-native";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { TestIds } from "react-native-google-mobile-ads";
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
 
@@ -28,11 +28,10 @@ import { userStore } from "@/store/user.store";
 
 import { getTeamsName } from "@/utils/defaultGroup";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_PLAYER}`;
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { useSpacing } from "@/hooks/useSpacing";
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-    keywords: ['fashion', 'clothing'],
-});
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_PLAYER}`;
 
 const toastConfig = {
     error: (props: any) => (
@@ -54,7 +53,10 @@ const Players = () => {
 
     const router = useRouter()
 
-    const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
+    const spacing = useSpacing()
+
+    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
+
     const [teamSelected, setTeamSelected] = useState<string>("All teams")
     const [isFocus, setIsFocus] = useState<boolean>(false)
 
@@ -63,10 +65,10 @@ const Players = () => {
         getPlayer({})
     }
 
-    const handleUpdatePlayer = (data: IPlayer) => {
+    const handleUpdatePlayer = useCallback((data: IPlayer) => {
         getPlayer(data)
         hideAndShowAddPlayer(true)
-    }
+    }, [])
 
     const openSure = (data: IPlayer) => {
         getPlayer(data)
@@ -85,14 +87,37 @@ const Players = () => {
         sureRemoveStatistic(false)
     }
 
-    const openCreateReferee = () => {
+    const openCreatePlayer = () => {
         getPlayer({})
         hideAndShowAddPlayer(true)
     }
 
-    const goBack = () => {
+    const goBack = useCallback(() => {
         router.replace("/(tabs)/groups")
-    }
+    }, [router])
+
+    const teamsOptions = useMemo(() => {
+        return [
+            ...getTeamsName(group.teams),
+            { value: "All teams", label: i18n.t("allTeams") }
+        ]
+    }, [group.teams])
+
+    const filteredPlayers = useMemo(() => {
+        if (teamSelected === "All teams") return group.players ?? [];
+        return group.players?.filter(p => p.team?.name === teamSelected) ?? [];
+    }, [group.players, teamSelected]);
+
+    const renderPlayer = useCallback(
+        ({ item }: { item: IPlayer }) => (
+            <Player
+                player={item}
+                handleUpdatePlayer={handleUpdatePlayer}
+                colors={colors}
+            />
+        ),
+        [handleUpdatePlayer, colors, spacing]
+    )
 
     useEffect(() => {
         hideAndShowAddPlayer(false)
@@ -100,33 +125,6 @@ const Players = () => {
         getPlayer({})
         getStatistic({})
     }, [])
-
-    useEffect(() => {
-
-        const loadInterstitialAd = () => {
-            try {
-                interstitial.load();
-            } catch (error) {
-                console.error("Error loading interstitial ad:", error);
-            }
-        };
-
-        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-            setIsIntersitialLoaded(true)
-        });
-
-        const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-            setIsIntersitialLoaded(false)
-            loadInterstitialAd();
-        });
-
-        loadInterstitialAd();
-
-        return () => {
-            unsubscribeLoaded()
-            unsubscribedClosed()
-        };
-    }, []);
 
     return (
         <MainScreen colors={colors}>
@@ -136,10 +134,12 @@ const Players = () => {
             {
                 showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure}
                     hideAndShowAddPlayer={hideAndShowAddPlayer} createPlayer={createPlayer} updatePlayer={handleUpdate}
-                    interstitial={interstitial} isIntersitialLoaded={isIntersitialLoaded} premium={premium} />
+                    interstitial={interstitial!} isIntersitialLoaded={isInterstitialLoaded} premium={premium} spacing={spacing} />
             }
+
             <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup} group={group} groups={groups} premium={premium} />
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
+                group={group} groups={groups} premium={premium} />
 
             <SureGeneral />
 
@@ -155,12 +155,12 @@ const Players = () => {
                             isFocus && { borderColor: colors.primary },
                         ]}
                         placeholderStyle={{
-                            fontSize: Dimensions.get("window").height / 47,
+                            fontSize: spacing.h47,
                             color: colors.surface,
                             backgroundColor: colors.tertiary
                         }}
                         selectedTextStyle={{
-                            fontSize: Dimensions.get("window").height / 47,
+                            fontSize: spacing.h47,
                             color: colors.surface,
                             backgroundColor: colors.tertiary
                         }}
@@ -171,8 +171,8 @@ const Players = () => {
                             backgroundColor: colors.tertiary,
                         }}
                         activeColor={colors.primary}
-                        data={[...getTeamsName(group.teams), { value: "All teams", label: i18n.t("allTeams") }]}
-                        maxHeight={Dimensions.get("window").height / 3.8}
+                        data={teamsOptions}
+                        maxHeight={spacing.h3_8}
                         labelField="label"
                         valueField="value"
                         placeholder={String(teamSelected)}
@@ -186,17 +186,19 @@ const Players = () => {
                     />
                 }
                 {
-                    group.players!.length > 0 ? <AddButton colors={colors} handleAdd={openCreateReferee} /> :
+                    group.players!.length > 0 ? <AddButton colors={colors} handleAdd={openCreatePlayer} /> :
                         <AddAction openForm={hideAndShowAddPlayer} colors={colors} text={i18n.t("add_player")} />
                 }
                 {
                     group.players!.length > 0 ?
                         <FlatList
+                            data={filteredPlayers}
                             style={{ width: '100%' }}
-                            data={group.players!}
-                            keyExtractor={(_, index) => index.toString()}
-                            renderItem={({ item }) => <Player player={item}
-                                handleUpdatePlayer={handleUpdatePlayer} colors={colors} />}
+                            keyExtractor={(item) => item.id!}
+                            renderItem={renderPlayer}
+                            initialNumToRender={10}
+                            windowSize={5}
+                            removeClippedSubviews
                         /> : <View style={{ flex: group.players?.length! > 0 ? 1 : 0, backgroundColor: colors.background }}>
                             <Text variant="bodyMedium" style={createStyles.advideText}>
                                 {i18n.t("players_emptyStatistics")}

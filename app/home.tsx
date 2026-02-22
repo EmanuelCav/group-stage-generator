@@ -1,9 +1,8 @@
-import { BackHandler } from 'react-native';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect, useRouter } from 'expo-router';
-import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { useRouter } from 'expo-router';
+import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from '@/components/Themed';
@@ -12,7 +11,7 @@ import AddGroupStage from '@/components/index/AddGroupStage';
 import Banner from '@/components/general/Banner';
 import MainScreen from '@/components/general/MainScreen';
 import HeaderTournaments from '@/components/index/HeaderTournaments';
-import Sure from '@/components/general/Sure';
+import AddTournament from '@/components/index/AddTournament';
 
 import { IGroup } from '@/interface/Group';
 
@@ -25,38 +24,44 @@ import { groupValue } from '@/utils/defaultGroup';
 
 import { useAuth } from '@/hooks/useAuth';
 
-import { handleSignOut } from '@/lib/providerAuth';
 import { saveGroupsToSupabase } from '@/lib/save';
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_TOURNAMENT}`;
+import { useInterstitialAd } from '@/hooks/useInterstitialAd';
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
-});
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_TOURNAMENT}`;
 
 const Home = () => {
 
   const { colors } = useTheme()
   const { user } = useAuth()
 
-  const { groups, idGroup, createGroup, getGroup, setGroups } = groupStore()
+  const { groups, idGroup, createGroup, getGroup } = groupStore()
   const { premium } = userStore()
 
   const router = useRouter()
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
-  const [isSureLogOut, setIsSureLogOut] = useState<boolean>(false)
-  const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
 
-  const handleCreateTournament = () => {
+  const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
-    if (!premium && groups.length >= 2) {
-      router.navigate("/tent")
+  const handleCreateTournament = async () => {
+
+    const getAmountGroups = await AsyncStorage.getItem("amount_groups_general")
+
+    if (!premium && (groups.length >= 2 || Number(getAmountGroups) >= 2)) {
+      router.navigate({
+        pathname: "/tent",
+        params: { message: i18n.t("reachedTournament") }
+      })
       return
     }
 
-    createGroup(groupValue(idGroup, user ? user.id : null))
-    router.replace("/create")
+    await AsyncStorage.setItem("amount_groups_general", String(Number(getAmountGroups) + 1))
+    router.navigate("/create")
+
+    setTimeout(() => {
+      createGroup(groupValue(idGroup, user ? user.id : null))
+    }, 0)
   }
 
   const handleGroup = async (group: IGroup) => {
@@ -68,9 +73,11 @@ const Home = () => {
 
     try {
 
-      if (count > 3) {
-        if ((interstitial.loaded || isIntersitialLoaded) && !premium && count % 3 === 0) {
-          interstitial.show()
+      if (interstitial) {
+        if (count > 3) {
+          if ((interstitial.loaded || isInterstitialLoaded) && !premium && count % 3 === 0) {
+            interstitial.show()
+          }
         }
       }
 
@@ -88,6 +95,10 @@ const Home = () => {
   }
 
   useEffect(() => {
+    if (router.canGoBack()) {
+      router.dismiss(1)
+    }
+
     setIsMounted(true)
   }, [])
 
@@ -99,62 +110,24 @@ const Home = () => {
     }
   }, [isMounted, groups]);
 
-  useEffect(() => {
-
-    const loadInterstitialAd = () => {
-      try {
-        interstitial.load();
-      } catch (error) {
-        console.error("Error loading interstitial ad:", error);
-      }
-    };
-
-    const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-      setIsIntersitialLoaded(true)
-    });
-
-    const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-      setIsIntersitialLoaded(false)
-      loadInterstitialAd();
-    });
-
-    loadInterstitialAd();
-
-    return () => {
-      unsubscribeLoaded()
-      unsubscribedClosed()
-    };
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      const subscription = BackHandler.addEventListener(
-        "hardwareBackPress",
-        () => true
-      )
-
-      return () => subscription.remove()
-    }, [])
-  )
-
   if (!isMounted) return <ActivityIndicator style={{ flex: 1, backgroundColor: colors.background }} size="large" />
 
   return (
     <MainScreen colors={colors}>
+      <HeaderTournaments router={router} />
       {
-        isSureLogOut && <Sure close={() => setIsSureLogOut(false)} text={i18n.t("sure_logout")}
-          func={() => handleSignOut(setIsSureLogOut, router, setGroups, getGroup)} labelButton={i18n.t("logout")}
-        />
+        !premium && <Banner />
       }
-      <HeaderTournaments router={router} user={user} setIsSureLogOut={setIsSureLogOut} />
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {
-          !premium && <Banner />
+          groups.length > 0 ?
+            <>
+              <Text variant='titleLarge' style={{ color: colors.primary }}>{i18n.t("titleIndex")}</Text>
+              <Text variant='titleMedium'>{i18n.t("selectGroupStage")}</Text>
+              <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
+              <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
+            </> : <AddTournament handleCreateTournament={handleCreateTournament} colors={colors} />
         }
-        <Text variant='titleLarge' style={{ color: colors.primary }}>{i18n.t("titleIndex")}</Text>
-        <Text variant='titleMedium'>{i18n.t("selectGroupStage")}</Text>
-        <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
-        <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
       </View>
     </MainScreen>
   );

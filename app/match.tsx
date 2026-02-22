@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router"
-import { Dimensions, FlatList } from "react-native"
+import { FlatList } from "react-native"
 import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
-import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -33,11 +33,11 @@ import { userStore } from "@/store/user.store"
 
 import { lineupPlayers } from "@/utils/matchday"
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { useSpacing } from "@/hooks/useSpacing";
+import { useIsFullName } from "@/hooks/useIsFullName";
 
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-    keywords: ['fashion', 'clothing'],
-});
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
 
 const Match = () => {
 
@@ -51,22 +51,32 @@ const Match = () => {
     } = matchStore()
     const { premium } = userStore()
     const insets = useSafeAreaInsets()
+    const spacing = useSpacing()
 
-    const [isIntersitialLoaded, setIsIntersitialLoaded] = useState<boolean>(false)
+    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
+
+    const { isFullName } = useIsFullName()
 
     const sortedSummary = useMemo(() => {
         return [...(match.match?.summary ?? [])].sort((a, b) => Number(b.time) - Number(a.time))
-    }, [match.match?.summary]);
+    }, [match.match?.summary])
 
-    const handleUpdateSummary = (data: ISummary) => {
+    const showLineUp = useMemo(() => {
+        return lineupPlayers(
+            match.match?.players.filter(p => p.team?.id === match.match?.local.team.id)!,
+            match.match?.players.filter(p => p.team?.id === match.match?.visitant.team.id)!
+        )
+    }, [match.match])
+
+    const handleUpdateSummary = useCallback((data: ISummary) => {
         getSummary(data)
         hideAndShowSummary(true)
-    }
+    }, [])
 
-    const handleUpdateStatistic = (data: IMatchStatistic) => {
+    const handleUpdateStatistic = useCallback((data: IMatchStatistic) => {
         getStatistic(data)
         hideAndShowStatistics(true)
-    }
+    }, [])
 
     const handleRemoveSummary = () => {
         const groupIndex = match.match?.local.team.group === undefined ? 0 : match.match.local.team.group - 1;
@@ -155,40 +165,13 @@ const Match = () => {
         getStatistic({})
     }
 
-    const goBack = () => {
-        router.replace("/(tabs)/matchdays")
-    }
+    const goBack = useCallback(() => {
+        router.back()
+    }, [router])
 
     useEffect(() => {
         handleGetMatch()
     }, [])
-
-    useEffect(() => {
-
-        const loadInterstitialAd = () => {
-            try {
-                interstitial.load();
-            } catch (error) {
-                console.error("Error loading interstitial ad:", error);
-            }
-        };
-
-        const unsubscribeLoaded = interstitial.addAdEventListener(AdEventType.LOADED, () => {
-            setIsIntersitialLoaded(true)
-        });
-
-        const unsubscribedClosed = interstitial.addAdEventListener(AdEventType.CLOSED, () => {
-            setIsIntersitialLoaded(false)
-            loadInterstitialAd();
-        });
-
-        loadInterstitialAd();
-
-        return () => {
-            unsubscribeLoaded()
-            unsubscribedClosed()
-        };
-    }, []);
 
     return (
         <MainScreen colors={colors}>
@@ -226,6 +209,7 @@ const Match = () => {
 
             {showFormPlayers && (
                 <FormLineUp
+                    isFullName={isFullName}
                     colors={colors}
                     hideAndShowPlayers={hideAndShowPlayers}
                     round={matchknockout.round!}
@@ -237,12 +221,14 @@ const Match = () => {
                     isKnockout={false}
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
+                    spacing={spacing}
                 />
             )}
 
             {showFormStatistics && (
                 <FormStatisticsMatch
                     colors={colors}
+                    isFullName={isFullName}
                     hideAndShowStatistics={hideAndShowStatistics}
                     updateMatchGroup={updateMatchGroup}
                     round={matchknockout.round!}
@@ -256,6 +242,8 @@ const Match = () => {
                     getStatistic={getStatistic}
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
+                    spacing={spacing}
+                    premium={premium}
                 />
             )}
 
@@ -276,6 +264,8 @@ const Match = () => {
                     getSummary={getSummary}
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
+                    spacing={spacing}
+                    premium={premium}
                 />
             )}
 
@@ -289,17 +279,19 @@ const Match = () => {
                     matchday={match.matchday!}
                     updateMatchGroup={updateMatchGroup}
                     premium={premium}
-                    interstitial={interstitial}
-                    isIntersitialLoaded={isIntersitialLoaded}
+                    interstitial={interstitial!}
+                    isIntersitialLoaded={isInterstitialLoaded}
+                    spacing={spacing}
+                    isFullName={isFullName}
                 />
             )}
 
             <View style={[matchStyles.containerMatch, { backgroundColor: "transparent" }]}>
                 <TitleMatch match={match} colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} />
-                <ScoreTeams match={match.match!} colors={colors} />
+                <ScoreTeams match={match.match!} colors={colors} spacing={spacing} isFullName={isFullName} />
                 <Information match={match.match!} colors={colors} />
                 <SegmentedButtons
-                    style={{ marginTop: Dimensions.get("window").height / 47 }}
+                    style={{ marginTop: spacing.h47 }}
                     value={segmentedButton}
                     onValueChange={handleSegmented}
                     buttons={[
@@ -332,13 +324,13 @@ const Match = () => {
                 />
                 {
                     segmentedButton === "summary" &&
-                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
+                    <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {match.match?.summary.length! > 0 ? (
                             <View style={{ backgroundColor: colors.background }}>
                                 <Button
                                     mode="contained"
                                     onPress={() => hideAndShowSummary(true)}
-                                    style={[{ backgroundColor: colors.primary, marginBottom: Dimensions.get("window").height / 74 }]}
+                                    style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
                                     labelStyle={{ color: "#ffffff" }}
                                 >
                                     {i18n.t("summary_add")}
@@ -346,7 +338,7 @@ const Match = () => {
                                 <FlatList
                                     style={{ width: '100%', marginBottom: insets.bottom }}
                                     data={sortedSummary}
-                                    keyExtractor={(_, index) => index.toString()}
+                                    keyExtractor={(item) => item.id!}
                                     renderItem={({ item }) => (
                                         <Summary summary={item} match={match.match!} colors={colors} handleUpdateSummary={handleUpdateSummary} />
                                     )}
@@ -363,14 +355,11 @@ const Match = () => {
 
                 {
                     segmentedButton === "players" &&
-                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
+                    <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {match.match?.players.length! > 0 ? (
                             <FlatList
                                 style={{ width: '100%', marginBottom: insets.bottom }}
-                                data={lineupPlayers(
-                                    match.match?.players.filter(p => p.team?.id === match.match?.local.team.id)!,
-                                    match.match?.players.filter(p => p.team?.id === match.match?.visitant.team.id)!
-                                )}
+                                data={showLineUp}
                                 keyExtractor={(_, index) => index.toString()}
                                 renderItem={({ item }) => (
                                     <PlayersMatch player={item} colors={colors} hideAndShowPlayers={hideAndShowPlayers} />
@@ -387,12 +376,12 @@ const Match = () => {
 
                 {
                     segmentedButton === "statistics" &&
-                    <View style={{ flex: 1, marginVertical: Dimensions.get("window").height / 106 }}>
+                    <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {match.match?.statistics.length! > 0 ? (
                             <FlatList
                                 style={{ width: '100%', marginBottom: insets.bottom }}
                                 data={match.match?.statistics}
-                                keyExtractor={(_, index) => index.toString()}
+                                keyExtractor={(item) => item.id!}
                                 renderItem={({ item }) => (
                                     <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />
                                 )}

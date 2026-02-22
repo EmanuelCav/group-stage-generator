@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Dimensions } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
@@ -19,7 +18,7 @@ import { refereeSchema } from "@/schema/referee.schema";
 
 import { generateId } from "@/utils/defaultGroup";
 
-const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded, premium }: FormCreateRefereePropsType) => {
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreateRefereePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -72,10 +71,12 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (group.referees?.length !== 0) {
-                    if (group.referees?.length === 1 || group.referees!.length % 8 === 0) {
-                        if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                            interstitial.show()
+                if (interstitial) {
+                    if (group.referees?.length !== 0) {
+                        if (group.referees?.length === 1 || group.referees!.length % 8 === 0) {
+                            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
+                                interstitial.show()
+                            }
                         }
                     }
                 }
@@ -125,7 +126,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             {errors.name && (
                 <Text
                     variant="labelMedium"
-                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 106 }}
+                    style={{ color: MD3Colors.error50, marginTop: spacing.h106 }}
                 >
                     {errors.name.message}
                 </Text>

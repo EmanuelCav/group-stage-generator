@@ -1,14 +1,17 @@
+import { PropsWithChildren } from "react";
 import { Control, UseFormHandleSubmit } from "react-hook-form";
+
 import { IGroup, ISetting } from "@/interface/Group";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { IAvoidingMatches } from "@/interface/Avoiding";
-import { PropsWithChildren } from "react";
+import { Spacing } from "./props.types";
 
 export type SwitchSettingsPropsType = {
     text: string;
     setValue: (data: boolean) => void;
     value: boolean;
     colors: MD3Colors;
+    spacing: Spacing;
 };
 
 export type MainScreenPropsType = PropsWithChildren<{
@@ -23,6 +26,7 @@ export type InputSettingsPropsType = {
     defaultValue: string;
     colors: MD3Colors;
     handleFocus: (v: number) => void;
+    spacing: Spacing;
 };
 
 export type SettingsButtonPropsType = {
@@ -69,6 +73,7 @@ export type FormCreateAvoidingPropsType = {
     group: IGroup;
     teamsAvoiding: Record<string, boolean>;
     setTeamsAvoiding: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
+    spacing: Spacing;
 }
 
 export type AvoidingPropsType = {

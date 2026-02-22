@@ -171,5 +171,17 @@ export const groupName = (name: string): string => {
     return name.slice(0, 3).toUpperCase()
 }
 
+export const nameParticipant = (fullName: string): string => {
+    if (!fullName) return "";
 
+    const parts = fullName.trim().split(/\s+/);
 
+    if (parts.length === 1) {
+        return parts[0].slice(0, 15);
+    }
+
+    const firstInitial = parts[0][0].toUpperCase()
+    const lastName = parts[parts.length - 1]
+
+    return `${firstInitial}. ${lastName}`.slice(0, 15);
+}

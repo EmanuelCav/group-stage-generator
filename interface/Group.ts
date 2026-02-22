@@ -13,9 +13,11 @@ export interface IGroupStore {
     group: IGroup;
     isSureRemove: boolean;
     isSureRestart: boolean;
+    isSureRestartElimination: boolean;
     setGroups: (data: IGroup[]) => void;
     sureRemoveGroup: (sure: boolean) => void;
     sureRestartGroup: (sure: boolean) => void;
+    sureRestartElimination: (sure: boolean) => void;
     drawedElimination: (data: boolean) => void;
     generateMatches: (data: IMatch[][][], teamsPerGroup: number, amountGroups: number, amountClassified: number) => void;
     generateElimination: (data: IMatch[][]) => void;
@@ -31,6 +33,7 @@ export interface IGroupStore {
     updateGroup: (data: IGroup) => void;
     removeGroup: (data: IGroup) => void;
     restartGroup: () => void;
+    restartElimination: () => void;
     createTeam: (data: ITeam) => void;
     createReferee: (data: IReferee) => void;
     createStadium: (data: IStadium) => void;

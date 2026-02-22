@@ -1,18 +1,15 @@
-import { useState } from "react";
-import { Appearance, Dimensions } from "react-native";
-import { Appbar, Menu, useTheme } from "react-native-paper";
+import { memo, useState } from "react";
+import { Dimensions } from "react-native";
+import { Appbar, Menu } from "react-native-paper";
 import i18n from '@/i18n'
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
 import { duplicateGroup } from "@/utils/defaultGroup";
 
-const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, groups, group, premium }: HeaderGeneralPropsTypes) => {
+const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, groups, group, premium }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
-    const { dark } = useTheme()
-
-    const iconName = dark ? "white-balance-sunny" : "moon-waning-crescent";
 
     return (
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
@@ -53,14 +50,6 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                 />
 
                 <Menu.Item
-                    onPress={() => {
-                        Appearance.setColorScheme(dark ? "light" : "dark")
-                    }}
-                    title={dark ? i18n.t("lightMode") : i18n.t("darkMode")}
-                    leadingIcon={iconName}
-                />
-
-                <Menu.Item
                     onPress={() => router.replace("/config")}
                     title={i18n.t("menu.settings")}
                     leadingIcon="cog"
@@ -84,7 +73,7 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                                 createGroup(duplicatedGroup)
                                 setVisible(false)
                             }, 0);
-                            
+
                             router.replace("/create")
                         }}
                         title={i18n.t("duplicate")}
@@ -117,9 +106,18 @@ const HeaderGeneral = ({ colors, router, title, goBack, sureRemoveGroup, sureRes
                     leadingIcon="arrow-left"
                 />
 
+                <Menu.Item
+                    onPress={() => {
+                        router.navigate("/settings")
+                        setVisible(false)
+                    }}
+                    title={i18n.t("appSettings")}
+                    leadingIcon="devices"
+                />
+
             </Menu>
         </Appbar.Header>
-    );
-};
+    )
+})
 
 export default HeaderGeneral;

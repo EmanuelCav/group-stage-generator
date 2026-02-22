@@ -1,7 +1,9 @@
-import { useRouter } from 'expo-router'
+import { useCallback } from 'react';
+import { useRouter, useFocusEffect } from 'expo-router'
 import { useTheme } from 'react-native-paper'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
-import { Dimensions } from 'react-native'
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
 import { View } from '@/components/Themed'
@@ -20,6 +22,11 @@ import { matchStore } from '@/store/match.store'
 import { userStore } from '@/store/user.store';
 
 import { evaluateGenerateAgain } from '@/utils/matchday'
+
+import { useSpacing } from '@/hooks/useSpacing';
+import { useInterstitialAd } from '@/hooks/useInterstitialAd';
+
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCHDAYS}`;
 
 const toastConfig = {
     error: (props: any) => (
@@ -40,14 +47,49 @@ const Matchdays = () => {
     const { colors } = useTheme()
     const router = useRouter()
 
-    const handleGetMatch = (data: IGetMatch) => {
-        getMatch(data)
-        router.replace("/match")
-    }
+    const spacing = useSpacing()
 
-    const goBack = () => {
+    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
+
+    const handleGetMatch = useCallback((data: IGetMatch) => {
+        getMatch(data)
+        router.navigate("/match")
+    }, [getMatch, router])
+
+    const goBack = useCallback(() => {
         router.replace("/home")
-    }
+    }, [router])
+
+    useFocusEffect(
+        useCallback(() => {
+            const handleCount = async () => {
+
+                try {
+
+                    const storedCount = await AsyncStorage.getItem("reviewCount");
+                    const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                    const storedCountMatchdaysScreen = await AsyncStorage.getItem("matchdaysScreenViews");
+                    const countMatchdaysScreen = storedCountMatchdaysScreen ? parseInt(storedCountMatchdaysScreen, 10) : 0;
+
+                    if (interstitial) {
+                        if (countMatchdaysScreen !== 0 && countMatchdaysScreen % 29 === 0) {
+                            if (count > 3 && (interstitial.loaded || isInterstitialLoaded) && !premium) {
+                                interstitial.show()
+                            }
+                        }
+                    }
+
+                    await AsyncStorage.setItem("matchdaysScreenViews", (count + 1).toString());
+
+                } catch (error) {
+                    console.error("Error checking review count:", error);
+                }
+            };
+
+            handleCount();
+        }, [])
+    );
 
     return (
         <MainScreen colors={colors}>
@@ -59,13 +101,13 @@ const Matchdays = () => {
                 (group.isGeneratedAgain || evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />
             }
             <Toast config={toastConfig} />
-            <View style={{ padding: Dimensions.get("window").height / 106, flex: 1, backgroundColor: colors.background }}>
+            <View style={{ padding: spacing.h106, flex: 1, backgroundColor: colors.background }}>
                 {
                     group.matches?.length! > 1 &&
-                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
+                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} spacing={spacing} />
                 }
-                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} />
-                <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} router={router} />
+                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} spacing={spacing} />
+                <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} router={router} spacing={spacing} />
             </View>
         </MainScreen>
     )

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Dimensions, FlatList } from "react-native";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FlatList } from "react-native";
 import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
-import { AdEventType, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { TestIds } from 'react-native-google-mobile-ads';
 
 import { View } from "@/components/Themed";
 import TeamAdded from "@/components/create/TeamAdded";
@@ -29,16 +29,13 @@ import { teamStore } from "@/store/team.store";
 import { groupStore } from "@/store/group.store";
 import { userStore } from "@/store/user.store";
 
-import { groupValue, powerRange } from "@/utils/defaultGroup";
+import { powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
 
-import { useAuth } from "@/hooks/useAuth";
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import { useSpacing } from "@/hooks/useSpacing";
 
 const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
-
-const interstitial = InterstitialAd.createForAdRequest(adUnitId, {
-  keywords: ['fashion', 'clothing'],
-});
 
 const toastConfig = {
   error: (props: any) => (
@@ -53,16 +50,17 @@ const toastConfig = {
 const Create = () => {
 
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = teamStore()
-  const { createGroup, group, idGroup, groups, createTeam, generateMatches, updateGenerateAgain,
+  const { createGroup, group, groups, createTeam, generateMatches, updateGenerateAgain,
     updateTeam, removeTeam, sureRemoveGroup, sureRestartGroup } = groupStore()
   const { premium } = userStore()
 
   const { colors } = useTheme()
   const router = useRouter()
 
-  const { user } = useAuth()
+  const spacing = useSpacing()
 
-  const [isIntersitialLoaded, setIsInterstitialLoaded] = useState<boolean>(false)
+  const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
+
   const [loading, setLoading] = useState<boolean>(false)
 
   const generateGroups = () => {
@@ -119,7 +117,7 @@ const Create = () => {
         }
       }
 
-      router.push("/(tabs)/groups")
+      router.replace("/(tabs)/groups")
 
     } catch (error) {
       console.log(error);
@@ -134,10 +132,10 @@ const Create = () => {
     getTeam({})
   }
 
-  const handleUpdateTeam = (data: ITeam) => {
+  const handleUpdateTeam = useCallback((data: ITeam) => {
     getTeam(data)
     hideAndShowAddTeam(true)
-  }
+  }, [])
 
   const openSure = (data: ITeam) => {
     getTeam(data)
@@ -165,9 +163,9 @@ const Create = () => {
     hideAndShowAddTeam(true)
   }
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     router.replace("/(tabs)/groups")
-  }
+  }, [router])
 
   useEffect(() => {
     hideAndShowAddTeam(false)
@@ -175,43 +173,30 @@ const Create = () => {
     getTeam({})
   }, [])
 
-  useEffect(() => {
-    if (groups.length === 0) {
-      createGroup(groupValue(idGroup, user ? user.id : null))
+  const renderTeam = useCallback(
+    ({ item }: { item: ITeam }) => (
+      <TeamAdded
+        isManualConfiguration={group.isManualConfiguration!}
+        team={item}
+        handleUpdateTeam={handleUpdateTeam}
+        colors={colors}
+        spacing={spacing}
+      />
+    ),
+    [group.isManualConfiguration, group.teams, handleUpdateTeam, colors]
+  )
+
+  const sortedTeams = useMemo(() => {
+    if (group.isGenerated) {
+      return [...group.teams].sort((a, b) => {
+        return (a.group! - b.group! || a.plot! - b.plot!)
+      })
+    } else {
+      return [...group.teams].sort((a, b) => {
+        return (a.groupAssigned! - b.groupAssigned! || a.plot! - b.plot!)
+      })
     }
-  }, [groups.length])
-
-  useEffect(() => {
-    const loadInterstitialAd = () => {
-      try {
-        interstitial.load();
-      } catch (error) {
-        console.error("Error loading interstitial ad:", error);
-      }
-    };
-
-    const unsubscribeLoaded = interstitial.addAdEventListener(
-      AdEventType.LOADED,
-      async () => {
-        setIsInterstitialLoaded(true);
-      }
-    );
-
-    const unsubscribeClosed = interstitial.addAdEventListener(
-      AdEventType.CLOSED,
-      async () => {
-        setIsInterstitialLoaded(false);
-        loadInterstitialAd();
-      }
-    );
-
-    loadInterstitialAd();
-
-    return () => {
-      unsubscribeLoaded();
-      unsubscribeClosed();
-    };
-  }, []);
+  }, [group.teams, group.isGenerated])
 
   return (
     <MainScreen colors={colors}>
@@ -235,8 +220,9 @@ const Create = () => {
           hideAndShowAddTeam={hideAndShowAddTeam}
           createTeam={createTeam}
           updateTeam={handleUpdate}
-          interstitial={interstitial}
-          isIntersitialLoaded={isIntersitialLoaded}
+          interstitial={interstitial!}
+          isIntersitialLoaded={isInterstitialLoaded}
+          spacing={spacing}
         />
       )}
 
@@ -277,7 +263,6 @@ const Create = () => {
           <AddTeam
             openForm={hideAndShowAddTeam}
             colors={colors}
-            length={groups.length}
           />
         )}
 
@@ -288,18 +273,11 @@ const Create = () => {
         {group.teams.length > 0 ? (
           <FlatList
             style={{ width: '100%' }}
-            data={group.teams.sort((a, b) => a.plot! - b.plot!)}
-            keyExtractor={(_, index) => index.toString()}
-            renderItem={({ item, index }) => (
-              <TeamAdded
-                teams={group.teams}
-                isManualConfiguration={group.isManualConfiguration!}
-                team={item}
-                handleUpdateTeam={handleUpdateTeam}
-                colors={colors}
-                index={index}
-              />
-            )}
+            data={sortedTeams}
+            keyExtractor={(item) => item.id!}
+            renderItem={renderTeam}
+            initialNumToRender={10}
+            removeClippedSubviews
           />
         ) : (
           <Text variant="bodyMedium" style={createStyles.advideText}>
@@ -320,7 +298,7 @@ const Create = () => {
       {group.teams.length < 2 && (
         <Text
           variant="bodySmall"
-          style={{ color: MD3Colors.error50, textAlign: 'center', marginTop: Dimensions.get("window").height / 106 }}
+          style={{ color: MD3Colors.error50, textAlign: 'center', marginTop: spacing.h106 }}
         >
           {i18n.t('addAtLeastTwo')}
         </Text>

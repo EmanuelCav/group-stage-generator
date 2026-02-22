@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
 import i18n from '@/i18n'
 
@@ -9,7 +10,7 @@ import { getElimationTeams } from "@/utils/elimination";
 
 const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnockout, drawedElimination }: ShuffleAgainPropsType) => {
 
-    const generateKnockoutStage = () => {
+    const generateKnockoutStage = useCallback(() => {
 
         try {
 
@@ -19,7 +20,8 @@ const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnocko
         } catch (error) {
             console.error(error);
         }
-    }
+
+    }, [group, generateElimination, drawedElimination])
 
     return (
         <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import DraggableFlatList, { RenderItemParams, ScaleDecorator } from "react-native-draggable-flatlist";
 
@@ -5,7 +6,7 @@ import ContainerBackground from "@/components/general/ContainerBackground";
 
 import { TieBreakCriteriaPropsType } from "@/types/config.types";
 
-const TieBreakCriteria = ({ initialData, setInitialData }: TieBreakCriteriaPropsType) => {
+const TieBreakCriteria = memo(({ initialData, setInitialData }: TieBreakCriteriaPropsType) => {
 
     const renderItem = ({ item, drag, isActive }: RenderItemParams<{ id: string; label: string }>) => {
         return (
@@ -34,7 +35,7 @@ const TieBreakCriteria = ({ initialData, setInitialData }: TieBreakCriteriaProps
         </ContainerBackground>
     );
 
-}
+})
 
 const styles = StyleSheet.create({
     container: {
@@ -56,6 +57,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18
     }
-});
+})
 
 export default TieBreakCriteria

@@ -7,6 +7,8 @@ import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
 import Colors from '@/constants/Colors';
 
+import { useThemeMode } from '@/hooks/useThemeContext';
+
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
@@ -15,16 +17,22 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  
-  const colorScheme = useColorScheme();
+
+  const { themeMode } = useThemeMode();
+  const systemScheme = useColorScheme();
+
+  const resolvedTheme =
+    themeMode === "system"
+      ? systemScheme
+      : themeMode;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
+        tabBarActiveTintColor: Colors[resolvedTheme ?? 'light'].tint,
+        tabBarInactiveTintColor: Colors[resolvedTheme ?? 'light'].tabIconDefault,
         tabBarStyle: {
-          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          backgroundColor: Colors[resolvedTheme ?? 'light'].background,
           borderTopColor: 'transparent',
           elevation: 0
         },

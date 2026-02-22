@@ -14,7 +14,7 @@ export const eliminationStyles = StyleSheet.create({
 
     roundTitle: {
         marginBottom: Dimensions.get("window").height / 36,
-        fontWeight: 'bold'
+        fontFamily: 'Raleway_Bold'
     },
 
     match: {

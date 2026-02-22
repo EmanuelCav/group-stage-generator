@@ -3,11 +3,14 @@ import { InterstitialAd } from "react-native-google-mobile-ads";
 
 import { IGroup } from "@/interface/Group"
 import { IGetMatchKnockout, IMatch } from "@/interface/Match";
+import { Spacing } from "./props.types";
 
 export type EliminationStagePropsType = {
     group: IGroup;
     colors: MD3Colors;
     handleGetMatch: (data: IGetMatchKnockout) => void;
+    spacing: Spacing;
+    isFullName: boolean;
 }
 
 export type ColumnEliminationPropsType = {
@@ -17,6 +20,8 @@ export type ColumnEliminationPropsType = {
     group: IGroup;
     indexElimination: number;
     handleGetMatch: (data: IGetMatchKnockout) => void;
+    spacing: Spacing;
+    isFullName: boolean;
 }
 
 export type MatchEliminationPropsType = {
@@ -25,6 +30,8 @@ export type MatchEliminationPropsType = {
     indexElimination: number;
     match: IMatch;
     handleGetMatch: (data: IGetMatchKnockout) => void;
+    spacing: Spacing;
+    isFullName: boolean;
 }
 
 export type ShuffleAgainPropsType = {
@@ -46,9 +53,12 @@ export type FormEliminationMatchPropsType = {
     premium: boolean;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
+    isFullName: boolean;
+    spacing: Spacing;
 }
 
 export type CreateEliminationPropsType = {
     colors: MD3Colors;
     updateCreateElimination: (data: boolean) => void;
+    spacing: Spacing;
 }

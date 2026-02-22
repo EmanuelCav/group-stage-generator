@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import { ActivityIndicator, Button, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import i18n from '@/i18n';
 
 import MainScreen from '@/components/general/MainScreen';
@@ -20,11 +20,12 @@ import { signInWithGoogle } from '../lib/providerAuth';
 import { getGroupsFromSupabase } from '@/lib/save';
 
 import { useAuth } from '@/hooks/useAuth';
+import { useSpacing } from '@/hooks/useSpacing';
 
 const Index = () => {
 
     const router = useRouter()
-    const { setGroups, groups } = groupStore()
+    const { setGroups } = groupStore()
     const { colors } = useTheme()
     const { user, loadingUser } = useAuth()
 
@@ -33,15 +34,20 @@ const Index = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [errorData, setErrorData] = useState<string>("");
 
+    const spacing = useSpacing()
+
     const handleSignIn = async () => {
 
         try {
 
+            if (!email || !password) {
+                setErrorData(i18n.t("emptyFields"));
+                return;
+            }
+
             setLoading(true);
 
             const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-
-            setLoading(false);
 
             if (error) {
                 setErrorData(error.message)
@@ -49,33 +55,28 @@ const Index = () => {
             }
 
             if (data.user) {
-
                 const groupsData = await getGroupsFromSupabase(data.user.id)
                 setErrorData("")
 
                 if (groupsData.length > 0) {
                     setGroups(groupsData)
-                    router.replace("/home")
+                    await AsyncStorage.setItem("amount_groups_general", groupsData.length.toString())
                 } else {
-                    router.replace("/create")
+                    await AsyncStorage.setItem("amount_groups_general", "0")
                 }
-
             }
 
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
 
     }
 
     const continueWithoutLogin = async () => {
         await AsyncStorage.setItem("without_account", "yes")
-
-        if (groups.length === 0) {
-            router.replace('/create')
-        } else {
-            router.replace('/home')
-        }
+        router.replace('/home')
     }
 
     const handleSignInWithGoogle = async () => {
@@ -88,9 +89,9 @@ const Index = () => {
 
         if (groupsData.length > 0) {
             setGroups(groupsData)
-            router.replace("/home")
+            await AsyncStorage.setItem("amount_groups_general", groupsData.length.toString())
         } else {
-            router.replace("/create")
+            await AsyncStorage.setItem("amount_groups_general", "0")
         }
     }
 
@@ -98,17 +99,16 @@ const Index = () => {
         (async () => {
             const user_decision = await AsyncStorage.getItem("without_account")
 
-            if (user || user_decision === "yes") {
-                if (groups.length > 0) {
-                    router.replace("/home")
-                } else {
-                    router.replace("/create")
-                }
+            if (user_decision === "yes") {
+                router.replace("/home")
             }
-        })()
-    }, [loadingUser])
 
-    if (loadingUser || user) return <ActivityIndicator style={{ flex: 1, backgroundColor: colors.background }} size="large" />
+        })()
+    }, [router])
+
+    if (loadingUser) return <ActivityIndicator style={{ flex: 1, backgroundColor: colors.background }} size="large" />
+
+    if (user) return <Redirect href="/home" />
 
     return (
         <MainScreen colors={colors}>
@@ -121,6 +121,7 @@ const Index = () => {
                     email={email}
                     setEmail={setEmail}
                     colors={colors}
+                    spacing={spacing}
                 />
 
                 <Password
@@ -128,6 +129,7 @@ const Index = () => {
                     setValue={setPassword}
                     value={password}
                     colors={colors}
+                    spacing={spacing}
                 />
 
                 {
@@ -139,7 +141,7 @@ const Index = () => {
 
                 <Button mode="contained" onPress={handleSignIn} loading={loading}
                     labelStyle={{ color: "#ffffff" }}
-                    style={[{ marginTop: Dimensions.get("window").height / 41 },
+                    style={[{ marginTop: spacing.h41 },
                     generalStyles.generateButton]}>
                     {i18n.t("login")}
                 </Button>
@@ -149,8 +151,8 @@ const Index = () => {
                         {i18n.t("forgot_password")}
                     </Text>
                     <Button
-                        style={{ marginLeft: Dimensions.get("window").width / 74 }}
-                        onPress={() => router.navigate("/reset-password")}
+                        style={{ marginLeft: spacing.w72 }}
+                        onPress={() => router.replace("/reset-password")}
                     >
                         {i18n.t("restart")}
                     </Button>
@@ -161,6 +163,7 @@ const Index = () => {
                     buttonText={i18n.t("register")}
                     navigate={() => router.replace("/signup")}
                     colors={colors}
+                    spacing={spacing}
                 />
 
                 <Button icon="google" mode="outlined"

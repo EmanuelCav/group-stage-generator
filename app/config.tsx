@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
-import { Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Image, Platform, ScrollView, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { Card, IconButton, MD3Colors, Switch, Text, TextInput, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
 import { Dropdown } from 'react-native-element-dropdown';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
 
@@ -37,6 +38,9 @@ import { normalizeUri, uploadImageToCloudinary } from "@/utils/cloudinary";
 import { powerRange } from "@/utils/defaultGroup";
 
 import { configSchema } from "@/schema/config.schema";
+
+import { useSpacing } from "@/hooks/useSpacing";
+import { useIsFullName } from "@/hooks/useIsFullName";
 
 const modeData = [{
     value: "points",
@@ -72,6 +76,8 @@ const Config = () => {
 
     const { colors } = useTheme()
 
+    const spacing = useSpacing()
+
     const [isManualConfiguration, setIsManuelConfiguration] = useState<boolean>(group.isManualConfiguration!)
     const [pointsModeSelected, setPointsSelected] = useState<string>(group.pointsMode!)
     const [image, setImage] = useState<string>(group.logo ?? "")
@@ -80,6 +86,7 @@ const Config = () => {
     const [picking, setPicking] = useState<boolean>(false)
     const [isRoundTripElimination, setIsRoundTripElimination] = useState<boolean>(group.isRoundTripElimination!)
     const [isRoundTripGroupStage, setIsRoundTripGroupStage] = useState<boolean>(group.isRoundTripGroupStage!)
+    const { isFullName, setIsFullName } = useIsFullName()
 
     const [initialData, setInitialData] = useState<{ label: string, id: string }[]>(
         [{ label: "points", id: "1" },
@@ -114,14 +121,24 @@ const Config = () => {
 
         try {
 
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+            if (status !== "granted") {
+                Toast.show({
+                    type: 'error',
+                    text1: i18n.t("permissions.galleryAccess.title"),
+                    text2: i18n.t("permissions.galleryAccess.message")
+                })
+                return
+            }
+
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ["images"],
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 1,
+                quality: 1
             });
 
-            if (!result.canceled) {
+            if (!result.canceled && result.assets.length > 0) {
                 const normalizedUri = await normalizeUri(result.assets[0].uri);
                 setImage(normalizedUri);
             }
@@ -244,6 +261,10 @@ const Config = () => {
         setIsManuelConfiguration(v)
     }
 
+    const handleFullName = async (v: boolean) => {
+        await AsyncStorage.setItem("isFullName", v ? "yes" : "no");
+    }
+
     const comeBack = () => {
         if (group.isGenerated) {
             router.replace("/(tabs)/matchdays")
@@ -252,9 +273,9 @@ const Config = () => {
         }
     }
 
-    const goBack = () => {
+    const goBack = useCallback(() => {
         router.replace("/(tabs)/groups")
-    }
+    }, [router])
 
     useEffect(() => {
         hideAndShowAddAvoiding(false)
@@ -298,6 +319,7 @@ const Config = () => {
                     createAvoiding={createAvoiding!}
                     updateAvoiding={handleUpdate}
                     teamsAvoiding={teamsAvoiding}
+                    spacing={spacing}
                 />
             )}
             {group.isGenerated ? (
@@ -321,177 +343,190 @@ const Config = () => {
 
             <Toast config={toastConfig} />
 
-            <ScrollView style={configStyles.containerSettings}>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+            >
+                <ScrollView style={configStyles.containerSettings}>
 
-                {image ? (
-                    <Card style={[createStyles.cardAddTeam, { backgroundColor: colors.tertiary }]} onPress={pickImage}>
-                        <Image source={{ uri: image }} style={createStyles.imageCard} />
-                    </Card>
-                ) : (
-                    <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
-                        <Text variant="labelLarge">
-                            {image ? i18n.t("teamForm.changeImage") : i18n.t("teamForm.selectLogo")}
-                        </Text>
-                        <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
-                    </TouchableOpacity>
-                )}
-
-                {errors.title && (
-                    <Text
-                        variant="bodySmall"
-                        style={{
-                            color: MD3Colors.error50,
-                            marginTop: Dimensions.get('window').height / 185,
-                        }}
-                    >
-                        {errors.title.message}
-                    </Text>
-                )}
-
-                <Controller
-                    name="title"
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            value={value}
-                            onChangeText={onChange}
-                            autoCapitalize="none"
-                            onBlur={onBlur}
-                            label={i18n.t('groupStageName')}
-                            mode="outlined"
-                            maxLength={20}
-                            style={[createStyles.inputAdd, { backgroundColor: colors.tertiary }]}
-                        />
+                    {image ? (
+                        <Card style={[createStyles.cardAddTeam, { backgroundColor: colors.tertiary }]} onPress={pickImage}>
+                            <Image source={{ uri: image }} style={createStyles.imageCard} />
+                        </Card>
+                    ) : (
+                        <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
+                            <Text variant="labelLarge">
+                                {image ? i18n.t("teamForm.changeImage") : i18n.t("teamForm.selectLogo")}
+                            </Text>
+                            <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
+                        </TouchableOpacity>
                     )}
-                />
 
-                <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-                    <Text variant="bodyLarge">{i18n.t('manuallyTitle')}</Text>
-                    <Switch
-                        style={{ marginTop: Dimensions.get('window').height / 192 }}
-                        value={isManualConfiguration}
-                        onValueChange={(v) => handleChangeAutomatize(v)}
+                    {errors.title && (
+                        <Text
+                            variant="bodySmall"
+                            style={{
+                                color: MD3Colors.error50,
+                                marginTop: spacing.h185,
+                            }}
+                        >
+                            {errors.title.message}
+                        </Text>
+                    )}
+
+                    <Controller
+                        name="title"
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                value={value}
+                                onChangeText={onChange}
+                                autoCapitalize="none"
+                                onBlur={onBlur}
+                                label={i18n.t('groupStageName')}
+                                mode="outlined"
+                                maxLength={20}
+                                style={[createStyles.inputAdd, { backgroundColor: colors.tertiary }]}
+                            />
+                        )}
                     />
-                </View>
 
-                {isManualConfiguration && (
-                    <>
-                        <InputSettings
-                            handleFocus={handleFocus}
-                            colors={colors}
-                            text={i18n.t('numberOfGroups')}
-                            name="amountGroups"
-                            control={control}
-                            error={errors.amountGroups?.message}
-                            defaultValue={String(group.amountGroups)}
+                    <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
+                        <Text variant="bodyLarge">{i18n.t('manuallyTitle')}</Text>
+                        <Switch
+                            style={{ marginTop: spacing.h192 }}
+                            value={isManualConfiguration}
+                            onValueChange={(v) => handleChangeAutomatize(v)}
                         />
-                        <InputSettings
-                            handleFocus={handleFocus}
-                            colors={colors}
-                            text={i18n.t('teamsPerGroup')}
-                            name="teamsPerGroup"
-                            control={control}
-                            error={errors.teamsPerGroup?.message}
-                            defaultValue={String(group.teamsPerGroup)}
-                        />
-                        <InputSettings
-                            handleFocus={handleFocus}
-                            colors={colors}
-                            text={i18n.t('numberOfClassifieds')}
-                            name="amountClassified"
-                            control={control}
-                            error={errors.amountClassified?.message}
-                            defaultValue={String(group.amountClassified)}
-                        />
-                    </>
-                )}
+                    </View>
 
-                <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                    <Text variant="labelLarge">{i18n.t("selectMode")}</Text>
-                    <Dropdown
-                        style={[
-                            createStyles.dropdownComplete,
-                            { backgroundColor: colors.tertiary },
-                            isFocus && { borderColor: colors.primary },
-                        ]}
-                        placeholderStyle={{
-                            fontSize: Dimensions.get("window").height / 47,
-                            color: colors.surface,
-                            backgroundColor: colors.tertiary
-                        }}
-                        selectedTextStyle={{
-                            fontSize: Dimensions.get("window").height / 47,
-                            color: colors.surface,
-                            backgroundColor: colors.tertiary
-                        }}
-                        itemTextStyle={{
-                            color: colors.surface
-                        }}
-                        containerStyle={{
-                            backgroundColor: colors.tertiary,
-                        }}
-                        data={modeData}
-                        maxHeight={Dimensions.get("window").height / 3.8}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={String(pointsModeSelected)}
-                        value={pointsModeSelected}
-                        activeColor={colors.primary}
-                        onFocus={() => setIsFocus(true)}
-                        onBlur={() => setIsFocus(false)}
-                        onChange={(item) => {
-                            setPointsSelected(item.value);
-                            setIsFocus(false);
-                        }}
+                    {isManualConfiguration && (
+                        <>
+                            <InputSettings
+                                handleFocus={handleFocus}
+                                colors={colors}
+                                text={i18n.t('numberOfGroups')}
+                                name="amountGroups"
+                                control={control}
+                                error={errors.amountGroups?.message}
+                                defaultValue={String(group.amountGroups)}
+                                spacing={spacing}
+                            />
+                            <InputSettings
+                                handleFocus={handleFocus}
+                                colors={colors}
+                                text={i18n.t('teamsPerGroup')}
+                                name="teamsPerGroup"
+                                control={control}
+                                error={errors.teamsPerGroup?.message}
+                                defaultValue={String(group.teamsPerGroup)}
+                                spacing={spacing}
+                            />
+                            <InputSettings
+                                handleFocus={handleFocus}
+                                colors={colors}
+                                text={i18n.t('numberOfClassifieds')}
+                                name="amountClassified"
+                                control={control}
+                                error={errors.amountClassified?.message}
+                                defaultValue={String(group.amountClassified)}
+                                spacing={spacing}
+                            />
+                        </>
+                    )}
+
+                    <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
+                        <Text variant="labelLarge">{i18n.t("selectMode")}</Text>
+                        <Dropdown
+                            style={[
+                                createStyles.dropdownComplete,
+                                { backgroundColor: colors.tertiary },
+                                isFocus && { borderColor: colors.primary },
+                            ]}
+                            placeholderStyle={{
+                                fontSize: spacing.h47,
+                                color: colors.surface,
+                                backgroundColor: colors.tertiary
+                            }}
+                            selectedTextStyle={{
+                                fontSize: spacing.h47,
+                                color: colors.surface,
+                                backgroundColor: colors.tertiary
+                            }}
+                            itemTextStyle={{
+                                color: colors.surface
+                            }}
+                            containerStyle={{
+                                backgroundColor: colors.tertiary,
+                            }}
+                            data={modeData}
+                            maxHeight={spacing.h3_8}
+                            labelField="label"
+                            valueField="value"
+                            placeholder={String(pointsModeSelected)}
+                            value={pointsModeSelected}
+                            activeColor={colors.primary}
+                            onFocus={() => setIsFocus(true)}
+                            onBlur={() => setIsFocus(false)}
+                            onChange={(item) => {
+                                setPointsSelected(item.value);
+                                setIsFocus(false);
+                            }}
+                        />
+                    </View>
+
+                    {pointsModeSelected === "points" && (
+                        <>
+                            <InputSettings
+                                handleFocus={handleFocus}
+                                colors={colors}
+                                text={i18n.t('pointsToTheWinner')}
+                                name="pointsWin"
+                                control={control}
+                                error={errors.pointsWin?.message}
+                                defaultValue={String(group.pointsWin)}
+                                spacing={spacing}
+                            />
+                            <InputSettings
+                                handleFocus={handleFocus}
+                                colors={colors}
+                                text={i18n.t('pointsToTie')}
+                                name="pointsDraw"
+                                control={control}
+                                error={errors.pointsDraw?.message}
+                                defaultValue={String(group.pointsDraw)}
+                                spacing={spacing}
+                            />
+                            <InputSettings
+                                handleFocus={handleFocus}
+                                colors={colors}
+                                text={i18n.t('pointsToTheLoser')}
+                                name="pointsLoss"
+                                control={control}
+                                error={errors.pointsLoss?.message}
+                                defaultValue={String(group.pointsLoss)}
+                                spacing={spacing}
+                            />
+                        </>
+                    )}
+
+                    <SwitchSettings
+                        text={i18n.t('roundTripGroupStage')}
+                        value={isRoundTripGroupStage}
+                        setValue={setIsRoundTripGroupStage}
+                        colors={colors}
+                        spacing={spacing}
                     />
-                </View>
+                    <SwitchSettings
+                        text={i18n.t('roundTripElimination')}
+                        value={isRoundTripElimination}
+                        setValue={setIsRoundTripElimination}
+                        colors={colors}
+                        spacing={spacing}
+                    />
 
-                {pointsModeSelected === "points" && (
-                    <>
-                        <InputSettings
-                            handleFocus={handleFocus}
-                            colors={colors}
-                            text={i18n.t('pointsToTheWinner')}
-                            name="pointsWin"
-                            control={control}
-                            error={errors.pointsWin?.message}
-                            defaultValue={String(group.pointsWin)}
-                        />
-                        <InputSettings
-                            handleFocus={handleFocus}
-                            colors={colors}
-                            text={i18n.t('pointsToTie')}
-                            name="pointsDraw"
-                            control={control}
-                            error={errors.pointsDraw?.message}
-                            defaultValue={String(group.pointsDraw)}
-                        />
-                        <InputSettings
-                            handleFocus={handleFocus}
-                            colors={colors}
-                            text={i18n.t('pointsToTheLoser')}
-                            name="pointsLoss"
-                            control={control}
-                            error={errors.pointsLoss?.message}
-                            defaultValue={String(group.pointsLoss)}
-                        />
-                    </>
-                )}
-
-                <SwitchSettings
-                    text={i18n.t('roundTripGroupStage')}
-                    value={isRoundTripGroupStage}
-                    setValue={setIsRoundTripGroupStage}
-                    colors={colors}
-                />
-                <SwitchSettings
-                    text={i18n.t('roundTripElimination')}
-                    value={isRoundTripElimination}
-                    setValue={setIsRoundTripElimination}
-                    colors={colors}
-                />
-
-                {/* <ConfigButton
+                    {/* <ConfigButton
                     colors={colors}
                     text={i18n.t('tieBreakCriteria')}
                     func={() => setIsTieBreakCriteria(true)}
@@ -501,7 +536,22 @@ const Config = () => {
                     text={i18n.t('avoidingMatches')}
                     func={() => setIsAvoidingMatches(true)}
                 /> */}
-            </ScrollView>
+
+                    <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
+                        <Text variant="bodyLarge">{i18n.t("displayFullName")}</Text>
+                        <Switch
+                            style={{ marginTop: spacing.h192 }}
+                            value={isFullName}
+                            onValueChange={(v) => {
+                                setIsFullName(v)
+                                handleFullName(v)
+                            }}
+                        />
+                    </View>
+
+                </ScrollView>
+
+            </KeyboardAvoidingView>
 
             <SettingsButton
                 colors={colors}

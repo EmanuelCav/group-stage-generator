@@ -4,6 +4,7 @@ import { Router } from "expo-router";
 
 import { IGroup } from "@/interface/Group";
 import { ITeam } from "@/interface/Team"
+import { Spacing } from "./props.types";
 
 export type GenerateButtonPropsType = {
     teams: ITeam[];
@@ -15,7 +16,6 @@ export type GenerateButtonPropsType = {
 export type AddTeamPropsType = {
     colors: MD3Colors;
     openForm: (show: boolean) => void;
-    length: number;
 }
 
 export type FormCreateTeamPropsType = {
@@ -29,6 +29,7 @@ export type FormCreateTeamPropsType = {
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
     premium: boolean;
+    spacing: Spacing;
 }
 
 export type HeaderCreatePropsType = {
@@ -46,8 +47,7 @@ export type AddButtonPropsType = {
 export type TeamAddedPropsType = {
     team: ITeam;
     isManualConfiguration: boolean;
-    teams: ITeam[];
     handleUpdateTeam: (data: ITeam) => void;
     colors: MD3Colors;
-    index: number;
+    spacing: Spacing;
 }

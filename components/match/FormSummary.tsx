@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { Dimensions } from "react-native";
+import { useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Icon, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
+import { TestIds } from "react-native-google-mobile-ads";
 import Toast from 'react-native-toast-message';
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
@@ -23,8 +23,12 @@ import { summarySchema } from "@/schema/match.schema";
 
 import { getTeamsName, getPlayerName, generateId } from "@/utils/defaultGroup";
 import { labelSummaryEvent } from "@/utils/matchday";
+import { useInterstitialAd } from "@/hooks/useInterstitialAd";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary }: FormSummaryPropsType) => {
+const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_EVENTS}`;
+
+const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary, spacing, premium }: FormSummaryPropsType) => {
 
     const [statisticSelected, setStatisticSelected] = useState<string>(summary.title ?? "")
     const [teamSelected, setTeamSelected] = useState<string>(summary.player?.team?.name ?? "")
@@ -37,6 +41,31 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
     const [isFocusSecondaryPlayer, setIsFocusSecondaryPlayer] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
+    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
+
+    const teamsOptions = useMemo(
+        () => getTeamsName([match.local.team, match.visitant.team]),
+        [match.local.team.id, match.visitant.team.id]
+    )
+
+    const playerOptions = useMemo(
+        () => getPlayerName(
+            group.players?.filter((p) =>
+                teamSelected
+                    ? p.team?.name === teamSelected
+                    : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
+            )!
+        ), [group.players, teamSelected, match.local.team.id, match.visitant.team.id]
+    )
+
+    const eventOptions = useMemo(() => [
+        { value: "goal", label: i18n.t("goal") },
+        { value: "yellow card", label: i18n.t("yellows") },
+        { value: "red card", label: i18n.t("reds") },
+        { value: "injury", label: i18n.t("injury") },
+        { value: "substitution", label: i18n.t("substitution") },
+    ], [])
+
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(summarySchema),
         defaultValues: {
@@ -44,7 +73,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
         }
     })
 
-    const handleAddSummary = (summaryCreated: ICreateSummary) => {
+    const handleAddSummary = async (summaryCreated: ICreateSummary) => {
 
         if (!statisticSelected) {
             Toast.show({
@@ -191,6 +220,24 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
             }
 
+            try {
+
+                const storedCount = await AsyncStorage.getItem("reviewCount");
+                const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                if (interstitial) {
+                    if (match.summary.length !== 0) {
+                        if (match.summary.length === 1 || match.summary.length % 8 === 0) {
+                            if ((interstitial.loaded || isInterstitialLoaded) && count > 3 && !premium) {
+                                interstitial.show()
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.log(error);
+            }
+
             reset()
         }
 
@@ -215,7 +262,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             />
             {
                 group.players?.length! > 0 ?
-                    <View style={{ marginTop: Dimensions.get("window").height / 28, backgroundColor: colors.background }}>
+                    <View style={{ marginTop: spacing.h28, backgroundColor: colors.background }}>
                         <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
                                 {i18n.t("sumarry_select_event")}
@@ -227,12 +274,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     isFocusEvent && { borderColor: colors.primary },
                                 ]}
                                 placeholderStyle={{
-                                    fontSize: Dimensions.get("window").height / 47,
+                                    fontSize: spacing.h47,
                                     color: colors.surface,
                                     backgroundColor: colors.tertiary
                                 }}
                                 selectedTextStyle={{
-                                    fontSize: Dimensions.get("window").height / 47,
+                                    fontSize: spacing.h47,
                                     color: colors.surface,
                                     backgroundColor: colors.tertiary
                                 }}
@@ -243,23 +290,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     backgroundColor: colors.tertiary,
                                 }}
                                 activeColor={colors.primary}
-                                data={[{
-                                    value: "goal",
-                                    label: i18n.t("goal")
-                                }, {
-                                    value: "yellow card",
-                                    label: i18n.t("yellows")
-                                }, {
-                                    value: "red card",
-                                    label: i18n.t("reds")
-                                }, {
-                                    value: "injury",
-                                    label: i18n.t("injury")
-                                }, {
-                                    value: "substitution",
-                                    label: i18n.t("substitution")
-                                }]}
-                                maxHeight={Dimensions.get("window").height / 3.8}
+                                data={eventOptions}
+                                maxHeight={spacing.h3_8}
                                 labelField="label"
                                 valueField="value"
                                 placeholder={String(statisticSelected)}
@@ -284,12 +316,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     isFocusTeam && { borderColor: colors.primary },
                                 ]}
                                 placeholderStyle={{
-                                    fontSize: Dimensions.get("window").height / 47,
+                                    fontSize: spacing.h47,
                                     color: colors.surface,
                                     backgroundColor: colors.tertiary
                                 }}
                                 selectedTextStyle={{
-                                    fontSize: Dimensions.get("window").height / 47,
+                                    fontSize: spacing.h47,
                                     color: colors.surface,
                                     backgroundColor: colors.tertiary
                                 }}
@@ -300,8 +332,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     backgroundColor: colors.tertiary,
                                 }}
                                 activeColor={colors.primary}
-                                data={getTeamsName([match.local.team, match.visitant.team])}
-                                maxHeight={Dimensions.get("window").height / 3.8}
+                                data={teamsOptions}
+                                maxHeight={spacing.h3_8}
                                 labelField="label"
                                 valueField="value"
                                 placeholder={String(teamSelected)}
@@ -327,12 +359,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     isFocusPlayer && { borderColor: colors.primary },
                                 ]}
                                 placeholderStyle={{
-                                    fontSize: Dimensions.get("window").height / 47,
+                                    fontSize: spacing.h47,
                                     color: colors.surface,
                                     backgroundColor: colors.tertiary
                                 }}
                                 selectedTextStyle={{
-                                    fontSize: Dimensions.get("window").height / 47,
+                                    fontSize: spacing.h47,
                                     color: colors.surface,
                                     backgroundColor: colors.tertiary
                                 }}
@@ -343,14 +375,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     backgroundColor: colors.tertiary,
                                 }}
                                 activeColor={colors.primary}
-                                data={getPlayerName(
-                                    group.players?.filter((p) =>
-                                        teamSelected
-                                            ? p.team?.name === teamSelected
-                                            : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
-                                    )!
-                                )}
-                                maxHeight={Dimensions.get("window").height / 3.8}
+                                data={playerOptions}
+                                maxHeight={spacing.h3_8}
                                 labelField="label"
                                 valueField="value"
                                 placeholder={String(playerSelected)}
@@ -377,12 +403,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                         isFocusSecondaryPlayer && { borderColor: colors.primary },
                                     ]}
                                     placeholderStyle={{
-                                        fontSize: Dimensions.get("window").height / 47,
+                                        fontSize: spacing.h47,
                                         color: colors.surface,
                                         backgroundColor: colors.tertiary
                                     }}
                                     selectedTextStyle={{
-                                        fontSize: Dimensions.get("window").height / 47,
+                                        fontSize: spacing.h47,
                                         color: colors.surface,
                                         backgroundColor: colors.tertiary
                                     }}
@@ -393,14 +419,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                         backgroundColor: colors.tertiary,
                                     }}
                                     activeColor={colors.primary}
-                                    data={getPlayerName(
-                                        group.players?.filter((p) =>
-                                            teamSelected
-                                                ? p.team?.name === teamSelected
-                                                : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
-                                        )!
-                                    )}
-                                    maxHeight={Dimensions.get("window").height / 3.8}
+                                    data={playerOptions}
+                                    maxHeight={spacing.h3_8}
                                     labelField="label"
                                     valueField="value"
                                     placeholder={String(secondaryPlayerSelected)}
@@ -428,12 +448,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                         isFocusTeam && { borderColor: colors.primary },
                                     ]}
                                     placeholderStyle={{
-                                        fontSize: Dimensions.get("window").height / 47,
+                                        fontSize: spacing.h47,
                                         color: colors.surface,
                                         backgroundColor: colors.tertiary
                                     }}
                                     selectedTextStyle={{
-                                        fontSize: Dimensions.get("window").height / 47,
+                                        fontSize: spacing.h47,
                                         color: colors.surface,
                                         backgroundColor: colors.tertiary
                                     }}
@@ -444,14 +464,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                         backgroundColor: colors.tertiary,
                                     }}
                                     activeColor={colors.primary}
-                                    data={getPlayerName(
-                                        group.players?.filter((p) =>
-                                            teamSelected
-                                                ? p.team?.name === teamSelected
-                                                : (p.team?.name === match.local.team.name || p.team?.name === match.visitant.team.name)
-                                        )!
-                                    )}
-                                    maxHeight={Dimensions.get("window").height / 3.8}
+                                    data={playerOptions}
+                                    maxHeight={spacing.h3_8}
                                     labelField="label"
                                     valueField="value"
                                     placeholder={String(secondaryPlayerSelected)}
@@ -492,7 +506,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 errors.time &&
                                 <Text
                                     variant="bodySmall"
-                                    style={{ color: MD3Colors.error50, marginTop: Dimensions.get("window").height / 185 }}
+                                    style={{ color: MD3Colors.error50, marginTop: spacing.h185 }}
                                 >
                                     {errors.time.message}
                                 </Text>
@@ -523,7 +537,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                     </View>
                     :
                     <View style={{
-                        marginTop: Dimensions.get("window").height / 28, justifyContent: 'center',
+                        marginTop: spacing.h28, justifyContent: 'center',
                         alignItems: 'center', backgroundColor: colors.background
                     }}>
                         <Text variant='titleLarge' style={{ color: colors.primary }}>

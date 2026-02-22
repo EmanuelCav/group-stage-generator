@@ -10,6 +10,8 @@ import Password from "@/components/auth/Password";
 import { generalStyles } from "@/styles/general.styles";
 import { authStyles } from "@/styles/auth.styles";
 
+import { useSpacing } from "@/hooks/useSpacing";
+
 import { supabase } from "@/lib/supabase";
 
 const UpdatePassword = () => {
@@ -20,6 +22,8 @@ const UpdatePassword = () => {
     const [password, setPassword] = useState<string>("");
     const [errorData, setErrorData] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
+
+    const spacing = useSpacing()
 
     const handleUpdatePassword = async () => {
 
@@ -64,6 +68,7 @@ const UpdatePassword = () => {
                     label={i18n.t("new_password")}
                     setValue={setPassword}
                     value={password}
+                    spacing={spacing}
                 />
 
 

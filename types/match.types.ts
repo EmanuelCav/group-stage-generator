@@ -5,6 +5,7 @@ import { Router } from "expo-router";
 import { IGetMatch, IGetMatchKnockout, IMatch, IMatchStatistic, IMatchTeam, ISummary } from "@/interface/Match"
 import { IGroup } from "@/interface/Group";
 import { ILineup } from "@/interface/Player";
+import { Spacing } from "./props.types";
 
 export type TitleMatchPropsType = {
     match: IGetMatch;
@@ -15,6 +16,8 @@ export type TitleMatchPropsType = {
 export type ScoreTeamsPropsType = {
     match: IMatch;
     colors: MD3Colors;
+    spacing: Spacing;
+    isFullName: boolean;
 }
 
 export type InformationPropsType = {
@@ -39,6 +42,8 @@ export type FormUpdateMatchPropsType = {
     premium: boolean;
     interstitial: InterstitialAd;
     isIntersitialLoaded: boolean;
+    spacing: Spacing;
+    isFullName: boolean;
 }
 
 export type TeamUpdateScorePropsType = {
@@ -47,6 +52,7 @@ export type TeamUpdateScorePropsType = {
 
 export type FormLineUpPropsType = {
     colors: MD3Colors;
+    isFullName: boolean;
     hideAndShowPlayers: (show: boolean) => void;
     group: IGroup;
     match: IMatch;
@@ -57,10 +63,12 @@ export type FormLineUpPropsType = {
     matchday: number;
     round: number;
     isKnockout: boolean;
+    spacing: Spacing;
 }
 
 export type FormStatisticsMatchPropsType = {
     colors: MD3Colors;
+    isFullName: boolean;
     hideAndShowStatistics: (show: boolean) => void;
     sureRemoveStatistic: (data: boolean) => void;
     match: IMatch;
@@ -74,10 +82,13 @@ export type FormStatisticsMatchPropsType = {
     matchday: number;
     round: number;
     isKnockout: boolean;
+    spacing: Spacing;
+    premium: boolean;
 }
 
 export type FormSummaryPropsType = {
     colors: MD3Colors;
+    spacing: Spacing;
     hideAndShowSummary: (show: boolean) => void;
     updateMatch: (data: IGetMatch) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
@@ -92,6 +103,7 @@ export type FormSummaryPropsType = {
     round: number;
     isKnockout: boolean;
     router: Router;
+    premium: boolean;
 }
 
 export type SummaryPropsType = {
@@ -116,9 +128,12 @@ export type StatisticMatchPropsType = {
 export type TeamViewPropsType = {
     colors: MD3Colors;
     team: IMatchTeam;
+    spacing: Spacing;
+    isFullName: boolean;
 }
 
 export type ScoreViewPropsType = {
     colors: MD3Colors;
     match: IMatch;
+    spacing: Spacing;
 }

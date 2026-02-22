@@ -1,3 +1,4 @@
+import { useCallback } from "react"
 import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
 import i18n from '@/i18n'
@@ -19,9 +20,9 @@ const Statistics = () => {
     const router = useRouter()
     const { colors } = useTheme()
 
-    const goBack = () => {
+    const goBack = useCallback(() => {
         router.replace("/home")
-    }
+    }, [router])
 
     return (
         <MainScreen colors={colors}>

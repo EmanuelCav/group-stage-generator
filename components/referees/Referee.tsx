@@ -1,11 +1,12 @@
+import { memo } from "react"
 import { Icon, Text } from "react-native-paper"
-import { Dimensions, Pressable } from "react-native"
+import { Pressable } from "react-native"
 
 import { createStyles } from "@/styles/create.styles"
 
 import { RefereePropsType } from "@/types/referees.types"
 
-const Referee = ({ referee, handleUpdateReferee, colors }: RefereePropsType) => {
+const Referee = memo(({ referee, handleUpdateReferee, colors, spacing }: RefereePropsType) => {
     return (
         <Pressable style={[createStyles.containTeamAdded,
         {
@@ -13,12 +14,12 @@ const Referee = ({ referee, handleUpdateReferee, colors }: RefereePropsType) => 
             backgroundColor: colors.tertiary
         }]}
             onPress={() => handleUpdateReferee(referee)}>
-            <Text variant="bodyLarge" style={{ marginLeft: Dimensions.get("window").width / 45 }}>
+            <Text variant="bodyLarge" style={{ marginLeft: spacing.w45 }}>
                 {referee.name}
             </Text>
             <Icon source="whistle" size={24} color={colors.primary} />
         </Pressable>
     )
-}
+})
 
 export default Referee
