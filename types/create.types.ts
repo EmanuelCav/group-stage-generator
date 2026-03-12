@@ -1,5 +1,4 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
-import { InterstitialAd } from "react-native-google-mobile-ads";
 import { Router } from "expo-router";
 
 import { IGroup } from "@/interface/Group";
@@ -26,8 +25,6 @@ export type FormCreateTeamPropsType = {
     openSure: (data: ITeam) => void;
     group: IGroup;
     team: ITeam;
-    interstitial: InterstitialAd;
-    isIntersitialLoaded: boolean;
     premium: boolean;
     spacing: Spacing;
 }

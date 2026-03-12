@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useFocusEffect, useRouter } from 'expo-router'
+import { Redirect, useFocusEffect, useRouter } from 'expo-router'
 import { useTheme } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast, { ErrorToast } from 'react-native-toast-message';
@@ -75,11 +75,13 @@ const Groups = () => {
     }, [])
   );
 
+  if (!group.isGenerated) return <Redirect href="/home" />
+
   return (
     <MainScreen colors={colors}>
       <HeaderGeneral colors={colors} router={router} title={i18n.t("groups")} goBack={goBack}
         sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
-        createGroup={createGroup} group={group} groups={groups} premium={premium} />
+        createGroup={createGroup} group={group} premium={premium} groups={groups} />
       <SureGeneral />
       {
         group.isGeneratedAgain && <GenerateAgain colors={colors} />

@@ -20,7 +20,7 @@ const TableStatistic = memo(({ colors, itemStatistic, indexStatistic }: TableSta
   const { isFullName } = useIsFullName()
 
   return (
-    <View style={groupStyles.groupList}>
+    <View style={[groupStyles.groupList, { backgroundColor: colors.tertiary }]}>
       <View>
         <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
           <Text variant="labelSmall" style={groupStyles.statisticsCellMain}>

@@ -18,8 +18,8 @@ export type HeaderGeneralPropsTypes = {
     colors: MD3Colors;
     router: Router;
     title: string;
-    groups: IGroup[];
     group: IGroup;
+    groups: IGroup[];
     premium: boolean;
     createGroup: (data: IGroup) => void;
     goBack: () => void;

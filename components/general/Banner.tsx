@@ -9,11 +9,9 @@ const Banner = () => {
     return (
         <View style={generalStyles.containerBanner}>
             <BannerAd
-                unitId={adUnitId as string}
+                key={adUnitId}
+                unitId={adUnitId}
                 size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-                requestOptions={{
-                    requestNonPersonalizedAdsOnly: true,
-                }}
             />
         </View>
     )

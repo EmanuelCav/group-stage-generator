@@ -12,7 +12,7 @@ import { deleteGroupFromSupabase } from "@/lib/save"
 
 const SureGeneral = () => {
 
-    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup, groups } = groupStore()
+    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup } = groupStore()
     const router = useRouter()
     const { user } = useAuth()
 

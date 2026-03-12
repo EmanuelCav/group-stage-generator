@@ -19,7 +19,9 @@ import { matchStyles } from '@/styles/match.styles';
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { groupName, nameParticipant } from '@/utils/points';
 
-const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, interstitial, isIntersitialLoaded, spacing, isFullName }: FormUpdateMatchPropsType) => {
+import { interstitialService } from '@/services/interstitialService';
+
+const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, spacing, isFullName }: FormUpdateMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.visitant.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -85,10 +87,10 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             const storedCountMatch = await AsyncStorage.getItem("matchCount");
             const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
 
-            if (interstitial) {
-                if (countMatch !== 0 && countMatch % 7 === 0) {
-                    if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
-                        interstitial.show()
+            if (countMatch !== 0) {
+                if (countMatch === 1 || countMatch % 7 === 0) {
+                    if (count > 3 && interstitialService.isLoaded() && !premium) {
+                        interstitialService.show()
                     }
                 }
             }

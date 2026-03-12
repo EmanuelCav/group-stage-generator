@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router"
+import { Redirect, useRouter } from "expo-router"
 import { FlatList } from "react-native"
 import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
-import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -33,11 +32,8 @@ import { userStore } from "@/store/user.store"
 
 import { lineupPlayers } from "@/utils/matchday"
 
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
 
 const Match = () => {
 
@@ -52,8 +48,6 @@ const Match = () => {
     const { premium } = userStore()
     const insets = useSafeAreaInsets()
     const spacing = useSpacing()
-
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const { isFullName } = useIsFullName()
 
@@ -173,6 +167,8 @@ const Match = () => {
         handleGetMatch()
     }, [])
 
+    if (!group.isGenerated) return <Redirect href="/home" />
+
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral
@@ -184,8 +180,8 @@ const Match = () => {
                 sureRestartGroup={sureRestartGroup}
                 group={group}
                 createGroup={createGroup}
-                groups={groups}
                 premium={premium}
+                groups={groups}
             />
             <SureGeneral />
 
@@ -279,8 +275,6 @@ const Match = () => {
                     matchday={match.matchday!}
                     updateMatchGroup={updateMatchGroup}
                     premium={premium}
-                    interstitial={interstitial!}
-                    isIntersitialLoaded={isInterstitialLoaded}
                     spacing={spacing}
                     isFullName={isFullName}
                 />

@@ -1,5 +1,4 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
-import { InterstitialAd } from "react-native-google-mobile-ads";
 
 import { IGroup } from "@/interface/Group"
 import { IGetMatchKnockout, IMatch } from "@/interface/Match";
@@ -51,8 +50,6 @@ export type FormEliminationMatchPropsType = {
     group: IGroup;
     round: number;
     premium: boolean;
-    interstitial: InterstitialAd;
-    isIntersitialLoaded: boolean;
     isFullName: boolean;
     spacing: Spacing;
 }

@@ -41,7 +41,7 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
         }
 
         positionGroup.push(position)
-    }    
+    }
 
     if (amount < 0) {
         positionGroup[positionGroup.length - 1] = orderPoints(group, positionGroup[positionGroup.length - 1])
@@ -205,7 +205,7 @@ export const isScoreElimination = (match: IMatch, isRoundTrip: boolean): boolean
 
 export const winner = (match: IMatch, isRoundTrip: boolean): IMatchTeam => {
 
-    if (match.local.scoreTieBreaker && match.visitant.scoreTieBreaker) {
+    if ((match.local.scoreTieBreaker !== undefined && match.local.scoreTieBreaker !== null) && (match.visitant.scoreTieBreaker !== undefined && match.visitant.scoreTieBreaker !== null)) {
         if (match.local.scoreTieBreaker > match.visitant.scoreTieBreaker) {
             return match.local
         } else {
@@ -240,7 +240,7 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
         }
     }
 
-    if(group.isGroupStageEliminationDrawed) {
+    if (group.isGroupStageEliminationDrawed) {
         areChanges = true
     }
 
@@ -367,7 +367,7 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
         } else {
 
             let matchNextRound: IMatch[] = []
-            
+
             for (let j = 0; j < (group.amountClassified! / Math.pow(2, i + 1)); j++) {
                 matchNextRound.push({
                     local: {

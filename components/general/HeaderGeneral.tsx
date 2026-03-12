@@ -7,7 +7,7 @@ import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
 import { duplicateGroup } from "@/utils/defaultGroup";
 
-const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, groups, group, premium }: HeaderGeneralPropsTypes) => {
+const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, group, premium, groups }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
 

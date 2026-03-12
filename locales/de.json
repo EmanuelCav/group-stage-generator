@@ -405,7 +405,7 @@
     "limit_stadiums": "Stadionlimit",
     "limit_stadiums_description": "Sie haben das Limit von 15 Stadien erreicht",
     "limit_images": "Bildlimit",
-    "limit_images_description": "Sie haben das Limit von 24 Bildern erreicht",
+    "limit_images_description": "Sie haben das Limit von 16 Bildern erreicht",
     "benefits": "Vorteile",
     "tent": "Premium",
     "monthly": "Monatlich",
@@ -433,5 +433,6 @@
     "appSettings": "App-Einstellungen",
     "random": "Zufällig",
     "weakPassword": "Das Passwort ist zu schwach. Fügen Sie Buchstaben und Zahlen hinzu und verwenden Sie kein gängiges Passwort",
-    "beforeKnockoutStage": "Hinweis: Wir empfehlen, alle Ergebnisse der Gruppenphase abzuschließen, bevor die K.-o.-Phase erstellt wird"
+    "beforeKnockoutStage": "Hinweis: Wir empfehlen, alle Ergebnisse der Gruppenphase abzuschließen, bevor die K.-o.-Phase erstellt wird",
+    "teamsAddedCount": "Anzahl der hinzugefügten Teams"
 }

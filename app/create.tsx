@@ -4,7 +4,6 @@ import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
 import i18n from '@/i18n'
-import { TestIds } from 'react-native-google-mobile-ads';
 
 import { View } from "@/components/Themed";
 import TeamAdded from "@/components/create/TeamAdded";
@@ -32,10 +31,7 @@ import { userStore } from "@/store/user.store";
 import { powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
 
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 import { useSpacing } from "@/hooks/useSpacing";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL}`;
 
 const toastConfig = {
   error: (props: any) => (
@@ -58,8 +54,6 @@ const Create = () => {
   const router = useRouter()
 
   const spacing = useSpacing()
-
-  const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -220,8 +214,6 @@ const Create = () => {
           hideAndShowAddTeam={hideAndShowAddTeam}
           createTeam={createTeam}
           updateTeam={handleUpdate}
-          interstitial={interstitial!}
-          isIntersitialLoaded={isInterstitialLoaded}
           spacing={spacing}
         />
       )}
@@ -236,8 +228,8 @@ const Create = () => {
           sureRestartGroup={sureRestartGroup}
           createGroup={createGroup}
           group={group}
-          groups={groups}
           premium={premium}
+          groups={groups}
         />
       ) : (
         <HeaderCreate
@@ -257,6 +249,13 @@ const Create = () => {
       <Toast config={toastConfig} />
 
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
+
+        {
+          group.teams.length > 0 && <Text variant="bodyMedium" style={{ alignSelf: 'flex-start' }}>
+            {i18n.t("teamsAddedCount")}: {group.teams.length}
+          </Text>
+        }
+
         {group.teams.length > 0 ? (
           <AddButton colors={colors} handleAdd={openCreateTeam} />
         ) : (

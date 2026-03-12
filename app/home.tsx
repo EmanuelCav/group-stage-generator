@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from '@/components/Themed';
@@ -26,9 +25,7 @@ import { useAuth } from '@/hooks/useAuth';
 
 import { saveGroupsToSupabase } from '@/lib/save';
 
-import { useInterstitialAd } from '@/hooks/useInterstitialAd';
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_TOURNAMENT}`;
+import { interstitialService } from '@/services/interstitialService';
 
 const Home = () => {
 
@@ -42,13 +39,12 @@ const Home = () => {
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
 
-  const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
-
   const handleCreateTournament = async () => {
 
     const getAmountGroups = await AsyncStorage.getItem("amount_groups_general")
+    const getAmountGroupsCount = getAmountGroups ? parseInt(getAmountGroups, 10) : 0;
 
-    if (!premium && (groups.length >= 2 || Number(getAmountGroups) >= 2)) {
+    if (!premium && (groups.length >= 1 || getAmountGroupsCount >= 1)) {
       router.navigate({
         pathname: "/tent",
         params: { message: i18n.t("reachedTournament") }
@@ -56,12 +52,11 @@ const Home = () => {
       return
     }
 
-    await AsyncStorage.setItem("amount_groups_general", String(Number(getAmountGroups) + 1))
-    router.navigate("/create")
+    createGroup(groupValue(idGroup, user ? user.id : null))
 
-    setTimeout(() => {
-      createGroup(groupValue(idGroup, user ? user.id : null))
-    }, 0)
+    await AsyncStorage.setItem("amount_groups_general", (getAmountGroupsCount + 1).toString())
+
+    router.navigate("/create")
   }
 
   const handleGroup = async (group: IGroup) => {
@@ -73,11 +68,9 @@ const Home = () => {
 
     try {
 
-      if (interstitial) {
-        if (count > 3) {
-          if ((interstitial.loaded || isInterstitialLoaded) && !premium && count % 3 === 0) {
-            interstitial.show()
-          }
+      if (count > 3) {
+        if (interstitialService.isLoaded() && !premium && count % 3 === 0) {
+          interstitialService.show()
         }
       }
 

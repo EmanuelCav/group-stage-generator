@@ -15,6 +15,8 @@ import { authStyles } from '@/styles/auth.styles';
 
 import { groupStore } from '@/store/group.store';
 
+import { isValidEmail } from '@/utils/auth';
+
 import { supabase } from '../lib/supabase';
 import { signInWithGoogle } from '../lib/providerAuth';
 import { getGroupsFromSupabase } from '@/lib/save';
@@ -42,6 +44,11 @@ const Index = () => {
 
             if (!email || !password) {
                 setErrorData(i18n.t("emptyFields"));
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                setErrorData(i18n.t("invalidEmail"));
                 return;
             }
 

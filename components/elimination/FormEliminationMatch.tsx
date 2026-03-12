@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { Avatar, Button, DefaultTheme, IconButton, MD3Colors, PaperProvider, Text, TextInput } from 'react-native-paper'
 import { DatePickerModal, enGB, registerTranslation, TimePickerModal } from 'react-native-paper-dates';
@@ -21,7 +21,9 @@ import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { isScoreElimination, winner } from '@/utils/elimination';
 import { groupName, nameParticipant } from '@/utils/points';
 
-const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, interstitial, isIntersitialLoaded, premium, spacing, isFullName }: FormEliminationMatchPropsType) => {
+import { interstitialService } from '@/services/interstitialService';
+
+const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, premium, spacing, isFullName }: FormEliminationMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -39,7 +41,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
     const [showTimePicker, setShowTimePicker] = useState<boolean>(false);
 
-    const handleUpdateMatch = useCallback(async () => {
+    const handleUpdateMatch = async () => {
 
         const dataUpdated: IMatch = {
             isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
@@ -50,7 +52,11 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             players: match.players,
             summary: match.summary,
             visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : scoreLocal !== "" ? 0 : null, scoreTrip: scoreVisitantTrip !== "" ? Number(scoreVisitantTrip) : scoreLocalTrip !== "" ? 0 : null, scoreTieBreaker: scoreVisitantTieBreaker !== "" ? Number(scoreVisitantTieBreaker) : scoreLocalTieBreaker !== "" ? 0 : null },
-            date: match.date
+            date,
+            time: time?.hours ? {
+                hours: time.hours,
+                minutes: time.minutes
+            } : undefined
         }
 
         let indexMatch: number;
@@ -120,10 +126,10 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             const storedCountMatch = await AsyncStorage.getItem("matchCount");
             const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
 
-            if (interstitial) {
-                if (countMatch !== 0 && countMatch % 7 === 0) {
-                    if (count > 3 && (interstitial.loaded || isIntersitialLoaded) && !premium) {
-                        interstitial.show()
+            if (countMatch !== 0) {
+                if (countMatch === 1 || countMatch % 7 === 0) {
+                    if (count > 3 && interstitialService.isLoaded() && !premium) {
+                        interstitialService.show()
                     }
                 }
             }
@@ -135,8 +141,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
         }
 
         hideAndShowUpdateMatch(false)
-    }, [scoreLocal, scoreVisitant, scoreLocalTrip, scoreVisitantTrip, scoreLocalTieBreaker, scoreVisitantTieBreaker, stadiumSelected,
-        referreSelected, match, group, round, updateMatchKnockGroup, updateEliminationMatch, hideAndShowUpdateMatch, interstitial, isIntersitialLoaded, premium])
+    }
 
     const theme = useMemo(() => ({
         ...DefaultTheme,

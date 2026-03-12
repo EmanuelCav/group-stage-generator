@@ -405,7 +405,7 @@
     "limit_stadiums": "Limite stadi",
     "limit_stadiums_description": "Hai raggiunto il limite di 15 stadi",
     "limit_images": "Limite immagini",
-    "limit_images_description": "Hai raggiunto il limite di 24 immagini",
+    "limit_images_description": "Hai raggiunto il limite di 16 immagini",
     "benefits": "Vantaggi",
     "tent": "Premium",
     "monthly": "Mensile",
@@ -433,5 +433,6 @@
     "appSettings": "Impostazioni App",
     "random": "Casuale",
     "weakPassword": "La password è debole. Assicurati di includere lettere, numeri e che non sia comune",
-    "beforeKnockoutStage": "Nota: Ti consigliamo di completare tutti i risultati della fase a gironi prima di generare la fase a eliminazione diretta"
+    "beforeKnockoutStage": "Nota: Ti consigliamo di completare tutti i risultati della fase a gironi prima di generare la fase a eliminazione diretta",
+    "teamsAddedCount": "Numero di squadre aggiunte"
 }

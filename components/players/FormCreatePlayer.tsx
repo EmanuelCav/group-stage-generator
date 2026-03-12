@@ -23,7 +23,9 @@ import { playerStatistics, statisticPlayer } from "@/utils/statistics";
 
 import { playerSchema } from "@/schema/player.schema";
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreatePlayerPropsType) => {
+import { interstitialService } from "@/services/interstitialService";
+
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, premium, spacing }: FormCreatePlayerPropsType) => {
 
     const [teamSelected, setTeamSelected] = useState<string>(player.team?.name ?? group.teams[0].name!)
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -76,15 +78,14 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (interstitial) {
-                    if (group.players?.length !== 0) {
-                        if (group.players?.length === 1 || group.players!.length % 8 === 0) {
-                            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                                interstitial.show()
-                            }
+                if (group.players?.length !== 0) {
+                    if (group.players?.length === 1 || group.players!.length % 7 === 0) {
+                        if (!premium && interstitialService.isLoaded() && count > 3) {
+                            interstitialService.show()
                         }
                     }
                 }
+
             } catch (error) {
                 console.log(error);
             }

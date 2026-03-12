@@ -18,7 +18,9 @@ import { refereeSchema } from "@/schema/referee.schema";
 
 import { generateId } from "@/utils/defaultGroup";
 
-const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreateRefereePropsType) => {
+import { interstitialService } from "@/services/interstitialService";
+
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, premium, spacing }: FormCreateRefereePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -71,15 +73,14 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (interstitial) {
-                    if (group.referees?.length !== 0) {
-                        if (group.referees?.length === 1 || group.referees!.length % 8 === 0) {
-                            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                                interstitial.show()
-                            }
+                if (group.referees?.length !== 0) {
+                    if (group.referees?.length === 1 || group.referees!.length % 7 === 0) {
+                        if (interstitialService.isLoaded() && count > 3 && !premium) {
+                            interstitialService.show()
                         }
                     }
                 }
+
             } catch (error) {
                 console.log(error);
             }
@@ -133,6 +134,8 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             )}
 
             <Button
+                loading={loading}
+                disabled={loading}
                 mode="contained"
                 style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }}
@@ -143,7 +146,6 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
 
             {referee.id && (
                 <Button
-                    loading={loading}
                     disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}

@@ -22,7 +22,6 @@ import { handleSignOut } from "@/lib/providerAuth";
 import { useSpacing } from "@/hooks/useSpacing";
 import { useAuth } from "@/hooks/useAuth";
 import { useThemeMode } from "@/hooks/useThemeContext";
-import { useIsFullName } from "@/hooks/useIsFullName";
 
 const Settings = () => {
 
@@ -39,7 +38,6 @@ const Settings = () => {
 
     const spacing = useSpacing()
     const { setThemeMode } = useThemeMode();
-    const { isFullName, setIsFullName } = useIsFullName()
     const systemScheme = useColorScheme();
 
     const router = useRouter()
@@ -59,11 +57,6 @@ const Settings = () => {
         setDarkMode(value);
         setThemeMode(mode);
         await AsyncStorage.setItem("theme", mode);
-    }
-
-    const toggleFullName = async (value: boolean) => {
-        setIsFullName(value)
-        await AsyncStorage.setItem("isFullName", value ? "yes" : "no");
     }
 
     useEffect(() => {
@@ -134,7 +127,6 @@ const Settings = () => {
                 />
 
                 <ListItemSwitch title={i18n.t("darkMode")} iconName="theme-light-dark" value={darkMode} setValue={toggleDarkMode} colors={colors} />
-                {/* <ListItemSwitch title={i18n.t("TeamFullName")} iconName="text" value={isFullName} setValue={toggleFullName} colors={colors} /> */}
                 <ListItemButton colors={colors} handleFunction={() => router.navigate("/tent")} iconName="crown" title="Premium" borderColor={colors.primary} />
                 {
                     user ? <ListItemButton colors={colors} handleFunction={() => setIsSureLogOut(true)} iconName="logout" title={i18n.t("logout")} borderColor="#f00" />

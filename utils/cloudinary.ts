@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as FileSystem from "expo-file-system";
 
 export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
@@ -20,19 +21,29 @@ export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
         })
 
         const result = await res.json()
+
+        if (!res.ok) throw new Error(result.error?.message || "Upload failed");
+
         return result.secure_url
 
     } catch (error) {
         console.error("Cloudinary upload error:", error)
-        return ""
+        throw error
     }
 }
 
 export const normalizeUri = async (uri: string) => {
 
+    if (!uri) return "";
+
     try {
-        
-        if (!uri.startsWith("content://")) return uri
+
+        const fileInfo = await FileSystem.getInfoAsync(uri);
+
+        if (!fileInfo.exists) {
+            console.warn("El archivo original no existe en la ruta:", uri);
+            return "";
+        }
 
         const fileName = `image_${Date.now()}_${Math.random()}.jpg`
         const fileUri = `${FileSystem.cacheDirectory}${fileName}`
@@ -49,3 +60,17 @@ export const normalizeUri = async (uri: string) => {
         return uri;
     }
 }
+
+export const updateImageLimit = async (increment: number) => {
+
+    try {
+
+        const stored = await AsyncStorage.getItem("image_limit_count")
+        const count = stored ? parseInt(stored, 10) : 0
+        const newCount = Math.max(0, count + increment)
+        await AsyncStorage.setItem("image_limit_count", newCount.toString())
+
+    } catch (error) {
+        console.log("Error actualizando límite:", error);
+    }
+};

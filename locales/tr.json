@@ -405,7 +405,7 @@
   "limit_stadiums": "Stadyum sınırı",
   "limit_stadiums_description": "15 stadyum sınırına ulaştınız",
   "limit_images": "Görsel sınırı",
-  "limit_images_description": "24 görsel sınırına ulaştınız",
+  "limit_images_description": "16 görsel sınırına ulaştınız",
   "benefits": "Avantajlar",
   "tent": "Premium",
   "monthly": "Aylık",
@@ -433,5 +433,6 @@
   "appSettings": "Uygulama Ayarları",
   "random": "Rastgele",
   "weakPassword": "Şifre zayıf. Harf ve rakam eklediğinizden ve yaygın bir şifre olmadığından emin olun",
-  "beforeKnockoutStage": "Not: Eleme aşamasını oluşturmadan önce grup aşamasındaki tüm sonuçları tamamlamanızı öneririz"
+  "beforeKnockoutStage": "Not: Eleme aşamasını oluşturmadan önce grup aşamasındaki tüm sonuçları tamamlamanızı öneririz",
+  "teamsAddedCount": "Eklenen takım sayısı"
 }

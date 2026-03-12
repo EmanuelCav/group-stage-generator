@@ -1,4 +1,3 @@
-import { InterstitialAd } from "react-native-google-mobile-ads";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 
 import { IStadium } from "@/interface/Stadium";
@@ -14,8 +13,6 @@ export type FormCreateStadiumPropsType = {
     stadium: IStadium;
     premium: boolean;
     group: IGroup;
-    interstitial: InterstitialAd;
-    isIntersitialLoaded: boolean;
     spacing: Spacing;
 }
 

@@ -1,5 +1,4 @@
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
-import { InterstitialAd } from "react-native-google-mobile-ads";
 import { Router } from "expo-router";
 
 import { IGetMatch, IGetMatchKnockout, IMatch, IMatchStatistic, IMatchTeam, ISummary } from "@/interface/Match"
@@ -40,8 +39,6 @@ export type FormUpdateMatchPropsType = {
     group: IGroup;
     matchday: number;
     premium: boolean;
-    interstitial: InterstitialAd;
-    isIntersitialLoaded: boolean;
     spacing: Spacing;
     isFullName: boolean;
 }

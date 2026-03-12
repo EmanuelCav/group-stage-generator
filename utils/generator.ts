@@ -178,6 +178,7 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
                 for (let j = 0; j < groupsSorted[i].length; j++) {
                     if (groupsSorted[i][j].groupAssigned) {
                         if (groupsSorted[i][j].groupAssigned === i + 1) continue
+                        if (groupsSorted[i][j].groupAssigned! > groupsSorted.length) continue
                         const plotReplace = groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned === groupsSorted[i][j].group) === -1 ?
                             groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned !== groupsSorted[i][j].groupAssigned) === -1 ? j :
                                 groupsSorted[groupsSorted[i][j].groupAssigned! - 1].findIndex(gs => gs.groupAssigned !== groupsSorted[i][j].groupAssigned) :

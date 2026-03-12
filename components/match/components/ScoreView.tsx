@@ -14,13 +14,13 @@ const ScoreView = ({ match, colors, spacing }: ScoreViewPropsType) => {
                 <Text variant="bodyLarge">{match.local.score + (match.local.scoreTrip ?? 0)}</Text>
             }
             {
-                match.local.scoreTieBreaker && <Text variant="bodyLarge" style={{ marginHorizontal: spacing.w120 }}>
+                (match.local.scoreTieBreaker !== null && match.local.scoreTieBreaker !== undefined) && <Text variant="bodyLarge" style={{ marginHorizontal: spacing.w120 }}>
                     ({match.local.scoreTieBreaker})
                 </Text>
             }
             <Text style={{ marginHorizontal: spacing.w72 }}>-</Text>
             {
-                match.visitant.scoreTieBreaker && <Text variant="bodyLarge" style={{ marginHorizontal: spacing.w120 }}>
+                (match.visitant.scoreTieBreaker !== null && match.visitant.scoreTieBreaker !== undefined) && <Text variant="bodyLarge" style={{ marginHorizontal: spacing.w120 }}>
                     ({match.visitant.scoreTieBreaker})
                 </Text>
             }

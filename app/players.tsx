@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import { TestIds } from "react-native-google-mobile-ads";
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
 
@@ -28,10 +27,7 @@ import { userStore } from "@/store/user.store";
 
 import { getTeamsName } from "@/utils/defaultGroup";
 
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 import { useSpacing } from "@/hooks/useSpacing";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_PLAYER}`;
 
 const toastConfig = {
     error: (props: any) => (
@@ -54,8 +50,6 @@ const Players = () => {
     const router = useRouter()
 
     const spacing = useSpacing()
-
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const [teamSelected, setTeamSelected] = useState<string>("All teams")
     const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -126,6 +120,8 @@ const Players = () => {
         getStatistic({})
     }, [])
 
+    if (!group.isGenerated) return <Redirect href="/home" />
+
     return (
         <MainScreen colors={colors}>
             {
@@ -134,12 +130,12 @@ const Players = () => {
             {
                 showForm && <FormCreatePlayer group={group} colors={colors} player={player} openSure={openSure}
                     hideAndShowAddPlayer={hideAndShowAddPlayer} createPlayer={createPlayer} updatePlayer={handleUpdate}
-                    interstitial={interstitial!} isIntersitialLoaded={isInterstitialLoaded} premium={premium} spacing={spacing} />
+                    premium={premium} spacing={spacing} />
             }
 
             <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
-                group={group} groups={groups} premium={premium} />
+                group={group} premium={premium} groups={groups} />
 
             <SureGeneral />
 

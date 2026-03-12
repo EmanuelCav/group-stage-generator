@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Image, TouchableOpacity } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,11 +19,13 @@ import { createStyles } from "@/styles/create.styles";
 import { generalStyles } from "@/styles/general.styles";
 
 import { dataGroupNumber, dataPlots, generateId, teamValue } from "@/utils/defaultGroup";
-import { normalizeUri, uploadImageToCloudinary } from "@/utils/cloudinary";
+import { normalizeUri, updateImageLimit, uploadImageToCloudinary } from "@/utils/cloudinary";
 
 import { teamSchema } from "@/schema/team.schema";
 
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreateTeamPropsType) => {
+import { interstitialService } from "@/services/interstitialService";
+
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium, spacing }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${i18n.t("group.title")} ${team.groupAssigned}` : "")
@@ -42,7 +44,10 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   const pickImage = async () => {
 
-    if (!premium && group.teams.filter(t => t.logo).length >= 24) {
+    const image_limit = await AsyncStorage.getItem("image_limit_count");
+    const image_limit_count = image_limit ? parseInt(image_limit, 10) : 0;
+
+    if (!premium && image_limit_count >= 16) {
       Toast.show({
         type: 'error',
         text1: i18n.t("limit_images"),
@@ -71,13 +76,25 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         mediaTypes: ["images"],
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1
+        quality: 0.8
       });
 
-      if (!result.canceled && result.assets.length > 0) {
-        const normalizedUri = await normalizeUri(result.assets[0].uri);
-        setImage(normalizedUri);
+      if (!result || result.canceled) {
+        return;
       }
+
+      if (!result.assets || result.assets.length === 0) {
+        return;
+      }
+
+      const asset = result.assets[0];
+
+      if (!asset.uri) {
+        return;
+      }
+
+      const normalizedUri = await normalizeUri(result.assets[0].uri);
+      setImage(normalizedUri);
 
     } catch (error) {
       Toast.show({
@@ -119,11 +136,11 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     let imageUrl = image
     let timeLoading = 300
 
-    if (image) {
+    if (image && image !== team.logo) {
 
       try {
         imageUrl = await uploadImageToCloudinary(image);
-        timeLoading = 1200
+        timeLoading = 1000
       } catch (error) {
         Toast.show({
           type: 'error',
@@ -139,10 +156,15 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     const groupSelected: number = isNaN(Number(groupNumber)) ? Number(groupNumber[groupNumber.length - 1]) : Number(groupNumber)
 
     if (team.id) {
+
+      if (!team.logo && image) {
+        await updateImageLimit(1)
+      }
+
       updateTeam({
         id: team.id,
         group: team.group,
-        groupAssigned: groupSelected,
+        groupAssigned: groupSelected === 0 ? undefined : groupSelected,
         color: team.color,
         logo: imageUrl || "",
         name: teamCreated.name.trim(),
@@ -160,17 +182,20 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         const storedCount = await AsyncStorage.getItem("reviewCount");
         const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-        if (interstitial) {
-          if (group.teams.length !== 0) {
-            if (group.teams.length === 1 || group.teams.length % 8 === 0) {
-              if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                interstitial.show()
-              }
+        if (group.teams.length !== 0) {
+          if (group.teams.length === 1 || group.teams.length % 7 === 0) {
+            if (interstitialService.isLoaded() && count > 3 && !premium) {
+              interstitialService.show()
             }
           }
         }
+
       } catch (error) {
         console.log(error);
+      }
+
+      if (image) {
+        await updateImageLimit(1);
       }
 
       reset()
@@ -192,6 +217,27 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     () => dataGroupNumber(group.amountGroups!),
     [group.amountGroups]
   )
+
+  useEffect(() => {
+    const checkPendingResult = async () => {
+
+      try {
+
+        const result = await ImagePicker.getPendingResultAsync();
+
+        if (!result) return;
+
+        if ('assets' in result && !result.canceled && result.assets && result.assets.length > 0) {
+          const normalizedUri = await normalizeUri(result.assets[0].uri);
+          setImage(normalizedUri);
+        }
+      } catch (e) {
+        console.error("Error en pending result:", e);
+      }
+    };
+
+    checkPendingResult();
+  }, []);
 
   return (
     <ContainerBackground zIndex={20}>
@@ -337,6 +383,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
       {team.id && !group.isGenerated && (
         <Button
+          disabled={loading}
           mode="contained"
           style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
           labelStyle={{ color: "#ffffff" }}

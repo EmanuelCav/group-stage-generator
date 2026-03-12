@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react"
-import { useRouter } from "expo-router"
+import { Redirect, useRouter } from "expo-router"
 import { IconButton, useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 import Toast from 'react-native-toast-message';
@@ -25,7 +25,7 @@ import { useIsFullName } from "@/hooks/useIsFullName";
 
 const Elimination = () => {
 
-    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, groups, createGroup, sureRestartElimination, isSureRestartElimination, restartElimination } = groupStore()
+    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, createGroup, sureRestartElimination, isSureRestartElimination, restartElimination, groups } = groupStore()
     const { premium } = userStore()
     const { getMatchKnockout } = matchStore()
 
@@ -80,11 +80,13 @@ const Elimination = () => {
         sureRestartElimination(false)
     }, [])
 
+    if (!group.isGenerated) return <Redirect href="/home" />
+
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
-                createGroup={createGroup} group={group} groups={groups} premium={premium} />
+                createGroup={createGroup} group={group} premium={premium} groups={groups} />
             <SureGeneral />
             {
                 isSureRestartElimination && <Sure

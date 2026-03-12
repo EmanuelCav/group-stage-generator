@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
@@ -25,10 +24,7 @@ import { groupStore } from "@/store/group.store";
 import { refereeStore } from "@/store/referee.store";
 import { userStore } from "@/store/user.store";
 
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 import { useSpacing } from "@/hooks/useSpacing";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_REFEREE}`;
 
 const toastConfig = {
     error: (props: any) => (
@@ -51,8 +47,6 @@ const Referees = () => {
     const router = useRouter()
 
     const spacing = useSpacing()
-
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const handleUpdate = (data: IReferee) => {
         updateReferee(data)
@@ -107,6 +101,8 @@ const Referees = () => {
         getReferee({})
     }, [])
 
+    if (!group.isGenerated) return <Redirect href="/home" />
+
     return (
         <MainScreen colors={colors}>
             {
@@ -129,8 +125,6 @@ const Referees = () => {
                         hideAndShowAddReferee={hideAndShowAddReferee}
                         createReferee={createReferee}
                         updateReferee={handleUpdate}
-                        interstitial={interstitial!}
-                        isIntersitialLoaded={isInterstitialLoaded}
                         premium={premium}
                         spacing={spacing}
                     />
@@ -139,7 +133,7 @@ const Referees = () => {
 
             <HeaderGeneral colors={colors} router={router} title={i18n.t("referees_title")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
-                group={group} groups={groups} premium={premium} />
+                group={group} premium={premium} groups={groups} />
 
             <SureGeneral />
 

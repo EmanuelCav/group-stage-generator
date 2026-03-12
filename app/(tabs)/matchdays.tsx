@@ -1,8 +1,7 @@
 import { useCallback } from 'react';
-import { useRouter, useFocusEffect } from 'expo-router'
+import { useRouter, useFocusEffect, Redirect } from 'expo-router'
 import { useTheme } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
@@ -24,9 +23,7 @@ import { userStore } from '@/store/user.store';
 import { evaluateGenerateAgain } from '@/utils/matchday'
 
 import { useSpacing } from '@/hooks/useSpacing';
-import { useInterstitialAd } from '@/hooks/useInterstitialAd';
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCHDAYS}`;
+import { interstitialService } from '@/services/interstitialService';
 
 const toastConfig = {
     error: (props: any) => (
@@ -49,8 +46,6 @@ const Matchdays = () => {
 
     const spacing = useSpacing()
 
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
-
     const handleGetMatch = useCallback((data: IGetMatch) => {
         getMatch(data)
         router.navigate("/match")
@@ -72,15 +67,13 @@ const Matchdays = () => {
                     const storedCountMatchdaysScreen = await AsyncStorage.getItem("matchdaysScreenViews");
                     const countMatchdaysScreen = storedCountMatchdaysScreen ? parseInt(storedCountMatchdaysScreen, 10) : 0;
 
-                    if (interstitial) {
-                        if (countMatchdaysScreen !== 0 && countMatchdaysScreen % 29 === 0) {
-                            if (count > 3 && (interstitial.loaded || isInterstitialLoaded) && !premium) {
-                                interstitial.show()
-                            }
+                    if (countMatchdaysScreen !== 0 && countMatchdaysScreen % 11 === 0) {
+                        if (count > 3 && interstitialService.isLoaded() && !premium) {
+                            interstitialService.show()
                         }
                     }
 
-                    await AsyncStorage.setItem("matchdaysScreenViews", (count + 1).toString());
+                    await AsyncStorage.setItem("matchdaysScreenViews", (countMatchdaysScreen + 1).toString());
 
                 } catch (error) {
                     console.error("Error checking review count:", error);
@@ -91,11 +84,13 @@ const Matchdays = () => {
         }, [])
     );
 
+    if (!group.isGenerated) return <Redirect href="/home" />
+
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("statistics")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
-                group={group} groups={groups} premium={premium} />
+                group={group} premium={premium} groups={groups} />
             <SureGeneral />
             {
                 (group.isGeneratedAgain || evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />

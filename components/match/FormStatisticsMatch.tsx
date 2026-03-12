@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { TestIds } from "react-native-google-mobile-ads";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
 import i18n from '@/i18n'
@@ -23,17 +22,13 @@ import { statisticSchema } from "@/schema/statistic.schema";
 import { groupName, nameParticipant } from "@/utils/points";
 import { generateId } from "@/utils/defaultGroup";
 
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_EVENTS}`;
+import { interstitialService } from "@/services/interstitialService";
 
 const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, getStatistic, spacing, isFullName, premium }: FormStatisticsMatchPropsType) => {
 
     const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value !== undefined ? String(statistic.teamLocal.value) : "")
     const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value !== undefined ? String(statistic.teamVisitant.value) : "")
     const [loading, setLoading] = useState<boolean>(false)
-
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(statisticSchema),
@@ -59,13 +54,13 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 statistics: match.statistics.map((s) => s.id === statistic.id ?
                     {
                         ...statistic, title: statisticCreated.title, teamLocal: {
-                        team: match.local.team,
-                        value: valueLocal ? Number(valueLocal) : 0
-                    },
-                    teamVisitant: {
-                        team: match.visitant.team,
-                        value: valueVisitant ? Number(valueVisitant) : 0
-                    }
+                            team: match.local.team,
+                            value: valueLocal ? Number(valueLocal) : 0
+                        },
+                        teamVisitant: {
+                            team: match.visitant.team,
+                            value: valueVisitant ? Number(valueVisitant) : 0
+                        }
                     } : s),
                 players: match.players,
                 summary: match.summary,
@@ -184,15 +179,14 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (interstitial) {
-                    if (match.statistics.length !== 0) {
-                        if (match.statistics.length === 1 || match.statistics.length % 8 === 0) {
-                            if ((interstitial.loaded || isInterstitialLoaded) && count > 3 && !premium) {
-                                interstitial.show()
-                            }
+                if (match.statistics.length !== 0) {
+                    if (match.statistics.length === 1 || match.statistics.length % 7 === 0) {
+                        if (interstitialService.isLoaded() && count > 3 && !premium) {
+                            interstitialService.show()
                         }
                     }
                 }
+
             } catch (error) {
                 console.log(error);
             }
@@ -328,6 +322,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
             {statistic.id && (
                 <Button
+                    disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                     labelStyle={{ color: '#ffffff' }}

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useRouter } from "expo-router"
+import { useRouter, Redirect } from "expo-router"
 import { FlatList } from "react-native"
 import { Button, IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
-import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed"
@@ -34,10 +33,7 @@ import { userStore } from "@/store/user.store"
 import { lineupPlayers } from "@/utils/matchday"
 
 import { useSpacing } from "@/hooks/useSpacing";
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 import { useIsFullName } from "@/hooks/useIsFullName";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_MATCH}`;
 
 const Matchknockout = () => {
 
@@ -52,8 +48,6 @@ const Matchknockout = () => {
     const insets = useSafeAreaInsets()
     const spacing = useSpacing()
     const { isFullName } = useIsFullName()
-
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const sortedSummary = useMemo(() => {
         return [...(matchknockout.match?.summary ?? [])].sort((a, b) => Number(b.time) - Number(a.time))
@@ -251,11 +245,13 @@ const Matchknockout = () => {
         getStatistic({})
     }, [])
 
+    if (!group.isGenerated) return <Redirect href="/home" />
+
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} goBack={goBack} router={router} title={i18n.t("match_title")}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
-                createGroup={createGroup} group={group} groups={groups} premium={premium}
+                createGroup={createGroup} group={group} premium={premium} groups={groups}
             />
             <SureGeneral />
 
@@ -305,8 +301,6 @@ const Matchknockout = () => {
                     updateEliminationMatch={updateEliminationMatch}
                     updateMatchKnockGroup={updateMatchKnockGroup}
                     premium={premium}
-                    interstitial={interstitial!}
-                    isIntersitialLoaded={isInterstitialLoaded}
                     spacing={spacing}
                     isFullName={isFullName}
                 />

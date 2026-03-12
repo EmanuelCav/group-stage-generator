@@ -1,16 +1,20 @@
+import "@/utils/sentry";
 import 'react-native-reanimated';
-import mobileAds from 'react-native-google-mobile-ads';
+import mobileAds, { TestIds } from 'react-native-google-mobile-ads';
 import * as Linking from "expo-linking";
 import Purchases, { LOG_LEVEL } from "react-native-purchases";
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform, StatusBar, useColorScheme } from 'react-native';
+import { Platform, StatusBar, useColorScheme, InteractionManager } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { PaperProvider } from 'react-native-paper';
-import i18n from '@/i18n'
+import i18n from '@/i18n';
+import * as Sentry from "@sentry/react-native";
+
+import ErrorFallback from "@/components/ErrorFallback";
 
 import { userStore } from '@/store/user.store';
 
@@ -20,15 +24,17 @@ import { createSessionFromUrl } from '@/lib/providerAuth';
 
 import { ThemeContext } from '@/hooks/useThemeContext';
 
-export {
-  ErrorBoundary,
-} from 'expo-router';
+import { interstitialService } from '@/services/interstitialService';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const adUnitId = __DEV__
+  ? TestIds.INTERSTITIAL
+  : process.env.EXPO_PUBLIC_INTERSTITIAL_TOURNAMENT!;
 
-  const [loaded, error] = useFonts({
+function RootLayout() {
+
+  const [loaded] = useFonts({
     Raleway_Regular: require('../assets/fonts/Raleway-Regular.ttf'),
     Raleway_Medium: require('../assets/fonts/Raleway-Medium.ttf'),
     Raleway_SemiBold: require('../assets/fonts/Raleway-SemiBold.ttf'),
@@ -36,107 +42,114 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  const url = Linking.useLinkingURL();
-
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
-  useEffect(() => {
-    if (loaded) SplashScreen.hideAsync();
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
   }, [loaded]);
+
+  if (!loaded) return null;
+
+  return (
+    <Sentry.ErrorBoundary
+      fallback={({ error, resetError }) => (
+        <ErrorFallback error={error} resetError={resetError} />
+      )}>
+      <RootLayoutNav />
+    </Sentry.ErrorBoundary>
+  )
+}
+
+export default Sentry.wrap(RootLayout)
+
+function RootLayoutNav() {
+
+  const systemScheme = useColorScheme();
+  const { setPremium, premium } = userStore();
+
+  const [themeMode, setThemeMode] = useState<"light" | "dark" | "system">("system");
+  const [ready, setReady] = useState(false);
+  const url = Linking.useLinkingURL();
 
   useEffect(() => {
     if (url) createSessionFromUrl(url);
   }, [url]);
 
-  if (!loaded) return null;
-
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-
-  const systemScheme = useColorScheme();
-  const { setPremium } = userStore()
-
-  const [themeMode, setThemeMode] = useState<"light" | "dark" | "system">("system");
-  const [ready, setReady] = useState<boolean>(false);
-
   useEffect(() => {
-    mobileAds().initialize().then(() => {
-      console.log('AdMob initialized')
-    })
+    mobileAds().initialize()
   }, [])
 
   useEffect(() => {
-    const loadLanguage = async () => {
-      const storedLanguage = await AsyncStorage.getItem("language");
 
-      if (storedLanguage) {
-        i18n.locale = storedLanguage;
+    async function loadInitialConfig() {
+      try {
+
+        const [language, theme] = await AsyncStorage.multiGet([
+          "language",
+          "theme"
+        ]);
+
+        if (language[1]) i18n.locale = language[1];
+
+        if (theme[1] === "light" || theme[1] === "dark") {
+          setThemeMode(theme[1]);
+        }
+
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setReady(true);
       }
-    };
+    }
 
-    loadLanguage();
+    loadInitialConfig();
+
   }, []);
 
   useEffect(() => {
-    const loadTheme = async () => {
-      const storedTheme = await AsyncStorage.getItem("theme");
 
-      if (storedTheme === "light" || storedTheme === "dark") {
-        setThemeMode(storedTheme);
-      } else {
-        setThemeMode("system");
+    if (!ready) return;
+
+    InteractionManager.runAfterInteractions(async () => {
+
+      try {
+
+        Purchases.setLogLevel(__DEV__ ? LOG_LEVEL.VERBOSE : LOG_LEVEL.ERROR);
+
+        const apiKey =
+          Platform.OS === "ios"
+            ? process.env.EXPO_PUBLIC_IOS_API_KEY
+            : process.env.EXPO_PUBLIC_ANDROID_API_KEY;
+
+        Purchases.configure({ apiKey: apiKey! });
+
+        const customerInfo = await Purchases.getCustomerInfo();
+
+        setPremium(
+          !!customerInfo.entitlements.active["Premium Group Stage"]
+        );
+
+      } catch (e) {
+        console.warn(e);
       }
 
-      setReady(true);
-    };
+    });
 
-    loadTheme();
-  }, []);
+  }, [ready]);
 
   useEffect(() => {
-    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
-    const iosApiKey = `${process.env.EXPO_PUBLIC_IOS_API_KEY}`
-    const androidApiKey = `${process.env.EXPO_PUBLIC_ANDROID_API_KEY}`
-    const testApiKey = `${process.env.EXPO_PUBLIC_TEST_API_KEY}`
+    if (!ready) return;
+    if (premium) return;
 
-    if (Platform.OS === 'ios') {
-      Purchases.configure({ apiKey: iosApiKey });
-    } else if (Platform.OS === 'android') {
-      // Purchases.configure({ apiKey: testApiKey });
-      Purchases.configure({ apiKey: androidApiKey });
-    }
+    interstitialService.initialize(adUnitId);
 
-    getCustomerInfo()
-  }, []);
-
-  const getCustomerInfo = async () => {
-
-    try {
-
-      const customerInfo = await Purchases.getCustomerInfo();
-
-      if (customerInfo.entitlements.active["Premium Group Stage"]) {
-        setPremium(true)
-      } else {
-        setPremium(false)
-      }
-
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  }, [premium, ready]);
 
   const resolvedTheme =
-    themeMode === "system"
-      ? systemScheme
-      : themeMode;
+    themeMode === "system" ? systemScheme : themeMode;
 
-  if (!ready) return null
+  if (!ready) return null;
 
   return (
     <ThemeContext.Provider value={{ themeMode, setThemeMode }}>

@@ -18,7 +18,9 @@ import { stadiumSchema } from "@/schema/stadium.schema";
 
 import { generateId } from "@/utils/defaultGroup";
 
-const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, interstitial, isIntersitialLoaded, premium, spacing }: FormCreateStadiumPropsType) => {
+import { interstitialService } from "@/services/interstitialService";
+
+const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium, stadium, updateStadium, openSure, premium, spacing }: FormCreateStadiumPropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -71,15 +73,14 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if(interstitial) {
-                    if (group.stadiums?.length !== 0) {
-                        if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
-                            if ((interstitial.loaded || isIntersitialLoaded) && count > 3 && !premium) {
-                                interstitial.show()
-                            }
+                if (group.stadiums?.length !== 0) {
+                    if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
+                        if (interstitialService.isLoaded() && count > 3 && !premium) {
+                            interstitialService.show()
                         }
                     }
                 }
+
             } catch (error) {
                 console.log(error);
             }
@@ -130,6 +131,8 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
             )}
 
             <Button
+                loading={loading}
+                disabled={loading}
                 mode="contained"
                 style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                 labelStyle={{ color: "#ffffff" }}
@@ -140,7 +143,6 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
 
             {stadium.name && (
                 <Button
-                    loading={loading}
                     disabled={loading}
                     mode="contained"
                     style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}

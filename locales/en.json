@@ -405,7 +405,7 @@
     "limit_stadiums": "Stadium limit",
     "limit_stadiums_description": "You have reached the limit of 15 stadiums",
     "limit_images": "Image limit",
-    "limit_images_description": "You have reached the limit of 24 images",
+    "limit_images_description": "You have reached the limit of 16 images",
     "benefits": "Benefits",
     "tent": "Tent",
     "monthly": "Monthly",
@@ -433,5 +433,6 @@
     "appSettings": "App Settings",
     "random": "Random",
     "weakPassword": "The password is weak. Make sure to add letters, numbers, and that it is not common",
-    "beforeKnockoutStage": "Note: We recommend completing all group stage results before generating the knockout stage"
+    "beforeKnockoutStage": "Note: We recommend completing all group stage results before generating the knockout stage",
+    "teamsAddedCount": "Number of teams added"
 }

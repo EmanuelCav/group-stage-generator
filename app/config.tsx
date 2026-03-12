@@ -70,7 +70,7 @@ const Config = () => {
 
     const scrollRef = useRef<ScrollView>(null);
 
-    const { group, updateGroup, sureRemoveGroup, sureRestartGroup, updateAvoiding, removeAvoiding, createAvoiding, groups, createGroup } = groupStore()
+    const { group, updateGroup, sureRemoveGroup, sureRestartGroup, updateAvoiding, removeAvoiding, createAvoiding, createGroup, groups } = groupStore()
     const { avoiding, hideAndShowAddAvoiding, showForm, isSure, getAvoiding, sureRemoveAvoiding } = avoidingStore()
     const { premium } = userStore()
 
@@ -135,13 +135,25 @@ const Config = () => {
                 mediaTypes: ["images"],
                 allowsEditing: true,
                 aspect: [4, 3],
-                quality: 1
+                quality: 0.8
             });
 
-            if (!result.canceled && result.assets.length > 0) {
-                const normalizedUri = await normalizeUri(result.assets[0].uri);
-                setImage(normalizedUri);
+            if (!result || result.canceled) {
+                return;
             }
+
+            if (!result.assets || result.assets.length === 0) {
+                return;
+            }
+
+            const asset = result.assets[0];
+
+            if (!asset.uri) {
+                return;
+            }
+
+            const normalizedUri = await normalizeUri(result.assets[0].uri);
+            setImage(normalizedUri);
 
         } catch (error) {
             Toast.show({
@@ -197,10 +209,10 @@ const Config = () => {
         let imageUrl = image
         let timeLoading = 500
 
-        if (image) {
+        if (image && image !== group.logo) {
             try {
                 imageUrl = await uploadImageToCloudinary(image);
-                timeLoading = 1800
+                timeLoading = 1000
             } catch (error) {
                 Toast.show({
                     type: 'error',
@@ -250,7 +262,7 @@ const Config = () => {
             if (group.isGenerated) {
                 router.replace("/(tabs)/matchdays")
             } else {
-                router.replace("/create")
+                router.back()
             }
 
             setLoading(false)
@@ -269,7 +281,7 @@ const Config = () => {
         if (group.isGenerated) {
             router.replace("/(tabs)/matchdays")
         } else {
-            router.replace("/create")
+            router.back()
         }
     }
 
@@ -284,6 +296,27 @@ const Config = () => {
         setIsAvoidingMatches(false)
         getAvoiding({})
     }, [])
+
+    useEffect(() => {
+        const checkPendingResult = async () => {
+
+            try {
+
+                const result = await ImagePicker.getPendingResultAsync();
+
+                if (!result) return;
+
+                if ('assets' in result && !result.canceled && result.assets && result.assets.length > 0) {
+                    const normalizedUri = await normalizeUri(result.assets[0].uri);
+                    setImage(normalizedUri);
+                }
+            } catch (e) {
+                console.error("Error en pending result:", e);
+            }
+        };
+
+        checkPendingResult();
+    }, []);
 
     return (
         <MainScreen colors={colors}>
@@ -324,6 +357,7 @@ const Config = () => {
             )}
             {group.isGenerated ? (
                 <HeaderGeneral
+                    groups={groups}
                     colors={colors}
                     router={router}
                     title={i18n.t('settings')}
@@ -331,7 +365,6 @@ const Config = () => {
                     sureRemoveGroup={sureRemoveGroup}
                     sureRestartGroup={sureRestartGroup}
                     group={group}
-                    groups={groups}
                     createGroup={createGroup}
                     premium={premium}
                 />

@@ -1,9 +1,8 @@
 import { useCallback, useEffect } from "react";
 import { FlatList } from "react-native";
 import { Text, useTheme } from "react-native-paper";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import { TestIds } from 'react-native-google-mobile-ads';
 import i18n from '@/i18n'
 
 import { View } from "@/components/Themed";
@@ -25,10 +24,7 @@ import { groupStore } from "@/store/group.store";
 import { stadiumStore } from "@/store/stadium.store";
 import { userStore } from "@/store/user.store";
 
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
 import { useSpacing } from "@/hooks/useSpacing";
-
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_STADIUM}`;
 
 const toastConfig = {
   error: (props: any) => (
@@ -52,8 +48,6 @@ const Stadiums = () => {
 
   const spacing = useSpacing()
 
-  const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
-
   const handleUpdate = (data: IStadium) => {
     updateStadium(data)
     getStadium({})
@@ -69,7 +63,7 @@ const Stadiums = () => {
     sureRemoveStadium(true)
   }
 
-  const handleRemoveReferee = () => {
+  const handleRemoveStadium = () => {
     sureRemoveStadium(false)
     hideAndShowAddStadium(false)
     removeStadium(stadium)
@@ -107,12 +101,14 @@ const Stadiums = () => {
     getStadium({})
   }, [])
 
+  if (!group.isGenerated) return <Redirect href="/home" />
+
   return (
     <MainScreen colors={colors}>
       {
         isSure && (
           <Sure
-            func={handleRemoveReferee}
+            func={handleRemoveStadium}
             text={i18n.t("areYouSureDelete")}
             close={close}
             labelButton={i18n.t("remove")}
@@ -130,8 +126,6 @@ const Stadiums = () => {
             hideAndShowAddStadium={hideAndShowAddStadium}
             createStadium={createStadium}
             updateStadium={handleUpdate}
-            interstitial={interstitial!}
-            isIntersitialLoaded={isInterstitialLoaded}
             spacing={spacing}
           />
         )
@@ -145,8 +139,8 @@ const Stadiums = () => {
         sureRestartGroup={sureRestartGroup}
         createGroup={createGroup}
         group={group}
-        groups={groups}
         premium={premium}
+        groups={groups}
       />
 
       <SureGeneral />

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Icon, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
-import { TestIds } from "react-native-google-mobile-ads";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 import { Dropdown } from 'react-native-element-dropdown';
 import i18n from '@/i18n'
@@ -23,10 +23,8 @@ import { summarySchema } from "@/schema/match.schema";
 
 import { getTeamsName, getPlayerName, generateId } from "@/utils/defaultGroup";
 import { labelSummaryEvent } from "@/utils/matchday";
-import { useInterstitialAd } from "@/hooks/useInterstitialAd";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const adUnitId = __DEV__ ? TestIds.INTERSTITIAL : `${process.env.EXPO_PUBLIC_INTERSTITIAL_EVENTS}`;
+import { interstitialService } from "@/services/interstitialService";
 
 const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary, spacing, premium }: FormSummaryPropsType) => {
 
@@ -40,8 +38,6 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
     const [isFocusPlayer, setIsFocusPlayer] = useState<boolean>(false)
     const [isFocusSecondaryPlayer, setIsFocusSecondaryPlayer] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
-
-    const { interstitial, isLoaded: isInterstitialLoaded } = useInterstitialAd(premium ? null : adUnitId)
 
     const teamsOptions = useMemo(
         () => getTeamsName([match.local.team, match.visitant.team]),
@@ -225,15 +221,14 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                 const storedCount = await AsyncStorage.getItem("reviewCount");
                 const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                if (interstitial) {
-                    if (match.summary.length !== 0) {
-                        if (match.summary.length === 1 || match.summary.length % 8 === 0) {
-                            if ((interstitial.loaded || isInterstitialLoaded) && count > 3 && !premium) {
-                                interstitial.show()
-                            }
+                if (match.summary.length !== 0) {
+                    if (match.summary.length === 1 || match.summary.length % 7 === 0) {
+                        if (interstitialService.isLoaded() && count > 3 && !premium) {
+                            interstitialService.show()
                         }
                     }
                 }
+
             } catch (error) {
                 console.log(error);
             }
@@ -514,6 +509,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         </View>
 
                         <Button
+                            loading={loading}
+                            disabled={loading}
                             mode="contained"
                             style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                             labelStyle={{ color: "#ffffff" }}
@@ -525,6 +522,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         {
                             summary.id &&
                             <Button
+                                disabled={loading}
                                 mode="contained"
                                 style={[{ backgroundColor: MD3Colors.error50 }, generalStyles.generateButton]}
                                 labelStyle={{ color: "#ffffff" }}
@@ -552,8 +550,6 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             {i18n.t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
                         </Text>
                         <Button
-                            loading={loading}
-                            disabled={loading}
                             mode="contained"
                             icon="account-multiple-plus"
                             style={[{ backgroundColor: colors.primary }, createStyles.buttonAdd]}
