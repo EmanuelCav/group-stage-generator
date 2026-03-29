@@ -133,27 +133,16 @@ const Config = () => {
 
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ["images"],
-                allowsEditing: true,
-                aspect: [4, 3],
+                // allowsEditing: true,
+                // aspect: [4, 3],
+                allowsEditing: Platform.OS === 'ios',
                 quality: 0.8
             });
 
-            if (!result || result.canceled) {
-                return;
+            if (!result.canceled && result.assets && result.assets.length > 0) {
+                const normalizedUri = await normalizeUri(result.assets[0].uri);
+                setImage(normalizedUri);
             }
-
-            if (!result.assets || result.assets.length === 0) {
-                return;
-            }
-
-            const asset = result.assets[0];
-
-            if (!asset.uri) {
-                return;
-            }
-
-            const normalizedUri = await normalizeUri(result.assets[0].uri);
-            setImage(normalizedUri);
 
         } catch (error) {
             Toast.show({
@@ -204,69 +193,71 @@ const Config = () => {
 
     const handleConfig = async (data: ISetting) => {
 
-        setLoading(true)
+        try {
 
-        let imageUrl = image
-        let timeLoading = 500
+            setLoading(true)
 
-        if (image && image !== group.logo) {
-            try {
-                imageUrl = await uploadImageToCloudinary(image);
-                timeLoading = 1000
-            } catch (error) {
-                Toast.show({
-                    type: 'error',
-                    text1: i18n.t("errorUploadImageTitle"),
-                    text2: i18n.t("errorUploadImageDescription")
-                });
+            let imageUrl = image
+
+            if (image && image !== group.logo) {
+                try {
+                    imageUrl = await uploadImageToCloudinary(image);
+                } catch (error) {
+                    Toast.show({
+                        type: 'error',
+                        text1: i18n.t("errorUploadImageTitle"),
+                        text2: i18n.t("errorUploadImageDescription")
+                    });
+                }
             }
-        }
 
-        const updateData: IGroup = {
-            id: group.id,
-            user_id: group.user_id,
-            eliminationMatches: group.eliminationMatches,
-            isDrawed: group.isDrawed,
-            isKnockoutGenerated: group.isKnockoutGenerated,
-            title: data.title,
-            logo: imageUrl || "",
-            matches: group.matches,
-            teams: (group.amountGroups !== data.amountGroups || group.teamsPerGroup !== data.teamsPerGroup) ? group.teams.map(t => ({ ...t, groupAssigned: undefined })) : group.teams,
-            pointsWin: data.pointsWin,
-            pointsDraw: data.pointsDraw,
-            pointsLoss: data.pointsLoss,
-            isGenerated: group.isGenerated,
-            pointsMode: pointsModeSelected,
-            isRoundTripElimination: isRoundTripElimination,
-            isRoundTripGroupStage: isRoundTripGroupStage,
-            isManualConfiguration,
-            avoidingMatches: group.avoidingMatches,
-            isGeneratedAgain: group.isGeneratedAgain,
-            players: group.players,
-            referees: group.referees,
-            stadiums: group.stadiums,
-            tie_breakCriteria: group.tie_breakCriteria,
-            amountGroups: data.amountGroups,
-            isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
-            amountClassified: group.teams.length >= 2 ? data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified : 2,
-            teamsPerGroup: data.teamsPerGroup,
-            matchdayNumber: "all",
-            matchdayView: "all",
-            createdAt: group.createdAt,
-            updatedAt: new Date()
-        }
+            const updateData: IGroup = {
+                id: group.id,
+                user_id: group.user_id,
+                eliminationMatches: group.eliminationMatches,
+                isDrawed: group.isDrawed,
+                isKnockoutGenerated: group.isKnockoutGenerated,
+                title: data.title,
+                logo: imageUrl || "",
+                matches: group.matches,
+                teams: (group.amountGroups !== data.amountGroups || group.teamsPerGroup !== data.teamsPerGroup) ? group.teams.map(t => ({ ...t, groupAssigned: undefined })) : group.teams,
+                pointsWin: data.pointsWin,
+                pointsDraw: data.pointsDraw,
+                pointsLoss: data.pointsLoss,
+                isGenerated: group.isGenerated,
+                pointsMode: pointsModeSelected,
+                isRoundTripElimination: isRoundTripElimination,
+                isRoundTripGroupStage: isRoundTripGroupStage,
+                isManualConfiguration,
+                avoidingMatches: group.avoidingMatches,
+                isGeneratedAgain: group.isGeneratedAgain,
+                players: group.players,
+                referees: group.referees,
+                stadiums: group.stadiums,
+                tie_breakCriteria: group.tie_breakCriteria,
+                amountGroups: data.amountGroups,
+                isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
+                amountClassified: group.teams.length >= 2 ? data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified : 2,
+                teamsPerGroup: data.teamsPerGroup,
+                matchdayNumber: "all",
+                matchdayView: "all",
+                createdAt: group.createdAt,
+                updatedAt: new Date()
+            }
 
-        updateGroup!(updateData)
+            updateGroup!(updateData)
 
-        setTimeout(() => {
             if (group.isGenerated) {
                 router.replace("/(tabs)/matchdays")
             } else {
                 router.back()
             }
 
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false)
-        }, timeLoading)
+        }
     }
 
     const handleChangeAutomatize = (v: boolean) => {
@@ -310,6 +301,7 @@ const Config = () => {
                     const normalizedUri = await normalizeUri(result.assets[0].uri);
                     setImage(normalizedUri);
                 }
+
             } catch (e) {
                 console.error("Error en pending result:", e);
             }
@@ -367,6 +359,7 @@ const Config = () => {
                     group={group}
                     createGroup={createGroup}
                     premium={premium}
+                    isMatchdaysScreen={false}
                 />
             ) : (
                 <HeaderConfig colors={colors} comeBack={comeBack} />

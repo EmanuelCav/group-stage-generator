@@ -2,12 +2,17 @@ import { Router } from "expo-router";
 import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
 import * as QueryParams from 'expo-auth-session/build/QueryParams'
+
 import { supabase } from './supabase';
 
 import { IGroup } from "@/interface/Group";
 
-WebBrowser.maybeCompleteAuthSession();
-const redirectTo = AuthSession.makeRedirectUri()
+WebBrowser.maybeCompleteAuthSession()
+
+const redirectTo = AuthSession.makeRedirectUri({
+    scheme: "groupstagegenerator",
+    path: "auth/callback"
+})
 
 export const createSessionFromUrl = async (url: string) => {
 
@@ -17,7 +22,7 @@ export const createSessionFromUrl = async (url: string) => {
 
     const { access_token, refresh_token } = params;
 
-    if (!access_token) return;
+    if (!access_token || !refresh_token) return null;
 
     const { data, error } = await supabase.auth.setSession({
         access_token,
@@ -64,7 +69,7 @@ export const handleSignOut = async (setIsSureLogOut: (isSureLogOut: boolean) => 
 
         setIsSureLogOut(false)
         router.replace("/")
-        
+
         setGroups([])
         getGroup({
             teams: []

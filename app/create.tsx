@@ -61,6 +61,8 @@ const Create = () => {
 
     try {
 
+      setLoading(true)
+
       let teamsPerGroupUpdate = Number(group.teamsPerGroup)
       let amountGroupsUpdate = Number(group.amountGroups)
 
@@ -87,7 +89,7 @@ const Create = () => {
         ...group,
         teamsPerGroup: teamsPerGroupUpdate,
         amountGroups: amountGroupsUpdate,
-      })
+      }, "NORMAL")
 
       if (group.isManualConfiguration) {
         generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
@@ -230,6 +232,7 @@ const Create = () => {
           group={group}
           premium={premium}
           groups={groups}
+          isMatchdaysScreen={false}
         />
       ) : (
         <HeaderCreate

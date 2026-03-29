@@ -1,0 +1,451 @@
+{
+    "areYouSureDelete": "هل أنت متأكد أنك تريد الحذف؟",
+    "remove": "إزالة",
+    "settings": "الإعدادات",
+    "groupStageName": "اسم مرحلة المجموعات",
+    "manuallyTitle": "إنشاء مرحلة المجموعات يدوياً",
+    "numberOfGroups": "عدد المجموعات",
+    "teamsPerGroup": "عدد الفرق في كل مجموعة",
+    "numberOfClassifieds": "إجمالي عدد المتأهلين للأدوار الإقصائية",
+    "showPoints": "عرض النقاط",
+    "pointsToTheWinner": "نقاط الفوز",
+    "pointsToTie": "نقاط التعادل",
+    "pointsToTheLoser": "نقاط الخسارة",
+    "roundTripGroupStage": "ذهاب وإياب في مرحلة المجموعات",
+    "roundTripElimination": "ذهاب وإياب في الأدوار الإقصائية",
+    "tieBreakCriteria": "معايير كسر التعادل",
+    "avoidingMatches": "تجنب المواجهات",
+    "generating": "جاري الإنشاء...",
+    "teams": "الفرق",
+    "noteCreate": "ملاحظة: لإنشاء مرحلة مجموعات يدوياً، قم بتفعيل الخيار في الإعدادات",
+    "groupstages": "مراحل المجموعات",
+    "addTeamsToGenerate": "أضف فرقاً لإنشاء مرحلة المجموعات",
+    "addAtLeastTwo": "أضف فريقين أو أكثر للبدء",
+    "match_title": "مباراة",
+    "summary_title": "ملخص",
+    "lineup_title": "التشكيلة",
+    "statistics_title": "الإحصائيات",
+    "summary_empty": "أضف ملخصاً للمباراة",
+    "summary_add": "إضافة ملخص",
+    "lineup_empty": "أضف تشكيلة للمباراة",
+    "lineup_add": "إضافة تشكيلة",
+    "statistics_empty": "أضف إحصائيات للمباراة",
+    "statistics_add": "إضافة إحصائية",
+    "players_title": "اللاعبون",
+    "add_player": "إضافة لاعب",
+    "players_emptyStatistics": "أضف لاعبين لعرض الإحصائيات",
+    "referees_title": "الحكام",
+    "add_referee": "إضافة حكم",
+    "referees_empty": "أضف حكاماً لتعيينهم للمباريات",
+    "stadiums_title": "الملاعب",
+    "add_stadium": "إضافة ملعب",
+    "stadiums_empty": "أضف ملاعب لتعيينها للمباريات",
+    "groups": "المجموعات",
+    "statistics": "الإحصائيات",
+    "matchdays": "الجولات",
+    "matchday": "جولة",
+    "knockout": "الأدوار الإقصائية",
+    "generate": "إنشاء",
+    "playerName": "اسم اللاعب",
+    "positionOptional": "المركز (اختياري)",
+    "selectPlayerTeam": "اختر فريق اللاعب",
+    "selectMode": "نوع تسجيل النقاط",
+    "avoiding": {
+        "addAvoidingMatch": "إضافة قاعدة تجنب مواجهة",
+        "teamsCount": "الفرق: {{count}}",
+        "description": "يمنع فرقاً معينة من التواجد في نفس المجموعة",
+        "title": "عنوان تجنب المواجهات",
+        "maxTeamsLabel": "أقصى عدد من هذه الفرق يمكن ضمه في مجموعة واحدة",
+        "selectTeams": "اختر الفرق:"
+    },
+    "general": {
+        "start": "ابدأ",
+        "setup": "إعداد",
+        "add": "إضافة",
+        "update": "تحديث",
+        "remove": "إزالة",
+        "applyChanges": "تطبيق التغييرات"
+    },
+    "groupStage": {
+        "welcome": "أهلاً بك!",
+        "createStage": "إنشاء مرحلة مجموعات",
+        "addTeam": "إضافة فريق",
+        "addTournament": "إنشاء مرحلة المجموعات"
+    },
+    "teamForm": {
+        "changeImage": "تغيير الصورة",
+        "selectShield": "اختر درعاً (اختياري)",
+        "selectLogo": "اختر شعاراً (اختياري)",
+        "teamName": "اسم الفريق",
+        "plotOptional": "المستوى/الوعاء (اختياري):",
+        "defineGroupOptional": "تحديد المجموعة (اختياري)",
+        "add": "إضافة",
+        "update": "تحديث",
+        "remove": "إزالة"
+    },
+    "knockoutStage": {
+        "title": "الأدوار الإقصائية",
+        "description": "إنشاء مرحلة خروج المغلوب للبطولة"
+    },
+    "teamScores": "نتائج الفرق",
+    "tiebreakerOptional": "كسر التعادل (اختياري)",
+    "selectMatchDateLabel": "اختر تاريخ المباراة",
+    "matchDateLabel": "تاريخ المباراة",
+    "selectDatePlaceholder": "اختر التاريخ",
+    "selectMatchStadiumLabel": "اختر ملعب المباراة",
+    "selectMatchRefereeLabel": "اختر حكم المباراة",
+    "updateButton": "تحديث",
+    "drawKnockoutQuestion": "هل تريد سحب قرعة الأدوار الإقصائية؟",
+    "drawButton": "قرعة",
+    "generateGroupStageAgainQuestion": "هل تريد إعادة إنشاء مرحلة المجموعات؟",
+    "generateAgainButton": "إعادة الإنشاء",
+    "menu": {
+        "teams": "الفرق",
+        "referees": "الحكام",
+        "stadiums": "الملاعب",
+        "players": "اللاعبون",
+        "settings": "الإعدادات",
+        "restart": "إعادة تشغيل",
+        "remove": "إزالة",
+        "goBack": "رجوع"
+    },
+    "sure": {
+        "removeGroupStage": "هل أنت متأكد أنك تريد حذف مرحلة المجموعات؟",
+        "restartGroupStage": "هل أنت متأكد أنك تريد إعادة ضبط مرحلة المجموعات؟",
+        "restartKnockout": "هل أنت متأكد أنك تريد إعادة ضبط الأدوار الإقصائية؟",
+        "restart": "إعادة ضبط"
+    },
+    "group": {
+        "title": "المجموعة",
+        "points": "نقاط",
+        "played": "لعب",
+        "wins": "فوز",
+        "draws": "تعادل",
+        "losses": "خسارة",
+        "score": "أهداف لـ:عليه",
+        "scored": "له",
+        "numberOfTeams": "عدد الفرق: {{count}}"
+    },
+    "team": {
+        "label": "الفريق"
+    },
+    "lineup": {
+        "selectPlayers": "اختر اللاعبين للتشكيلة الأساسية",
+        "accept": "قبول"
+    },
+    "statistic": {
+        "title": "عنوان الإحصائية",
+        "value": "قيمة الإحصائية",
+        "add": "إضافة",
+        "update": "تحديث",
+        "remove": "إزالة"
+    },
+    "sumarry_select_event": "اختر الحدث",
+    "sumarry_select_team": "اختر الفريق من الملخص (اختياري)",
+    "sumarry_select_secondaryPlayerAssist": "اختر مقدم التمريرة الحاسمة (اختياري)",
+    "sumarry_select_change": "اختر اللاعب البديل",
+    "sumarry_select_player": "اختر اللاعب من الملخص",
+    "sumarry_select_player_goal": "اختر مسجل الهدف",
+    "sumarry_select_player_yellow": "اختر اللاعب الحاصل على بطاقة صفراء",
+    "sumarry_select_player_red": "اختر اللاعب المطرود",
+    "sumarry_select_player_injury": "اختر اللاعب المصاب",
+    "sumarry_select_player_change": "اختر اللاعب المستبدل",
+    "sumarry_minute": "دقيقة اللعب",
+    "team_scores": "نتائج الفرق",
+    "select_match_date": "اختر تاريخ المباراة",
+    "match_date": "تاريخ المباراة",
+    "select_date": "اختر التاريخ",
+    "select_stadium": "اختر ملعب المباراة",
+    "select_referee": "اختر حكم المباراة",
+    "update": "تحديث",
+    "not_defined": "غير محدد",
+    "local": "المضيف",
+    "score": "النتيجة",
+    "visitant": "الضيف",
+    "refereeName": "اسم الحكم",
+    "stadiumName": "اسم الملعب",
+    "addPlayersToDisplayAndVisualizeTournamentStatistics": "أضف لاعبين لعرض وتصور إحصائيات البطولة",
+    "addStatisticsToDisplayAndVisualizeTournamentStatistics": "أضف إحصائيات لعرض وتصور إحصائيات البطولة",
+    "addPlayers": "إضافة لاعبين",
+    "addStatistics": "إضافة إحصائيات",
+    "statisticTitle": "عنوان الإحصائية",
+    "statisticValue": "قيمة الإحصائية",
+    "statisticInitialValueOptional": "القيمة الأولية للإحصائية (اختياري)",
+    "create": "إنشاء",
+    "createStatistic": "إنشاء إحصائية",
+    "player": "اللاعب",
+    "teamName": "الفريق",
+    "index": "الفهرس",
+    "config": "التكوين",
+    "add": "إضافة",
+    "points_earned": "النقاط المكتسبة",
+    "win_percentage": "نسبة الفوز",
+    "number_of_wins": "عدد مرات الفوز",
+    "points_scored": "الأهداف المسجلة",
+    "all_matches": "جميع المجموعات",
+    "all_fixture": "جميع الجولات",
+    "titleIndex": "مراحل المجموعات",
+    "selectGroupStage": "اختر مرحلة مجموعات",
+    "validation": {
+        "team": {
+            "name": {
+                "required": "اكتب اسم الفريق",
+                "max": "يجب أن يكون اسم الفريق أقل من 35 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            }
+        },
+        "statistic": {
+            "title": {
+                "required": "اكتب عنوان الإحصائية",
+                "max": "يجب أن يكون عنوان الإحصائية أقل من 20 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            }
+        },
+        "stadium": {
+            "name": {
+                "required": "اكتب اسم الملعب",
+                "max": "يجب أن يكون اسم الملعب أقل من 30 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            }
+        },
+        "referee": {
+            "name": {
+                "required": "اكتب اسم الحكم",
+                "max": "يجب أن يكون اسم الحكم أقل من 30 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            }
+        },
+        "player": {
+            "name": {
+                "required": "اكتب اسم اللاعب",
+                "max": "يجب أن يكون اسم اللاعب أقل من 30 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            },
+            "position": {
+                "max": "يجب أن يكون المركز أقل من 16 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            }
+        },
+        "match": {
+            "score": {
+                "min": "أقل قيمة للنتيجة هي 0"
+            }
+        },
+        "summary": {
+            "title": {
+                "required": "اكتب عنوان الملخص",
+                "max": "يجب أن يكون عنوان الملخص أقل من 20 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            },
+            "time": {
+                "required": "اكتب دقيقة اللعب",
+                "max": "يجب أن تكون دقيقة اللعب أقل من 20 حرفاً",
+                "invalid": "يُسمح بالأرقام فقط"
+            }
+        },
+        "statisticMatch": {
+            "title": {
+                "required": "اكتب عنوان الإحصائية",
+                "max": "يجب أن يكون العنوان أقل من 20 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            }
+        },
+        "config": {
+            "title": {
+                "required": "حقل العنوان مطلوب"
+            },
+            "teamsPerGroup": {
+                "typeError": "يرجى الإكمال بقيمة عددية",
+                "min": "يجب أن يكون عدد الفرق في كل مجموعة أكبر من 1",
+                "required": "هذا الحقل مطلوب"
+            },
+            "amountGroups": {
+                "typeError": "يرجى الإكمال بقيمة عددية",
+                "min": "اكتب عدد المجموعات",
+                "required": "هذا الحقل مطلوب"
+            },
+            "amountClassified": {
+                "typeError": "يرجى الإكمال بقيمة عددية",
+                "min": "إجمالي عدد المتأهلين يجب أن يكون أكبر من 1",
+                "required": "هذا الحقل مطلوب",
+                "powerOfTwo": "يجب أن يكون عدد المتأهلين من مضاعفات العدد 2 (مثل 2، 4، 8، 16...)"
+            },
+            "pointsWin": {
+                "min": "اكتب عدد نقاط الفائز",
+                "required": "هذا الحقل مطلوب"
+            },
+            "pointsDraw": {
+                "min": "اكتب عدد نقاط التعادل",
+                "required": "هذا الحقل مطلوب"
+            },
+            "pointsLoss": {
+                "min": "اكتب عدد نقاط الخاسر",
+                "required": "هذا الحقل مطلوب"
+            }
+        },
+        "avoiding": {
+            "title": {
+                "required": "اكتب عنواناً لتجنب المواجهات",
+                "max": "يجب أن يكون العنوان أقل من 22 حرفاً",
+                "invalid": "تحقق من الرموز الخاصة"
+            },
+            "max": {
+                "typeError": "يرجى الإكمال بقيمة عددية",
+                "min": "يجب أن يكون عدد الفرق في كل مجموعة أكبر من 0",
+                "required": "هذا الحقل مطلوب"
+            }
+        },
+        "teamsPerGroup": {
+            "title": "الفرق في كل مجموعة",
+            "message": "يجب أن يكون هناك فريقان على الأقل في كل مجموعة"
+        },
+        "numberOfGroups": {
+            "title": "عدد المجموعات",
+            "message": "يجب أن يكون نصف عدد المجموعات أقل من عدد الفرق"
+        },
+        "numberOfTeams": {
+            "title": "عدد الفرق",
+            "message": "حاصل ضرب عدد الفرق في كل مجموعة في عدد المجموعات يجب أن يكون أقل من أو يساوي إجمالي عدد الفرق"
+        }
+    },
+    "permissions": {
+        "galleryAccess": {
+            "title": "الإذن مطلوب",
+            "message": "مطلوب إذن للوصول إلى معرض الصور"
+        }
+    },
+    "stadium": {
+        "name": {
+            "title": "اسم الملعب",
+            "existsError": "اسم الملعب موجود بالفعل"
+        }
+    },
+    "referee": {
+        "name": {
+            "title": "اسم الحكم",
+            "existsError": "اسم الحكم موجود بالفعل"
+        }
+    },
+    "statisticForm": {
+        "name": {
+            "title": "عنوان الإحصائية",
+            "existsError": "عنوان هذه الإحصائية موجود بالفعل"
+        }
+    },
+    "errorAmountClasifieldTitle": "إجمالي عدد الفرق المتأهلة",
+    "errorAmountClasifieldDescription": "يجب أن يكون إجمالي عدد الفرق المتأهلة أقل من عدد الفرق المشاركة.",
+    "goals": "الأهداف",
+    "yellow": "البطاقات الصفراء",
+    "red": "البطاقات الحمراء",
+    "assists": "التمريرات الحاسمة",
+    "goal": "هدف",
+    "yellows": "بطاقة صفراء",
+    "reds": "بطاقة حمراء",
+    "substitution": "تبديل",
+    "injury": "إصابة",
+    "plot": "المستوى/الوعاء",
+    "winner": "الفائز",
+    "final": "النهائي",
+    "semi_finals": "نصف النهائي",
+    "quarter_finals": "ربع النهائي",
+    "round_of": "دور الـ",
+    "select_hour": "اختر الساعة",
+    "noPlayers": "لا يوجد لاعبون هنا",
+    "darkMode": "الوضع الداكن",
+    "lightMode": "الوضع الفاتح",
+    "errorTeamNameTitle": "اسم الفريق",
+    "errorTeamNameDescription": "اسم الفريق موجود بالفعل",
+    "errorSummaryEventTitle": "اختر حدثاً",
+    "errorSummaryEventDescription": "اختر الحدث للملخص",
+    "errorSummaryPlayerTitle": "اختر لاعباً",
+    "errorSummaryPlayerDescription": "اختر لاعباً أساسياً",
+    "errorUploadImageTitle": "خطأ في رفع الصورة",
+    "errorUploadImageDescription": "تحقق من اتصالك بالإنترنت أو حاول لاحقاً",
+    "errorLimitTitle": "حد الفرق",
+    "errorLimitDescription": "لقد وصلت إلى الحد الأقصى وهو 48 فريقاً.",
+    "home": "صاحب الأرض",
+    "away": "الضيف",
+    "updateknockout": "تحديث",
+    "updateknockoutMessage": "قم بتعديل الجولة السابقة للانتقال إلى الجولة التالية",
+    "login": "تسجيل الدخول",
+    "updated_password": "تم تحديث كلمة المرور",
+    "now_login": "يمكنك الآن تسجيل الدخول.",
+    "restart_password_title": "إعادة ضبط كلمة المرور",
+    "new_password": "كلمة مرور جديدة",
+    "restart": "إعادة ضبط",
+    "sure_logout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "logout": "تسجيل الخروج",
+    "title_login": "الدخول إلى حسابك",
+    "password": "كلمة المرور",
+    "forgot_password": "هل نسيت كلمة المرور؟",
+    "not_account": "ليس لديك حساب؟",
+    "register": "إنشاء حساب",
+    "google_signin": "تسجيل الدخول بواسطة جوجل",
+    "title_without_account": "المتابعة بدون إنشاء حساب",
+    "email_sent": "تم إرسال البريد الإلكتروني",
+    "check_email": "تحقق من بريدك الإلكتروني للمتابعة",
+    "recover_account": "استعادة حسابك",
+    "send_email": "إرسال بريد إلكتروني",
+    "back": "رجوع",
+    "passwordDontMatch": "كلمات المرور غير متطابقة",
+    "sixCharacters": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "successfullyRegister": "تم التسجيل بنجاح!",
+    "checkToVerify": "تحقق من بريدك الإلكتروني لتفعيل حسابك.",
+    "startNow": "ابدأ الآن",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "already_account": "لديك حساب بالفعل؟",
+    "congrulations": "تهانينا!",
+    "successSubscription": "لقد اشتركت بنجاح!",
+    "error": "خطأ",
+    "error_buy_tent": "حدثت مشكلة أثناء معالجة عملية الشراء. يرجى المحاولة لاحقاً.",
+    "limit_players": "حد اللاعبين",
+    "limit_players_description": "لقد وصلت إلى الحد الأقصى وهو 15 لاعباً لهذا الفريق",
+    "limit_referees": "حد الحكام",
+    "limit_referees_description": "لقد وصلت إلى الحد الأقصى وهو 15 حكماً",
+    "limit_stadiums": "حد الملاعب",
+    "limit_stadiums_description": "لقد وصلت إلى الحد الأقصى وهو 15 ملعباً",
+    "limit_images": "حد الصور",
+    "limit_images_description": "لقد وصلت إلى الحد الأقصى وهو 16 صورة",
+    "benefits": "المميزات",
+    "tent": "المتجر",
+    "monthly": "شهرياً",
+    "annual": "سنوياً",
+    "one-time_purchase": "شراء لمرة واحدة",
+    "subscribe": "اشترك",
+    "benefit_remove_advertising": "إزالة الإعلانات",
+    "unlimited_group_stages": "إنشاء مراحل مجموعات غير محدودة",
+    "unlimited_teams": "إنشاء فرق غير محدودة",
+    "unlimited_images": "رفع صور غير محدودة",
+    "unlimited_players": "عدد غير محدود من اللاعبين والحكام والملاعب",
+    "duplicate": "تكرار",
+    "titleTent": "اشترك في النسخة المميزة واستمتع بجميع المزايا",
+    "titleIsPremium": "تهانينا! أنت الآن عضو مميز",
+    "allTeams": "جميع الفرق",
+    "tryRestoring": "خطأ في جلب جدول المباريات. حاول استعادة البطولة.",
+    "displayFullName": "عرض الاسم الكامل للفرق",
+    "language": "اللغة",
+    "selectLanguage": "اختر اللغة",
+    "TeamFullName": "الاسم الكامل للفريق",
+    "reachedTournament": "لقد وصلت إلى حد البطولات المسموح به لخطتك الحالية. لإنشاء المزيد، قم بالترقية إلى النسخة المميزة أو احذف بطولة موجودة.",
+    "emptyFields": "هناك حقول فارغة. يرجى إكمالها",
+    "invalidEmail": "بريد إلكتروني غير صالح",
+    "manyAttempts": "محاولات كثيرة جداً. يرجى المحاولة لاحقاً",
+    "appSettings": "إعدادات التطبيق",
+    "random": "عشوائي",
+    "weakPassword": "كلمة المرور ضعيفة. تأكد من إضافة حروف وأرقام وألا تكون شائعة",
+    "beforeKnockoutStage": "ملاحظة: ننصح بإكمال جميع نتائج مرحلة المجموعات قبل إنشاء الأدوار الإقصائية",
+    "teamsAddedCount": "عدد الفرق المضافة",
+    "adviceUpdateMatch": "ملاحظة: اضغط على أي مباراة لتحديث نتيجتها",
+    "sureRemoveAllMatches": "هل أنت متأكد أنك تريد مسح جميع المباريات؟ سيتم حذف جدول المباريات بالكامل",
+    "clearAll": "مسح الكل",
+    "sureRemoveMatchday": "هل أنت متأكد أنك تريد حذف هذه الجولة؟",
+    "clearAllButton": "مسح جميع المباريات",
+    "addNewRound": "إضافة جولة",
+    "perGroups": "حسب المجموعات (كلاسيكي)",
+    "allAgainstAll": "الكل ضد الكل (دوري)",
+    "intergroups": "بين المجموعات",
+    "sameGroup": "تلعب الفرق داخل مجموعتها",
+    "allAgainstAllDescription": "تتواجه جميع الفرق مع بعضها البعض",
+    "intergroupsCrossDescription": "تلعب الفرق ضد فرق من مجموعات أخرى",
+    "allStatistics": "جميع الإحصائيات"
+}

@@ -250,7 +250,7 @@ const Matchknockout = () => {
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} goBack={goBack} router={router} title={i18n.t("match_title")}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} isMatchdaysScreen={false}
                 createGroup={createGroup} group={group} premium={premium} groups={groups}
             />
             <SureGeneral />
@@ -401,15 +401,29 @@ const Matchknockout = () => {
                     segmentedButton === "statistics" &&
                     <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {
-                            matchknockout.match?.statistics.length! > 0 ? <FlatList
-                                style={{ width: '100%', marginBottom: insets.bottom }}
-                                data={matchknockout.match?.statistics}
-                                keyExtractor={(item) => item.id!}
-                                renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}
-                            /> : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                                <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
-                                <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
-                            </View>
+                            matchknockout.match?.statistics.length! > 0 ? (
+                                <View style={{ backgroundColor: colors.background }}>
+                                    <Button
+                                        mode="contained"
+                                        onPress={() => hideAndShowStatistics(true)}
+                                        style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
+                                        labelStyle={{ color: "#ffffff" }}
+                                    >
+                                        {i18n.t("statistics_add")}
+                                    </Button>
+                                    <FlatList
+                                        style={{ width: '100%', marginBottom: insets.bottom }}
+                                        data={matchknockout.match?.statistics}
+                                        keyExtractor={(item) => item.id!}
+                                        renderItem={({ item }) => <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />}
+                                    />
+                                </View>
+                            ) : (
+                                <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
+                                    <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
+                                    <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
+                                </View>
+                            )
                         }
                     </View>
                 }

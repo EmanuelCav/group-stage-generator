@@ -11,14 +11,14 @@ export const groupStyles = StyleSheet.create({
     },
 
     headerCellPosition: {
-        width: Dimensions.get("window").width / 11.25,
+        minWidth: 40,
         textAlign: "center",
         fontFamily: 'Raleway_Bold',
         color: "#ffffff"
     },
 
     headerCell: {
-        width: Dimensions.get("window").width / 9,
+        minWidth: 52,
         textAlign: "center",
         fontFamily: 'Raleway_Bold',
         color: "#ffffff"
@@ -27,35 +27,33 @@ export const groupStyles = StyleSheet.create({
     row: {
         flexDirection: "row",
         paddingVertical: Dimensions.get("window").height / 185,
-        borderBottomWidth: 1,
-        borderColor: "#ccc"
+        borderBottomWidth: 2,
+        borderColor: "#ccc",
     },
 
     cellPosition: {
         fontFamily: 'Raleway_SemiBold',
-        width: Dimensions.get("window").width / 9,
+        minWidth: 40,
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
     cell: {
-        width: Dimensions.get("window").width / 9,
+        minWidth: 52,
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
     teamCell: {
-        width: Dimensions.get("window").width / 6,
         fontFamily: 'Raleway_SemiBold',
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
-        alignItems: 'center',
     },
 
     mainCell: {
-        width: Dimensions.get("window").width / 9,
+        minWidth: 52,
         height: Dimensions.get("window").height / 21,
         justifyContent: 'center',
         alignItems: 'center',

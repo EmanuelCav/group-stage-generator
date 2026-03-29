@@ -42,6 +42,8 @@ const Index = () => {
 
         try {
 
+            setLoading(true);
+
             if (!email || !password) {
                 setErrorData(i18n.t("emptyFields"));
                 return;
@@ -51,8 +53,6 @@ const Index = () => {
                 setErrorData(i18n.t("invalidEmail"));
                 return;
             }
-
-            setLoading(true);
 
             const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
@@ -87,18 +87,27 @@ const Index = () => {
     }
 
     const handleSignInWithGoogle = async () => {
-        const data = await signInWithGoogle()
-        const userId = data?.user?.id
+        try {
+            setLoading(true);
 
-        if (!userId) return
+            const data = await signInWithGoogle();
+            const userId = data?.user?.id;
 
-        const groupsData = await getGroupsFromSupabase(userId)
+            if (!userId) return;
 
-        if (groupsData.length > 0) {
-            setGroups(groupsData)
-            await AsyncStorage.setItem("amount_groups_general", groupsData.length.toString())
-        } else {
-            await AsyncStorage.setItem("amount_groups_general", "0")
+            const groupsData = await getGroupsFromSupabase(userId);
+
+            if (groupsData.length > 0) {
+                setGroups(groupsData);
+                await AsyncStorage.setItem("amount_groups_general", groupsData.length.toString());
+            } else {
+                await AsyncStorage.setItem("amount_groups_general", "0");
+            }
+        } catch (error) {
+            console.log("Google Sign-In error:", error)
+            setErrorData("Google sign-in failed")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -146,7 +155,7 @@ const Index = () => {
                     </Text>
                 }
 
-                <Button mode="contained" onPress={handleSignIn} loading={loading}
+                <Button mode="contained" onPress={handleSignIn} loading={loading} disabled={loading}
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: spacing.h41 },
                     generalStyles.generateButton]}>
@@ -173,7 +182,7 @@ const Index = () => {
                     spacing={spacing}
                 />
 
-                <Button icon="google" mode="outlined"
+                <Button icon="google" mode="outlined" loading={loading} disabled={loading}
                     onPress={handleSignInWithGoogle}>
                     {i18n.t("google_signin")}
                 </Button>

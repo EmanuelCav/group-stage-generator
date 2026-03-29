@@ -57,7 +57,7 @@ export const normalizeUri = async (uri: string) => {
 
     } catch (error) {
         console.log("FileSystem copy error:", error);
-        return uri;
+        return "";
     }
 }
 

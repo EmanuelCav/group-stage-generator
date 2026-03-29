@@ -97,7 +97,7 @@ export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic
     return summary
 }
 
-export const statisticTable = (group: IGroup): IValueStatistic[][] => {
+export const statisticTable = (group: IGroup, statisticView: string): IValueStatistic[][] => {
 
     let summary: IValueStatistic[][] = [[], [], [], []]
 
@@ -164,7 +164,7 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             }
         }
 
-        if (goals > 0) {
+        if (goals > 0 && (statisticView === "all" || statisticView === "goal")) {
             summary[0].push({
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
@@ -172,7 +172,7 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             })
         }
 
-        if (yellow > 0) {
+        if (yellow > 0 && (statisticView === "all" || statisticView === "yellow card")) {
             summary[1].push({
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
@@ -180,7 +180,7 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             })
         }
 
-        if (reds > 0) {
+        if (reds > 0 && (statisticView === "all" || statisticView === "red card")) {
             summary[2].push({
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
@@ -188,7 +188,7 @@ export const statisticTable = (group: IGroup): IValueStatistic[][] => {
             })
         }
 
-        if (assists > 0) {
+        if (assists > 0 && (statisticView === "all" || statisticView === "assist")) {
             summary[3].push({
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),

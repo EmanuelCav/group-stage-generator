@@ -21,6 +21,7 @@ import { statisticSchema } from "@/schema/statistic.schema";
 
 import { groupName, nameParticipant } from "@/utils/points";
 import { generateId } from "@/utils/defaultGroup";
+import { getGroupUpdateTeamMatch } from "@/utils/matchday";
 
 import { interstitialService } from "@/services/interstitialService";
 
@@ -39,21 +40,91 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
 
     const handleAddStatistic = async (statisticCreated: ICreateStatistic) => {
 
-        const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
-        const matchdayIndex = matchday - 1;
+        try {
 
-        setLoading(true)
+            setLoading(true)
 
-        if (statistic.id) {
+            const matchdayIndex = matchday! - 1;
+            const groupIndex = getGroupUpdateTeamMatch(group.matches!, match, isKnockout ? 0 : matchdayIndex)
 
-            const editMatch: IMatch = {
-                isEdit: match.isEdit,
-                local: match.local,
-                referee: match.referee!,
-                stadium: match.stadium!,
-                statistics: match.statistics.map((s) => s.id === statistic.id ?
-                    {
-                        ...statistic, title: statisticCreated.title, teamLocal: {
+            if (statistic.id) {
+
+                const editMatch: IMatch = {
+                    isEdit: match.isEdit,
+                    local: match.local,
+                    referee: match.referee!,
+                    stadium: match.stadium!,
+                    statistics: match.statistics.map((s) => s.id === statistic.id ?
+                        {
+                            ...statistic, title: statisticCreated.title, teamLocal: {
+                                team: match.local.team,
+                                value: valueLocal ? Number(valueLocal) : 0
+                            },
+                            teamVisitant: {
+                                team: match.visitant.team,
+                                value: valueVisitant ? Number(valueVisitant) : 0
+                            }
+                        } : s),
+                    players: match.players,
+                    summary: match.summary,
+                    visitant: match.visitant,
+                    time: match.time,
+                    date: match.date
+                }
+
+                if (isKnockout) {
+
+                    const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                        gi === round ? g.map((m) =>
+                            m.local.team.id === match.local.team.id ? { ...editMatch } : m
+                        ) : g
+                    );
+
+                    updateMatchKnockGroup(updatedMatches);
+
+                    updateEliminationMatch({
+                        round,
+                        match: { ...editMatch }
+                    });
+
+                } else {
+
+                    const updatedMatches = group.matches!.map((g, gi) =>
+                        gi === groupIndex
+                            ? g.map((m, mi) =>
+                                mi === matchdayIndex
+                                    ? m.map((matchItem) =>
+                                        matchItem.local.team.name === match.local.team.name
+                                            ? { ...editMatch }
+                                            : matchItem
+                                    )
+                                    : m
+                            )
+                            : g
+                    );
+
+                    updateMatchGroup(updatedMatches)
+
+                    updateMatch({
+                        match: { ...editMatch },
+                        matchday
+                    })
+
+                }
+
+            } else {
+
+                const createMatch: IMatch = {
+                    isEdit: match.isEdit,
+                    local: match.local,
+                    referee: match.referee!,
+                    stadium: match.stadium!,
+                    summary: match.summary,
+                    players: match.players,
+                    statistics: [...match.statistics, {
+                        id: generateId(),
+                        title: statisticCreated.title,
+                        teamLocal: {
                             team: match.local.team,
                             value: valueLocal ? Number(valueLocal) : 0
                         },
@@ -61,144 +132,79 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                             team: match.visitant.team,
                             value: valueVisitant ? Number(valueVisitant) : 0
                         }
-                    } : s),
-                players: match.players,
-                summary: match.summary,
-                visitant: match.visitant,
-                time: match.time,
-                date: match.date
-            }
-
-            if (isKnockout) {
-
-                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
-                    gi === round ? g.map((m) =>
-                        m.local.team.id === match.local.team.id ? { ...editMatch } : m
-                    ) : g
-                );
-
-                updateMatchKnockGroup(updatedMatches);
-
-                updateEliminationMatch({
-                    round,
-                    match: { ...editMatch }
-                });
-
-            } else {
-
-                const updatedMatches = group.matches!.map((g, gi) =>
-                    gi === groupIndex
-                        ? g.map((m, mi) =>
-                            mi === matchdayIndex
-                                ? m.map((matchItem) =>
-                                    matchItem.local.team.name === match.local.team.name
-                                        ? { ...editMatch }
-                                        : matchItem
-                                )
-                                : m
-                        )
-                        : g
-                );
-
-                updateMatchGroup(updatedMatches)
-
-                updateMatch({
-                    match: { ...editMatch },
-                    matchday
-                })
-
-            }
-
-        } else {
-
-            const createMatch: IMatch = {
-                isEdit: match.isEdit,
-                local: match.local,
-                referee: match.referee!,
-                stadium: match.stadium!,
-                summary: match.summary,
-                players: match.players,
-                statistics: [...match.statistics, {
-                    id: generateId(),
-                    title: statisticCreated.title,
-                    teamLocal: {
-                        team: match.local.team,
-                        value: valueLocal ? Number(valueLocal) : 0
-                    },
-                    teamVisitant: {
-                        team: match.visitant.team,
-                        value: valueVisitant ? Number(valueVisitant) : 0
-                    }
-                }],
-                visitant: match.visitant,
-                time: match.time,
-                date: match.date
-            }
-
-            if (isKnockout) {
-
-                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
-                    gi === round ? g.map((m) =>
-                        m.local.team.id === match.local.team.id ? { ...createMatch } : m
-                    ) : g
-                );
-
-                updateMatchKnockGroup(updatedMatches);
-
-                updateEliminationMatch({
-                    round,
-                    match: { ...createMatch }
-                });
-
-            } else {
-
-                const updatedMatches = group.matches!.map((g, gi) =>
-                    gi === groupIndex
-                        ? g.map((m, mi) =>
-                            mi === matchdayIndex
-                                ? m.map((matchItem) =>
-                                    matchItem.local.team.name === match.local.team.name
-                                        ? { ...createMatch }
-                                        : matchItem
-                                )
-                                : m
-                        )
-                        : g
-                );
-
-                updateMatchGroup(updatedMatches)
-
-                updateMatch({
-                    match: { ...createMatch },
-                    matchday
-                })
-            }
-
-            try {
-
-                const storedCount = await AsyncStorage.getItem("reviewCount");
-                const count = storedCount ? parseInt(storedCount, 10) : 0;
-
-                if (match.statistics.length !== 0) {
-                    if (match.statistics.length === 1 || match.statistics.length % 7 === 0) {
-                        if (interstitialService.isLoaded() && count > 3 && !premium) {
-                            interstitialService.show()
-                        }
-                    }
+                    }],
+                    visitant: match.visitant,
+                    time: match.time,
+                    date: match.date
                 }
 
-            } catch (error) {
-                console.log(error);
+                if (isKnockout) {
+
+                    const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                        gi === round ? g.map((m) =>
+                            m.local.team.id === match.local.team.id ? { ...createMatch } : m
+                        ) : g
+                    );
+
+                    updateMatchKnockGroup(updatedMatches);
+
+                    updateEliminationMatch({
+                        round,
+                        match: { ...createMatch }
+                    });
+
+                } else {
+
+                    const updatedMatches = group.matches!.map((g, gi) =>
+                        gi === groupIndex
+                            ? g.map((m, mi) =>
+                                mi === matchdayIndex
+                                    ? m.map((matchItem) =>
+                                        matchItem.local.team.name === match.local.team.name
+                                            ? { ...createMatch }
+                                            : matchItem
+                                    )
+                                    : m
+                            )
+                            : g
+                    );
+
+                    updateMatchGroup(updatedMatches)
+
+                    updateMatch({
+                        match: { ...createMatch },
+                        matchday
+                    })
+                }
+
+                try {
+
+                    const storedCount = await AsyncStorage.getItem("reviewCount");
+                    const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                    if (match.statistics.length !== 0) {
+                        if (match.statistics.length === 1 || match.statistics.length % 7 === 0) {
+                            if (interstitialService.isLoaded() && count > 3 && !premium) {
+                                interstitialService.show()
+                            }
+                        }
+                    }
+
+                } catch (error) {
+                    console.log(error);
+                }
+
             }
 
-            reset()
-        }
-
-        setTimeout(() => {
             hideAndShowStatistics(false)
             getStatistic({})
+            reset()
+
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false)
-        }, 300)
+        }
     }
 
     return (

@@ -18,6 +18,7 @@ import { matchStyles } from '@/styles/match.styles';
 
 import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
 import { groupName, nameParticipant } from '@/utils/points';
+import { getGroupUpdateTeamMatch } from '@/utils/matchday';
 
 import { interstitialService } from '@/services/interstitialService';
 
@@ -37,74 +38,79 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
 
     const handleUpdateMatch = async () => {
 
-        setLoading(true)
-
-        const dataUpdated: IMatch = {
-            isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
-            local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null },
-            referee: referreSelected,
-            stadium: stadiumSelected,
-            statistics: match.statistics,
-            players: match.players,
-            summary: match.summary,
-            visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : scoreLocal !== "" ? 0 : null },
-            date,
-            time: time?.hours ? {
-                hours: time.hours,
-                minutes: time.minutes
-            } : undefined
-        };
-
-        const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
-        const matchdayIndex = matchday - 1;
-
-        const updatedMatches = group.matches!.map((g, gi) =>
-            gi === groupIndex
-                ? g.map((m, mi) =>
-                    mi === matchdayIndex
-                        ? m.map((matchItem) =>
-                            matchItem.local.team.name === match.local.team.name
-                                ? { ...dataUpdated }
-                                : matchItem
-                        )
-                        : m
-                )
-                : g
-        );
-
-        updateMatchGroup(updatedMatches);
-
-        updateMatch({
-            matchday,
-            match: { ...dataUpdated }
-        });
-
         try {
 
-            const storedCount = await AsyncStorage.getItem("reviewCount");
-            const count = storedCount ? parseInt(storedCount, 10) : 0;
+            setLoading(true)
 
-            const storedCountMatch = await AsyncStorage.getItem("matchCount");
-            const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
+            const dataUpdated: IMatch = {
+                isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
+                local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null },
+                referee: referreSelected,
+                stadium: stadiumSelected,
+                statistics: match.statistics,
+                players: match.players,
+                summary: match.summary,
+                visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : scoreLocal !== "" ? 0 : null },
+                date,
+                time: time?.hours ? {
+                    hours: time.hours,
+                    minutes: time.minutes
+                } : undefined
+            };
 
-            if (countMatch !== 0) {
-                if (countMatch === 1 || countMatch % 7 === 0) {
-                    if (count > 3 && interstitialService.isLoaded() && !premium) {
-                        interstitialService.show()
+            const matchdayIndex = matchday - 1;
+            const groupIndex = getGroupUpdateTeamMatch(group.matches!, match, matchdayIndex)
+
+            const updatedMatches = group.matches!.map((g, gi) =>
+                gi === groupIndex
+                    ? g.map((m, mi) =>
+                        mi === matchdayIndex
+                            ? m.map((matchItem) =>
+                                matchItem.local.team.id === match.local.team.id
+                                    ? { ...dataUpdated }
+                                    : matchItem
+                            )
+                            : m
+                    )
+                    : g
+            );
+
+            updateMatchGroup(updatedMatches);
+
+            updateMatch({
+                matchday,
+                match: { ...dataUpdated }
+            });
+
+            try {
+
+                const storedCount = await AsyncStorage.getItem("reviewCount");
+                const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                const storedCountMatch = await AsyncStorage.getItem("matchCount");
+                const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
+
+                if (countMatch !== 0) {
+                    if (countMatch === 1 || countMatch % 7 === 0) {
+                        if (count > 3 && interstitialService.isLoaded() && !premium) {
+                            interstitialService.show()
+                        }
                     }
                 }
+
+                await AsyncStorage.setItem("matchCount", (countMatch + 1).toString());
+
+            } catch (error) {
+                console.log(error);
             }
 
-            await AsyncStorage.setItem("matchCount", (countMatch + 1).toString());
+            hideAndShowUpdateMatch(false)
 
         } catch (error) {
             console.log(error);
-        }
-
-        setTimeout(() => {
-            hideAndShowUpdateMatch(false)
+        } finally {
             setLoading(false)
-        }, 500)
+        }
     }
 
     const theme = useMemo(() => ({

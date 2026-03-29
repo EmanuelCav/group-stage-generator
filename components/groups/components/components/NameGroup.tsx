@@ -9,10 +9,14 @@ import { groupStyles } from '@/styles/group.styles'
 
 import { groupName, nameParticipant } from '@/utils/points'
 
-const NameGroup = memo(({ colors, index, item, isFullName, spacing }: NameGroupPropsType) => {
+const NameGroup = memo(({ colors, index, item, isFullName, spacing, group }: NameGroupPropsType) => {
     return (
         <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
-            <View style={[groupStyles.cellPosition, { backgroundColor: colors.tertiary }]}>
+            <View style={[groupStyles.cellPosition, {
+                backgroundColor: colors.tertiary,
+                borderLeftColor: (group.amountGroups! * (index + 1)) <= group.amountClassified! ? colors.primary : colors.background,
+                borderLeftWidth: 2
+            }]}>
                 <Text variant="bodyMedium">{index + 1}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: colors.tertiary }}>

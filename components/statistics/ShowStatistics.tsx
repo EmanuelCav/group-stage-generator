@@ -12,13 +12,13 @@ import { statisticTable } from '@/utils/statistics';
 
 import { useIsFullName } from '@/hooks/useIsFullName';
 
-const ShowStatistics = memo(({ group, colors }: ShowStatisticsPropsType) => {
+const ShowStatistics = memo(({ group, colors, statisticView }: ShowStatisticsPropsType) => {
 
     const { isFullName } = useIsFullName()
 
     const statistic = useMemo(() => {
-        return statisticTable(group)
-    }, [group, isFullName])
+        return statisticTable(group, statisticView)
+    }, [group, isFullName, statisticView])
 
     return (
         <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
@@ -26,13 +26,17 @@ const ShowStatistics = memo(({ group, colors }: ShowStatisticsPropsType) => {
                 style={{ width: '100%' }}
                 data={statistic}
                 keyExtractor={(_, index) => String(index)}
-                renderItem={({ item, index }) =>
-                    <TableStatistic
-                        colors={colors}
-                        itemStatistic={item}
-                        indexStatistic={index}
-                    />
-                }
+                renderItem={({ item, index }) => {
+                    return <>
+                        {
+                            (item.length !== 0 || statisticView === "all") ? <TableStatistic
+                                colors={colors}
+                                itemStatistic={item}
+                                indexStatistic={index}
+                            /> : <></>
+                        }
+                    </>
+                }}
             />
         </View>
     );

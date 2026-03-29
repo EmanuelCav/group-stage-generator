@@ -10,6 +10,8 @@ import { IStadium } from "@/interface/Stadium";
 import { IPlayer } from "@/interface/Player";
 import { IAvoidingMatches } from "@/interface/Avoiding";
 
+import { emptyMatchday } from "@/utils/defaultGroup";
+
 export const groupStore = create(
     persist<IGroupStore>(
         (set) => ({
@@ -169,6 +171,135 @@ export const groupStore = create(
                 group: { ...state.group, isGroupStageEliminationDrawed: data },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGroupStageEliminationDrawed: data } : g)
             })),
+            addMatchday: (groupIndex: number) =>
+                set((state) => {
+
+                    const updatedMatches = state.group.matches?.map((groupMatches, gIndex) => {
+                        if (gIndex !== groupIndex) return groupMatches
+                        return [...groupMatches, emptyMatchday(state.group.teams)]
+                    })
+
+                    return {
+                        group: {
+                            ...state.group,
+                            matches: updatedMatches
+                        },
+                        groups: state.groups.map((g) =>
+                            g.id === state.group.id
+                                ? { ...state.group, matches: updatedMatches }
+                                : g
+                        )
+                    }
+                }),
+            removeMatchday: (groupIndex: number, matchdayIndex: number) =>
+                set((state) => {
+
+                    const updatedMatches = state.group.matches?.map((groupMatches, gIndex) => {
+                        if (gIndex !== groupIndex) return groupMatches
+                        return groupMatches.filter((_, mIndex) => mIndex !== matchdayIndex)
+                    })
+
+                    if (updatedMatches?.length === 0) {
+                        updatedMatches[groupIndex].push(emptyMatchday(state.group.teams))
+                    }
+
+                    return {
+                        group: {
+                            ...state.group,
+                            matches: updatedMatches,
+                            matchdayView: "all", matchdayNumber: "all"
+                        },
+                        groups: state.groups.map((g) =>
+                            g.id === state.group.id
+                                ? { ...state.group, matches: updatedMatches, matchdayView: "all", matchdayNumber: "all" }
+                                : g
+                        )
+                    }
+                }),
+            removeMatches: () => set((state) => ({
+                group: { ...state.group, matches: [[emptyMatchday(state.group.teams)]], matchdayView: "all", matchdayNumber: "all" },
+                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: [[emptyMatchday(state.group.teams)]], matchdayView: "all", matchdayNumber: "all" } : g)
+            })),
+            updateTeamMatch: (groupIndex: number, matchdayIndex: number, matchIndex: number, isLocal: boolean, teamData: ITeam) =>
+                set((state) => {
+
+                    const updatedMatches = state.group.matches?.map((groupMatches, gIndex) => {
+
+                        if (gIndex !== groupIndex) return groupMatches
+
+                        return groupMatches.map((matchday, mIndex) => {
+
+                            if (mIndex !== matchdayIndex) return matchday
+
+                            return matchday.map((match, matchI) => {
+
+                                if (matchI !== matchIndex) return match
+
+                                return {
+                                    ...match,
+                                    local: isLocal
+                                        ? { ...match.local, team: teamData }
+                                        : match.local,
+                                    visitant: !isLocal
+                                        ? { ...match.visitant, team: teamData }
+                                        : match.visitant,
+                                }
+
+                            })
+
+                        })
+
+                    })
+
+                    return {
+                        group: {
+                            ...state.group,
+                            matches: updatedMatches
+                        },
+                        groups: state.groups.map((g) =>
+                            g.id === state.group.id
+                                ? { ...state.group, matches: updatedMatches }
+                                : g
+                        )
+                    }
+                }),
+            updateTeamMatchElimination: (indexRound: number, indexMatch: number, isLocal: boolean, teamData: ITeam) =>
+                set((state) => {
+
+                    const updatedEliminationMatches = state.group.eliminationMatches?.map((round, rIndex) => {
+
+                        if (rIndex !== indexRound) return round
+
+                        return round.map((match, mIndex) => {
+
+                            if (mIndex !== indexMatch) return match
+
+                            return {
+                                ...match,
+                                local: isLocal
+                                    ? { ...match.local, team: teamData }
+                                    : match.local,
+                                visitant: !isLocal
+                                    ? { ...match.visitant, team: teamData }
+                                    : match.visitant,
+                            }
+
+                        })
+
+                    })
+
+                    return {
+                        group: {
+                            ...state.group,
+                            eliminationMatches: updatedEliminationMatches
+                        },
+                        groups: state.groups.map((g) =>
+                            g.id === state.group.id
+                                ? { ...state.group, eliminationMatches: updatedEliminationMatches }
+                                : g
+                        )
+                    }
+                }),
         }),
         {
             name: "group_stage_generator_storage",

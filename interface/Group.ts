@@ -49,6 +49,11 @@ export interface IGroupStore {
     updateShuffledKnockout: (data: boolean) => void;
     matchdayViewUpdated: (data: string) => void;
     matchdayNumber: (data: string) => void;
+    removeMatchday: (groupIndex: number, matchdayIndex: number) => void;
+    addMatchday: (groupIndex: number) => void;
+    removeMatches: () => void;
+    updateTeamMatch: (groupIndex: number, matchdayIndex: number, matchIndex: number, isLocal: boolean, teamData: ITeam) => void;
+    updateTeamMatchElimination: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
 }
 
 export interface IGroup {

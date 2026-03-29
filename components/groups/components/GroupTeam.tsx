@@ -22,11 +22,9 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                     group.pointsMode === "points" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.points')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.losses')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.score')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>+/-</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell, { minWidth: 76 }]}>{i18n.t('group.wins')}-{i18n.t('group.draws')}-{i18n.t('group.losses')}</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell, { minWidth: 76 }]}>{i18n.t('group.score')}</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell]}>+/-</Text>
                     </View>
                 }
                 {
@@ -35,49 +33,43 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.losses')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.score')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>+/-</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell, { minWidth: 76 }]}>{i18n.t('group.score')}</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell]}>+/-</Text>
                     </View>
                 }
                 {
                     group.pointsMode === "percentage" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>Pct.</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.losses')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.score')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>+/-</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell, { minWidth: 76 }]}>{i18n.t('group.wins')}-{i18n.t('group.draws')}-{i18n.t('group.losses')}</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell, { minWidth: 76 }]}>{i18n.t('group.score')}</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell]}>+/-</Text>
                     </View>
                 }
                 {
                     group.pointsMode === "scored" && <View style={[groupStyles.headerRow, { backgroundColor: colors.primary }]}>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.scored')}</Text>
                         <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.played')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.wins')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.draws')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>{i18n.t('group.losses')}</Text>
-                        <Text variant="labelMedium" style={groupStyles.headerCell}>+/-</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell, { minWidth: 76 }]}>{i18n.t('group.wins')}-{i18n.t('group.draws')}-{i18n.t('group.losses')}</Text>
+                        <Text variant="labelMedium" style={[groupStyles.headerCell]}>+/-</Text>
                     </View>
                 }
                 <FlatList
                     data={points}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => (
-                        <View style={{ backgroundColor: "#f00" }}>
+                        <View>
                             {
                                 group.pointsMode === "points" && <View style={[groupStyles.row, , { backgroundColor: colors.tertiary }]}>
-                                    <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary }]}>
+                                    <View style={[groupStyles.mainCell, { backgroundColor: colors.tertiary, }]}>
                                         <Text variant="titleSmall">
                                             {(item.won * group.pointsWin!) + (item.tied * group.pointsDraw!) + (item.lost * group.pointsLoss!)}
                                         </Text>
                                     </View>
-                                    <Cell colors={colors} item={String(item.played)} />
-                                    <Cell colors={colors} item={String(item.won)} />
-                                    <Cell colors={colors} item={String(item.tied)} />
-                                    <Cell colors={colors} item={String(item.lost)} />
-                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} />
-                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
+                                    <Cell colors={colors} item={String(item.played)} isMatchCell={false} />
+                                    <Cell colors={colors} item={`${item.won} - ${item.tied} - ${item.lost}`} isMatchCell={true} />
+                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} isMatchCell={true} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} isMatchCell={false} />
                                 </View>
                             }
                             {
@@ -87,11 +79,11 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                             {item.won}
                                         </Text>
                                     </View>
-                                    <Cell colors={colors} item={String(item.played)} />
-                                    <Cell colors={colors} item={String(item.tied)} />
-                                    <Cell colors={colors} item={String(item.lost)} />
-                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} />
-                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
+                                    <Cell colors={colors} item={String(item.played)} isMatchCell={false} />
+                                    <Cell colors={colors} item={String(item.tied)} isMatchCell={false} />
+                                    <Cell colors={colors} item={String(item.lost)} isMatchCell={false} />
+                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} isMatchCell={true} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} isMatchCell={false} />
                                 </View>
                             }
                             {
@@ -104,12 +96,10 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                             )}
                                         </Text>
                                     </View>
-                                    <Cell colors={colors} item={String(item.played)} />
-                                    <Cell colors={colors} item={String(item.won)} />
-                                    <Cell colors={colors} item={String(item.tied)} />
-                                    <Cell colors={colors} item={String(item.lost)} />
-                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} />
-                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
+                                    <Cell colors={colors} item={String(item.played)} isMatchCell={false} />
+                                    <Cell colors={colors} item={`${item.won}-${item.tied}-${item.lost}`} isMatchCell={true} />
+                                    <Cell colors={colors} item={`${item.positive}:${item.negative}`} isMatchCell={true} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} isMatchCell={false} />
                                 </View>
                             }
                             {
@@ -119,11 +109,9 @@ const GroupTeam = ({ group, colors, groupNumber }: GroupTeamPropsType) => {
                                             {item.positive}
                                         </Text>
                                     </View>
-                                    <Cell colors={colors} item={String(item.played)} />
-                                    <Cell colors={colors} item={String(item.won)} />
-                                    <Cell colors={colors} item={String(item.tied)} />
-                                    <Cell colors={colors} item={String(item.lost)} />
-                                    <Cell colors={colors} item={String(item.positive - item.negative)} />
+                                    <Cell colors={colors} item={String(item.played)} isMatchCell={false} />
+                                    <Cell colors={colors} item={`${item.won}-${item.tied}-${item.lost}`} isMatchCell={true} />
+                                    <Cell colors={colors} item={String(item.positive - item.negative)} isMatchCell={false} />
                                 </View>
                             }
                         </View>

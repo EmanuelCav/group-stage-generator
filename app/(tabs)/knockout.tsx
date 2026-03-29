@@ -1,6 +1,6 @@
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Redirect, useRouter } from "expo-router"
-import { IconButton, useTheme } from "react-native-paper"
+import { IconButton, Text, useTheme } from "react-native-paper"
 import i18n from '@/i18n'
 import Toast from 'react-native-toast-message';
 
@@ -13,6 +13,7 @@ import CreateElimination from "@/components/elimination/CreateElimination"
 import Sure from "@/components/general/Sure";
 
 import { IGetMatchKnockout } from "@/interface/Match"
+import { ITeam } from "@/interface/Team";
 
 import { groupStore } from "@/store/group.store"
 import { matchStore } from "@/store/match.store"
@@ -25,7 +26,7 @@ import { useIsFullName } from "@/hooks/useIsFullName";
 
 const Elimination = () => {
 
-    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, createGroup, sureRestartElimination, isSureRestartElimination, restartElimination, groups } = groupStore()
+    const { sureRemoveGroup, sureRestartGroup, generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, createGroup, sureRestartElimination, isSureRestartElimination, restartElimination, groups, updateTeamMatchElimination } = groupStore()
     const { premium } = userStore()
     const { getMatchKnockout } = matchStore()
 
@@ -33,6 +34,12 @@ const Elimination = () => {
     const { colors } = useTheme()
     const spacing = useSpacing()
     const { isFullName } = useIsFullName()
+
+    const [isEditMode, setIsEditMode] = useState<boolean>(false)
+
+    const handleUpdateTeamMatch = (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => {
+        updateTeamMatchElimination(indexRound, indexMatch, isLocal, team)
+    }
 
     const handleGetMatch = useCallback((data: IGetMatchKnockout) => {
 
@@ -85,8 +92,8 @@ const Elimination = () => {
     return (
         <MainScreen colors={colors}>
             <HeaderGeneral colors={colors} router={router} title={i18n.t("knockout")} goBack={goBack}
-                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
-                createGroup={createGroup} group={group} premium={premium} groups={groups} />
+                sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} isEditMode={isEditMode} setIsEditMode={setIsEditMode}
+                createGroup={createGroup} group={group} premium={premium} groups={groups} isMatchdaysScreen={group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated!} />
             <SureGeneral />
             {
                 isSureRestartElimination && <Sure
@@ -117,7 +124,11 @@ const Elimination = () => {
                                     }}
                                 />
                         }
-                        <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} spacing={spacing} isFullName={isFullName} />
+                        {
+                            !group.isDrawed && <Text variant="bodySmall">{i18n.t("adviceUpdateMatch")}</Text>
+                        }
+                        <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} spacing={spacing} isFullName={isFullName}
+                            handleUpdateTeamMatch={handleUpdateTeamMatch} isEditMode={isEditMode} />
                     </>
                 ) : (
                     <CreateElimination colors={colors} updateCreateElimination={updateCreateElimination} spacing={spacing} />

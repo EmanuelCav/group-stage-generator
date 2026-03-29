@@ -4,6 +4,7 @@ import { Router } from "expo-router";
 
 import { IGetMatch, IMatch } from "@/interface/Match";
 import { IGroup } from "@/interface/Group";
+import { ITeam } from "@/interface/Team";
 
 export type Action = {
     type: string;
@@ -21,6 +22,9 @@ export type HeaderGeneralPropsTypes = {
     group: IGroup;
     groups: IGroup[];
     premium: boolean;
+    isMatchdaysScreen: boolean;
+    isEditMode?: boolean;
+    setIsEditMode?: (isEditMode: boolean) => void;
     createGroup: (data: IGroup) => void;
     goBack: () => void;
     sureRemoveGroup: (sure: boolean) => void;
@@ -47,6 +51,8 @@ export type MatchPropsType = {
     handleGetMatch: (data: IGetMatch) => void;
     matchdayNumber: number;
     spacing: Spacing;
+    isEditMode: boolean;
+    handleUpdateTeamMatch: (indexGroup: number, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
 }
 
 export type AddActionPropsType = {

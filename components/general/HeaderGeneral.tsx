@@ -7,7 +7,7 @@ import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
 import { duplicateGroup } from "@/utils/defaultGroup";
 
-const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, group, premium, groups }: HeaderGeneralPropsTypes) => {
+const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, group, premium, groups, isMatchdaysScreen, isEditMode, setIsEditMode }: HeaderGeneralPropsTypes) => {
 
     const [visible, setVisible] = useState<boolean>(false)
 
@@ -15,6 +15,13 @@ const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, su
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
             <Appbar.BackAction color="#ffffff" onPress={goBack} />
             <Appbar.Content title={title} color="#ffffff" />
+            {
+                isMatchdaysScreen && <Appbar.Action
+                    icon={isEditMode ? "eye" : "square-edit-outline"}
+                    color="#ffffff"
+                    onPress={() => setIsEditMode!(!isEditMode)}
+                />
+            }
             <Menu
                 visible={visible}
                 onDismiss={() => setVisible(false)}

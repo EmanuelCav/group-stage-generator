@@ -1,7 +1,7 @@
+import "@/utils/polyfills";
 import "@/utils/sentry";
 import 'react-native-reanimated';
 import mobileAds, { TestIds } from 'react-native-google-mobile-ads';
-import * as Linking from "expo-linking";
 import Purchases, { LOG_LEVEL } from "react-native-purchases";
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,13 +14,9 @@ import { PaperProvider } from 'react-native-paper';
 import i18n from '@/i18n';
 import * as Sentry from "@sentry/react-native";
 
-import ErrorFallback from "@/components/ErrorFallback";
-
 import { userStore } from '@/store/user.store';
 
 import { darkTheme, lightTheme } from '@/utils/theme';
-
-import { createSessionFromUrl } from '@/lib/providerAuth';
 
 import { ThemeContext } from '@/hooks/useThemeContext';
 
@@ -50,14 +46,7 @@ function RootLayout() {
 
   if (!loaded) return null;
 
-  return (
-    <Sentry.ErrorBoundary
-      fallback={({ error, resetError }) => (
-        <ErrorFallback error={error} resetError={resetError} />
-      )}>
-      <RootLayoutNav />
-    </Sentry.ErrorBoundary>
-  )
+  return <RootLayoutNav />
 }
 
 export default Sentry.wrap(RootLayout)
@@ -69,11 +58,6 @@ function RootLayoutNav() {
 
   const [themeMode, setThemeMode] = useState<"light" | "dark" | "system">("system");
   const [ready, setReady] = useState(false);
-  const url = Linking.useLinkingURL();
-
-  useEffect(() => {
-    if (url) createSessionFromUrl(url);
-  }, [url]);
 
   useEffect(() => {
     mobileAds().initialize()
@@ -157,18 +141,18 @@ function RootLayoutNav() {
         <StatusBar barStyle={resolvedTheme === "dark" ? "light-content" : "dark-content"} />
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="index" options={{ title: i18n.t("login"), headerShown: false }} />
-          <Stack.Screen name="home" options={{ title: i18n.t("groupstages"), headerShown: false }} />
-          <Stack.Screen name="create" options={{ title: i18n.t("teams"), headerShown: false }} />
-          <Stack.Screen name="config" options={{ title: i18n.t("config"), headerShown: false }} />
-          <Stack.Screen name="stadiums" options={{ title: i18n.t("stadiums_title"), headerShown: false }} />
-          <Stack.Screen name="referees" options={{ title: i18n.t("referees_title"), headerShown: false }} />
-          <Stack.Screen name="players" options={{ title: i18n.t("players_title"), headerShown: false }} />
-          <Stack.Screen name="match" options={{ title: i18n.t("match_title"), headerShown: false }} />
-          <Stack.Screen name="matchknockout" options={{ title: i18n.t("match_title"), headerShown: false }} />
-          <Stack.Screen name="signup" options={{ title: i18n.t("register"), headerShown: false }} />
-          <Stack.Screen name="tent" options={{ title: i18n.t("tent"), headerShown: false }} />
-          <Stack.Screen name="settings" options={{ title: i18n.t("settings"), headerShown: false }} />
+          <Stack.Screen name="index" options={{ title: "login", headerShown: false }} />
+          <Stack.Screen name="home" options={{ title: "home", headerShown: false }} />
+          <Stack.Screen name="create" options={{ title: "create", headerShown: false }} />
+          <Stack.Screen name="config" options={{ title: "config", headerShown: false }} />
+          <Stack.Screen name="stadiums" options={{ title: "stadiums", headerShown: false }} />
+          <Stack.Screen name="referees" options={{ title: "referees", headerShown: false }} />
+          <Stack.Screen name="players" options={{ title: "players", headerShown: false }} />
+          <Stack.Screen name="match" options={{ title: "match", headerShown: false }} />
+          <Stack.Screen name="matchknockout" options={{ title: "matchknockout", headerShown: false }} />
+          <Stack.Screen name="signup" options={{ title: "signup", headerShown: false }} />
+          <Stack.Screen name="tent" options={{ title: "tent", headerShown: false }} />
+          <Stack.Screen name="settings" options={{ title: "settings", headerShown: false }} />
           <Stack.Screen name="reset-password" options={{ headerShown: false }} />
           <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
           <Stack.Screen name="auth/update" options={{ headerShown: false }} />

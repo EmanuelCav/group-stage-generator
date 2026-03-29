@@ -55,43 +55,49 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
 
         }
 
-        setLoading(true)
+        try {
 
-        if (referee.id) {
-            updateReferee({
-                id: referee.id,
-                name: refereeCreated.name
-            })
-        } else {
-            createReferee({
-                id: generateId(),
-                name: refereeCreated.name
-            })
+            setLoading(true)
 
-            try {
+            if (referee.id) {
+                updateReferee({
+                    id: referee.id,
+                    name: refereeCreated.name
+                })
+            } else {
+                createReferee({
+                    id: generateId(),
+                    name: refereeCreated.name
+                })
 
-                const storedCount = await AsyncStorage.getItem("reviewCount");
-                const count = storedCount ? parseInt(storedCount, 10) : 0;
+                try {
 
-                if (group.referees?.length !== 0) {
-                    if (group.referees?.length === 1 || group.referees!.length % 7 === 0) {
-                        if (interstitialService.isLoaded() && count > 3 && !premium) {
-                            interstitialService.show()
+                    const storedCount = await AsyncStorage.getItem("reviewCount");
+                    const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                    if (group.referees?.length !== 0) {
+                        if (group.referees?.length === 1 || group.referees!.length % 7 === 0) {
+                            if (interstitialService.isLoaded() && count > 3 && !premium) {
+                                interstitialService.show()
+                            }
                         }
                     }
+
+                } catch (error) {
+                    console.log(error);
                 }
 
-            } catch (error) {
-                console.log(error);
             }
 
+            hideAndShowAddReferee(false)
             reset()
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false)
         }
 
-        setTimeout(() => {
-            setLoading(false)
-            hideAndShowAddReferee(false)
-        }, 300)
     }
 
     return (

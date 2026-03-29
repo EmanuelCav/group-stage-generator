@@ -254,7 +254,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             {match.visitant.team.logo ? (
                                 <Avatar.Image source={{ uri: match.visitant.team.logo }} size={32} />
                             ) : (
-                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.visitant.team.color }} />
+                                <Avatar.Icon icon="shield-outline" size={32} style={{ backgroundColor: match.visitant.team.color }} color='#ffffff' />
                             )}
                             {
                                 isFullName ? <Text variant='bodyMedium' style={{ marginTop: spacing.h106 }}>
@@ -283,7 +283,6 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         />
                         {group.isRoundTripElimination && (
                             <>
-
                                 <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
                                     {i18n.t("away")}
                                 </Text>
@@ -355,11 +354,30 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge">{i18n.t("selectMatchStadiumLabel")}</Text>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_stadium")}</Text>
                 <Dropdown
-                    style={[createStyles.dropdownComplete, { backgroundColor: colors.tertiary }, isFocusStadium && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: spacing.h47 }}
-                    selectedTextStyle={{ fontSize: spacing.h47 }}
+                    style={[
+                        createStyles.dropdownComplete,
+                        { backgroundColor: colors.tertiary },
+                        isFocusStadium && { borderColor: colors.primary },
+                    ]}
+                    placeholderStyle={{
+                        fontSize: spacing.h47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    selectedTextStyle={{
+                        fontSize: spacing.h47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    itemTextStyle={{
+                        color: colors.surface
+                    }}
+                    containerStyle={{
+                        backgroundColor: colors.tertiary,
+                    }}
+                    activeColor={colors.primary}
                     data={stadiumsData}
                     maxHeight={spacing.h3_8}
                     labelField="label"
@@ -376,11 +394,30 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge">{i18n.t("selectMatchRefereeLabel")}</Text>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_referee")}</Text>
                 <Dropdown
-                    style={[createStyles.dropdownComplete, { backgroundColor: colors.tertiary }, isFocusReferee && { borderColor: colors.primary }]}
-                    placeholderStyle={{ fontSize: spacing.h47 }}
-                    selectedTextStyle={{ fontSize: spacing.h47 }}
+                    style={[
+                        createStyles.dropdownComplete,
+                        { backgroundColor: colors.tertiary },
+                        isFocusReferee && { borderColor: colors.primary },
+                    ]}
+                    placeholderStyle={{
+                        fontSize: spacing.h47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    selectedTextStyle={{
+                        fontSize: spacing.h47,
+                        color: colors.surface,
+                        backgroundColor: colors.tertiary
+                    }}
+                    itemTextStyle={{
+                        color: colors.surface
+                    }}
+                    containerStyle={{
+                        backgroundColor: colors.tertiary,
+                    }}
+                    activeColor={colors.primary}
                     data={refereesData}
                     maxHeight={spacing.h3_8}
                     labelField="label"

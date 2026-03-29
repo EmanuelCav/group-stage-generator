@@ -30,7 +30,7 @@ import { matchStore } from "@/store/match.store"
 import { groupStore } from "@/store/group.store"
 import { userStore } from "@/store/user.store"
 
-import { lineupPlayers } from "@/utils/matchday"
+import { getGroupUpdateTeamMatch, lineupPlayers } from "@/utils/matchday"
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
@@ -73,8 +73,9 @@ const Match = () => {
     }, [])
 
     const handleRemoveSummary = () => {
-        const groupIndex = match.match?.local.team.group === undefined ? 0 : match.match.local.team.group - 1;
+
         const matchdayIndex = match.matchday! - 1;
+        const groupIndex = getGroupUpdateTeamMatch(group.matches!, match.match!, matchdayIndex)
 
         const editMatch: IMatch = {
             isEdit: match.match!.isEdit,
@@ -117,8 +118,8 @@ const Match = () => {
 
     const handleRemoveStatistic = () => {
 
-        const groupIndex = match.match?.local.team.group === undefined ? 0 : match.match.local.team.group - 1;
         const matchdayIndex = match.matchday! - 1;
+        const groupIndex = getGroupUpdateTeamMatch(group.matches!, match.match!, matchdayIndex)
 
         const editMatch: IMatch = {
             isEdit: match.match!.isEdit,
@@ -182,6 +183,7 @@ const Match = () => {
                 createGroup={createGroup}
                 premium={premium}
                 groups={groups}
+                isMatchdaysScreen={false}
             />
             <SureGeneral />
 
@@ -372,14 +374,24 @@ const Match = () => {
                     segmentedButton === "statistics" &&
                     <View style={{ flex: 1, marginVertical: spacing.h106, backgroundColor: colors.background }}>
                         {match.match?.statistics.length! > 0 ? (
-                            <FlatList
-                                style={{ width: '100%', marginBottom: insets.bottom }}
-                                data={match.match?.statistics}
-                                keyExtractor={(item) => item.id!}
-                                renderItem={({ item }) => (
-                                    <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />
-                                )}
-                            />
+                            <View style={{ backgroundColor: colors.background }}>
+                                <Button
+                                    mode="contained"
+                                    onPress={() => hideAndShowStatistics(true)}
+                                    style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
+                                    labelStyle={{ color: "#ffffff" }}
+                                >
+                                    {i18n.t("statistics_add")}
+                                </Button>
+                                <FlatList
+                                    style={{ width: '100%', marginBottom: insets.bottom }}
+                                    data={match.match?.statistics}
+                                    keyExtractor={(item) => item.id!}
+                                    renderItem={({ item }) => (
+                                        <StatisticMatch statistic={item} colors={colors} handleUpdateStatistic={handleUpdateStatistic} />
+                                    )}
+                                />
+                            </View>
                         ) : (
                             <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
                                 <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>

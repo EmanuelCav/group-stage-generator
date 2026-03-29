@@ -27,6 +27,7 @@ const HeaderGroup = ({ group, groupNumber, colors, spacing }: HeaderGroupPropsTy
                 spacing={spacing}
                 isFullName={isFullName}
                 colors={colors}
+                group={group}
             />
         ),
         [colors, isFullName]

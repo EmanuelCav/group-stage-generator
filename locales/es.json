@@ -197,7 +197,7 @@
         "statistic": {
             "title": {
                 "required": "Escribe un título para la estadística",
-                "max": "El título de la estadística debe tener menos de 12 caracteres",
+                "max": "El título de la estadística debe tener menos de 20 caracteres",
                 "invalid": "Revisa los caracteres especiales"
             }
         },
@@ -373,7 +373,7 @@
     "restart_password_title": "Reestablece tu contraseña",
     "new_password": "Nueva contraseña",
     "restart": "Reestablecer",
-    "sure_logout": "¿Estas seguro de que desea cerrar sesión?",
+    "sure_logout": "¿Estás seguro de que desea cerrar sesión?",
     "logout": "Cerrar sesión",
     "title_login": "Accede a tu cuenta",
     "password": "Contraseña",
@@ -434,5 +434,18 @@
     "random": "Aleatorio",
     "weakPassword": "La contraseña es débil. Asegúrate de incluir letras, números y que no sea común",
     "beforeKnockoutStage": "Nota: Te recomendamos completar todos los resultados de la fase de grupos antes de generar la fase de eliminación",
-    "teamsAddedCount": "Cantidad de equipos agregados"
+    "teamsAddedCount": "Cantidad de equipos agregados",
+    "adviceUpdateMatch": "Nota: Presiona en algún partido para actualizar su resultado",
+    "sureRemoveAllMatches": "¿Estás seguro de que desea limpiar todos los partidos? Se eliminará todo el calendario de partidos",
+    "clearAll": "LIMPIAR TODO",
+    "sureRemoveMatchday": "¿Estás seguro de que desea eliminar la ronda?",
+    "clearAllButton": "Limpiar todos los partidos",
+    "addNewRound": "Añadir ronda",
+    "perGroups": "Por grupos (clásico)",
+    "allAgainstAll": "Todos contra todos",
+    "intergroups": "Intergrupos",
+    "sameGroup": "Equipos juegan dentro de su grupo",
+    "allAgainstAllDescription": "Todos los equipos se enfrentan entre sí",
+    "intergroupsCrossDescription": "Juegan contra otros grupos",
+    "allStatistics": "Todas las estadísticas"
 }

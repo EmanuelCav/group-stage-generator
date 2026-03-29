@@ -36,13 +36,13 @@ const TeamAdded = memo(({ team, handleUpdateTeam, colors, isManualConfiguration,
             }}
           >
             {team.logo ? (
-              <Avatar.Image source={{ uri: team.logo }} size={34} />
+              <Avatar.Image source={{ uri: team.logo }} size={42} />
             ) : (
               <Avatar.Icon
                 icon="shield-outline"
                 style={{ backgroundColor: team.color }}
                 color="#ffffff"
-                size={34}
+                size={42}
               />
             )}
 

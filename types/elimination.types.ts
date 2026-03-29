@@ -3,6 +3,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { IGroup } from "@/interface/Group"
 import { IGetMatchKnockout, IMatch } from "@/interface/Match";
 import { Spacing } from "./props.types";
+import { ITeam } from "@/interface/Team";
 
 export type EliminationStagePropsType = {
     group: IGroup;
@@ -10,6 +11,8 @@ export type EliminationStagePropsType = {
     handleGetMatch: (data: IGetMatchKnockout) => void;
     spacing: Spacing;
     isFullName: boolean;
+    isEditMode: boolean;
+    handleUpdateTeamMatch: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
 }
 
 export type ColumnEliminationPropsType = {
@@ -21,6 +24,8 @@ export type ColumnEliminationPropsType = {
     handleGetMatch: (data: IGetMatchKnockout) => void;
     spacing: Spacing;
     isFullName: boolean;
+    isEditMode: boolean;
+    handleUpdateTeamMatch: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
 }
 
 export type MatchEliminationPropsType = {
@@ -31,6 +36,9 @@ export type MatchEliminationPropsType = {
     handleGetMatch: (data: IGetMatchKnockout) => void;
     spacing: Spacing;
     isFullName: boolean;
+    isEditMode: boolean;
+    handleUpdateTeamMatch: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
+    index: number;
 }
 
 export type ShuffleAgainPropsType = {

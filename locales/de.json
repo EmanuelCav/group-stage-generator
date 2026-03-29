@@ -197,7 +197,7 @@
         "statistic": {
             "title": {
                 "required": "Statistik‑Titel eingeben",
-                "max": "Statistik‑Titel darf nicht länger als 12 Zeichen sein",
+                "max": "Statistik‑Titel darf nicht länger als 20 Zeichen sein",
                 "invalid": "Sonderzeichen prüfen"
             }
         },
@@ -434,5 +434,18 @@
     "random": "Zufällig",
     "weakPassword": "Das Passwort ist zu schwach. Fügen Sie Buchstaben und Zahlen hinzu und verwenden Sie kein gängiges Passwort",
     "beforeKnockoutStage": "Hinweis: Wir empfehlen, alle Ergebnisse der Gruppenphase abzuschließen, bevor die K.-o.-Phase erstellt wird",
-    "teamsAddedCount": "Anzahl der hinzugefügten Teams"
+    "teamsAddedCount": "Anzahl der hinzugefügten Teams",
+    "adviceUpdateMatch": "Hinweis: Tippe auf ein Spiel, um das Ergebnis zu aktualisieren",
+    "sureRemoveAllMatches": "Bist du sicher, dass du alle Spiele löschen möchtest? Der gesamte Spielplan wird entfernt",
+    "clearAll": "ALLES LÖSCHEN",
+    "sureRemoveMatchday": "Bist du sicher, dass du diese Runde löschen möchtest?",
+    "clearAllButton": "Alle Spiele löschen",
+    "addNewRound": "Runde hinzufügen",
+    "perGroups": "Nach Gruppen (klassisch)",
+    "allAgainstAll": "Jeder gegen jeden",
+    "intergroups": "Zwischengruppen",
+    "sameGroup": "Teams spielen innerhalb ihrer Gruppe",
+    "allAgainstAllDescription": "Alle Teams spielen gegeneinander",
+    "intergroupsCrossDescription": "Teams spielen gegen andere Gruppen",
+    "allStatistics": "Alle Statistiken"
 }

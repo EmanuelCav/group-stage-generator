@@ -43,6 +43,7 @@ const Settings = () => {
     const router = useRouter()
 
     const languageOptions = [
+        { label: "العربية", value: "ar" },
         { label: "Deutsch", value: "de" },
         { label: "English", value: "en" },
         { label: "Español", value: "es" },
@@ -63,7 +64,7 @@ const Settings = () => {
         const loadTheme = async () => {
             const storedTheme = await AsyncStorage.getItem("theme");
 
-            if(!storedTheme) {
+            if (!storedTheme) {
                 setDarkMode(systemScheme === "dark");
                 return
             }
@@ -96,15 +97,21 @@ const Settings = () => {
                     placeholderStyle={{
                         fontSize: spacing.h47,
                         color: colors.surface,
-                        backgroundColor: colors.tertiary
+                        backgroundColor: colors.tertiary,
+                        textAlign: "left",
+                        writingDirection: "ltr",
                     }}
                     selectedTextStyle={{
                         fontSize: spacing.h47,
                         color: colors.surface,
-                        backgroundColor: colors.tertiary
+                        backgroundColor: colors.tertiary,
+                        textAlign: "left",
+                        writingDirection: "ltr",
                     }}
                     itemTextStyle={{
-                        color: colors.surface
+                        color: colors.surface,
+                        textAlign: "left",
+                        writingDirection: "ltr",
                     }}
                     containerStyle={{
                         backgroundColor: colors.tertiary,

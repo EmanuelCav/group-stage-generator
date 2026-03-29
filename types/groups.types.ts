@@ -25,6 +25,7 @@ export type HeaderGroupPropsType = {
 export type CellPropsType = {
     item: string;
     colors: MD3Colors;
+    isMatchCell: boolean;
 }
 
 export type NameGroupPropsType = {
@@ -33,4 +34,5 @@ export type NameGroupPropsType = {
     item: IPoints;
     isFullName: boolean;
     spacing: Spacing;
+    group: IGroup;
 }

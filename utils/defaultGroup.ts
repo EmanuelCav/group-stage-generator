@@ -8,6 +8,7 @@ import { IPlayer } from "@/interface/Player";
 import { IReferee } from "@/interface/Referee";
 import { IStadium } from "@/interface/Stadium";
 import { IDropdown, IPlot, ITeam } from "@/interface/Team";
+import { IMatch } from '@/interface/Match';
 
 export const groupValue = (id: number, user_id: string | null): IGroup => {
 
@@ -212,6 +213,36 @@ export const duplicateGroup = (group: IGroup): IGroup => {
         matchdayNumber: "all",
         matches: [],
         eliminationMatches: [],
-    }        
+    }
 
+}
+
+export const emptyMatchday = (teams: ITeam[]): IMatch[] => {
+
+    let matchesOfMatchday: IMatch[] = []
+
+    const allTeamsSorted = [...teams].sort((a, b) => {
+        return (a.group! - b.group! || a.plot! - b.plot!)
+    })
+
+    for (let i = 0; i < teams.length - 1; i+=2) {
+        matchesOfMatchday.push({
+            local: {
+                score: null,
+                team: allTeamsSorted[i]
+            },
+            visitant: {
+                score: null,
+                team: allTeamsSorted[i + 1]
+            },
+            referee: "",
+            stadium: "",
+            isEdit: false,
+            statistics: [],
+            summary: [],
+            players: []
+        })
+    }
+
+    return matchesOfMatchday
 }

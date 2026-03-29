@@ -56,47 +56,52 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
 
         }
 
-        setLoading(true)
+        try {
 
-        if (player.id) {
-            updatePlayer({
-                id: player.id,
-                name: playerCreated.name,
-                team: group.teams.find((t) => t.name === teamSelected),
-                position: playerCreated.position
-            })
-        } else {
-            createPlayer({
-                id: generateId(),
-                name: playerCreated.name,
-                team: group.teams.find((t) => t.name === teamSelected),
-                position: playerCreated.position
-            })
+            setLoading(true)
 
-            try {
+            if (player.id) {
+                updatePlayer({
+                    id: player.id,
+                    name: playerCreated.name,
+                    team: group.teams.find((t) => t.name === teamSelected),
+                    position: playerCreated.position
+                })
+            } else {
+                createPlayer({
+                    id: generateId(),
+                    name: playerCreated.name,
+                    team: group.teams.find((t) => t.name === teamSelected),
+                    position: playerCreated.position
+                })
 
-                const storedCount = await AsyncStorage.getItem("reviewCount");
-                const count = storedCount ? parseInt(storedCount, 10) : 0;
+                try {
 
-                if (group.players?.length !== 0) {
-                    if (group.players?.length === 1 || group.players!.length % 7 === 0) {
-                        if (!premium && interstitialService.isLoaded() && count > 3) {
-                            interstitialService.show()
+                    const storedCount = await AsyncStorage.getItem("reviewCount");
+                    const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                    if (group.players?.length !== 0) {
+                        if (group.players?.length === 1 || group.players!.length % 7 === 0) {
+                            if (!premium && interstitialService.isLoaded() && count > 3) {
+                                interstitialService.show()
+                            }
                         }
                     }
+
+                } catch (error) {
+                    console.log(error);
                 }
 
-            } catch (error) {
-                console.log(error);
             }
 
-            reset()
-        }
-
-        setTimeout(() => {
-            setLoading(false)
             hideAndShowAddPlayer(false)
-        }, 300)
+            reset()
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false)
+        }
     }
 
     const teamsOptions = useMemo(
@@ -241,6 +246,8 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
             )}
 
             <Button
+                loading={loading}
+                disabled={loading}
                 mode="contained"
                 style={[
                     { backgroundColor: colors.primary },
@@ -254,7 +261,6 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
 
             {player.name && (
                 <Button
-                    loading={loading}
                     disabled={loading}
                     mode="contained"
                     style={[

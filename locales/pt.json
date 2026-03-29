@@ -197,7 +197,7 @@
     "statistic": {
       "title": {
         "required": "Digite um título para a estatística",
-        "max": "O título deve ter menos de 12 caracteres",
+        "max": "O título deve ter menos de 20 caracteres",
         "invalid": "Verifique os caracteres especiais"
       }
     },
@@ -434,5 +434,18 @@
   "random": "Aleatório",
   "weakPassword": "A senha é fraca. Certifique-se de incluir letras, números e que não seja comum",
   "beforeKnockoutStage": "Nota: Recomendamos concluir todos os resultados da fase de grupos antes de gerar a fase eliminatória",
-  "teamsAddedCount": "Número de equipes adicionadas"
+  "teamsAddedCount": "Número de equipes adicionadas",
+  "adviceUpdateMatch": "Nota: Toque em qualquer partida para atualizar o resultado",
+  "sureRemoveAllMatches": "Tem certeza de que deseja limpar todas as partidas? Todo o calendário de partidas será removido",
+  "clearAll": "LIMPAR TUDO",
+  "sureRemoveMatchday": "Tem certeza de que deseja excluir a rodada?",
+  "clearAllButton": "Limpar todas as partidas",
+  "addNewRound": "Adicionar rodada",
+  "perGroups": "Por grupos (clássico)",
+  "allAgainstAll": "Todos contra todos",
+  "intergroups": "Intergrupos",
+  "sameGroup": "As equipes jogam dentro do seu grupo",
+  "allAgainstAllDescription": "Todas as equipes jogam entre si",
+  "intergroupsCrossDescription": "Jogam contra outros grupos",
+  "allStatistics": "Todas as estatísticas"
 }

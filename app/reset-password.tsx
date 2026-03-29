@@ -35,6 +35,8 @@ const ResetPassword = () => {
 
         try {
 
+            setLoading(true)
+
             if (!email) {
                 setErrorData(i18n.t("emptyFields"));
                 return;
@@ -44,8 +46,6 @@ const ResetPassword = () => {
                 setErrorData(i18n.t("invalidEmail"));
                 return;
             }
-
-            setLoading(true)
 
             const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: "groupstagegenerator://auth/update"
@@ -92,7 +92,7 @@ const ResetPassword = () => {
                     </Text>
                 }
 
-                <Button mode="contained" onPress={handleSendEmail} loading={loading}
+                <Button mode="contained" onPress={handleSendEmail} loading={loading} disabled={loading}
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: Dimensions.get("window").height / 41 },
                     generalStyles.generateButton]}>

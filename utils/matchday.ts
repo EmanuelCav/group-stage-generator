@@ -101,8 +101,7 @@ export const evaluateGenerateAgain = (matches: IMatch[][][]): boolean => {
 
     }
 
-    return false
-
+    return true
 }
 
 export const lineupPlayers = (playersLocal: IPlayer[], playersVisitant: IPlayer[]): ILineup[] => {
@@ -139,4 +138,16 @@ export const lineupPlayers = (playersLocal: IPlayer[], playersVisitant: IPlayer[
 
     return lineup
 
+}
+
+export const getGroupUpdateTeamMatch = (matches: IMatch[][][], match: IMatch, matchdayIndex: number): number => {
+    for (let i = 0; i < matches.length; i++) {
+        for (let k = 0; k < matches[i][matchdayIndex].length; k++) {
+            if (matches[i][matchdayIndex][k].local.team.id === match.local.team.id && matches[i][matchdayIndex][k].visitant.team.id === match.visitant.team.id) {
+                return i
+            }
+        }
+    }
+
+    return 0
 }

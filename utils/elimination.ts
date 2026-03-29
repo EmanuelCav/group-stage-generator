@@ -1,16 +1,17 @@
-import { generatePoints, orderPoints } from "./points";
-import { shuffle } from "./generator";
 import i18n from "@/i18n";
 
 import { IPoints } from "@/interface/Team";
 import { IGroup } from "@/interface/Group";
 import { IDetectChanges, IMatch, IMatchTeam } from "@/interface/Match";
 
+import { generatePoints, getMaxGroup, orderPoints } from "./points";
+import { shuffle } from "./generator";
+
 export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][] => {
 
     let pointsGroup: IPoints[][] = []
 
-    for (let i = 0; i < group.matches!.length; i++) {
+    for (let i = 0; i < getMaxGroup(group.teams); i++) {
         const points = generatePoints(group.teams.filter(t => t.group === i + 1), group.matches!, group)
         pointsGroup.push(points)
     }
@@ -251,7 +252,7 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
 
     let pointsGroup: IPoints[][] = []
 
-    for (let i = 0; i < group.matches!.length; i++) {
+    for (let i = 0; i < getMaxGroup(group.teams); i++) {
         const points = generatePoints(group.teams.filter(t => t.group === i + 1), group.matches!, group)
         pointsGroup.push(points)
     }

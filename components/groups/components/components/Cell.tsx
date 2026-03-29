@@ -7,9 +7,9 @@ import { CellPropsType } from "@/types/groups.types"
 
 import { groupStyles } from "@/styles/group.styles"
 
-const Cell = memo(({ item, colors }: CellPropsType) => {
+const Cell = memo(({ item, colors, isMatchCell }: CellPropsType) => {
     return (
-        <View style={[groupStyles.cell, { backgroundColor: colors.tertiary }]}>
+        <View style={[groupStyles.cell, { backgroundColor: colors.tertiary, minWidth: isMatchCell ? 76 : 52 }]}>
             <Text variant="bodyMedium">{item}</Text>
         </View>
     )

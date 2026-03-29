@@ -28,3 +28,21 @@ export type StatisticPlayerPropsType = {
     statistic: IValueStatistic;
     title: string;
 }
+
+export type HeaderPlayerPropsType = {
+    colors: MD3Colors;
+    spacing: Spacing;
+    players: IPlayer[];
+}
+
+export type NamePlayerPropsType = {
+    colors: MD3Colors;
+    item: IPlayer; 
+    spacing: Spacing;
+    index: number;
+}
+
+export type GroupPlayerPropsType = {
+    colors: MD3Colors;
+    players: IPlayer[];
+}

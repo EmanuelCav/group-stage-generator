@@ -80,7 +80,7 @@ const Groups = () => {
   return (
     <MainScreen colors={colors}>
       <HeaderGeneral colors={colors} router={router} title={i18n.t("groups")} goBack={goBack}
-        sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup}
+        sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} isMatchdaysScreen={false}
         createGroup={createGroup} group={group} premium={premium} groups={groups} />
       <SureGeneral />
       {

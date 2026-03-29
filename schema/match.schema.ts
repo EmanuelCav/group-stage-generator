@@ -11,7 +11,7 @@ export const summarySchema = object().shape({
   time: string()
     .trim()
     .matches(/[0-9]*$/, i18n.t("validation.summary.time.invalid"))
-    .max(8, i18n.t("validation.summary.time.max"))
+    .max(5, i18n.t("validation.summary.time.max"))
     .required(i18n.t("validation.summary.time.required"))
 });
 

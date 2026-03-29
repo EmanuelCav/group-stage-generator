@@ -47,6 +47,8 @@ const SignUp = () => {
 
         try {
 
+            setLoading(true)
+
             const isBlocked = await checkRateLimit(setBlockedUntil)
 
             if (isBlocked) {
@@ -78,8 +80,6 @@ const SignUp = () => {
                 setErrorData(i18n.t("passwordDontMatch"))
                 return
             }
-
-            setLoading(true)
 
             const { error, data } = await supabase.auth.signUp({
                 email, password,
@@ -114,18 +114,27 @@ const SignUp = () => {
     }
 
     const handleSignInWithGoogle = async () => {
-        const data = await signInWithGoogle()
-        const userId = data?.user?.id
+        try {
+            setLoading(true);
 
-        if (!userId) return
+            const data = await signInWithGoogle();
+            const userId = data?.user?.id;
 
-        const groupsData = await getGroupsFromSupabase(userId)
+            if (!userId) return;
 
-        if (groupsData.length > 0) {
-            setGroups(groupsData)
-            await AsyncStorage.setItem("amount_groups_general", groupsData.length.toString())
-        } else {
-            await AsyncStorage.setItem("amount_groups_general", "0")
+            const groupsData = await getGroupsFromSupabase(userId);
+
+            if (groupsData.length > 0) {
+                setGroups(groupsData);
+                await AsyncStorage.setItem("amount_groups_general", groupsData.length.toString());
+            } else {
+                await AsyncStorage.setItem("amount_groups_general", "0");
+            }
+        } catch (error) {
+            console.log("Google Sign-In error:", error)
+            setErrorData("Google sign-in failed")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -167,7 +176,7 @@ const SignUp = () => {
                 }
 
                 <Button mode="contained" onPress={handleSignUp} loading={loading}
-                    disabled={blockedUntil !== null && Date.now() < blockedUntil}
+                    disabled={(blockedUntil !== null && Date.now() < blockedUntil) || loading}
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: Dimensions.get("window").height / 41 },
                     generalStyles.generateButton]}>
@@ -182,7 +191,7 @@ const SignUp = () => {
                     spacing={spacing}
                 />
 
-                <Button icon="google" mode="outlined" onPress={handleSignInWithGoogle}>
+                <Button icon="google" mode="outlined" onPress={handleSignInWithGoogle} disabled={loading} loading={loading}>
                     {i18n.t("google_signin")}
                 </Button>
 

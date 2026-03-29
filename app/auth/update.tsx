@@ -27,29 +27,35 @@ const UpdatePassword = () => {
 
     const handleUpdatePassword = async () => {
 
-        setLoading(true)
+        try {
 
-        const { error, data } = await supabase.auth.updateUser({
-            password
-        })
+            setLoading(true)
 
-        setLoading(false)
+            const { error, data } = await supabase.auth.updateUser({
+                password
+            })
 
-        if (error) {
-            setErrorData(error.message)
-            return
-        }
+            if (error) {
+                setErrorData(error.message)
+                return
+            }
 
-        if (data.user) {
+            if (data.user) {
 
-            await supabase.auth.signOut()
+                await supabase.auth.signOut()
 
-            setErrorData("")
-            Alert.alert(i18n.t("updated_password"), i18n.t("now_login"))
+                setErrorData("")
+                Alert.alert(i18n.t("updated_password"), i18n.t("now_login"))
 
-            setTimeout(() => {
-                router.replace("/")
-            }, 2000);
+                setTimeout(() => {
+                    router.replace("/")
+                }, 2000);
+            }
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false)
         }
 
     }
@@ -71,7 +77,6 @@ const UpdatePassword = () => {
                     spacing={spacing}
                 />
 
-
                 {
                     errorData &&
                     <Text style={{ color: 'red' }}>
@@ -79,7 +84,7 @@ const UpdatePassword = () => {
                     </Text>
                 }
 
-                <Button mode="contained" onPress={handleUpdatePassword} loading={loading}
+                <Button mode="contained" onPress={handleUpdatePassword} loading={loading} disabled={loading}
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: Dimensions.get("window").height / 41 },
                     generalStyles.generateButton]}>

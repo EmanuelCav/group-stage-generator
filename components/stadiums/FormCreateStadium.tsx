@@ -55,43 +55,48 @@ const FormCreateStadium = ({ colors, group, hideAndShowAddStadium, createStadium
 
         }
 
-        setLoading(true)
+        try {
 
-        if (stadium.id) {
-            updateStadium({
-                id: stadium.id,
-                name: stadiumCreated.name
-            })
-        } else {
-            createStadium({
-                id: generateId(),
-                name: stadiumCreated.name
-            })
+            setLoading(true)
 
-            try {
+            if (stadium.id) {
+                updateStadium({
+                    id: stadium.id,
+                    name: stadiumCreated.name
+                })
+            } else {
+                createStadium({
+                    id: generateId(),
+                    name: stadiumCreated.name
+                })
 
-                const storedCount = await AsyncStorage.getItem("reviewCount");
-                const count = storedCount ? parseInt(storedCount, 10) : 0;
+                try {
 
-                if (group.stadiums?.length !== 0) {
-                    if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
-                        if (interstitialService.isLoaded() && count > 3 && !premium) {
-                            interstitialService.show()
+                    const storedCount = await AsyncStorage.getItem("reviewCount");
+                    const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+                    if (group.stadiums?.length !== 0) {
+                        if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
+                            if (interstitialService.isLoaded() && count > 3 && !premium) {
+                                interstitialService.show()
+                            }
                         }
                     }
+
+                } catch (error) {
+                    console.log(error);
                 }
 
-            } catch (error) {
-                console.log(error);
             }
 
-            reset()
-        }
-
-        setTimeout(() => {
             hideAndShowAddStadium(false)
+            reset()
+
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false)
-        }, 300)
+        }
     }
 
     return (

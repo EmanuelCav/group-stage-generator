@@ -11,7 +11,7 @@ export const generalStyles = StyleSheet.create({
     },
 
     containerBanner: {
-        height: '10%',
+        height: '8%',
         width: '100%',
         justifyContent: 'flex-start',
         alignItems: 'center'

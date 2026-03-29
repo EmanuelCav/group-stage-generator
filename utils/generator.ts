@@ -2,7 +2,7 @@ import { IGroup } from "@/interface/Group"
 import { IGenerateMatch, IMatch } from "@/interface/Match"
 import { ITeam } from "@/interface/Team"
 
-export const groupGenerator = (group: IGroup): IGenerateMatch => {
+export const groupGenerator = (group: IGroup, matchSchedule: string): IGenerateMatch => {
 
     let groupsMatches: IMatch[][][] = []
     let shuffledPlots: ITeam[][] = []
@@ -92,9 +92,36 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
             groupsSorted.push(groupSorted)
         }
 
-        for (let i = 0; i < groupsSorted.length; i++) {
-            const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
-            groupsMatches.push(matches)
+        switch (matchSchedule) {
+            case "NORMAL":
+                for (let i = 0; i < groupsSorted.length; i++) {
+                    const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
+                    groupsMatches.push(matches)
+                }
+                break;
+
+            case "ALL":
+                const matchesAll = fixtureGenerate(shuffle(group.teams), group.isRoundTripGroupStage!)
+                groupsMatches.push(matchesAll)
+                break;
+
+            case "CROSS":
+                if (groupsSorted.length <= 1) {
+                    const matches = fixtureGenerate(groupsSorted[0], group.isRoundTripGroupStage!)
+                    groupsMatches.push(matches)
+                    break;
+                }
+
+                const matchesCross = generateMatchesInterGroup(shuffle(group.teams), group.isRoundTripGroupStage!)
+                groupsMatches.push(matchesCross)
+                break;
+
+            default:
+                for (let i = 0; i < groupsSorted.length; i++) {
+                    const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
+                    groupsMatches.push(matches)
+                }
+                break;
         }
 
         return {
@@ -191,9 +218,36 @@ export const groupGenerator = (group: IGroup): IGenerateMatch => {
             }
         }
 
-        for (let i = 0; i < groupsSorted.length; i++) {
-            const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
-            groupsMatches.push(matches)
+        switch (matchSchedule) {
+            case "NORMAL":
+                for (let i = 0; i < groupsSorted.length; i++) {
+                    const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
+                    groupsMatches.push(matches)
+                }
+                break;
+
+            case "ALL":
+                const matchesAll = fixtureGenerate(shuffle(group.teams), group.isRoundTripGroupStage!)
+                groupsMatches.push(matchesAll)
+                break;
+
+            case "CROSS":
+                if (groupsSorted.length <= 1) {
+                    const matches = fixtureGenerate(groupsSorted[0], group.isRoundTripGroupStage!)
+                    groupsMatches.push(matches)
+                    break;
+                }
+
+                const matchesCross = generateMatchesInterGroup(shuffle(group.teams), group.isRoundTripGroupStage!)
+                groupsMatches.push(matchesCross)
+                break;
+
+            default:
+                for (let i = 0; i < groupsSorted.length; i++) {
+                    const matches = fixtureGenerate(groupsSorted[i], group.isRoundTripGroupStage!)
+                    groupsMatches.push(matches)
+                }
+                break;
         }
 
         return {
@@ -339,6 +393,110 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
 }
 
+export const generateMatchesInterGroup = (teams: ITeam[], isTrip: boolean) => {
+
+    const groups: Record<number, ITeam[]> = {}
+
+    teams.forEach(team => {
+        const g = team.group!
+        if (!groups[g]) groups[g] = []
+        groups[g].push(team)
+    })
+
+    const groupKeys = Object.keys(groups).map(Number)
+
+    const allMatches: IMatch[] = []
+
+    for (let i = 0; i < groupKeys.length; i++) {
+        for (let j = i + 1; j < groupKeys.length; j++) {
+
+            const groupA = groups[groupKeys[i]]
+            const groupB = groups[groupKeys[j]]
+
+            for (const teamA of groupA) {
+                for (const teamB of groupB) {
+                    allMatches.push({
+                        local: {
+                            score: null,
+                            team: teamA
+                        },
+                        visitant: {
+                            score: null,
+                            team: teamB
+                        },
+                        referee: "",
+                        stadium: "",
+                        isEdit: false,
+                        statistics: [],
+                        summary: [],
+                        players: []
+                    })
+                }
+            }
+        }
+    }
+
+    const totalTeams = teams.length
+    const matchesPerDay = Math.floor(totalTeams / 2)
+
+    const matchdays: IMatch[][] = []
+    const usedMatches = new Set<number>()
+
+    const teamUsed = (teamId: string, matches: IMatch[]) => {
+        return matches.some(m =>
+            m.local.team?.id === teamId ||
+            m.visitant.team?.id === teamId
+        )
+    }
+
+    while (usedMatches.size < allMatches.length) {
+
+        const currentMatchday: IMatch[] = []
+
+        for (let i = 0; i < allMatches.length; i++) {
+
+            if (usedMatches.has(i)) continue
+
+            const match = allMatches[i]
+
+            const localId = match.local.team?.id!
+            const visitantId = match.visitant.team?.id!
+
+            if (
+                !teamUsed(localId, currentMatchday) &&
+                !teamUsed(visitantId, currentMatchday)
+            ) {
+                currentMatchday.push(match)
+                usedMatches.add(i)
+            }
+
+            if (currentMatchday.length === matchesPerDay) break
+        }
+
+        matchdays.push(currentMatchday)
+    }
+
+    if (isTrip) {
+        const secondLeg = matchdays.map((matchday) =>
+            matchday.map((match) => ({
+                ...match,
+                local: {
+                    ...match.visitant,
+                    score: null
+                },
+                visitant: {
+                    ...match.local,
+                    score: null
+                }
+            }))
+        )
+
+        return [...matchdays, ...secondLeg]
+    }
+
+    return matchdays
+}
+
 export const shuffle = (array: any[]): any[] => {
     let currentIndex = array.length;
 
@@ -362,5 +520,3 @@ const isEmptyObject = (obj: ITeam) => {
 
     return false
 }
-
-

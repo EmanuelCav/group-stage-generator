@@ -1,9 +1,11 @@
 import { memo, useMemo } from 'react';
 import { DataTable, Text } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 import { FlatList } from 'react-native';
 import i18n from '@/i18n'
 
 import Match from './components/Match';
+import { View } from '../Themed';
 
 import { SchedulePropsType } from '@/types/matchdays.props';
 import { IMatch } from '@/interface/Match';
@@ -20,7 +22,7 @@ type RenderMatchday = {
     index: number;
 }
 
-const Schedule = memo(({ group, colors, handleGetMatch, router, spacing }: SchedulePropsType) => {
+const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditMode, setIsSureRemoveMatchday, handleUpdateTeamMatch, setIndexMatchday }: SchedulePropsType) => {
 
     const { isFullName } = useIsFullName()
 
@@ -39,13 +41,22 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing }: Sched
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
-            {group.matchdayNumber === "all" &&
-                <Text variant='titleLarge'
-                    style={[{ color: colors.primary }, generalStyles.titleDataTable]}
-                >
-                    {i18n.t("matchday")} {index + 1}
-                </Text>
-            }
+            <View style={{ backgroundColor: colors.background, flexDirection: 'row', alignItems: 'center' }}>
+                {
+                    isEditMode && group.matches![0].length > 1 && <Ionicons name="trash" size={22} color="red" onPress={() => {
+                        setIndexMatchday(index)
+                        setIsSureRemoveMatchday(true)
+                    }} />
+                }
+                {
+                    group.matchdayNumber === "all" &&
+                    <Text variant='titleLarge'
+                        style={[{ color: colors.primary }, generalStyles.titleDataTable]}
+                    >
+                        {i18n.t("matchday")} {index + 1}
+                    </Text>
+                }
+            </View>
             <DataTable.Header style={{
                 borderBottomColor: colors.primary, backgroundColor: colors.tertiary,
                 marginTop: group.matchdayNumber === "all" ? 0 : spacing.h74
@@ -64,6 +75,7 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing }: Sched
             {item.map((match, indexItem) => {
                 return (
                     <Match
+                        isEditMode={isEditMode}
                         item={item}
                         group={group}
                         match={match}
@@ -72,6 +84,7 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing }: Sched
                         index={indexItem}
                         handleGetMatch={handleGetMatch}
                         spacing={spacing}
+                        handleUpdateTeamMatch={handleUpdateTeamMatch}
                         key={indexItem}
                     />
                 );

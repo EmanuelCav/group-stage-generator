@@ -197,7 +197,7 @@
         "statistic": {
             "title": {
                 "required": "Inserisci il titolo",
-                "max": "Il titolo deve avere meno di 12 caratteri",
+                "max": "Il titolo deve avere meno di 20 caratteri",
                 "invalid": "Controlla i caratteri speciali"
             }
         },
@@ -210,7 +210,7 @@
         },
         "referee": {
             "name": {
-                "required": "Inserisci il nome dell’arbitro",
+                "required": "Inserisci il nome dell'arbitro",
                 "max": "Il nome deve avere meno di 30 caratteri",
                 "invalid": "Controlla i caratteri speciali"
             }
@@ -322,8 +322,8 @@
     },
     "referee": {
         "name": {
-            "title": "Nome dell’arbitro",
-            "existsError": "Il nome dell’arbitro esiste già"
+            "title": "Nome dell'arbitro",
+            "existsError": "Il nome dell'arbitro esiste già"
         }
     },
     "statisticForm": {
@@ -349,7 +349,7 @@
     "semi_finals": "Semifinali",
     "quarter_finals": "Quarti di finale",
     "round_of": "Ottavi di finale",
-    "select_hour": "Seleziona l’ora",
+    "select_hour": "Seleziona l'ora",
     "noPlayers": "Nessun giocatore presente",
     "darkMode": "Modalità scura",
     "lightMode": "Modalità chiara",
@@ -434,5 +434,18 @@
     "random": "Casuale",
     "weakPassword": "La password è debole. Assicurati di includere lettere, numeri e che non sia comune",
     "beforeKnockoutStage": "Nota: Ti consigliamo di completare tutti i risultati della fase a gironi prima di generare la fase a eliminazione diretta",
-    "teamsAddedCount": "Numero di squadre aggiunte"
+    "teamsAddedCount": "Numero di squadre aggiunte",
+    "adviceUpdateMatch": "Nota: Tocca una partita per aggiornare il risultato",
+    "sureRemoveAllMatches": "Sei sicuro di voler cancellare tutte le partite? L'intero calendario delle partite verrà eliminato",
+    "clearAll": "CANCELLA TUTTO",
+    "sureRemoveMatchday": "Sei sicuro di voler eliminare questo turno?",
+    "clearAllButton": "Cancella tutte le partite",
+    "addNewRound": "Aggiungi turno",
+    "perGroups": "Per gruppi (classico)",
+    "allAgainstAll": "Tutti contro tutti",
+    "intergroups": "Intergruppi",
+    "sameGroup": "Le squadre giocano all'interno del proprio gruppo",
+    "allAgainstAllDescription": "Tutte le squadre si affrontano tra loro",
+    "intergroupsCrossDescription": "Giocano contro altri gruppi",
+    "allStatistics": "Tutte le statistiche"
 }

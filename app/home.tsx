@@ -44,7 +44,7 @@ const Home = () => {
     const getAmountGroups = await AsyncStorage.getItem("amount_groups_general")
     const getAmountGroupsCount = getAmountGroups ? parseInt(getAmountGroups, 10) : 0;
 
-    if (!premium && (groups.length >= 1 || getAmountGroupsCount >= 1)) {
+    if (!premium && (groups.length >= 2 || getAmountGroupsCount >= 2)) {
       router.navigate({
         pathname: "/tent",
         params: { message: i18n.t("reachedTournament") }

@@ -8,8 +8,10 @@ import fr from "./locales/fr.json";
 import de from "./locales/de.json";
 import it from "./locales/it.json";
 import tr from "./locales/tr.json";
+import ar from "./locales/ar.json";
 
 const i18n = new I18n({
+  ar,
   en,
   es,
   pt,

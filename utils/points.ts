@@ -185,3 +185,9 @@ export const nameParticipant = (fullName: string): string => {
 
     return `${firstInitial}. ${lastName}`.slice(0, 15);
 }
+
+export const getMaxGroup = (teams: ITeam[]): number => {
+  if (teams.length === 0) return 0
+
+  return Math.max(...teams.map(team => team.group ?? 0))
+}

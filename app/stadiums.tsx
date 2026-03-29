@@ -141,6 +141,7 @@ const Stadiums = () => {
         group={group}
         premium={premium}
         groups={groups}
+        isMatchdaysScreen={false}
       />
 
       <SureGeneral />

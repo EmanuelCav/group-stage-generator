@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import { Pressable } from 'react-native'
+import { Picker } from '@react-native-picker/picker'
 import { Avatar, DataTable, Text } from 'react-native-paper'
 import i18n from '@/i18n'
 
@@ -10,42 +11,62 @@ import { MatchPropsType } from '@/types/props.types'
 import { groupStyles } from '@/styles/group.styles'
 
 import { groupName, nameParticipant } from '@/utils/points'
+import { getGroupUpdateTeamMatch } from '@/utils/matchday'
 
 import { useIsFullName } from '@/hooks/useIsFullName'
 
-const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item, group, spacing }: MatchPropsType) => {
+const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item, group, spacing, isEditMode, handleUpdateTeamMatch }: MatchPropsType) => {
 
     const { isFullName } = useIsFullName()
 
     return (
-        <Pressable onPress={() => handleGetMatch({
+        <Pressable onPress={!isEditMode ? () => handleGetMatch({
             match,
-            matchday: matchdayNumber + 1
-        })} style={{ backgroundColor: colors.tertiary }}>
+            matchday: matchdayNumber + 1,
+        }) : () => { }} style={{ backgroundColor: colors.tertiary }}>
             {
-                index === 0 && group.matchdayView === "all" && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
+                index === 0 && !isEditMode && group.matchdayView === "all" && group.matches?.length! > 1 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}
                 </Text>
             }
-            {index !== 0 && item[index - 1].local.team.group !== match.local.team.group && group.matchdayView === "all" &&
+            {
+                index !== 0 && !isEditMode && item[index - 1].local.team.group !== match.local.team.group && group.matchdayView === "all" && group.matches?.length! > 1 &&
                 <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}
                 </Text>
             }
             <DataTable.Row style={{ borderBottomColor: colors.secondary }}>
                 <DataTable.Cell style={[groupStyles.rowStart]}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
-                        {match.local.team.logo ? (
-                            <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
-                        ) : (
-                            <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.local.team.color }} />
-                        )}
-                        <Text variant={isFullName ? 'bodySmall' : 'bodyMedium'} style={{ marginLeft: spacing.w36 }}>
-                            {
-                                isFullName ? nameParticipant(match.local.team.name!) : groupName(match.local.team.name!)
-                            }
-                        </Text>
-                    </View>
+                    {
+                        isEditMode ?
+                            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary, borderColor: colors.primary, borderWidth: 1 }}>
+                                <Picker
+                                    style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
+                                    selectedValue={match.local.team.name}
+                                    dropdownIconColor={colors.primary}
+                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, index, true,
+                                        group.teams.find((tn => tn.name === teamValue))!)}>
+                                    {
+                                        group.teams.map((team) => {
+                                            return <Picker.Item label={team.name} value={team.name} key={team.id} style={{ fontSize: 12 }} />
+                                        })
+                                    }
+                                </Picker>
+                            </View>
+                            :
+                            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
+                                {match.local.team.logo ? (
+                                    <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
+                                ) : (
+                                    <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.local.team.color }} />
+                                )}
+                                <Text variant={isFullName ? 'bodySmall' : 'bodyMedium'} style={{ marginLeft: spacing.w36 }}>
+                                    {
+                                        isFullName ? nameParticipant(match.local.team.name!) : groupName(match.local.team.name!)
+                                    }
+                                </Text>
+                            </View>
+                    }
                 </DataTable.Cell>
                 {
                     match.isEdit ? <>
@@ -67,23 +88,42 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
                             {match.visitant.score}
                         </DataTable.Cell>
                     </> :
-                        <DataTable.Cell numeric style={groupStyles.rowContainer}>
+                        <DataTable.Cell numeric style={[groupStyles.rowContainer, groupStyles.smallScoreCell]}>
                             vs
                         </DataTable.Cell>
                 }
                 <DataTable.Cell style={groupStyles.rowEnd}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
-                        <Text variant={isFullName ? 'bodySmall' : 'bodyMedium'} style={{ marginRight: spacing.w36 }}>
-                            {
-                                isFullName ? nameParticipant(match.visitant.team.name!) : groupName(match.visitant.team.name!)
-                            }
-                        </Text>
-                        {match.visitant.team.logo ? (
-                            <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
-                        ) : (
-                            <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.visitant.team.color }} />
-                        )}
-                    </View>
+                    {
+                        isEditMode ?
+                            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary, borderColor: colors.primary, borderWidth: 1 }}>
+                                <Picker
+                                    style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
+                                    selectedValue={match.visitant.team.name}
+                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, index, false,
+                                        group.teams.find((tn => tn.name === teamValue))!)}
+                                    dropdownIconColor={colors.primary}
+                                >
+                                    {
+                                        group.teams.map((team) => {
+                                            return <Picker.Item label={team.name} value={team.name} key={team.id} style={{ fontSize: 12 }} />
+                                        })
+                                    }
+                                </Picker>
+                            </View>
+                            :
+                            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
+                                <Text variant={isFullName ? 'bodySmall' : 'bodyMedium'} style={{ marginRight: spacing.w36 }}>
+                                    {
+                                        isFullName ? nameParticipant(match.visitant.team.name!) : groupName(match.visitant.team.name!)
+                                    }
+                                </Text>
+                                {match.visitant.team.logo ? (
+                                    <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />
+                                ) : (
+                                    <Avatar.Icon icon="shield-outline" size={24} color='#ffffff' style={{ backgroundColor: match.visitant.team.color }} />
+                                )}
+                            </View>
+                    }
                 </DataTable.Cell>
             </DataTable.Row>
         </Pressable>

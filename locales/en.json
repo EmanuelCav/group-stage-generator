@@ -159,9 +159,9 @@
     "select_referee": "Select the referee's match",
     "update": "UPDATE",
     "not_defined": "Not defined",
-    "local": "Local",
+    "local": "Home",
     "score": "Score",
-    "visitant": "Visitant",
+    "visitant": "Away",
     "refereeName": "Referee name",
     "stadiumName": "Stadium name",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "Add players to display and visualize tournament statistics",
@@ -197,7 +197,7 @@
         "statistic": {
             "title": {
                 "required": "Write a statistic title",
-                "max": "Statistic title must have less than 12 characters",
+                "max": "Statistic title must have less than 20 characters",
                 "invalid": "Check special characters"
             }
         },
@@ -434,5 +434,18 @@
     "random": "Random",
     "weakPassword": "The password is weak. Make sure to add letters, numbers, and that it is not common",
     "beforeKnockoutStage": "Note: We recommend completing all group stage results before generating the knockout stage",
-    "teamsAddedCount": "Number of teams added"
+    "teamsAddedCount": "Number of teams added",
+    "adviceUpdateMatch": "Note: Tap any match to update its result",
+    "sureRemoveAllMatches": "Are you sure you want to clear all matches? The entire match schedule will be deleted",
+    "clearAll": "CLEAR ALL",
+    "sureRemoveMatchday": "Are you sure you want to delete this round?",
+    "clearAllButton": "Clear all matches",
+    "addNewRound": "Add round",
+    "perGroups": "By groups (classic)",
+    "allAgainstAll": "Round robin",
+    "intergroups": "Intergroups",
+    "sameGroup": "Teams play within their group",
+    "allAgainstAllDescription": "All teams play against each other",
+    "intergroupsCrossDescription": "Teams play against other groups",
+    "allStatistics": "All statistics"
 }

@@ -197,7 +197,7 @@
     "statistic": {
       "title": {
         "required": "İstatistik başlığı yazın",
-        "max": "İstatistik başlığı 12 karakterden az olmalı",
+        "max": "İstatistik başlığı 20 karakterden az olmalı",
         "invalid": "Özel karakterleri kontrol edin"
       }
     },
@@ -434,5 +434,18 @@
   "random": "Rastgele",
   "weakPassword": "Şifre zayıf. Harf ve rakam eklediğinizden ve yaygın bir şifre olmadığından emin olun",
   "beforeKnockoutStage": "Not: Eleme aşamasını oluşturmadan önce grup aşamasındaki tüm sonuçları tamamlamanızı öneririz",
-  "teamsAddedCount": "Eklenen takım sayısı"
+  "teamsAddedCount": "Eklenen takım sayısı",
+  "adviceUpdateMatch": "Not: Sonucu güncellemek için herhangi bir maça dokunun",
+  "sureRemoveAllMatches": "Tüm maçları temizlemek istediğinizden emin misiniz? Tüm maç takvimi silinecektir",
+  "clearAll": "TÜMÜNÜ TEMİZLE",
+  "sureRemoveMatchday": "Bu turu silmek istediğinizden emin misiniz?",
+  "clearAllButton": "Tüm maçları temizle",
+  "addNewRound": "Tur ekle",
+  "perGroups": "Gruplara göre (klasik)",
+  "allAgainstAll": "Herkes herkese karşı",
+  "intergroups": "Gruplar arası",
+  "sameGroup": "Takımlar kendi gruplarında oynar",
+  "allAgainstAllDescription": "Tüm takımlar birbirine karşı oynar",
+  "intergroupsCrossDescription": "Diğer gruplara karşı oynarlar",
+  "allStatistics": "Tüm istatistikler"
 }

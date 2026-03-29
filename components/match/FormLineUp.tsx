@@ -14,6 +14,8 @@ import { IPlayer } from "@/interface/Player"
 import { generalStyles } from "@/styles/general.styles"
 import { matchStyles } from "@/styles/match.styles"
 
+import { getGroupUpdateTeamMatch } from "@/utils/matchday"
+
 const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, updateMatch, updateMatchGroup, isKnockout, updateEliminationMatch, updateMatchKnockGroup, round, spacing, isFullName }: FormLineUpPropsType) => {
 
     const [playersLocal, setPlayersLocal] = useState<Record<string, boolean>>({});
@@ -61,76 +63,83 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
 
     const handleLineUp = () => {
 
-        const arrPlayersLocal = Object.keys(playersLocal).map(String)
-        const arrPlayersVisitant = Object.keys(playersVisitant).map(String)
-        const concatArrPlayers = arrPlayersLocal.concat(arrPlayersVisitant)
+        try {
 
-        setLoading(true)
+            setLoading(true)
 
-        let updatePlayers: IPlayer[] = []
+            const arrPlayersLocal = Object.keys(playersLocal).map(String)
+            const arrPlayersVisitant = Object.keys(playersVisitant).map(String)
+            const concatArrPlayers = arrPlayersLocal.concat(arrPlayersVisitant)
 
-        for (let i = 0; i < concatArrPlayers.length; i++) {
-            updatePlayers.push(group.players?.find(p => p.id === concatArrPlayers[i])!)
-        }
+            let updatePlayers: IPlayer[] = []
 
-        const editMatch: IMatch = {
-            isEdit: match.isEdit,
-            local: match.local,
-            referee: match.referee!,
-            stadium: match.stadium!,
-            statistics: match.statistics,
-            players: [...updatePlayers],
-            summary: match.summary,
-            visitant: match.visitant,
-            time: match.time,
-            date: match.date
-        }
+            for (let i = 0; i < concatArrPlayers.length; i++) {
+                updatePlayers.push(group.players?.find(p => p.id === concatArrPlayers[i])!)
+            }
 
-        if (isKnockout) {
+            const editMatch: IMatch = {
+                isEdit: match.isEdit,
+                local: match.local,
+                referee: match.referee!,
+                stadium: match.stadium!,
+                statistics: match.statistics,
+                players: [...updatePlayers],
+                summary: match.summary,
+                visitant: match.visitant,
+                time: match.time,
+                date: match.date
+            }
 
-            const updatedMatches = group.eliminationMatches!.map((g, gi) =>
-                gi === round ? g.map((m) =>
-                    m.local.team.id === match.local.team.id ? { ...editMatch } : m
-                ) : g
-            );
+            if (isKnockout) {
 
-            updateMatchKnockGroup(updatedMatches);
+                const updatedMatches = group.eliminationMatches!.map((g, gi) =>
+                    gi === round ? g.map((m) =>
+                        m.local.team.id === match.local.team.id ? { ...editMatch } : m
+                    ) : g
+                );
 
-            updateEliminationMatch({
-                round,
-                match: { ...editMatch }
-            });
+                updateMatchKnockGroup(updatedMatches);
 
-        } else {
-            const groupIndex = match.local.team.group === undefined ? 0 : match.local.team.group - 1;
-            const matchdayIndex = matchday - 1;
+                updateEliminationMatch({
+                    round,
+                    match: { ...editMatch }
+                });
 
-            const updatedMatches = group.matches!.map((g, gi) =>
-                gi === groupIndex
-                    ? g.map((m, mi) =>
-                        mi === matchdayIndex
-                            ? m.map((matchItem) =>
-                                matchItem.local.team.name === match.local.team.name
-                                    ? { ...editMatch }
-                                    : matchItem
-                            )
-                            : m
-                    )
-                    : g
-            );
+            } else {
 
-            updateMatchGroup(updatedMatches)
+                const matchdayIndex = matchday! - 1;
+                const groupIndex = getGroupUpdateTeamMatch(group.matches!, match, matchdayIndex)
 
-            updateMatch({
-                match: { ...editMatch },
-                matchday
-            })
-        }
+                const updatedMatches = group.matches!.map((g, gi) =>
+                    gi === groupIndex
+                        ? g.map((m, mi) =>
+                            mi === matchdayIndex
+                                ? m.map((matchItem) =>
+                                    matchItem.local.team.name === match.local.team.name
+                                        ? { ...editMatch }
+                                        : matchItem
+                                )
+                                : m
+                        )
+                        : g
+                );
 
-        setTimeout(() => {
+                updateMatchGroup(updatedMatches)
+
+                updateMatch({
+                    match: { ...editMatch },
+                    matchday
+                })
+            }
+
             hideAndShowPlayers(false)
+
+        } catch (error) {
+            console.log(error);
+        } finally {
             setLoading(false)
-        }, 300)
+        }
+
     }
 
     useEffect(() => {

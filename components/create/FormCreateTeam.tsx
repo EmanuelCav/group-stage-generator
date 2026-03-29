@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, Platform, TouchableOpacity } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
@@ -74,27 +74,15 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [4, 3],
+        allowsEditing: Platform.OS === 'ios',
+        // aspect: [4, 3],
         quality: 0.8
       });
 
-      if (!result || result.canceled) {
-        return;
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const normalizedUri = await normalizeUri(result.assets[0].uri);
+        setImage(normalizedUri);
       }
-
-      if (!result.assets || result.assets.length === 0) {
-        return;
-      }
-
-      const asset = result.assets[0];
-
-      if (!asset.uri) {
-        return;
-      }
-
-      const normalizedUri = await normalizeUri(result.assets[0].uri);
-      setImage(normalizedUri);
 
     } catch (error) {
       Toast.show({
@@ -131,81 +119,85 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       }
     }
 
-    setLoading(true)
+    try {
 
-    let imageUrl = image
-    let timeLoading = 300
+      setLoading(true)
 
-    if (image && image !== team.logo) {
+      let imageUrl = image
 
-      try {
-        imageUrl = await uploadImageToCloudinary(image);
-        timeLoading = 1000
-      } catch (error) {
-        Toast.show({
-          type: 'error',
-          text1: i18n.t("errorUploadImageTitle"),
-          text2: i18n.t("errorUploadImageDescription")
-        });
-        setLoading(false)
-        return
-      }
-    }
+      if (image && image !== team.logo) {
 
-    const plotSelected: number = isNaN(Number(plot)) ? Number(plot[plot.length - 1]) : Number(plot)
-    const groupSelected: number = isNaN(Number(groupNumber)) ? Number(groupNumber[groupNumber.length - 1]) : Number(groupNumber)
-
-    if (team.id) {
-
-      if (!team.logo && image) {
-        await updateImageLimit(1)
+        try {
+          imageUrl = await uploadImageToCloudinary(image);
+        } catch (error) {
+          Toast.show({
+            type: 'error',
+            text1: i18n.t("errorUploadImageTitle"),
+            text2: i18n.t("errorUploadImageDescription")
+          });
+          setLoading(false)
+          return
+        }
       }
 
-      updateTeam({
-        id: team.id,
-        group: team.group,
-        groupAssigned: groupSelected === 0 ? undefined : groupSelected,
-        color: team.color,
-        logo: imageUrl || "",
-        name: teamCreated.name.trim(),
-        plot: plotSelected
-      })
-    } else {
-      createTeam(
-        teamValue(
-          generateId(), imageUrl || "", teamCreated.name.trim(), plotSelected, groupSelected === 0 ? undefined : groupSelected
-        )
-      )
+      const plotSelected: number = isNaN(Number(plot)) ? Number(plot[plot.length - 1]) : Number(plot)
+      const groupSelected: number = isNaN(Number(groupNumber)) ? Number(groupNumber[groupNumber.length - 1]) : Number(groupNumber)
 
-      try {
+      if (team.id) {
 
-        const storedCount = await AsyncStorage.getItem("reviewCount");
-        const count = storedCount ? parseInt(storedCount, 10) : 0;
-
-        if (group.teams.length !== 0) {
-          if (group.teams.length === 1 || group.teams.length % 7 === 0) {
-            if (interstitialService.isLoaded() && count > 3 && !premium) {
-              interstitialService.show()
-            }
-          }
+        if (!team.logo && image) {
+          await updateImageLimit(1)
         }
 
-      } catch (error) {
-        console.log(error);
+        updateTeam({
+          id: team.id,
+          group: team.group,
+          groupAssigned: groupSelected === 0 ? undefined : groupSelected,
+          color: team.color,
+          logo: imageUrl || "",
+          name: teamCreated.name.trim(),
+          plot: plotSelected
+        })
+      } else {
+        createTeam(
+          teamValue(
+            generateId(), imageUrl || "", teamCreated.name.trim(), plotSelected, groupSelected === 0 ? undefined : groupSelected
+          )
+        )
+
+        try {
+
+          const storedCount = await AsyncStorage.getItem("reviewCount");
+          const count = storedCount ? parseInt(storedCount, 10) : 0;
+
+          if (group.teams.length !== 0) {
+            if (group.teams.length === 1 || group.teams.length % 7 === 0) {
+              if (interstitialService.isLoaded() && count > 3 && !premium) {
+                interstitialService.show()
+              }
+            }
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+
+        if (image) {
+          await updateImageLimit(1);
+        }
+
       }
 
-      if (image) {
-        await updateImageLimit(1);
-      }
-
+      hideAndShowAddTeam(false)
       reset()
       setImage("")
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false)
     }
 
-    setTimeout(() => {
-      setLoading(false)
-      hideAndShowAddTeam(false)
-    }, timeLoading)
   }
 
   const plotsData = useMemo(
@@ -231,6 +223,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           const normalizedUri = await normalizeUri(result.assets[0].uri);
           setImage(normalizedUri);
         }
+
       } catch (e) {
         console.error("Error en pending result:", e);
       }

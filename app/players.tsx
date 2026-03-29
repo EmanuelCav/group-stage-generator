@@ -135,7 +135,7 @@ const Players = () => {
 
             <HeaderGeneral colors={colors} router={router} title={i18n.t("players_title")} goBack={goBack}
                 sureRemoveGroup={sureRemoveGroup} sureRestartGroup={sureRestartGroup} createGroup={createGroup}
-                group={group} premium={premium} groups={groups} />
+                group={group} premium={premium} groups={groups} isMatchdaysScreen={false} />
 
             <SureGeneral />
 

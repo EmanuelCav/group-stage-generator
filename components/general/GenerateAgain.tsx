@@ -1,6 +1,9 @@
-import { useCallback } from "react";
+import { useState } from "react";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 import i18n from '@/i18n'
+
+import { View } from "../Themed";
 
 import { generalStyles } from "@/styles/general.styles";
 
@@ -15,7 +18,9 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
     const { updateGenerateAgain, generateMatches, updateTeam, group } = groupStore()
 
-    const generateGroups = useCallback(() => {
+    const [matchSchedule, setMatchSchedule] = useState<string>("NORMAL")
+
+    const generateGroups = () => {
 
         try {
 
@@ -45,7 +50,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                 ...group,
                 teamsPerGroup: teamsPerGroupUpdate,
                 amountGroups: amountGroupsUpdate,
-            })
+            }, matchSchedule)
 
             if (group.isManualConfiguration) {
                 generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
@@ -73,7 +78,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
             console.error(error);
         }
 
-    }, [group])
+    }
 
     return (
         <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>
@@ -88,6 +93,27 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                 <Text variant="titleSmall" style={{ textAlign: 'center' }}>
                     {i18n.t("generateGroupStageAgainQuestion")}
                 </Text>
+                <View style={{ width: '100%', borderColor: colors.primary, borderWidth: 1, marginVertical: 7 }}>
+                    <Picker
+                        selectedValue={matchSchedule}
+                        onValueChange={(itemValue) => setMatchSchedule(itemValue)}
+                        mode="dropdown"
+                        dropdownIconColor={colors.primary}
+                        style={{
+                            color: colors.surface,
+                            backgroundColor: colors.tertiary
+                        }}
+                    >
+                        <Picker.Item label={i18n.t("perGroups")} value="NORMAL" style={{ fontSize: 13 }} />
+                        <Picker.Item label={i18n.t("allAgainstAll")} value="ALL" style={{ fontSize: 13 }} />
+                        <Picker.Item label={i18n.t("intergroups")} value="CROSS" style={{ fontSize: 13 }} />
+                    </Picker>
+                </View>
+                <Text style={{ textAlign: "center", marginTop: 8 }}>
+                    {matchSchedule === "NORMAL" && `${i18n.t("sameGroup")}`}
+                    {matchSchedule === "ALL" && `${i18n.t("allAgainstAllDescription")}`}
+                    {matchSchedule === "CROSS" && `${i18n.t("intergroupsCrossDescription")}`}
+                </Text>
                 <Button
                     mode="contained"
                     onPress={generateGroups}
@@ -97,7 +123,7 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                     {i18n.t("generateAgainButton")}
                 </Button>
             </Card.Content>
-        </Card>
+        </Card >
     );
 };
 
