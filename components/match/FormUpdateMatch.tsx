@@ -24,7 +24,7 @@ import { interstitialService } from '@/services/interstitialService';
 
 const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, spacing, isFullName }: FormUpdateMatchPropsType) => {
 
-    const [scoreLocal, setScoreLocal] = useState<string>(match.visitant.score !== null ? String(match.local.score) : "")
+    const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
     const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ?? "")
     const [referreSelected, setRefereeSelected] = useState<string>(match.referee ?? "")

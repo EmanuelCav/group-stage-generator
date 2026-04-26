@@ -75,7 +75,7 @@ const Matchdays = () => {
         addMatchday(0)
     }
 
-    const handleUpdateTeamMatch = (indexGroup: number = 0, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => {
+    const handleUpdateTeamMatch = (indexGroup: number, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => {
         updateTeamMatch(indexGroup, indexMatchday, indexMatch, isLocal, team)
     }
 
@@ -100,7 +100,7 @@ const Matchdays = () => {
                     const storedCountMatchdaysScreen = await AsyncStorage.getItem("matchdaysScreenViews");
                     const countMatchdaysScreen = storedCountMatchdaysScreen ? parseInt(storedCountMatchdaysScreen, 10) : 0;
 
-                    if (countMatchdaysScreen !== 0 && countMatchdaysScreen % 11 === 0) {
+                    if (countMatchdaysScreen !== 0 && countMatchdaysScreen % 7 === 0) {
                         if (count > 3 && interstitialService.isLoaded() && !premium) {
                             interstitialService.show()
                         }

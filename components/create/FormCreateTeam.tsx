@@ -47,7 +47,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     const image_limit = await AsyncStorage.getItem("image_limit_count");
     const image_limit_count = image_limit ? parseInt(image_limit, 10) : 0;
 
-    if (!premium && image_limit_count >= 16) {
+    if (!premium && image_limit_count >= 8) {
       Toast.show({
         type: 'error',
         text1: i18n.t("limit_images"),

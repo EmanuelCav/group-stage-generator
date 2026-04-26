@@ -82,8 +82,6 @@ const Home = () => {
       router.navigate("/(tabs)/groups")
     } else {
       router.navigate("/create")
-
-      await AsyncStorage.setItem("reviewCount", (count + 1).toString());
     }
   }
 

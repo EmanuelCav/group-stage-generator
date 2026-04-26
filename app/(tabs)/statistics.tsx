@@ -42,7 +42,9 @@ const Statistics = () => {
                 group={group} premium={premium} groups={groups} isMatchdaysScreen={false} />
             <SureGeneral />
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
-                <StatisticsLabel colors={colors} statisticView={statisticView} spacing={spacing} setStatisticView={setStatisticView} />
+                {
+                    group.players?.length! > 0 && <StatisticsLabel colors={colors} statisticView={statisticView} spacing={spacing} setStatisticView={setStatisticView} />
+                }
                 {
                     group.players?.length! > 0 ?
                         <ShowStatistics colors={colors} group={group} statisticView={statisticView} />

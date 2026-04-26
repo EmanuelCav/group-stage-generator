@@ -11,7 +11,7 @@ import { MatchPropsType } from '@/types/props.types'
 import { groupStyles } from '@/styles/group.styles'
 
 import { groupName, nameParticipant } from '@/utils/points'
-import { getGroupUpdateTeamMatch } from '@/utils/matchday'
+import { getGroupUpdateTeamMatch, getIndexMatchGroup } from '@/utils/matchday'
 
 import { useIsFullName } from '@/hooks/useIsFullName'
 
@@ -44,7 +44,8 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
                                     style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
                                     selectedValue={match.local.team.name}
                                     dropdownIconColor={colors.primary}
-                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, index, true,
+                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber,
+                                        getIndexMatchGroup(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, group.matches!, match), true,
                                         group.teams.find((tn => tn.name === teamValue))!)}>
                                     {
                                         group.teams.map((team) => {
@@ -99,7 +100,8 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
                                 <Picker
                                     style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
                                     selectedValue={match.visitant.team.name}
-                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, index, false,
+                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber),
+                                        matchdayNumber, getIndexMatchGroup(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, group.matches!, match), false,
                                         group.teams.find((tn => tn.name === teamValue))!)}
                                     dropdownIconColor={colors.primary}
                                 >

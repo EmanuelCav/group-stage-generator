@@ -13,7 +13,7 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
         return []
     }
 
-    for (let k = 0; k < matches[0].length; k++) {
+    for (let k = 0; k < getIndexMaxLength(matches); k++) {
 
         let matchday: IMatch[] = []
 
@@ -150,4 +150,28 @@ export const getGroupUpdateTeamMatch = (matches: IMatch[][][], match: IMatch, ma
     }
 
     return 0
+}
+
+export const getIndexMatchGroup = (groupIndex: number, matchdayIndex: number, matches: IMatch[][][], match: IMatch): number => {
+
+    for (let i = 0; i < matches[groupIndex][matchdayIndex].length; i++) {
+        if (matches[groupIndex][matchdayIndex][i].local.team.id === match.local.team.id && matches[groupIndex][matchdayIndex][i].visitant.team.id === match.visitant.team.id) {
+            return i
+        }
+    }
+
+    return 0
+}
+
+export const getIndexMaxLength = (matches: IMatch[][][]): number => {
+
+    let maxIndex = matches[0].length
+
+    for (let i = 0; i < matches.length; i++) {
+        if (matches[i].length > maxIndex) {
+            maxIndex = matches[i].length
+        }
+    }
+
+    return maxIndex
 }

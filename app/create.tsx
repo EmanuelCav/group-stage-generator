@@ -260,7 +260,11 @@ const Create = () => {
         }
 
         {group.teams.length > 0 ? (
-          <AddButton colors={colors} handleAdd={openCreateTeam} />
+          <>
+            {
+              !group.isGenerated && <AddButton colors={colors} handleAdd={openCreateTeam} />
+            }
+          </>
         ) : (
           <AddTeam
             openForm={hideAndShowAddTeam}
