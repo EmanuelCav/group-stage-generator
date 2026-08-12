@@ -1,15 +1,13 @@
-import { memo, useState } from "react";
-import { Dimensions } from "react-native";
-import { Appbar, Menu } from "react-native-paper";
-import i18n from '@/i18n'
+import { memo } from "react";
+import { DrawerActions } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
+import { Appbar } from "react-native-paper";
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
-import { duplicateGroup } from "@/utils/defaultGroup";
+const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMode, setIsEditMode }: HeaderGeneralPropsTypes) => {
 
-const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, sureRestartGroup, createGroup, group, premium, groups, isMatchdaysScreen, isEditMode, setIsEditMode }: HeaderGeneralPropsTypes) => {
-
-    const [visible, setVisible] = useState<boolean>(false)
+    const navigation = useNavigation();
 
     return (
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
@@ -22,107 +20,13 @@ const HeaderGeneral = memo(({ colors, router, title, goBack, sureRemoveGroup, su
                     onPress={() => setIsEditMode!(!isEditMode)}
                 />
             }
-            <Menu
-                visible={visible}
-                onDismiss={() => setVisible(false)}
-                contentStyle={{
-                    backgroundColor: colors.tertiary, borderColor: colors.secondary, borderWidth: 2,
-                    shadowColor: "#dddddd", width: Dimensions.get("window").width / 1.75, flex: 1
+            <Appbar.Action
+                icon="menu"
+                color="#ffffff"
+                onPress={() => {
+                    navigation.dispatch(DrawerActions.openDrawer())
                 }}
-                anchor={<Appbar.Action icon="dots-vertical" color="#ffffff" onPress={() => setVisible(true)} />}
-            >
-
-                <Menu.Item
-                    onPress={() => router.replace("/create")}
-                    title={i18n.t("menu.teams")}
-                    leadingIcon="shield"
-                />
-
-                <Menu.Item
-                    onPress={() => router.replace("/referees")}
-                    title={i18n.t("menu.referees")}
-                    leadingIcon="whistle"
-                />
-
-                <Menu.Item
-                    onPress={() => router.replace("/stadiums")}
-                    title={i18n.t("menu.stadiums")}
-                    leadingIcon="stadium"
-                />
-
-                <Menu.Item
-                    onPress={() => router.replace("/players")}
-                    title={i18n.t("menu.players")}
-                    leadingIcon="account-group"
-                />
-
-                <Menu.Item
-                    onPress={() => router.replace("/config")}
-                    title={i18n.t("menu.settings")}
-                    leadingIcon="cog"
-                />
-
-                <Menu.Item
-                    onPress={() => {
-                        setVisible(false)
-                        router.navigate("/tent")
-                    }}
-                    title="Premium"
-                    leadingIcon="crown"
-                />
-
-                {
-                    (groups.length < 2 || premium) &&
-                    <Menu.Item
-                        onPress={() => {
-                            setTimeout(() => {
-                                const duplicatedGroup = duplicateGroup(group)
-                                createGroup(duplicatedGroup)
-                                setVisible(false)
-                            }, 0);
-
-                            router.replace("/create")
-                        }}
-                        title={i18n.t("duplicate")}
-                        leadingIcon="content-copy"
-                    />
-
-                }
-
-                <Menu.Item
-                    onPress={() => {
-                        sureRestartGroup(true)
-                        setVisible(false)
-                    }}
-                    title={i18n.t("menu.restart")}
-                    leadingIcon="restart"
-                />
-
-                <Menu.Item
-                    onPress={() => {
-                        sureRemoveGroup(true)
-                        setVisible(false)
-                    }}
-                    title={i18n.t("menu.remove")}
-                    leadingIcon="delete"
-                />
-
-                <Menu.Item
-                    onPress={goBack}
-                    title={i18n.t("menu.goBack")}
-                    leadingIcon="arrow-left"
-                />
-
-                <Menu.Item
-                    onPress={() => {
-                        router.navigate("/settings")
-                        setVisible(false)
-                    }}
-                    title={i18n.t("appSettings")}
-                    leadingIcon="devices"
-                />
-
-            </Menu>
+            />
         </Appbar.Header>
     )
 })

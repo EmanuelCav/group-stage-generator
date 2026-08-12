@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as FileSystem from "expo-file-system";
+import { File, Paths } from "expo-file-system";
 
 export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
 
@@ -38,28 +38,28 @@ export const normalizeUri = async (uri: string) => {
 
     try {
 
-        const fileInfo = await FileSystem.getInfoAsync(uri);
+        const file = new File(uri);
+        const info = await file.info();
 
-        if (!fileInfo.exists) {
+        if (!info.exists) {
             console.warn("El archivo original no existe en la ruta:", uri);
             return "";
         }
 
-        const fileName = `image_${Date.now()}_${Math.random()}.jpg`
-        const fileUri = `${FileSystem.cacheDirectory}${fileName}`
+        const fileName = `image_${Date.now()}_${Math.random()}.jpg`;
+        const newPath = `${Paths.cache}/${fileName}`;
 
-        await FileSystem.copyAsync({
-            from: uri,
-            to: fileUri,
-        })
+        const newFile = new File(newPath);
 
-        return fileUri
+        await file.copy(newFile);
+
+        return newFile.uri;
 
     } catch (error) {
         console.log("FileSystem copy error:", error);
         return "";
     }
-}
+};
 
 export const updateImageLimit = async (increment: number) => {
 

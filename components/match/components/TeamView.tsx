@@ -1,6 +1,5 @@
+import { View } from "react-native"
 import { Avatar, Text } from "react-native-paper"
-
-import { View } from "@/components/Themed"
 
 import { TeamViewPropsType } from "@/types/match.types"
 

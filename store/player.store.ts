@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { IPlayer, IPlayerStore, IStatistic } from "@/interface/Player";
 
-export const playerStore = create<IPlayerStore>(
+export const usePlayerStore = create<IPlayerStore>(
   (set) => ({
     player: {},
     statistic: {},

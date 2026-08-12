@@ -2,17 +2,17 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { IMatch } from "@/interface/Match";
+import { IMatch, IMatchTeam } from "@/interface/Match";
 import { IGroup, IGroupStore } from "@/interface/Group";
 import { ITeam } from "@/interface/Team";
 import { IReferee } from "@/interface/Referee";
-import { IStadium } from "@/interface/Stadium";
+import { IStadium } from "@/interface/Venue";
 import { IPlayer } from "@/interface/Player";
 import { IAvoidingMatches } from "@/interface/Avoiding";
 
 import { emptyMatchday } from "@/utils/defaultGroup";
 
-export const groupStore = create(
+export const useGroupStore = create(
     persist<IGroupStore>(
         (set) => ({
             idGroup: 1,
@@ -90,10 +90,51 @@ export const groupStore = create(
                 group: { ...state.group, eliminationMatches: data },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, eliminationMatches: data } : g)
             })),
-            updateTeam: (data: ITeam) => set((state) => ({
-                group: { ...state.group, teams: state.group.teams.map((t) => t.id === data.id ? data : t) },
-                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, teams: state.group.teams.map((t) => t.id === data.id ? data : t) } : g)
-            })),
+            updateTeam: (data: ITeam) => set((state) => {
+                if (!state.group) return state;
+
+                const updateMatchTeam = (matchTeam: IMatchTeam): IMatchTeam => {
+                    if (!matchTeam || !matchTeam.team) return matchTeam;
+
+                    const isSameTeam = matchTeam.team.id
+                        ? matchTeam.team.id === data.id
+                        : matchTeam.team.name === data.name;
+
+                    return isSameTeam ? { ...matchTeam, team: data } : matchTeam;
+                };
+
+                const updatedMatches = state.group.matches?.map((stage) =>
+                    stage.map((round) =>
+                        round.map((match) => ({
+                            ...match,
+                            local: updateMatchTeam(match.local),
+                            visitant: updateMatchTeam(match.visitant),
+                        }))
+                    )
+                );
+
+                const updatedEliminationMatches = state.group.eliminationMatches?.map((round) =>
+                    round.map((match) => ({
+                        ...match,
+                        local: updateMatchTeam(match.local),
+                        visitant: updateMatchTeam(match.visitant),
+                    }))
+                );
+
+                const updatedTournament: IGroup = {
+                    ...state.group,
+                    teams: state.group.teams.map((t) => (t.id === data.id ? data : t)),
+                    matches: updatedMatches,
+                    eliminationMatches: updatedEliminationMatches,
+                };
+
+                return {
+                    group: updatedTournament,
+                    groups: state.groups.map((g) =>
+                        g.id === updatedTournament.id ? updatedTournament : g
+                    ),
+                };
+            }),
             updateReferee: (data: IReferee) => set((state) => ({
                 group: { ...state.group, referees: state.group.referees!.map((r) => r.id === data.id ? data : r) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, referees: state.group.referees!.map((r) => r.id === data.id ? data : r) } : g)

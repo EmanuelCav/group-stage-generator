@@ -1,16 +1,16 @@
-import { View, Keyboard, KeyboardEvent, Dimensions, ScrollView, Modal } from "react-native"
 import { useEffect, useState } from "react";
-import { useTheme } from "react-native-paper";
+import { Dimensions, Keyboard, KeyboardEvent, Modal, ScrollView, View } from "react-native";
+import { IconButton, MD3Colors, useTheme } from "react-native-paper";
 import Toast from 'react-native-toast-message';
 
-import { generalStyles } from "../../styles/general.styles"
+import { generalStyles } from "../../styles/general.styles";
 
-import { ContainerBackgroundPropsType } from "@/types/props.types"
+import { ContainerBackgroundPropsType } from "@/types/props.types";
 
-const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType) => {
+const ContainerBackground = ({ children, zIndex, onClose }: ContainerBackgroundPropsType) => {
 
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
-  const { colors } = useTheme()
+  const { colors } = useTheme();
 
   useEffect(() => {
     const onKeyboardDidShow = (e: KeyboardEvent) => {
@@ -37,19 +37,31 @@ const ContainerBackground = ({ children, zIndex }: ContainerBackgroundPropsType)
       animationType="fade"
       statusBarTranslucent
     >
-      <View style={[generalStyles.containerBackground,
-      {
-        zIndex, height: Dimensions.get("window").height - keyboardHeight,
-        backgroundColor: "rgba(58, 64, 73, 0.5)"
-      }]}>
+      <View style={[
+        generalStyles.containerBackground,
+        {
+          zIndex,
+          height: Dimensions.get("window").height - keyboardHeight,
+          backgroundColor: "rgba(58, 64, 73, 0.5)"
+        }
+      ]}>
         <Toast />
-        <ScrollView style={[generalStyles.cardBackground,
-        { backgroundColor: colors.background }]}>
-          {children}
-        </ScrollView>
+
+        <View style={[generalStyles.cardBackground, { backgroundColor: colors.background, position: 'relative' }]}>
+          <IconButton
+            icon="close"
+            iconColor={MD3Colors.error50}
+            size={24}
+            onPress={onClose}
+            style={generalStyles.buttonClose}
+          />
+          <ScrollView contentContainerStyle={{ paddingTop: 10 }}>
+            {children}
+          </ScrollView>
+        </View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export default ContainerBackground
+export default ContainerBackground;

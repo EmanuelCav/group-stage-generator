@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { TextInput, Text, IconButton, MD3Colors, Button } from "react-native-paper";
+import { TextInput, Text, MD3Colors, Button } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 import i18n from '@/i18n'
@@ -101,17 +101,10 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
     }
 
     return (
-        <ContainerBackground zIndex={20}>
+        <ContainerBackground zIndex={20} onClose={() => hideAndShowAddReferee(false)}>
 
             <Toast />
 
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => hideAndShowAddReferee(false)}
-            />
             <Controller
                 name="name"
                 control={control}

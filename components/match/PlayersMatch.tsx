@@ -1,7 +1,5 @@
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import { Text } from "react-native-paper"
-
-import { View } from "../Themed"
 
 import { PlayersMatchPropsType } from "@/types/match.types"
 

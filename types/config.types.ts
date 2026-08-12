@@ -3,7 +3,6 @@ import { Control, UseFormHandleSubmit } from "react-hook-form";
 
 import { IGroup, ISetting } from "@/interface/Group";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
-import { IAvoidingMatches } from "@/interface/Avoiding";
 import { Spacing } from "./props.types";
 
 export type SwitchSettingsPropsType = {
@@ -53,30 +52,4 @@ export type TieBreakCriteriaPropsType = {
         label: string;
         id: string;
     }[]>>;
-}
-
-export type AvoidingMatchesPropsType = {
-    group: IGroup;
-    colors: MD3Colors;
-    openCreateAvoiding: () => void;
-    handleUpdateAvoiding: (data: IAvoidingMatches) => void;
-    close: () => void;
-}
-
-export type FormCreateAvoidingPropsType = {
-    colors: MD3Colors;
-    hideAndShowAddAvoiding: (show: boolean) => void;
-    createAvoiding: (team: IAvoidingMatches) => void;
-    updateAvoiding: (data: IAvoidingMatches) => void;
-    openSure: (data: IAvoidingMatches) => void;
-    avoiding: IAvoidingMatches;
-    group: IGroup;
-    teamsAvoiding: Record<string, boolean>;
-    setTeamsAvoiding: React.Dispatch<React.SetStateAction<Record<string, boolean>>>
-    spacing: Spacing;
-}
-
-export type AvoidingPropsType = {
-    avoiding: IAvoidingMatches;
-    handleUpdateAvoiding: (avoiding: IAvoidingMatches) => void;
 }

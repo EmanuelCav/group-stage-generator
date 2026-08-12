@@ -8,7 +8,7 @@ import {
   ISummary
 } from "@/interface/Match";
 
-export const matchStore = create<IMatchStore>(
+export const useMatchStore = create<IMatchStore>(
   (set) => ({
     match: {},
     matchknockout: {},

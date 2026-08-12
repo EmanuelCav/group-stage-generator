@@ -1,5 +1,5 @@
+import { View } from "react-native";
 import { FAB } from "react-native-paper";
-import { View } from "../Themed";
 
 import { generalStyles } from "@/styles/general.styles";
 

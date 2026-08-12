@@ -1,5 +1,5 @@
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
-import { View } from '../Themed'
+import { View } from 'react-native'
 
 import { MainScreenPropsType } from '@/types/config.types'
 

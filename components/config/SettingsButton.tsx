@@ -1,7 +1,6 @@
 import { Button } from 'react-native-paper'
+import { View } from 'react-native'
 import i18n from '@/i18n'
-
-import { View } from '../Themed'
 
 import { SettingsButtonPropsType } from '@/types/config.types'
 

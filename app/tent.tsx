@@ -14,7 +14,7 @@ import Benefits from "@/components/tent/Benefits";
 import { generalStyles } from "@/styles/general.styles";
 import { tentStyles } from "@/styles/tent.styles";
 
-import { userStore } from "@/store/user.store";
+import { useUserStore } from "@/store/user.store";
 
 import { useAuth } from "@/hooks/useAuth";
 
@@ -24,7 +24,7 @@ const Tent = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const { user } = useAuth()
-    const { setPremium, premium } = userStore()
+    const { setPremium, premium } = useUserStore()
     const { colors } = useTheme()
     const router = useRouter()
 

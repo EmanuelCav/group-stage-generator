@@ -1,7 +1,6 @@
+import { View } from 'react-native'
 import { IconButton, Text } from 'react-native-paper'
 import i18n from '@/i18n'
-
-import { View } from '../Themed'
 
 import { TitleMatchPropsType } from '@/types/match.types'
 

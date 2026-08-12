@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import i18n from '@/i18n'
 
-import { View } from '@/components/Themed';
 import Tournaments from '@/components/index/Tournaments';
 import AddGroupStage from '@/components/index/AddGroupStage';
 import Banner from '@/components/general/Banner';
@@ -16,8 +16,8 @@ import { IGroup } from '@/interface/Group';
 
 import { generalStyles } from '@/styles/general.styles';
 
-import { groupStore } from '@/store/group.store';
-import { userStore } from '@/store/user.store';
+import { useGroupStore } from '@/store/group.store';
+import { useUserStore } from '@/store/user.store';
 
 import { groupValue } from '@/utils/defaultGroup';
 
@@ -32,8 +32,8 @@ const Home = () => {
   const { colors } = useTheme()
   const { user } = useAuth()
 
-  const { groups, idGroup, createGroup, getGroup } = groupStore()
-  const { premium } = userStore()
+  const { groups, idGroup, createGroup, getGroup } = useGroupStore()
+  const { premium } = useUserStore()
 
   const router = useRouter()
 
@@ -44,7 +44,7 @@ const Home = () => {
     const getAmountGroups = await AsyncStorage.getItem("amount_groups_general")
     const getAmountGroupsCount = getAmountGroups ? parseInt(getAmountGroups, 10) : 0;
 
-    if (!premium && (groups.length >= 2 || getAmountGroupsCount >= 2)) {
+    if (!premium && (groups.length >= 1 && getAmountGroupsCount >= 1)) {
       router.navigate({
         pathname: "/tent",
         params: { message: i18n.t("reachedTournament") }

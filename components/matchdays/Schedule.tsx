@@ -1,11 +1,10 @@
 import { memo, useMemo } from 'react';
 import { DataTable, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import i18n from '@/i18n'
 
 import Match from './components/Match';
-import { View } from '../Themed';
 
 import { SchedulePropsType } from '@/types/matchdays.props';
 import { IMatch } from '@/interface/Match';

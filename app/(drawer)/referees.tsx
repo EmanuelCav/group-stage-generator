@@ -1,0 +1,173 @@
+import { useCallback, useEffect } from "react";
+import { FlatList, View } from "react-native";
+import { Text, useTheme } from "react-native-paper";
+import { Redirect, useRouter } from "expo-router";
+import Toast, { ErrorToast } from 'react-native-toast-message';
+import i18n from '@/i18n'
+
+import MainScreen from "@/components/general/MainScreen";
+import HeaderGeneral from "@/components/general/HeaderGeneral";
+import AddAction from "@/components/general/AddAction";
+import FormCreateReferee from "@/components/referees/FormCreateReferee";
+import Referee from "@/components/referees/Referee";
+import AddButton from "@/components/general/AddButton";
+import Sure from "@/components/general/Sure";
+import SureGeneral from "@/components/general/SureGeneral";
+
+import { generalStyles } from "@/styles/general.styles";
+import { createStyles } from "@/styles/create.styles";
+
+import { IReferee } from "@/interface/Referee";
+
+import { useGroupStore } from "@/store/group.store";
+import { useRefereeStore } from "@/store/referee.store";
+import { useUserStore } from "@/store/user.store";
+
+import { useSpacing } from "@/hooks/useSpacing";
+
+const toastConfig = {
+    error: (props: any) => (
+        <ErrorToast
+            {...props}
+            text1NumberOfLines={1}
+            text2NumberOfLines={3}
+        />
+    ),
+}
+
+const RefereesScreen = () => {
+
+    const { showForm, hideAndShowAddReferee, getReferee, referee, isSure, sureRemoveReferee } = useRefereeStore()
+    const { group, createReferee, updateReferee, removeReferee } = useGroupStore()
+    const { premium } = useUserStore()
+
+    const { colors } = useTheme()
+
+    const router = useRouter()
+
+    const spacing = useSpacing()
+
+    const handleUpdate = (data: IReferee) => {
+        updateReferee(data)
+        getReferee({})
+    }
+
+    const handleUpdateReferee = useCallback((data: IReferee) => {
+        getReferee(data)
+        hideAndShowAddReferee(true)
+    }, [])
+
+    const openSure = (data: IReferee) => {
+        getReferee(data)
+        sureRemoveReferee(true)
+    }
+
+    const handleRemoveReferee = () => {
+        sureRemoveReferee(false)
+        hideAndShowAddReferee(false)
+        removeReferee(referee)
+        getReferee({})
+    }
+
+    const close = () => {
+        sureRemoveReferee(false)
+    }
+
+    const openCreateReferee = () => {
+        getReferee({})
+        hideAndShowAddReferee(true)
+    }
+
+    const goBack = useCallback(() => {
+        router.replace("/(tabs)/groups")
+    }, [router])
+
+    const renderReferee = useCallback(
+        ({ item }: { item: IReferee }) => (
+            <Referee
+                referee={item}
+                handleUpdateReferee={handleUpdateReferee}
+                colors={colors}
+                spacing={spacing}
+            />
+        ),
+        [handleUpdateReferee, colors, spacing]
+    )
+
+    useEffect(() => {
+        hideAndShowAddReferee(false)
+        sureRemoveReferee(false)
+        getReferee({})
+    }, [])
+
+    if (!group.isGenerated) return <Redirect href="/home" />
+
+    return (
+        <MainScreen colors={colors}>
+            {
+                isSure && (
+                    <Sure
+                        func={handleRemoveReferee}
+                        text={i18n.t("areYouSureDelete")}
+                        close={close}
+                        labelButton={i18n.t("remove")}
+                    />
+                )
+            }
+            {
+                showForm && (
+                    <FormCreateReferee
+                        group={group}
+                        colors={colors}
+                        referee={referee}
+                        openSure={openSure}
+                        hideAndShowAddReferee={hideAndShowAddReferee}
+                        createReferee={createReferee}
+                        updateReferee={handleUpdate}
+                        premium={premium}
+                        spacing={spacing}
+                    />
+                )
+            }
+
+            <HeaderGeneral colors={colors} title={i18n.t("referees_title")} goBack={goBack} isMatchdaysScreen={false} />
+
+            <SureGeneral />
+
+            <Toast config={toastConfig} />
+
+            <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
+                {
+                    group.referees!.length > 0 ? (
+                        <AddButton colors={colors} handleAdd={openCreateReferee} />
+                    ) : (
+                        <AddAction
+                            openForm={hideAndShowAddReferee}
+                            colors={colors}
+                            text={i18n.t("add_referee")}
+                        />
+                    )
+                }
+                {
+                    group.referees!.length > 0 ? (
+                        <FlatList
+                            style={{ width: '100%' }}
+                            data={group.referees!}
+                            keyExtractor={(item) => item.id!}
+                            renderItem={renderReferee}
+                            initialNumToRender={10}
+                            windowSize={5}
+                            removeClippedSubviews
+                        />
+                    ) : (
+                        <Text variant="bodyMedium" style={createStyles.advideText}>
+                            {i18n.t("referees_empty")}
+                        </Text>
+                    )
+                }
+            </View>
+        </MainScreen>
+    );
+};
+
+export default RefereesScreen

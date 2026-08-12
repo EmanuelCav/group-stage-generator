@@ -1,9 +1,7 @@
 import { memo, useCallback } from "react";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import { Avatar, Text } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
-
-import { View } from "@/components/Themed";
 
 import { MatchEliminationPropsType } from "@/types/elimination.types";
 

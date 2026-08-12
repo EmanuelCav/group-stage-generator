@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Text } from "react-native-paper"
+import { View } from "react-native";
 
-import { View } from "@/components/Themed"
 import MatchElimination from "./components/MatchElimination";
 
 import { ColumnEliminationPropsType } from "@/types/elimination.types";

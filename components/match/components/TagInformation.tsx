@@ -1,6 +1,5 @@
+import { View } from "react-native"
 import { Icon, Text } from "react-native-paper"
-
-import { View } from "@/components/Themed"
 
 import { TagInformationPropsType } from "@/types/match.types"
 

@@ -2,6 +2,8 @@ import { useCallback } from "react";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
 import i18n from '@/i18n'
 
+import { View } from "react-native";
+
 import { ShuffleAgainPropsType } from "@/types/elimination.types";
 
 import { generalStyles } from "@/styles/general.styles";
@@ -25,13 +27,14 @@ const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnocko
 
     return (
         <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => updateShuffledKnockout(true)}
-            />
+            <View style={{ alignItems: 'flex-end' }}>
+                <IconButton
+                    icon="close"
+                    iconColor={MD3Colors.error50}
+                    size={24}
+                    onPress={() => updateShuffledKnockout(true)}
+                />
+            </View>
             <Card.Content style={generalStyles.showGenerateAgain}>
                 <Text variant="titleSmall" style={{ textAlign: 'center' }}>
                     {i18n.t("drawKnockoutQuestion")}

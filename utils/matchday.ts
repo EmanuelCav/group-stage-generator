@@ -3,6 +3,7 @@ import i18n from "@/i18n"
 
 import { IMatch } from "@/interface/Match"
 import { ILineup, IPlayer } from "@/interface/Player"
+import { ITeam } from "@/interface/Team"
 
 export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, matchdayNumber: string, router: Router): IMatch[][] => {
 
@@ -174,4 +175,88 @@ export const getIndexMaxLength = (matches: IMatch[][][]): number => {
     }
 
     return maxIndex
+}
+
+export const nextMatches = (matches: IMatch[][][], eliminationMatches: IMatch[][], team: ITeam): IMatch[] => {
+
+    const listMatches: IMatch[] = []
+
+    for (let i = 0; i < matches.length; i++) {
+        for (let j = 0; j < matches[i].length; j++) {
+            for (let k = 0; k < matches[i][j].length; k++) {
+                if (matches[i][j][k].local.team.name === team.name) {
+                    if (matches[i][j][k].local.score === null || matches[i][j][k].local.score === undefined) {
+                        listMatches.push(matches[i][j][k])
+                    }
+                }
+
+                if (matches[i][j][k].visitant.team.name === team.name) {
+                    if (matches[i][j][k].visitant.score === null || matches[i][j][k].visitant.score === undefined) {
+                        listMatches.push(matches[i][j][k])
+                    }
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < eliminationMatches.length; i++) {
+        for (let j = 0; j < eliminationMatches[i].length; j++) {
+            if (eliminationMatches[i][j].local.team.name === team.name) {
+                if (eliminationMatches[i][j].local.score === null || eliminationMatches[i][j].local.score === undefined) {
+                    listMatches.push(eliminationMatches[i][j])
+                }
+            }
+
+            if (eliminationMatches[i][j].visitant.team.name === team.name) {
+                if (eliminationMatches[i][j].visitant.score === null || eliminationMatches[i][j].visitant.score === undefined) {
+                    listMatches.push(eliminationMatches[i][j])
+                }
+            }
+        }
+    }
+
+    return listMatches
+
+}
+
+export const previousMatches = (matches: IMatch[][][], eliminationMatches: IMatch[][], team: ITeam): IMatch[] => {
+
+    const listMatches: IMatch[] = []
+
+    for (let i = 0; i < matches.length; i++) {
+        for (let j = 0; j < matches[i].length; j++) {
+            for (let k = 0; k < matches[i][j].length; k++) {
+                if (matches[i][j][k].local.team.name === team.name) {
+                    if (matches[i][j][k].local.score !== null && matches[i][j][k].local.score !== undefined) {
+                        listMatches.push(matches[i][j][k])
+                    }
+                }
+
+                if (matches[i][j][k].visitant.team.name === team.name) {
+                    if (matches[i][j][k].visitant.score !== null && matches[i][j][k].visitant.score !== undefined) {
+                        listMatches.push(matches[i][j][k])
+                    }
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < eliminationMatches.length; i++) {
+        for (let j = 0; j < eliminationMatches[i].length; j++) {
+            if (eliminationMatches[i][j].local.team.name === team.name) {
+                if (eliminationMatches[i][j].local.score !== null && eliminationMatches[i][j].local.score !== undefined) {
+                    listMatches.push(eliminationMatches[i][j])
+                }
+            }
+
+            if (eliminationMatches[i][j].visitant.team.name === team.name) {
+                if (eliminationMatches[i][j].visitant.score !== null && eliminationMatches[i][j].visitant.score !== undefined) {
+                    listMatches.push(eliminationMatches[i][j])
+                }
+            }
+        }
+    }
+
+    return listMatches.reverse()
+
 }

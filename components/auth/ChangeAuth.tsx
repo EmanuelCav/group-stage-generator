@@ -1,6 +1,5 @@
+import { View } from 'react-native'
 import { Button, Text } from 'react-native-paper'
-
-import { View } from '../Themed'
 
 import { authStyles } from '@/styles/auth.styles'
 

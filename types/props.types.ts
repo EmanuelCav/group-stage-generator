@@ -4,7 +4,7 @@ import { Router } from "expo-router";
 
 import { IGetMatch, IMatch } from "@/interface/Match";
 import { IGroup } from "@/interface/Group";
-import { ITeam } from "@/interface/Team";
+import { IDropdown, ITeam } from "@/interface/Team";
 
 export type Action = {
     type: string;
@@ -12,23 +12,17 @@ export type Action = {
 }
 
 export type ContainerBackgroundPropsType = PropsWithChildren<{
-    zIndex: number
+    zIndex: number;
+    onClose: () => void;
 }>
 
 export type HeaderGeneralPropsTypes = {
     colors: MD3Colors;
-    router: Router;
     title: string;
-    group: IGroup;
-    groups: IGroup[];
-    premium: boolean;
     isMatchdaysScreen: boolean;
     isEditMode?: boolean;
     setIsEditMode?: (isEditMode: boolean) => void;
-    createGroup: (data: IGroup) => void;
     goBack: () => void;
-    sureRemoveGroup: (sure: boolean) => void;
-    sureRestartGroup: (sure: boolean) => void;
 }
 
 export type SurePropsType = {
@@ -87,4 +81,11 @@ export type Spacing = {
     w3: number;
     w6: number;
     w57: number;
+}
+
+export type CustomDropdownPropsType = {
+    data: IDropdown[];
+    value: string;
+    onChange: (item: IDropdown) => void;
+    colors: MD3Colors;
 }

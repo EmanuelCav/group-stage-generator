@@ -1,5 +1,5 @@
 import { Button, Text } from "react-native-paper"
-import { View } from "../Themed"
+import { View } from "react-native"
 import i18n from '@/i18n'
 
 import { createStyles } from "@/styles/create.styles"

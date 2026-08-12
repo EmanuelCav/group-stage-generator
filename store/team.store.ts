@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { ITeam, ITeamStore } from "@/interface/Team";
 
-export const teamStore = create<ITeamStore>(
+export const useTeamStore = create<ITeamStore>(
   (set) => ({
     team: {},
     isSure: false,

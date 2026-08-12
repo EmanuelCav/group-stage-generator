@@ -13,7 +13,7 @@ import ChangeAuth from '@/components/auth/ChangeAuth';
 import { generalStyles } from '@/styles/general.styles';
 import { authStyles } from '@/styles/auth.styles';
 
-import { groupStore } from '@/store/group.store';
+import { useGroupStore } from '@/store/group.store';
 
 import { isValidEmail } from '@/utils/auth';
 
@@ -27,7 +27,7 @@ import { useSpacing } from '@/hooks/useSpacing';
 const Index = () => {
 
     const router = useRouter()
-    const { setGroups } = groupStore()
+    const { setGroups } = useGroupStore()
     const { colors } = useTheme()
     const { user, loadingUser } = useAuth()
 

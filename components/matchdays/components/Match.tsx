@@ -1,10 +1,8 @@
 import { memo } from 'react'
-import { Pressable } from 'react-native'
+import { Pressable, View } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { Avatar, DataTable, Text } from 'react-native-paper'
 import i18n from '@/i18n'
-
-import { View } from '@/components/Themed'
 
 import { MatchPropsType } from '@/types/props.types'
 
@@ -25,7 +23,7 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
             matchday: matchdayNumber + 1,
         }) : () => { }} style={{ backgroundColor: colors.tertiary }}>
             {
-                index === 0 && !isEditMode && group.matchdayView === "all" && group.matches?.length! > 1 && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
+                index === 0 && !isEditMode && group.matchdayView === "all" && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
                     {i18n.t("group.title")} {match.local.team.group}
                 </Text>
             }

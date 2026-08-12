@@ -50,12 +50,10 @@ export const generalStyles = StyleSheet.create({
     },
 
     buttonClose: {
-        justifyContent: 'flex-end',
-        width: '100%',
-        alignItems: 'flex-end',
         position: 'absolute',
-        right: 0,
-        top: -Dimensions.get("window").height / 74
+        top: 8,
+        right: 8,
+        zIndex: 10
     },
 
     generateButton: {
@@ -69,8 +67,7 @@ export const generalStyles = StyleSheet.create({
     },
 
     showGenerateAgain: {
-        alignItems: 'center',
-        marginTop: Dimensions.get("window").height / 24,
+        alignItems: 'center'
     },
 
     titleDataTable: {
@@ -89,6 +86,33 @@ export const generalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1
+    },
+
+    containerDropdown: {
+        width: "100%",
+        position: "relative"
+    },
+
+    inputButtonDropdown: {
+        height: 50,
+        borderRadius: 10,
+        paddingHorizontal: 15,
+        justifyContent: "center",
+        borderWidth: 1,
+    },
+
+    dropdownVisible: {
+        position: "absolute",
+        top: 55,
+        left: 0,
+        right: 0,
+        maxHeight: 220,
+        borderRadius: 10,
+        borderWidth: 1,
+        elevation: 10,
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        shadowOffset: { width: 0, height: 3 },
     }
 
 })

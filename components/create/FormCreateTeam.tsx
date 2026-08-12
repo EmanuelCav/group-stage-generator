@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Image, Platform, TouchableOpacity } from "react-native";
+import { Image, Platform, TouchableOpacity, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
@@ -9,7 +9,6 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from '@/i18n'
 
-import { View } from "../Themed";
 import ContainerBackground from "../general/ContainerBackground";
 
 import { FormCreateTeamPropsType } from "@/types/create.types";

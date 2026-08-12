@@ -1,8 +1,7 @@
-import { IAvoidingMatches } from "./Avoiding";
 import { IMatch } from "./Match";
 import { IPlayer } from "./Player";
 import { IReferee } from "./Referee";
-import { IStadium } from "./Stadium";
+import { IVenue } from "./Venue";
 import { ITeam } from "./Team";
 
 import { KeyTieBreakCriteriaPropsType } from "@/types/props.types";
@@ -23,9 +22,8 @@ export interface IGroupStore {
     generateElimination: (data: IMatch[][]) => void;
     updateTeam: (data: ITeam) => void;
     updateReferee: (data: IReferee) => void;
-    updateStadium: (data: IStadium) => void;
+    updateStadium: (data: IVenue) => void;
     updatePlayer: (data: IPlayer) => void;
-    updateAvoiding: (data: IAvoidingMatches) => void;
     updateMatchGroup: (data: IMatch[][][]) => void;
     updateMatchKnockGroup: (data: IMatch[][]) => void;
     getGroup: (data: IGroup) => void;
@@ -36,14 +34,12 @@ export interface IGroupStore {
     restartElimination: () => void;
     createTeam: (data: ITeam) => void;
     createReferee: (data: IReferee) => void;
-    createStadium: (data: IStadium) => void;
+    createStadium: (data: IVenue) => void;
     createPlayer: (data: IPlayer) => void;
-    createAvoiding: (data: IAvoidingMatches) => void;
     removeTeam: (data: ITeam) => void;
     removeReferee: (data: IReferee) => void;
-    removeStadium: (data: IStadium) => void;
+    removeStadium: (data: IVenue) => void;
     removePlayer: (data: IPlayer) => void;
-    removeAvoiding: (data: IAvoidingMatches) => void;
     updateCreateElimination: (data: boolean) => void;
     updateGenerateAgain: (data: boolean) => void;
     updateShuffledKnockout: (data: boolean) => void;
@@ -63,11 +59,11 @@ export interface IGroup {
     title?: string;
     matches?: IMatch[][][];
     teams: ITeam[]
-    stadiums?: IStadium[];
+    stadiums?: IVenue[];
     referees?: IReferee[];
     players?: IPlayer[];
     tie_breakCriteria?: KeyTieBreakCriteriaPropsType[],
-    avoidingMatches?: IAvoidingMatches[];
+    avoidingMatches?: any[];
     isDrawed?: boolean;
     eliminationMatches?: IMatch[][];
     isManualConfiguration?: boolean;

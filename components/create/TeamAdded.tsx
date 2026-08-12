@@ -1,9 +1,7 @@
 import { memo } from "react"
-import { Pressable } from "react-native"
+import { Pressable, View } from "react-native"
 import { Avatar, Text } from "react-native-paper"
 import i18n from "@/i18n"
-
-import { View } from "@/components/Themed"
 
 import { TeamAddedPropsType } from "@/types/create.types"
 

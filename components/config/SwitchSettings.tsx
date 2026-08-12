@@ -1,6 +1,5 @@
 import { Switch, Text } from 'react-native-paper';
-
-import { View } from '../Themed';
+import { View } from 'react-native';
 
 import { SwitchSettingsPropsType } from '@/types/config.types';
 

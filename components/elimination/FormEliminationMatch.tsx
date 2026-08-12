@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
-import { ScrollView } from 'react-native'
-import { Avatar, Button, DefaultTheme, IconButton, MD3Colors, PaperProvider, Text, TextInput } from 'react-native-paper'
+import { ScrollView, View } from 'react-native'
+import { Avatar, Button, DefaultTheme, PaperProvider, Text, TextInput } from 'react-native-paper'
 import { DatePickerModal, enGB, registerTranslation, TimePickerModal } from 'react-native-paper-dates';
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import { Dropdown } from 'react-native-element-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n'
 
-import { View } from '../Themed'
 import ContainerBackground from '../general/ContainerBackground'
 
 import { IMatch } from '@/interface/Match';
@@ -17,7 +16,7 @@ import { generalStyles } from '@/styles/general.styles'
 import { createStyles } from '@/styles/create.styles'
 import { matchStyles } from '@/styles/match.styles';
 
-import { getRefereeName, getStadiumsName } from '@/utils/defaultGroup';
+import { getRefereeName, getVenuesName } from '@/utils/defaultGroup';
 import { isScoreElimination, winner } from '@/utils/elimination';
 import { groupName, nameParticipant } from '@/utils/points';
 
@@ -154,8 +153,8 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
         },
     }), [])
 
-    const stadiumsData = useMemo(
-        () => getStadiumsName(group.stadiums!),
+    const venuesData = useMemo(
+        () => getVenuesName(group.stadiums!),
         [group.stadiums]
     )
 
@@ -169,14 +168,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
     }, [])
 
     return (
-        <ContainerBackground zIndex={20}>
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => hideAndShowUpdateMatch(false)}
-            />
+        <ContainerBackground zIndex={20} onClose={() => hideAndShowUpdateMatch(false)}>
 
             <Text variant="labelLarge" style={{ marginVertical: spacing.h28 }}>
                 {i18n.t("teamScores")}
@@ -378,7 +370,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         backgroundColor: colors.tertiary,
                     }}
                     activeColor={colors.primary}
-                    data={stadiumsData}
+                    data={venuesData}
                     maxHeight={spacing.h3_8}
                     labelField="label"
                     valueField="value"

@@ -1,13 +1,13 @@
 import { useState } from "react"
+import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Avatar, Button, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
+import { Avatar, Button, MD3Colors, Text, TextInput } from "react-native-paper"
 import i18n from '@/i18n'
 
 import { FormStatisticsMatchPropsType } from "@/types/match.types"
 
-import { View } from "../Themed"
 import ContainerBackground from "../general/ContainerBackground"
 
 import { IMatch } from "@/interface/Match";
@@ -208,17 +208,10 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
     }
 
     return (
-        <ContainerBackground zIndex={20}>
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => {
-                    getStatistic({})
-                    hideAndShowStatistics(false)
-                }}
-            />
+        <ContainerBackground zIndex={20} onClose={() => {
+            getStatistic({})
+            hideAndShowStatistics(false)
+        }}>
 
             <Controller
                 name="title"

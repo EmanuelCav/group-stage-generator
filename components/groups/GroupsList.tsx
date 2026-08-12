@@ -1,9 +1,8 @@
 import { useCallback } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import i18n from '@/i18n'
 
-import { View } from '../Themed';
 import HeaderGroup from './components/HeaderGroup';
 import GroupTeam from './components/GroupTeam';
 

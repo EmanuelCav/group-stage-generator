@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { IReferee, IRefereeStore } from "@/interface/Referee";
 
-export const refereeStore = create<IRefereeStore>(
+export const useRefereeStore = create<IRefereeStore>(
   (set) => ({
     referee: {},
     isSure: false,

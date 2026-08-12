@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Icon, IconButton, MD3Colors, Text, TextInput } from "react-native-paper"
+import { Button, Icon, MD3Colors, Text, TextInput } from "react-native-paper"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 import { Dropdown } from 'react-native-element-dropdown';
+import { View } from "react-native";
 import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground"
-import { View } from "../Themed";
 
 import { ICreateSummary } from "@/interface/Team";
 import { IMatch } from "@/interface/Match";
@@ -250,17 +250,10 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
     }
 
     return (
-        <ContainerBackground zIndex={20}>
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => {
-                    hideAndShowSummary(false)
-                    getSummary({})
-                }}
-            />
+        <ContainerBackground zIndex={20} onClose={() => {
+            hideAndShowSummary(false)
+            getSummary({})
+        }}>
             {
                 group.players?.length! > 0 ?
                     <View style={{ marginTop: spacing.h28, backgroundColor: colors.background }}>

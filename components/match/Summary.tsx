@@ -1,8 +1,6 @@
 import { memo } from "react"
-import { Pressable } from "react-native"
+import { Pressable, View } from "react-native"
 import { Icon, Text } from "react-native-paper"
-
-import { View } from "../Themed"
 
 import { SummaryPropsType } from "@/types/match.types"
 

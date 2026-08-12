@@ -1,8 +1,7 @@
-import { FlatList, ScrollView } from 'react-native'
+import { FlatList, ScrollView, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import i18n from '@/i18n'
 
-import { View } from '@/components/Themed'
 import Cell from './components/Cell'
 
 import { GroupTeamPropsType } from '@/types/groups.types'

@@ -1,6 +1,5 @@
+import { View } from "react-native"
 import { Button } from "react-native-paper"
-
-import { View } from "../Themed"
 
 import { AddActionPropsType } from "@/types/props.types"
 

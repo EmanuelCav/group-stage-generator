@@ -1,7 +1,6 @@
+import { View } from 'react-native'
 import { Icon, Text, Button } from 'react-native-paper'
 import i18n from '@/i18n'
-
-import { View } from '../Themed'
 
 import { AddPlayersPropsType } from '@/types/statistics.types'
 

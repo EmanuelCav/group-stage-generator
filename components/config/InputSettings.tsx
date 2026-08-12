@@ -1,7 +1,6 @@
 import { MD3Colors, Text, TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
-
-import { View } from '../Themed';
+import { View } from 'react-native';
 
 import { InputSettingsPropsType } from '@/types/config.types';
 

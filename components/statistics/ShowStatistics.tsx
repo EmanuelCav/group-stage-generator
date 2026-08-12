@@ -1,6 +1,5 @@
 import { memo, useMemo } from 'react';
-import { FlatList } from 'react-native';
-import { View } from '../Themed';
+import { FlatList, View } from 'react-native';
 
 import TableStatistic from './components/TableStatistic';
 

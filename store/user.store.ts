@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { IUserStore } from "@/interface/User";
 
-export const userStore = create(
+export const useUserStore = create(
     persist<IUserStore>(
         (set) => ({
             premium: false,

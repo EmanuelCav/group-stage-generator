@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react"
-import { Button, Checkbox, IconButton, MD3Colors, Text } from "react-native-paper"
-import { ScrollView } from "react-native"
+import { Button, Checkbox, Text } from "react-native-paper"
+import { ScrollView, View } from "react-native"
 import i18n from '@/i18n'
 
-import { View } from "../Themed"
 import ContainerBackground from "../general/ContainerBackground"
 import TeamView from "./components/TeamView"
 
@@ -159,14 +158,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
     }, [])
 
     return (
-        <ContainerBackground zIndex={20}>
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => hideAndShowPlayers(false)}
-            />
+        <ContainerBackground zIndex={20} onClose={() => hideAndShowPlayers(false)}>
 
             <Text
                 variant="labelLarge"

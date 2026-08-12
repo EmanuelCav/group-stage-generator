@@ -4,7 +4,7 @@ import i18n from '@/i18n'
 
 import Sure from "./Sure"
 
-import { groupStore } from "@/store/group.store"
+import { useGroupStore } from "@/store/group.store"
 
 import { useAuth } from "@/hooks/useAuth"
 
@@ -12,7 +12,7 @@ import { deleteGroupFromSupabase } from "@/lib/save"
 
 const SureGeneral = () => {
 
-    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup } = groupStore()
+    const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup } = useGroupStore()
     const router = useRouter()
     const { user } = useAuth()
 

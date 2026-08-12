@@ -1,4 +1,4 @@
-import { View } from "../Themed"
+import { View } from "react-native"
 import ScoreView from "./components/ScoreView"
 import TeamView from "./components/TeamView"
 

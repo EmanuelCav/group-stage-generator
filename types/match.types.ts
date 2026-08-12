@@ -134,3 +134,8 @@ export type ScoreViewPropsType = {
     match: IMatch;
     spacing: Spacing;
 }
+
+export type HeaderGetMatchPropsType = {
+    colors: MD3Colors;
+    router: Router;
+}

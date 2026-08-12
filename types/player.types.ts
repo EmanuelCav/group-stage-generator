@@ -3,6 +3,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { IPlayer, IValueStatistic } from "@/interface/Player";
 import { IGroup } from "@/interface/Group";
 import { Spacing } from "./props.types";
+import { ITeam } from "@/interface/Team";
 
 export type FormCreatePlayerPropsType = {
     colors: MD3Colors;
@@ -14,6 +15,7 @@ export type FormCreatePlayerPropsType = {
     group: IGroup;
     premium: boolean;
     spacing: Spacing;
+    team: ITeam;
 }
 
 export type PlayerPropsType = {

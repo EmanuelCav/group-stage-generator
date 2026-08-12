@@ -1,7 +1,7 @@
 import { matchStyles } from '@/styles/match.styles'
+import { View } from 'react-native'
 import i18n from '@/i18n'
 
-import { View } from '../Themed'
 import TagInformation from './components/TagInformation'
 
 import { InformationPropsType } from '@/types/match.types'

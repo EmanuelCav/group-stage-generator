@@ -1,22 +1,21 @@
 import { useState } from "react";
+import { View } from "react-native";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import i18n from '@/i18n'
-
-import { View } from "../Themed";
 
 import { generalStyles } from "@/styles/general.styles";
 
 import { GenerateAgainPropsType } from "@/types/props.types";
 
-import { groupStore } from "@/store/group.store";
+import { useGroupStore } from "@/store/group.store";
 
 import { groupGenerator } from "@/utils/generator";
 import { powerRange } from "@/utils/defaultGroup";
 
 const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
-    const { updateGenerateAgain, generateMatches, updateTeam, group } = groupStore()
+    const { updateGenerateAgain, generateMatches, updateTeam, group } = useGroupStore()
 
     const [matchSchedule, setMatchSchedule] = useState<string>("NORMAL")
 
@@ -82,13 +81,14 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
     return (
         <Card style={[generalStyles.containerGenerateAgain, { backgroundColor: colors.tertiary }]}>
-            <IconButton
-                icon="close"
-                style={generalStyles.buttonClose}
-                iconColor={MD3Colors.error50}
-                size={24}
-                onPress={() => updateGenerateAgain(false)}
-            />
+            <View style={{ alignItems: 'flex-end' }}>
+                <IconButton
+                    icon="close"
+                    iconColor={MD3Colors.error50}
+                    size={24}
+                    onPress={() => updateGenerateAgain(false)}
+                />
+            </View>
             <Card.Content style={generalStyles.showGenerateAgain}>
                 <Text variant="titleSmall" style={{ textAlign: 'center' }}>
                     {i18n.t("generateGroupStageAgainQuestion")}

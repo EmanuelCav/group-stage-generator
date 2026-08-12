@@ -1,9 +1,7 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import { Card, Text } from 'react-native-paper'
 import { MD3Colors } from 'react-native-paper/lib/typescript/types'
 import i18n from '@/i18n';
-
-import { View } from '../Themed';
 
 import { tentStyles } from '@/styles/tent.styles';
 

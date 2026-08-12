@@ -13,7 +13,7 @@ import ChangeAuth from '@/components/auth/ChangeAuth';
 import { generalStyles } from '@/styles/general.styles';
 import { authStyles } from '@/styles/auth.styles';
 
-import { groupStore } from '@/store/group.store';
+import { useGroupStore } from '@/store/group.store';
 
 import { checkRateLimit, isStrongPassword, isValidEmail, isWeakPassword, registerAttempt } from '@/utils/auth';
 
@@ -27,7 +27,7 @@ const SignUp = () => {
 
     const router = useRouter()
     const { colors } = useTheme()
-    const { setGroups } = groupStore()
+    const { setGroups } = useGroupStore()
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');

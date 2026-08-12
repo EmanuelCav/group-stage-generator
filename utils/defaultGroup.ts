@@ -2,11 +2,10 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from "uuid";
 import i18n from '@/i18n'
 
-import { IAvoidingMatches } from "@/interface/Avoiding";
 import { IGroup } from "@/interface/Group";
 import { IPlayer } from "@/interface/Player";
 import { IReferee } from "@/interface/Referee";
-import { IStadium } from "@/interface/Stadium";
+import { IVenue } from "@/interface/Venue";
 import { IDropdown, IPlot, ITeam } from "@/interface/Team";
 import { IMatch } from '@/interface/Match';
 
@@ -105,18 +104,18 @@ export const getTeamsName = (teams: ITeam[]): IDropdown[] => {
 
 }
 
-export const getStadiumsName = (stadiums: IStadium[]): IDropdown[] => {
+export const getVenuesName = (venues: IVenue[]): IDropdown[] => {
 
-    let stadiumsName: IDropdown[] = []
+    let venuesName: IDropdown[] = []
 
-    for (let i = 0; i < stadiums.length; i++) {
-        stadiumsName.push({
-            value: stadiums[i].name!,
-            label: stadiums[i].name!
+    for (let i = 0; i < venues.length; i++) {
+        venuesName.push({
+            value: venues[i].name!,
+            label: venues[i].name!
         })
     }
 
-    return stadiumsName
+    return venuesName
 
 }
 
@@ -147,24 +146,6 @@ export const getPlayerName = (players: IPlayer[]): IDropdown[] => {
     }
 
     return playersName
-
-}
-
-export const generateAvoidingTeams = (group: IGroup, avoiding: IAvoidingMatches) => {
-
-    let teams: string[] = []
-
-    for (let i = 0; i < group.avoidingMatches?.length!; i++) {
-        for (let j = 0; j < group.avoidingMatches![i].teams?.length!; j++) {
-            teams.push(group.avoidingMatches![i].teams![j].name!)
-        }
-    }
-
-    if (avoiding.id) {
-        return avoiding.teams!.concat(group.teams.filter(t => !teams.includes(t.name!)))
-    }
-
-    return group.teams.filter(t => !teams.includes(t.name!))
 
 }
 

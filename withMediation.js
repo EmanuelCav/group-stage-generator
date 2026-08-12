@@ -4,12 +4,12 @@ module.exports = function withVungleMediation(config) {
   return withAppBuildGradle(config, (config) => {
     if (config.modResults.language === 'groovy') {
 
-      const vungleDependency = "implementation 'com.google.ads.mediation:vungle:7.4.3.0'";
+      const vungleDependency = "implementation 'com.google.ads.mediation:vungle:7.5.1.0'";
 
       const forceAdsVersion = `
 configurations.all {
     resolutionStrategy {
-        force 'com.google.android.gms:play-services-ads:23.6.0'
+        force 'com.google.android.gms:play-services-ads:24.5.0'
     }
 }`;
 
@@ -20,7 +20,7 @@ configurations.all {
         );
       }
 
-      if (!config.modResults.contents.includes('play-services-ads:23.6.0')) {
+      if (!config.modResults.contents.includes('play-services-ads:24.5.0')) {
         config.modResults.contents += forceAdsVersion;
       }
     }
