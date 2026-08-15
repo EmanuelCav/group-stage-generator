@@ -22,7 +22,7 @@ import { useGroupStore } from '@/store/group.store'
 import { useMatchStore } from '@/store/match.store'
 import { useUserStore } from '@/store/user.store';
 
-import { evaluateGenerateAgain } from '@/utils/matchday'
+import { evaluateGenerateAgain, idMatch } from '@/utils/matchday'
 
 import { useSpacing } from '@/hooks/useSpacing';
 
@@ -81,7 +81,7 @@ const MatchdaysScreen = () => {
 
     const handleGetMatch = useCallback((data: IGetMatch) => {
         getMatch(data)
-        router.navigate("/match")
+        router.navigate(`/(match)/matchday/${idMatch(`${data.match?.visitant.team.name}-${data.match?.local.team.name}`)}`)
     }, [getMatch, router])
 
     const goBack = useCallback(() => {
@@ -141,9 +141,9 @@ const MatchdaysScreen = () => {
             <View style={{ padding: spacing.h106, flex: 1, backgroundColor: colors.background }}>
                 {
                     group.matches?.length! > 1 && !isEditMode &&
-                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} spacing={spacing} />
+                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
                 }
-                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} spacing={spacing} />
+                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} />
                 {
                     isEditMode && (
                         <View style={{ backgroundColor: colors.background, flexDirection: 'row', marginVertical: 7, justifyContent: 'space-around', alignItems: 'center' }}>

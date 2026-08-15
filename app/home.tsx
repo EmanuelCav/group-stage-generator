@@ -56,7 +56,7 @@ const Home = () => {
 
     await AsyncStorage.setItem("amount_groups_general", (getAmountGroupsCount + 1).toString())
 
-    router.navigate("/create")
+    router.navigate("/(create)/teams")
   }
 
   const handleGroup = async (group: IGroup) => {
@@ -79,9 +79,9 @@ const Home = () => {
     }
 
     if (group.isGenerated) {
-      router.navigate("/(tabs)/groups")
+      router.navigate("/(drawer)/(tabs)/groups")
     } else {
-      router.navigate("/create")
+      router.navigate("/(create)/teams")
     }
   }
 

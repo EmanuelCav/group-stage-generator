@@ -3,16 +3,14 @@ import i18n from '@/i18n'
 
 import { HeaderCreatePropsType } from "@/types/create.types"
 
-const HeaderCreate = ({ colors, groups, router, group }: HeaderCreatePropsType) => {
+const HeaderCreate = ({ colors, router }: HeaderCreatePropsType) => {
     return (
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
-            {
-                groups.length > 0 && <Appbar.BackAction color="#ffffff"
-                    onPress={() => group.isGenerated ? router.replace("/(tabs)/groups") : router.replace("/home")} />
-            }
+            <Appbar.BackAction color="#ffffff"
+                    onPress={() => router.replace("/home")} />
             <Appbar.Content title={i18n.t("teams")} color="#ffffff" />
             <Appbar.Action icon="cog" color="#ffffff"
-                onPress={() => router.navigate("/config")} />
+                onPress={() => router.navigate("/(create)/config")} />
         </Appbar.Header>
     )
 }

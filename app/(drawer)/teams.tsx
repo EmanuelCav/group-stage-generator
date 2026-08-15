@@ -48,7 +48,7 @@ const TeamsDrawerScreen = () => {
   }, [])
 
   const goBack = useCallback(() => {
-    router.replace("/(tabs)/groups")
+    router.replace("/(drawer)/(tabs)/groups")
   }, [router])
 
   useEffect(() => {

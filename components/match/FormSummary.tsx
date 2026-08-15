@@ -4,11 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Icon, MD3Colors, Text, TextInput } from "react-native-paper"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
-import { Dropdown } from 'react-native-element-dropdown';
 import { View } from "react-native";
 import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground"
+import CustomDropdown from "../general/CustomDropdown";
 
 import { ICreateSummary } from "@/interface/Team";
 import { IMatch } from "@/interface/Match";
@@ -33,10 +33,6 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
     const [playerSelected, setPlayerSelected] = useState<string>(summary.player?.name ?? "")
     const [secondaryPlayerSelected, setSecondaryPlayerSelected] = useState<string>(summary.secondaryPlayer?.name ?? "")
 
-    const [isFocusEvent, setIsFocusEvent] = useState<boolean>(false)
-    const [isFocusTeam, setIsFocusTeam] = useState<boolean>(false)
-    const [isFocusPlayer, setIsFocusPlayer] = useState<boolean>(false)
-    const [isFocusSecondaryPlayer, setIsFocusSecondaryPlayer] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
     const teamsOptions = useMemo(
@@ -53,14 +49,6 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             )!
         ), [group.players, teamSelected, match.local.team.id, match.visitant.team.id]
     )
-
-    const eventOptions = useMemo(() => [
-        { value: "goal", label: i18n.t("goal") },
-        { value: "yellow card", label: i18n.t("yellows") },
-        { value: "red card", label: i18n.t("reds") },
-        { value: "injury", label: i18n.t("injury") },
-        { value: "substitution", label: i18n.t("substitution") },
-    ], [])
 
     const { control, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(summarySchema),
@@ -261,40 +249,18 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             <Text variant="labelLarge">
                                 {i18n.t("sumarry_select_event")}
                             </Text>
-                            <Dropdown
-                                style={[
-                                    createStyles.dropdownComplete,
-                                    { backgroundColor: colors.tertiary },
-                                    isFocusEvent && { borderColor: colors.primary },
+                            <CustomDropdown
+                                data={[
+                                    { value: "goal", label: i18n.t("goal") },
+                                    { value: "yellow card", label: i18n.t("yellows") },
+                                    { value: "red card", label: i18n.t("reds") },
+                                    { value: "injury", label: i18n.t("injury") },
+                                    { value: "substitution", label: i18n.t("substitution") },
                                 ]}
-                                placeholderStyle={{
-                                    fontSize: spacing.h47,
-                                    color: colors.surface,
-                                    backgroundColor: colors.tertiary
-                                }}
-                                selectedTextStyle={{
-                                    fontSize: spacing.h47,
-                                    color: colors.surface,
-                                    backgroundColor: colors.tertiary
-                                }}
-                                itemTextStyle={{
-                                    color: colors.surface
-                                }}
-                                containerStyle={{
-                                    backgroundColor: colors.tertiary,
-                                }}
-                                activeColor={colors.primary}
-                                data={eventOptions}
-                                maxHeight={spacing.h3_8}
-                                labelField="label"
-                                valueField="value"
-                                placeholder={String(statisticSelected)}
                                 value={statisticSelected}
-                                onFocus={() => setIsFocusEvent(true)}
-                                onBlur={() => setIsFocusEvent(false)}
-                                onChange={item => {
+                                colors={colors}
+                                onChange={(item) => {
                                     setStatisticSelected(item.value);
-                                    setIsFocusEvent(false);
                                 }}
                             />
                         </View>
@@ -303,41 +269,13 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             <Text variant="labelLarge">
                                 {i18n.t("sumarry_select_team")}
                             </Text>
-                            <Dropdown
-                                style={[
-                                    createStyles.dropdownComplete,
-                                    { backgroundColor: colors.tertiary },
-                                    isFocusTeam && { borderColor: colors.primary },
-                                ]}
-                                placeholderStyle={{
-                                    fontSize: spacing.h47,
-                                    color: colors.surface,
-                                    backgroundColor: colors.tertiary
-                                }}
-                                selectedTextStyle={{
-                                    fontSize: spacing.h47,
-                                    color: colors.surface,
-                                    backgroundColor: colors.tertiary
-                                }}
-                                itemTextStyle={{
-                                    color: colors.surface
-                                }}
-                                containerStyle={{
-                                    backgroundColor: colors.tertiary,
-                                }}
-                                activeColor={colors.primary}
+                            <CustomDropdown
                                 data={teamsOptions}
-                                maxHeight={spacing.h3_8}
-                                labelField="label"
-                                valueField="value"
-                                placeholder={String(teamSelected)}
                                 value={teamSelected}
-                                onFocus={() => setIsFocusTeam(true)}
-                                onBlur={() => setIsFocusTeam(false)}
-                                onChange={item => {
+                                colors={colors}
+                                onChange={(item) => {
                                     setTeamSelected(item.value);
-                                    setPlayerSelected("")
-                                    setIsFocusTeam(false);
+                                    setPlayerSelected("");
                                 }}
                             />
                         </View>
@@ -346,40 +284,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             <Text variant="labelLarge">
                                 {labelSummaryEvent(statisticSelected)}
                             </Text>
-                            <Dropdown
-                                style={[
-                                    createStyles.dropdownComplete,
-                                    { backgroundColor: colors.tertiary },
-                                    isFocusPlayer && { borderColor: colors.primary },
-                                ]}
-                                placeholderStyle={{
-                                    fontSize: spacing.h47,
-                                    color: colors.surface,
-                                    backgroundColor: colors.tertiary
-                                }}
-                                selectedTextStyle={{
-                                    fontSize: spacing.h47,
-                                    color: colors.surface,
-                                    backgroundColor: colors.tertiary
-                                }}
-                                itemTextStyle={{
-                                    color: colors.surface
-                                }}
-                                containerStyle={{
-                                    backgroundColor: colors.tertiary,
-                                }}
-                                activeColor={colors.primary}
+                            <CustomDropdown
                                 data={playerOptions}
-                                maxHeight={spacing.h3_8}
-                                labelField="label"
-                                valueField="value"
-                                placeholder={String(playerSelected)}
                                 value={playerSelected}
-                                onFocus={() => setIsFocusPlayer(true)}
-                                onBlur={() => setIsFocusPlayer(false)}
-                                onChange={item => {
+                                colors={colors}
+                                onChange={(item) => {
                                     setPlayerSelected(item.value);
-                                    setIsFocusPlayer(false);
                                 }}
                             />
                         </View>
@@ -390,40 +300,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 <Text variant="labelLarge">
                                     {i18n.t("sumarry_select_secondaryPlayerAssist")}
                                 </Text>
-                                <Dropdown
-                                    style={[
-                                        createStyles.dropdownComplete,
-                                        { backgroundColor: colors.tertiary },
-                                        isFocusSecondaryPlayer && { borderColor: colors.primary },
-                                    ]}
-                                    placeholderStyle={{
-                                        fontSize: spacing.h47,
-                                        color: colors.surface,
-                                        backgroundColor: colors.tertiary
-                                    }}
-                                    selectedTextStyle={{
-                                        fontSize: spacing.h47,
-                                        color: colors.surface,
-                                        backgroundColor: colors.tertiary
-                                    }}
-                                    itemTextStyle={{
-                                        color: colors.surface
-                                    }}
-                                    containerStyle={{
-                                        backgroundColor: colors.tertiary,
-                                    }}
-                                    activeColor={colors.primary}
+                                <CustomDropdown
                                     data={playerOptions}
-                                    maxHeight={spacing.h3_8}
-                                    labelField="label"
-                                    valueField="value"
-                                    placeholder={String(secondaryPlayerSelected)}
                                     value={secondaryPlayerSelected}
-                                    onFocus={() => setIsFocusSecondaryPlayer(true)}
-                                    onBlur={() => setIsFocusSecondaryPlayer(false)}
-                                    onChange={item => {
+                                    colors={colors}
+                                    onChange={(item) => {
                                         setSecondaryPlayerSelected(item.value);
-                                        setIsFocusSecondaryPlayer(false);
                                     }}
                                 />
                             </View>
@@ -435,40 +317,12 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 <Text variant="labelLarge">
                                     {i18n.t("sumarry_select_secondaryPlayerAssist")}
                                 </Text>
-                                <Dropdown
-                                    style={[
-                                        createStyles.dropdownComplete,
-                                        { backgroundColor: colors.tertiary },
-                                        isFocusTeam && { borderColor: colors.primary },
-                                    ]}
-                                    placeholderStyle={{
-                                        fontSize: spacing.h47,
-                                        color: colors.surface,
-                                        backgroundColor: colors.tertiary
-                                    }}
-                                    selectedTextStyle={{
-                                        fontSize: spacing.h47,
-                                        color: colors.surface,
-                                        backgroundColor: colors.tertiary
-                                    }}
-                                    itemTextStyle={{
-                                        color: colors.surface
-                                    }}
-                                    containerStyle={{
-                                        backgroundColor: colors.tertiary,
-                                    }}
-                                    activeColor={colors.primary}
+                                <CustomDropdown
                                     data={playerOptions}
-                                    maxHeight={spacing.h3_8}
-                                    labelField="label"
-                                    valueField="value"
-                                    placeholder={String(secondaryPlayerSelected)}
                                     value={secondaryPlayerSelected}
-                                    onFocus={() => setIsFocusSecondaryPlayer(true)}
-                                    onBlur={() => setIsFocusSecondaryPlayer(false)}
-                                    onChange={item => {
+                                    colors={colors}
+                                    onChange={(item) => {
                                         setSecondaryPlayerSelected(item.value);
-                                        setIsFocusSecondaryPlayer(false);
                                     }}
                                 />
                             </View>

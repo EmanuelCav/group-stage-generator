@@ -77,19 +77,13 @@ const GroupsScreen = () => {
 
   return (
     <MainScreen colors={colors}>
-
       <HeaderGeneral colors={colors} title={i18n.t("groups")} goBack={goBack} isMatchdaysScreen={false} />
-
       <SureGeneral />
-
       {
         group.isGeneratedAgain && <GenerateAgain colors={colors} />
       }
-
       <Toast config={toastConfig} />
-
       <GroupsList group={group} colors={colors} />
-
     </MainScreen>
   )
 }

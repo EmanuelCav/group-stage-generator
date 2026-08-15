@@ -1,11 +1,9 @@
-import { useMemo, useState, useCallback } from "react"
+import { useMemo } from "react"
 import i18n from "@/i18n"
 
 type Option = { label: string; value: string }
 
 export const useMatchdayDropdown = (matches: any[][], mode: "group" | "matchday") => {
-
-    const [isFocus, setIsFocus] = useState<boolean>(false)
 
     const options = useMemo<Option[]>(() => {
         if (!matches?.length) return []
@@ -31,8 +29,5 @@ export const useMatchdayDropdown = (matches: any[][], mode: "group" | "matchday"
         ]
     }, [matches, mode])
 
-    const onFocus = useCallback(() => setIsFocus(true), [])
-    const onBlur = useCallback(() => setIsFocus(false), [])
-
-    return { isFocus, options, onFocus, onBlur }
+    return { options }
 }

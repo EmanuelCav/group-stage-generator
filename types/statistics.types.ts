@@ -44,7 +44,6 @@ export type TableStatisticPropsType = {
 }
 
 export type StatisticsLabelPropsType = {
-    spacing: Spacing;
     colors: MD3Colors;
     statisticView: string;
     setStatisticView: (statisticView: string) => void;

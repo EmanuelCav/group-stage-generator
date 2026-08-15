@@ -3,9 +3,9 @@ import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, Drawe
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { useTheme } from "react-native-paper";
-import i18n from "../../../../i18n";
+import i18n from "@/i18n";
 
-import { useTournamentStore } from "@/store/tournament.store";
+import { useGroupStore } from "@/store/group.store";
 import { useUserStore } from "@/store/user.store";
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
@@ -13,7 +13,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     const { colors } = useTheme();
     const router = useRouter();
 
-    const { sureRemoveTournament, sureRestartTournament } = useTournamentStore();
+    const { sureRemoveGroup, sureRestartGroup } = useGroupStore();
     const { premium } = useUserStore()
 
     return (
@@ -44,7 +44,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                         color={colors.primary}
                     />
                 )}
-                onPress={() => router.navigate("/store")}
+                onPress={() => router.navigate("/tent")}
             />
 
             {
@@ -59,7 +59,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                             color={colors.primary}
                         />
                     )}
-                    onPress={() => sureRestartTournament(true)}
+                    onPress={() => sureRestartGroup(true)}
                 />
 
             }
@@ -74,7 +74,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                         color={colors.primary}
                     />
                 )}
-                onPress={() => sureRestartTournament(true)}
+                onPress={() => sureRestartGroup(true)}
             />
 
             <DrawerItem
@@ -87,7 +87,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                         color={colors.primary}
                     />
                 )}
-                onPress={() => sureRemoveTournament(true)}
+                onPress={() => sureRemoveGroup(true)}
             />
 
             <DrawerItem

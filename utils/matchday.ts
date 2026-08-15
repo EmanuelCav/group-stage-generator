@@ -10,7 +10,7 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
     let schedule: IMatch[][] = []
 
     if (matches.length === 0) {
-        router.replace("/create")
+        router.replace("/home")
         return []
     }
 
@@ -259,4 +259,11 @@ export const previousMatches = (matches: IMatch[][][], eliminationMatches: IMatc
 
     return listMatches.reverse()
 
+}
+
+export const idMatch = (teams: string): string => {
+
+    const randomHash = Math.random().toString(36).substring(2, 9)
+
+    return `${teams}-${randomHash}`
 }

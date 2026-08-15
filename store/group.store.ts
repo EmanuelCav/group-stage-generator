@@ -6,9 +6,8 @@ import { IMatch, IMatchTeam } from "@/interface/Match";
 import { IGroup, IGroupStore } from "@/interface/Group";
 import { ITeam } from "@/interface/Team";
 import { IReferee } from "@/interface/Referee";
-import { IStadium } from "@/interface/Venue";
+import { IVenue } from "@/interface/Venue";
 import { IPlayer } from "@/interface/Player";
-import { IAvoidingMatches } from "@/interface/Avoiding";
 
 import { emptyMatchday } from "@/utils/defaultGroup";
 
@@ -70,7 +69,7 @@ export const useGroupStore = create(
                 group: { ...state.group, referees: [...state.group.referees!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, referees: [...state.group.referees!, data] } : g)
             })),
-            createStadium: (data: IStadium) => set((state) => ({
+            createStadium: (data: IVenue) => set((state) => ({
                 group: { ...state.group, stadiums: [...state.group.stadiums!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, stadiums: [...state.group.stadiums!, data] } : g)
             })),
@@ -78,7 +77,7 @@ export const useGroupStore = create(
                 group: { ...state.group, players: [...state.group.players!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: [...state.group.players!, data] } : g)
             })),
-            createAvoiding: (data: IAvoidingMatches) => set((state) => ({
+            createAvoiding: (data: any) => set((state) => ({
                 group: { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: [...state.group.avoidingMatches!, data] } : g)
             })),
@@ -139,7 +138,7 @@ export const useGroupStore = create(
                 group: { ...state.group, referees: state.group.referees!.map((r) => r.id === data.id ? data : r) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, referees: state.group.referees!.map((r) => r.id === data.id ? data : r) } : g)
             })),
-            updateStadium: (data: IStadium) => set((state) => ({
+            updateStadium: (data: IVenue) => set((state) => ({
                 group: { ...state.group, stadiums: state.group.stadiums!.map((s) => s.id === data.id ? data : s) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, stadiums: state.group.stadiums!.map((s) => s.id === data.id ? data : s) } : g)
             })),
@@ -155,7 +154,7 @@ export const useGroupStore = create(
                 group: { ...state.group, eliminationMatches: data, isDrawed: true },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, eliminationMatches: data, isDrawed: true } : g)
             })),
-            updateAvoiding: (data: IAvoidingMatches) => set((state) => ({
+            updateAvoiding: (data: any) => set((state) => ({
                 group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.map((am) => am.id === data.id ? data : am) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: state.group.avoidingMatches!.map((am) => am.id === data.id ? data : am) } : g)
             })),
@@ -167,7 +166,7 @@ export const useGroupStore = create(
                 group: { ...state.group, referees: state.group.referees!.filter((r) => r.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, referees: state.group.referees!.filter((r) => r.id !== data.id) } : g)
             })),
-            removeStadium: (data: IStadium) => set((state) => ({
+            removeStadium: (data: IVenue) => set((state) => ({
                 group: { ...state.group, stadiums: state.group.stadiums!.filter((s) => s.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, stadiums: state.group.stadiums!.filter((s) => s.id !== data.id) } : g)
             })),
@@ -175,7 +174,7 @@ export const useGroupStore = create(
                 group: { ...state.group, players: state.group.players!.filter((p) => p.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, players: state.group.players!.filter((p) => p.id !== data.id) } : g)
             })),
-            removeAvoiding: (data: IAvoidingMatches) => set((state) => ({
+            removeAvoiding: (data: any) => set((state) => ({
                 group: { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, avoidingMatches: state.group.avoidingMatches!.filter((am) => am.id !== data.id) } : g)
             })),

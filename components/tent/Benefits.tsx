@@ -5,14 +5,6 @@ import i18n from '@/i18n';
 
 import { tentStyles } from '@/styles/tent.styles';
 
-const benefits: string[] = [
-    i18n.t("benefit_remove_advertising"),
-    i18n.t("unlimited_group_stages"),
-    i18n.t("unlimited_teams"),
-    i18n.t("unlimited_images"),
-    i18n.t("unlimited_players")
-];
-
 const Benefits = ({ colors }: { colors: MD3Colors }) => {
     return (
         <Card style={{
@@ -28,7 +20,13 @@ const Benefits = ({ colors }: { colors: MD3Colors }) => {
                     {i18n.t("benefits")}
                 </Text>
                 <View style={[tentStyles.benefitContainer, { backgroundColor: colors.tertiary }]}>
-                    {benefits.map((benefit, index) => (
+                    {[
+                        i18n.t("benefit_remove_advertising"),
+                        i18n.t("unlimited_group_stages"),
+                        i18n.t("unlimited_teams"),
+                        i18n.t("unlimited_images"),
+                        i18n.t("unlimited_players")
+                    ].map((benefit, index) => (
                         <Text key={index}>• {benefit}</Text>
                     ))}
                 </View>

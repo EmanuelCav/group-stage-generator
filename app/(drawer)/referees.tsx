@@ -79,7 +79,7 @@ const RefereesScreen = () => {
     }
 
     const goBack = useCallback(() => {
-        router.replace("/(tabs)/groups")
+        router.replace("/(drawer)/(tabs)/groups")
     }, [router])
 
     const renderReferee = useCallback(

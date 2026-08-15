@@ -15,8 +15,6 @@ import { useUserStore } from "@/store/user.store"
 
 import { nextMatches, previousMatches } from "@/utils/matchday"
 
-import { useSpacing } from "@/hooks/useSpacing"
-
 const HomeTeamScreen = () => {
 
     const { group, updateTeam, createTeam } = useGroupStore()
@@ -24,7 +22,6 @@ const HomeTeamScreen = () => {
     const { premium } = useUserStore()
 
     const { colors } = useTheme()
-    const spacing = useSpacing()
 
     const openSure = (data: ITeam) => {
         getTeam(data)
@@ -56,7 +53,6 @@ const HomeTeamScreen = () => {
                     hideAndShowAddTeam={hideAndShowAddTeam}
                     createTeam={createTeam}
                     updateTeam={handleUpdate}
-                    spacing={spacing}
                 />
             )}
             <ScrollView style={{ flex: 1, width: '100%', backgroundColor: colors.background, paddingHorizontal: Dimensions.get("window").height / 106 }}

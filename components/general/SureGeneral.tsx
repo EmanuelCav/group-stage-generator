@@ -17,7 +17,7 @@ const SureGeneral = () => {
     const { user } = useAuth()
 
     const handleRestart = () => {
-        router.replace("/create")
+        router.replace("/(create)/teams")
         setTimeout(() => {
             sureRestartGroup(false);
             restartGroup();

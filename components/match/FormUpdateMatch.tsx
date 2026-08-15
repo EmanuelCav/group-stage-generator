@@ -3,11 +3,11 @@ import { enGB, registerTranslation, DatePickerModal, TimePickerModal } from 'rea
 import { View } from 'react-native';
 import { Avatar, Button, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
-import { Dropdown } from 'react-native-element-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n'
 
 import ContainerBackground from '../general/ContainerBackground'
+import CustomDropdown from '../general/CustomDropdown';
 
 import { IMatch } from '@/interface/Match';
 import { FormUpdateMatchPropsType } from '@/types/match.types'
@@ -26,10 +26,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
-    const [stadiumSelected, setStadiumSelected] = useState<string>(match.stadium ?? "")
-    const [referreSelected, setRefereeSelected] = useState<string>(match.referee ?? "")
-    const [isFocusStadium, setIsFocusStadium] = useState<boolean>(false)
-    const [isFocusReferee, setIsFocusReferee] = useState<boolean>(false)
+    const [venueSelected, setVenueSelected] = useState<string>(match.stadium ?? "")
+    const [refereeSelected, setRefereeSelected] = useState<string>(match.referee ?? "")
     const [date, setDate] = useState<string | undefined>(match.date ?? undefined);
     const [time, setTime] = useState<{ hours: number; minutes: number } | undefined>(match.time ?? undefined);
     const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
@@ -45,8 +43,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             const dataUpdated: IMatch = {
                 isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
                 local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null },
-                referee: referreSelected,
-                stadium: stadiumSelected,
+                referee: refereeSelected,
+                stadium: venueSelected,
                 statistics: match.statistics,
                 players: match.players,
                 summary: match.summary,
@@ -246,80 +244,24 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                 <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_stadium")}</Text>
-                <Dropdown
-                    style={[
-                        createStyles.dropdownComplete,
-                        { backgroundColor: colors.tertiary },
-                        isFocusStadium && { borderColor: colors.primary },
-                    ]}
-                    placeholderStyle={{
-                        fontSize: spacing.h47,
-                        color: colors.surface,
-                        backgroundColor: colors.tertiary
-                    }}
-                    selectedTextStyle={{
-                        fontSize: spacing.h47,
-                        color: colors.surface,
-                        backgroundColor: colors.tertiary
-                    }}
-                    itemTextStyle={{
-                        color: colors.surface
-                    }}
-                    containerStyle={{
-                        backgroundColor: colors.tertiary,
-                    }}
-                    activeColor={colors.primary}
+                <CustomDropdown
                     data={venuesData}
-                    maxHeight={spacing.h3_8}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={String(stadiumSelected)}
-                    value={stadiumSelected}
-                    onFocus={() => setIsFocusStadium(true)}
-                    onBlur={() => setIsFocusStadium(false)}
-                    onChange={item => {
-                        setStadiumSelected(item.value)
-                        setIsFocusStadium(false)
+                    value={venueSelected}
+                    colors={colors}
+                    onChange={(item) => {
+                        setVenueSelected(item.value);
                     }}
                 />
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                 <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_referee")}</Text>
-                <Dropdown
-                    style={[
-                        createStyles.dropdownComplete,
-                        { backgroundColor: colors.tertiary },
-                        isFocusReferee && { borderColor: colors.primary },
-                    ]}
-                    placeholderStyle={{
-                        fontSize: spacing.h47,
-                        color: colors.surface,
-                        backgroundColor: colors.tertiary
-                    }}
-                    selectedTextStyle={{
-                        fontSize: spacing.h47,
-                        color: colors.surface,
-                        backgroundColor: colors.tertiary
-                    }}
-                    itemTextStyle={{
-                        color: colors.surface
-                    }}
-                    containerStyle={{
-                        backgroundColor: colors.tertiary,
-                    }}
-                    activeColor={colors.primary}
+                <CustomDropdown
                     data={refereesData}
-                    maxHeight={spacing.h3_8}
-                    labelField="label"
-                    valueField="value"
-                    placeholder={String(referreSelected)}
-                    value={referreSelected}
-                    onFocus={() => setIsFocusReferee(true)}
-                    onBlur={() => setIsFocusReferee(false)}
-                    onChange={item => {
-                        setRefereeSelected(item.value)
-                        setIsFocusReferee(false)
+                    value={refereeSelected}
+                    colors={colors}
+                    onChange={(item) => {
+                        setRefereeSelected(item.value);
                     }}
                 />
             </View>

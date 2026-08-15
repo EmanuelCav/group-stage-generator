@@ -22,14 +22,12 @@ export type GroupLabelPropsType = {
     colors: MD3Colors;
     group: IGroup;
     matchdayViewUpdated: (data: string) => void;
-    spacing: Spacing;
 }
 
 export type MatchdayLabelPropsType = {
     colors: MD3Colors;
     group: IGroup;
     matchdayNumber: (data: string) => void;
-    spacing: Spacing;
 }
 
 export type ManualFixtureCardPropsType = {

@@ -39,17 +39,3 @@ export type HeaderConfigPropsType = {
     colors: MD3Colors;
     comeBack: () => void;
 }
-
-export type ConfigButtonPropsType = {
-    text: string;
-    colors: MD3Colors;
-    func: () => void;
-}
-
-export type TieBreakCriteriaPropsType = {
-    initialData: { label: string, id: string }[];
-    setInitialData: React.Dispatch<React.SetStateAction<{
-        label: string;
-        id: string;
-    }[]>>;
-}

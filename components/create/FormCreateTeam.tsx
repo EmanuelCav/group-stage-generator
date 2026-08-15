@@ -4,12 +4,12 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
 import { TextInput, Card, Text, IconButton, MD3Colors, Button } from "react-native-paper";
-import { Dropdown } from 'react-native-element-dropdown';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
+import CustomDropdown from "../general/CustomDropdown";
 
 import { FormCreateTeamPropsType } from "@/types/create.types";
 import { ICreate } from "@/interface/Team";
@@ -24,14 +24,12 @@ import { teamSchema } from "@/schema/team.schema";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium, spacing }: FormCreateTeamPropsType) => {
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
   const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${i18n.t("group.title")} ${team.groupAssigned}` : "")
   const [image, setImage] = useState<string>(team.logo ?? "")
-  const [isFocus, setIsFocus] = useState<boolean>(false)
   const [picking, setPicking] = useState<boolean>(false)
-  const [isFocusGroup, setIsFocusGroup] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
@@ -232,16 +230,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
   }, []);
 
   return (
-    <ContainerBackground zIndex={20}>
-
-      <IconButton
-        icon="close"
-        style={generalStyles.buttonClose}
-        iconColor={MD3Colors.error50}
-        size={24}
-        onPress={() => hideAndShowAddTeam(false)}
-      />
-
+    <ContainerBackground zIndex={20} onClose={() => hideAndShowAddTeam(false)}>
       {image ? (
         <Card style={[createStyles.cardAddTeam, { backgroundColor: colors.tertiary }]} onPress={pickImage}>
           <Image source={{ uri: image }} style={createStyles.imageCard} />
@@ -281,40 +270,12 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       {group.isManualConfiguration && (
         <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
           <Text variant="labelLarge">{i18n.t("teamForm.plotOptional")}</Text>
-          <Dropdown
-            style={[
-              createStyles.dropdownComplete,
-              { backgroundColor: colors.tertiary },
-              isFocus && { borderColor: colors.primary },
-            ]}
-            placeholderStyle={{
-              fontSize: spacing.h47,
-              color: colors.surface,
-              backgroundColor: colors.tertiary
-            }}
-            selectedTextStyle={{
-              fontSize: spacing.h47,
-              color: colors.surface,
-              backgroundColor: colors.tertiary
-            }}
-            itemTextStyle={{
-              color: colors.surface
-            }}
-            containerStyle={{
-              backgroundColor: colors.tertiary,
-            }}
-            activeColor={colors.primary}
+          <CustomDropdown
             data={plotsData}
-            maxHeight={spacing.h5}
-            labelField="label"
-            valueField="value"
-            placeholder={String(plot)}
             value={plot}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
+            colors={colors}
+            onChange={(item) => {
               setPlot(item.value);
-              setIsFocus(false);
             }}
           />
         </View>
@@ -323,40 +284,12 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       {group.isManualConfiguration && (
         <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
           <Text variant="labelLarge">{i18n.t("teamForm.defineGroupOptional")}</Text>
-          <Dropdown
-            style={[
-              createStyles.dropdownComplete,
-              { backgroundColor: colors.tertiary },
-              isFocusGroup && { borderColor: colors.primary },
-            ]}
-            placeholderStyle={{
-              fontSize: spacing.h47,
-              color: colors.surface,
-              backgroundColor: colors.tertiary
-            }}
-            selectedTextStyle={{
-              fontSize: spacing.h47,
-              color: colors.surface,
-              backgroundColor: colors.tertiary
-            }}
-            itemTextStyle={{
-              color: colors.surface
-            }}
-            containerStyle={{
-              backgroundColor: colors.tertiary,
-            }}
-            activeColor={colors.primary}
+          <CustomDropdown
             data={groupsData}
-            maxHeight={spacing.h5}
-            labelField="label"
-            valueField="value"
-            placeholder={String(groupNumber)}
             value={groupNumber}
-            onFocus={() => setIsFocusGroup(true)}
-            onBlur={() => setIsFocusGroup(false)}
-            onChange={item => {
-              setGroupNumber(item.value);
-              setIsFocusGroup(false);
+            colors={colors}
+            onChange={(item) => {
+              setGroupNumber((item.value));
             }}
           />
         </View>

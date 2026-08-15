@@ -39,11 +39,6 @@ export interface ICreateSummary {
     time: string;
 }
 
-export interface IPlot {
-    label: string;
-    value: number;
-}
-
 export interface IDropdown {
     label: string;
     value: string;

@@ -43,7 +43,7 @@ const toastConfig = {
 const TeamsScreen = () => {
 
   const { showForm, hideAndShowAddTeam, getTeam, team, isSure, sureRemoveTeam } = useTeamStore()
-  const { group, groups, createTeam, generateMatches, updateGenerateAgain, updateTeam, removeTeam } = useGroupStore()
+  const { group, createTeam, generateMatches, updateGenerateAgain, updateTeam, removeTeam } = useGroupStore()
   const { premium } = useUserStore()
 
   const { colors } = useTheme()
@@ -109,7 +109,7 @@ const TeamsScreen = () => {
         }
       }
 
-      router.replace("/(tabs)/groups")
+      router.replace("/(drawer)/(tabs)/groups")
 
     } catch (error) {
       console.log(error);
@@ -154,10 +154,6 @@ const TeamsScreen = () => {
     getTeam({})
     hideAndShowAddTeam(true)
   }
-
-  const goBack = useCallback(() => {
-    router.replace("/(tabs)/groups")
-  }, [router])
 
   useEffect(() => {
     hideAndShowAddTeam(false)
@@ -212,15 +208,12 @@ const TeamsScreen = () => {
           hideAndShowAddTeam={hideAndShowAddTeam}
           createTeam={createTeam}
           updateTeam={handleUpdate}
-          spacing={spacing}
         />
       )}
 
       <HeaderCreate
         colors={colors}
-        groups={groups}
         router={router}
-        group={group}
       />
 
       {

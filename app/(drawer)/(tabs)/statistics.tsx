@@ -15,13 +15,10 @@ import { generalStyles } from "@/styles/general.styles"
 
 import { useGroupStore } from "@/store/group.store"
 
-import { useSpacing } from "@/hooks/useSpacing"
-
 const StatisticsScreen = () => {
 
     const { group } = useGroupStore()
 
-    const spacing = useSpacing()
     const router = useRouter()
     const { colors } = useTheme()
 
@@ -39,7 +36,7 @@ const StatisticsScreen = () => {
             <SureGeneral />
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {
-                    group.players?.length! > 0 && <StatisticsLabel colors={colors} statisticView={statisticView} spacing={spacing} setStatisticView={setStatisticView} />
+                    group.players?.length! > 0 && <StatisticsLabel colors={colors} statisticView={statisticView} setStatisticView={setStatisticView} />
                 }
                 {
                     group.players?.length! > 0 ?

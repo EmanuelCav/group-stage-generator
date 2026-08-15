@@ -26,14 +26,11 @@ export type FormCreateTeamPropsType = {
     group: IGroup;
     team: ITeam;
     premium: boolean;
-    spacing: Spacing;
 }
 
 export type HeaderCreatePropsType = {
     colors: MD3Colors;
-    groups: IGroup[];
     router: Router;
-    group: IGroup;
 }
 
 export type AddButtonPropsType = {

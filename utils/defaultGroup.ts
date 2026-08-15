@@ -6,7 +6,7 @@ import { IGroup } from "@/interface/Group";
 import { IPlayer } from "@/interface/Player";
 import { IReferee } from "@/interface/Referee";
 import { IVenue } from "@/interface/Venue";
-import { IDropdown, IPlot, ITeam } from "@/interface/Team";
+import { IDropdown, ITeam } from "@/interface/Team";
 import { IMatch } from '@/interface/Match';
 
 export const groupValue = (id: number, user_id: string | null): IGroup => {
@@ -59,14 +59,14 @@ export const teamValue = (id: string, logo: string | undefined, name: string, pl
 
 }
 
-export const dataPlots = (teamsPerGroup: number): IPlot[] => {
+export const dataPlots = (teamsPerGroup: number): IDropdown[] => {
 
-    let plots: IPlot[] = []
+    let plots: IDropdown[] = []
 
     for (let i = 1; i <= teamsPerGroup; i++) {
         plots.push({
             label: `${i18n.t("plot")} ${i}`,
-            value: i
+            value: String(i)
         })
     }
 
@@ -74,14 +74,14 @@ export const dataPlots = (teamsPerGroup: number): IPlot[] => {
 
 }
 
-export const dataGroupNumber = (amountGroups: number): IPlot[] => {
+export const dataGroupNumber = (amountGroups: number): IDropdown[] => {
 
-    let groups: IPlot[] = []
+    let groups: IDropdown[] = []
 
     for (let i = 1; i <= amountGroups; i++) {
         groups.push({
             label: `${i18n.t("group.title")} ${i}`,
-            value: i
+            value: String(i)
         })
     }
 

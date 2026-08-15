@@ -23,6 +23,8 @@ import { columnTitle, detectChangesElimination, getElimationTeams } from "@/util
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
 
+import { idMatch } from "@/utils/matchday";
+
 const KnockoutScreen = () => {
 
     const { generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, sureRestartElimination, isSureRestartElimination, restartElimination, updateTeamMatchElimination } = useGroupStore()
@@ -61,7 +63,7 @@ const KnockoutScreen = () => {
 
         getMatchKnockout(data)
 
-        router.navigate("/matchknockout")
+        router.navigate(`/(match)/knockout/${idMatch(`${data.match?.visitant.team.name}-${data.match?.local.team.name}`)}`)
 
     }, [group.eliminationMatches, getMatchKnockout, router])
 

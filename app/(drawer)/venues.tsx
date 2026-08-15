@@ -79,7 +79,7 @@ const VenuesScreen = () => {
   }
 
   const goBack = useCallback(() => {
-    router.replace("/(tabs)/groups")
+    router.replace("/(drawer)/(tabs)/groups")
   }, [router])
 
   const renderVenue = useCallback(
