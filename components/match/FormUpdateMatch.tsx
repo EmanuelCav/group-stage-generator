@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { Avatar, Button, PaperProvider, Text, TextInput, DefaultTheme } from 'react-native-paper'
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from '@/i18n'
 
 import ContainerBackground from '../general/ContainerBackground'
 import CustomDropdown from '../general/CustomDropdown';
@@ -22,7 +21,7 @@ import { getGroupUpdateTeamMatch } from '@/utils/matchday';
 
 import { interstitialService } from '@/services/interstitialService';
 
-const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, spacing, isFullName }: FormUpdateMatchPropsType) => {
+const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, spacing, isFullName, t }: FormUpdateMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -140,7 +139,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
         <ContainerBackground zIndex={20} onClose={() => hideAndShowUpdateMatch(false)}>
 
             <Text variant="labelLarge" style={{ marginVertical: spacing.h28 }}>
-                {i18n.t("team_scores")}
+                {t("team_scores")}
             </Text>
 
             <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
@@ -206,14 +205,14 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
 
             <View style={[createStyles.selectInputDropdownContain,
             { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge">{i18n.t("select_match_date")}</Text>
+                <Text variant="labelLarge">{t("select_match_date")}</Text>
 
                 <Button onPress={() => setShowDatePicker(true)}>
-                    {date ?? i18n.t("select_date")}
+                    {date ?? t("select_date")}
                 </Button>
 
                 <Button onPress={() => setShowTimePicker(true)}>
-                    {time?.hours ? `${time.hours < 10 ? "0" : ""}${time.hours}:${time.minutes < 10 ? "0" : ""}${time.minutes}` : i18n.t("select_hour")}
+                    {time?.hours ? `${time.hours < 10 ? "0" : ""}${time.hours}:${time.minutes < 10 ? "0" : ""}${time.minutes}` : t("select_hour")}
                 </Button>
 
                 <PaperProvider theme={theme}>
@@ -243,7 +242,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_stadium")}</Text>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{t("select_stadium")}</Text>
                 <CustomDropdown
                     data={venuesData}
                     value={venueSelected}
@@ -255,7 +254,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_referee")}</Text>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{t("select_referee")}</Text>
                 <CustomDropdown
                     data={refereesData}
                     value={refereeSelected}
@@ -274,7 +273,7 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 labelStyle={{ color: "#ffffff" }}
                 onPress={handleUpdateMatch}
             >
-                {i18n.t("update")}
+                {t("update")}
             </Button>
         </ContainerBackground>
     )

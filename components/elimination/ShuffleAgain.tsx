@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
-import i18n from '@/i18n'
 
 import { View } from "react-native";
 
@@ -10,13 +9,13 @@ import { generalStyles } from "@/styles/general.styles";
 
 import { getElimationTeams } from "@/utils/elimination";
 
-const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnockout, drawedElimination }: ShuffleAgainPropsType) => {
+const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnockout, drawedElimination, t }: ShuffleAgainPropsType) => {
 
     const generateKnockoutStage = useCallback(() => {
 
         try {
 
-            generateElimination(getElimationTeams(group, true))
+            generateElimination(getElimationTeams(group, true, t))
             drawedElimination(true)
 
         } catch (error) {
@@ -37,7 +36,7 @@ const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnocko
             </View>
             <Card.Content style={generalStyles.showGenerateAgain}>
                 <Text variant="titleSmall" style={{ textAlign: 'center' }}>
-                    {i18n.t("drawKnockoutQuestion")}
+                    {t("drawKnockoutQuestion")}
                 </Text>
                 <Button
                     mode="contained"
@@ -45,7 +44,7 @@ const ShuffleAgain = ({ colors, group, generateElimination, updateShuffledKnocko
                     style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                     labelStyle={{ color: "#ffffff" }}
                 >
-                    {i18n.t("drawButton")}
+                    {t("drawButton")}
                 </Button>
             </Card.Content>
         </Card>

@@ -1,15 +1,15 @@
+import { View } from 'react-native';
 import { MD3Colors, Text, TextInput } from 'react-native-paper';
 import { Controller } from 'react-hook-form';
-import { View } from 'react-native';
 
 import { InputSettingsPropsType } from '@/types/config.types';
 
 import { configStyles } from '@/styles/config.styles';
 
-const InputSettings = ({ text, name, control, error, defaultValue, colors, handleFocus, spacing }: InputSettingsPropsType) => {
+const InputSettings = ({ text, name, control, error, defaultValue, colors, handleFocus, spacing, t }: InputSettingsPropsType) => {
     return (
         <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-            <Text variant="bodyLarge">{text}</Text>
+            <Text variant="bodyLarge" style={{ textAlign: 'center' }}>{text}</Text>
             <Controller
                 name={name}
                 control={control}
@@ -26,13 +26,13 @@ const InputSettings = ({ text, name, control, error, defaultValue, colors, handl
                         defaultValue={defaultValue}
                         value={value as string}
                         style={[configStyles.inputSettingsNumber, { backgroundColor: colors.tertiary }]}
-                        maxLength={2}
+                        maxLength={3}
                     />
                 )}
             />
             {error && <Text variant='bodySmall'
                 style={{ color: MD3Colors.error50, textAlign: "center", marginTop: spacing.h185 }}>
-                {error}
+                {t(error, { defaultValue: error })}
             </Text>
             }
         </View>

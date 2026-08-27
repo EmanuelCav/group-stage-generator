@@ -4,6 +4,7 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 export type HeaderSettingsPropsType = {
     colors: MD3Colors;
     router: Router;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type ListItemSwitchPropsType = {

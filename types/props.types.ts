@@ -47,6 +47,7 @@ export type MatchPropsType = {
     spacing: Spacing;
     isEditMode: boolean;
     handleUpdateTeamMatch: (indexGroup: number, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type AddActionPropsType = {
@@ -88,4 +89,12 @@ export type CustomDropdownPropsType = {
     value: string;
     onChange: (item: IDropdown) => void;
     colors: MD3Colors;
+}
+
+export type CustomPickerPropsType = {
+    items: IDropdown[];
+    value: string;
+    onChange: (value: string) => void;
+    colors: MD3Colors;
+    title: string;
 }

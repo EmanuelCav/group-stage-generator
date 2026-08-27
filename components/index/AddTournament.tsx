@@ -1,17 +1,16 @@
 import { Button, Text } from "react-native-paper"
 import { View } from "react-native"
-import i18n from '@/i18n'
 
 import { AddTournamentPropsType } from "@/types/index.types"
 
 import { createStyles } from "@/styles/create.styles"
 
-const AddTournament = ({ handleCreateTournament, colors }: AddTournamentPropsType) => {
+const AddTournament = ({ handleCreateTournament, colors, t }: AddTournamentPropsType) => {
 
     return (
         <View style={[createStyles.containerAddTeam, { backgroundColor: colors.background }]}>
             <Text variant="titleLarge" style={[createStyles.textHeader, { color: colors.primary }]}>
-                {i18n.t("groupStage.welcome")}
+                {t("groupStage.welcome")}
             </Text>
             <Button
                 mode="contained"
@@ -20,7 +19,7 @@ const AddTournament = ({ handleCreateTournament, colors }: AddTournamentPropsTyp
                 labelStyle={{ color: "#ffffff" }}
                 onPress={handleCreateTournament}
             >
-                {i18n.t("groupStage.addTournament")}
+                {t("groupStage.addTournament")}
             </Button>
         </View>
     )

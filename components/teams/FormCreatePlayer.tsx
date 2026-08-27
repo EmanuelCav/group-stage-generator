@@ -1,226 +1,125 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useMemo, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { ScrollView, View } from "react-native";
-import { Button, MD3Colors, Text, TextInput } from "react-native-paper";
-import Toast from 'react-native-toast-message';
-import i18n from '@/i18n';
+import { memo, useMemo } from "react"
+import { View } from "react-native"
+import { Avatar, Text } from "react-native-paper"
 
-import ContainerBackground from "../general/ContainerBackground";
-import StatisticPlayer from "./components/StatisticPlayer";
+import { MatchRowPropsType } from "@/types/teams.types"
 
-import { ICreatePlayer } from "@/interface/Team";
-import { FormCreatePlayerPropsType } from "@/types/player.types";
+import { teamsStyles } from "@/styles/team.styles"
 
-import { generalStyles } from "@/styles/general.styles";
-import { createStyles } from "@/styles/create.styles";
+import { nameParticipant } from "@/utils/points"
 
-import { generateId } from "@/utils/defaultGroup";
-import { statisticPlayer } from "@/utils/statistics";
+const MatchRow = memo(({ match, team, t }: MatchRowPropsType) => {
 
-import { playerSchema } from "@/schema/player.schema";
+    const isVisitant = match.visitant.team.name === team.name
 
-import { interstitialService } from "@/services/interstitialService";
+    const rival = useMemo(() => {
+        return isVisitant ? match.local.team : match.visitant.team
+    }, [match, team, isVisitant])
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, premium, spacing, team }: FormCreatePlayerPropsType) => {
+    const scoreTeam = useMemo(() => {
+        const score = isVisitant ? match.visitant.score : match.local.score
+        return score !== null && score !== undefined ? Number(score) : null
+    }, [match, isVisitant])
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const scoreRival = useMemo(() => {
+        const score = isVisitant ? match.local.score : match.visitant.score
+        return score !== null && score !== undefined ? Number(score) : null
+    }, [match, isVisitant])
 
-    const { control, handleSubmit, reset, formState: { errors } } = useForm({
-        resolver: yupResolver(playerSchema),
-        defaultValues: {
-            name: player.name ?? "",
-            position: player.position ?? "",
-        }
-    })
+    const formatDateBadge = (dateString?: string) => {
+        if (!dateString) return { month: "-", day: "-" }
 
-    const handleAddPlayer = async (playerCreated: ICreatePlayer) => {
+        const [year, month, day] = dateString.split("-").map(Number)
+        if (!year || !month || !day) return { month: "-", day: "-" }
 
-        if (!player.id) {
+        const date = new Date(year, month - 1, day)
+        const monthStr = date
+            .toLocaleString("default", { month: "short" })
+            .replace(".", "")
+            .toUpperCase()
 
-            const countPlayerTeam = group.players?.filter(pl => pl.team?.id === player.team?.id).length!
+        const dayStr = day < 10 ? `0${day}` : `${day}`
 
-            if (!premium && countPlayerTeam >= 15) {
-                Toast.show({
-                    type: 'error',
-                    text1: i18n.t("limit_players"),
-                    text2: i18n.t("limit_players_description")
-                });
-                return
-            }
-
-        }
-
-        try {
-
-            setLoading(true)
-
-            if (player.id) {
-                updatePlayer({
-                    id: player.id,
-                    name: playerCreated.name,
-                    team,
-                    position: playerCreated.position
-                })
-            } else {
-                createPlayer({
-                    id: generateId(),
-                    name: playerCreated.name,
-                    team,
-                    position: playerCreated.position
-                })
-
-                try {
-
-                    const storedCount = await AsyncStorage.getItem("reviewCount");
-                    const count = storedCount ? parseInt(storedCount, 10) : 0;
-
-                    if (group.players?.length !== 0) {
-                        if (group.players?.length === 1 || group.players!.length % 7 === 0) {
-                            if (!premium && interstitialService.isLoaded() && count > 3) {
-                                interstitialService.show()
-                            }
-                        }
-                    }
-
-                } catch (error) {
-                    console.log(error);
-                }
-
-            }
-
-            hideAndShowAddPlayer(false)
-            reset()
-
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false)
-        }
+        return { month: monthStr, day: dayStr }
     }
 
-    const statistics = useMemo(() => {
-        if (!player.id) return []
-        return statisticPlayer(group, player);
-    }, [group, player])
+    const hasScore = scoreTeam !== null && scoreRival !== null
+
+    const matchResult = useMemo(() => {
+        if (!hasScore) return null
+        if (scoreTeam > scoreRival) return { status: "WIN", label: t("group.wins"), color: "#2e7d32", bgColor: "#e8f5e9" }
+        if (scoreTeam < scoreRival) return { status: "LOSS", label: t("group.losses"), color: "#d32f2f", bgColor: "#ffebee" }
+        return { status: "DRAW", label: t("group.draws"), color: "#757575", bgColor: "#f5f5f5" }
+    }, [hasScore, scoreTeam, scoreRival])
+
+    const dateFormatted = useMemo(() => formatDateBadge(match.date), [match.date])
 
     return (
-        <ContainerBackground zIndex={20} onClose={() => hideAndShowAddPlayer(false)}>
-
-            <Controller
-                name="name"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        value={value}
-                        onChangeText={onChange}
-                        autoCapitalize="none"
-                        onBlur={onBlur}
-                        label={i18n.t("playerName")}
-                        mode="outlined"
-                        style={[createStyles.inputGeneralCreate, { backgroundColor: colors.tertiary }]}
-                        maxLength={30}
-                    />
-                )}
-            />
-            {errors.name && (
-                <Text
-                    variant="labelMedium"
-                    style={{
-                        color: MD3Colors.error50,
-                        marginTop: spacing.h106,
-                    }}
-                >
-                    {i18n.t(errors.name.message!, { defaultValue: errors.name.message })}
-                </Text>
-            )}
-
-            <Controller
-                name="position"
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                        value={value}
-                        onChangeText={onChange}
-                        autoCapitalize="none"
-                        onBlur={onBlur}
-                        label={i18n.t("positionOptional")}
-                        mode="outlined"
-                        style={[{ backgroundColor: colors.tertiary, marginTop: 14 }]}
-                    />
-                )}
-            />
-            {errors.position && (
-                <Text
-                    variant="labelMedium"
-                    style={{
-                        color: MD3Colors.error50,
-                        marginTop: spacing.h106,
-                    }}
-                >
-                    {i18n.t(errors.position.message!, { defaultValue: errors.position.message })}
-                </Text>
-            )}
-
-            {player.id && statistics.length > 0 && (
-                <View style={{ marginTop: 7 }}>
-                    <Text variant="bodyLarge" style={{ color: colors.primary }}>
-                        {i18n.t("statistics")}
-                    </Text>
-                    <ScrollView
-                        style={[
-                            createStyles.containerStatisticsPlayer,
-                            { borderColor: colors.primary, borderWidth: 1.5 },
-                        ]}
-                        nestedScrollEnabled={true}
-                        showsVerticalScrollIndicator={false}
+        <View style={teamsStyles.matchRow}>
+            <View style={teamsStyles.containMatchRow}>
+                <View style={teamsStyles.dateMatchRow}>
+                    <Text
+                        variant="labelSmall"
+                        style={teamsStyles.monthMatch}
                     >
-                        {statistics.map((item, index) => (
-                            <StatisticPlayer
-                                key={index}
-                                statistic={item}
-                                title=""
-                                // title={group.statistics?.map(s => s.title)[index]!}
-                                colors={colors}
-                                // isLast={(index + 1) === group.statistics!.length}
-                                isLast={false}
-                            />
-                        ))}
-                    </ScrollView>
+                        {dateFormatted.month}
+                    </Text>
+
+                    <Text
+                        variant="titleMedium"
+                        style={teamsStyles.dayMatch}
+                    >
+                        {dateFormatted.day}
+                    </Text>
+                </View>
+
+                {rival.logo ? (
+                    <Avatar.Image
+                        source={{ uri: rival.logo }}
+                        size={28}
+                        style={{ margin: 0 }}
+                    />
+                ) : (
+                    <Avatar.Icon
+                        icon="shield-outline"
+                        size={28}
+                        color="#ffffff"
+                        style={{ backgroundColor: rival.color || match.visitant.team.color, margin: 0 }}
+                    />
+                )}
+
+                <Text
+                    style={{ flex: 1, marginLeft: 7 }}
+                    variant="bodyLarge"
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                >
+                    {nameParticipant(rival.name!)}
+                </Text>
+            </View>
+
+            {hasScore && matchResult && (
+                <View style={[teamsStyles.scoreMatchRow, { flexDirection: "row", alignItems: "center", gap: 6 }]}>
+                    <Text variant="titleMedium">
+                        {`${scoreTeam} - ${scoreRival}`}
+                    </Text>
+
+                    <View
+                        style={[teamsStyles.resultState, { backgroundColor: matchResult.bgColor }]}
+                    >
+                        <Text
+                            style={{
+                                color: matchResult.color,
+                                fontSize: 12
+                            }}
+                        >
+                            {matchResult.label}
+                        </Text>
+                    </View>
                 </View>
             )}
+        </View>
+    )
+})
 
-            <Button
-                loading={loading}
-                disabled={loading}
-                mode="contained"
-                style={[
-                    { backgroundColor: colors.primary },
-                    generalStyles.generateButton,
-                ]}
-                labelStyle={{ color: "#ffffff" }}
-                onPress={handleSubmit((data) => handleAddPlayer(data))}
-            >
-                {player.name ? i18n.t("update") : i18n.t("add")}
-            </Button>
-
-            {player.name && (
-                <Button
-                    disabled={loading}
-                    mode="contained"
-                    style={[
-                        { backgroundColor: MD3Colors.error50 },
-                        generalStyles.generateButton,
-                    ]}
-                    labelStyle={{ color: "#ffffff" }}
-                    onPress={() => openSure(player)}
-                >
-                    {i18n.t("remove")}
-                </Button>
-            )}
-        </ContainerBackground>
-    );
-};
-
-export default FormCreatePlayer
+export default MatchRow

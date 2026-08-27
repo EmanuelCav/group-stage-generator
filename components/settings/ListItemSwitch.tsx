@@ -9,6 +9,7 @@ const ListItemSwitch = ({ colors, value, setValue, iconName, title }: ListItemSw
     return (
         <List.Item
             title={title}
+            background={colors.tertiary}
             style={[settingsStyles.listItemContain, { borderColor: colors.primary, backgroundColor: colors.tertiary }]}
             left={() => (
                 <MaterialCommunityIcons

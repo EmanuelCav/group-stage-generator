@@ -3,7 +3,6 @@ import { FlatList, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import TeamAdded from "@/components/create/TeamAdded";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
@@ -20,6 +19,7 @@ import { useGroupStore } from "@/store/group.store";
 import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const toastConfig = {
   error: (props: any) => (
@@ -38,6 +38,8 @@ const TeamsDrawerScreen = () => {
   const { premium } = useUserStore()
 
   const { colors } = useTheme()
+  const { t } = useLanguage()
+
   const router = useRouter()
 
   const spacing = useSpacing()
@@ -65,6 +67,7 @@ const TeamsDrawerScreen = () => {
         handleUpdateTeam={handleUpdateTeam}
         colors={colors}
         spacing={spacing}
+        t={t}
       />
     ),
     [group.isManualConfiguration, group.teams, handleUpdateTeam, colors]
@@ -87,7 +90,7 @@ const TeamsDrawerScreen = () => {
 
       <HeaderGeneral
         colors={colors}
-        title={i18n.t('teams')}
+        title={t('teams')}
         goBack={goBack}
         isMatchdaysScreen={false}
       />
@@ -103,7 +106,7 @@ const TeamsDrawerScreen = () => {
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
 
         <Text variant="bodyMedium" style={{ alignSelf: 'flex-start' }}>
-          {i18n.t("teamsAddedCount")}: {group.teams.length}
+          {t("teamsAddedCount")}: {group.teams.length}
         </Text>
 
         <FlatList

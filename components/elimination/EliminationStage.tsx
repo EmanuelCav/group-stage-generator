@@ -9,7 +9,7 @@ import { eliminationStyles } from '@/styles/elimination.styles';
 
 import { columnTitle } from '@/utils/elimination';
 
-const EliminationStage = memo(({ group, colors, handleGetMatch, spacing, isFullName, handleUpdateTeamMatch, isEditMode }: EliminationStagePropsType) => {
+const EliminationStage = memo(({ group, colors, handleGetMatch, spacing, isFullName, handleUpdateTeamMatch, isEditMode, t }: EliminationStagePropsType) => {
 
   return (
     <ScrollView horizontal>
@@ -19,7 +19,7 @@ const EliminationStage = memo(({ group, colors, handleGetMatch, spacing, isFullN
           group.eliminationMatches?.map((matches, index) => {
             return <ColumnElimination matches={matches} colors={colors}
               indexElimination={index} spacing={spacing} isFullName={isFullName}
-              text={columnTitle(index, group.eliminationMatches?.length!)} isEditMode={isEditMode}
+              text={columnTitle(index, group.eliminationMatches?.length!, t)} isEditMode={isEditMode}
               handleGetMatch={handleGetMatch} group={group} handleUpdateTeamMatch={handleUpdateTeamMatch} key={index} />
           })
         }

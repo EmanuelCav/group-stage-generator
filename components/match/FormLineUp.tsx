@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { Button, Checkbox, Text } from "react-native-paper"
 import { ScrollView, View } from "react-native"
-import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground"
 import TeamView from "./components/TeamView"
@@ -15,7 +14,7 @@ import { matchStyles } from "@/styles/match.styles"
 
 import { getGroupUpdateTeamMatch } from "@/utils/matchday"
 
-const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, updateMatch, updateMatchGroup, isKnockout, updateEliminationMatch, updateMatchKnockGroup, round, spacing, isFullName }: FormLineUpPropsType) => {
+const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, updateMatch, updateMatchGroup, isKnockout, updateEliminationMatch, updateMatchKnockGroup, round, spacing, isFullName, t }: FormLineUpPropsType) => {
 
     const [playersLocal, setPlayersLocal] = useState<Record<string, boolean>>({});
     const [playersVisitant, setPlayersVisitant] = useState<Record<string, boolean>>({});
@@ -164,7 +163,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
                 variant="labelLarge"
                 style={{ marginVertical: spacing.h28 }}
             >
-                {i18n.t('lineup.selectPlayers')}
+                {t('lineup.selectPlayers')}
             </Text>
 
             <View style={[matchStyles.containerLineUp, { backgroundColor: colors.background }]}>
@@ -175,7 +174,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
                             <Text variant="bodySmall" style={{
                                 textAlign: 'center',
                                 marginTop: spacing.h106
-                            }}>{i18n.t("noPlayers")}</Text>
+                            }}>{t("noPlayers")}</Text>
                             : <View style={{ backgroundColor: colors.background }}>
                                 {localPlayers.map((player) => (
                                     <Checkbox.Item
@@ -197,7 +196,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
                             <Text variant="bodySmall" style={{
                                 textAlign: 'center',
                                 marginTop: spacing.h106
-                            }}>{i18n.t("noPlayers")}</Text>
+                            }}>{t("noPlayers")}</Text>
                             : <View style={{ backgroundColor: colors.background }}>
                                 {visitantPlayers.map((player) => (
                                     <Checkbox.Item
@@ -220,7 +219,7 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
                 labelStyle={{ color: '#ffffff' }}
                 onPress={handleLineUp}
             >
-                {i18n.t('lineup.accept')}
+                {t('lineup.accept')}
             </Button>
         </ContainerBackground>
     )

@@ -3,7 +3,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Redirect, useRouter } from "expo-router"
 import { FlatList, View } from "react-native"
 import { Button, SegmentedButtons, Text, useTheme } from "react-native-paper"
-import i18n from '@/i18n'
 
 import MainScreen from "@/components/general/MainScreen"
 import TitleMatch from "@/components/match/TitleMatch"
@@ -32,10 +31,13 @@ import { getGroupUpdateTeamMatch, lineupPlayers } from "@/utils/matchday"
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const MatchMatchdayScreen = () => {
 
   const { colors } = useTheme()
+  const { t } = useLanguage()
+
   const router = useRouter()
   const { group, updateMatchGroup, updateMatchKnockGroup } = useGroupStore()
   const { match, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, updateMatch, statistic, getSummary, matchknockout,
@@ -170,13 +172,14 @@ const MatchMatchdayScreen = () => {
       <HeaderGetMatch
         colors={colors}
         router={router}
+        t={t}
       />
 
       {isSureSummary && (
         <Sure
           close={() => sureRemoveSummary(false)}
-          text={i18n.t("areYouSureDelete")}
-          labelButton={i18n.t("remove")}
+          text={t("areYouSureDelete")}
+          labelButton={t("remove")}
           func={handleRemoveSummary}
         />
       )}
@@ -184,8 +187,8 @@ const MatchMatchdayScreen = () => {
       {isSureStatistic && (
         <Sure
           close={() => sureRemoveStatistic(false)}
-          text={i18n.t("areYouSureDelete")}
-          labelButton={i18n.t("remove")}
+          text={t("areYouSureDelete")}
+          labelButton={t("remove")}
           func={handleRemoveStatistic}
         />
       )}
@@ -205,6 +208,7 @@ const MatchMatchdayScreen = () => {
           updateEliminationMatch={updateEliminationMatch}
           updateMatchKnockGroup={updateMatchKnockGroup}
           spacing={spacing}
+          t={t}
         />
       )}
 
@@ -227,6 +231,7 @@ const MatchMatchdayScreen = () => {
           updateMatchKnockGroup={updateMatchKnockGroup}
           spacing={spacing}
           premium={premium}
+          t={t}
         />
       )}
 
@@ -249,6 +254,7 @@ const MatchMatchdayScreen = () => {
           updateMatchKnockGroup={updateMatchKnockGroup}
           spacing={spacing}
           premium={premium}
+          t={t}
         />
       )}
 
@@ -264,13 +270,14 @@ const MatchMatchdayScreen = () => {
           premium={premium}
           spacing={spacing}
           isFullName={isFullName}
+          t={t}
         />
       )}
 
       <View style={[matchStyles.containerMatch, { backgroundColor: "transparent" }]}>
-        <TitleMatch match={match} colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} />
+        <TitleMatch match={match} colors={colors} hideAndShowUpdateMatch={hideAndShowUpdateMatch} t={t} />
         <ScoreTeams match={match.match!} colors={colors} spacing={spacing} isFullName={isFullName} />
-        <Information match={match.match!} colors={colors} />
+        <Information match={match.match!} colors={colors} t={t} />
         <SegmentedButtons
           style={{ marginTop: spacing.h47 }}
           value={segmentedButton}
@@ -278,19 +285,19 @@ const MatchMatchdayScreen = () => {
           buttons={[
             {
               value: 'summary',
-              label: i18n.t("summary_title"),
+              label: t("summary_title"),
               icon: 'file-document-outline',
               checkedColor: "#ffffff"
             },
             {
               value: 'players',
-              label: i18n.t("lineup_title"),
+              label: t("lineup_title"),
               icon: 'account-group-outline',
               checkedColor: "#ffffff"
             },
             {
               value: 'statistics',
-              label: i18n.t("statistics_title"),
+              label: t("statistics_title"),
               icon: 'chart-bar',
               checkedColor: "#ffffff"
             },
@@ -314,7 +321,7 @@ const MatchMatchdayScreen = () => {
                   style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
                   labelStyle={{ color: "#ffffff" }}
                 >
-                  {i18n.t("summary_add")}
+                  {t("summary_add")}
                 </Button>
                 <FlatList
                   style={{ width: '100%', marginBottom: insets.bottom }}
@@ -327,8 +334,8 @@ const MatchMatchdayScreen = () => {
               </View>
             ) : (
               <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>
-                <AddAction openForm={hideAndShowSummary} colors={colors} text={i18n.t("summary_add")} />
+                <Text variant="bodyMedium">{t("summary_empty")}</Text>
+                <AddAction openForm={hideAndShowSummary} colors={colors} text={t("summary_add")} />
               </View>
             )}
           </View>
@@ -348,8 +355,8 @@ const MatchMatchdayScreen = () => {
               />
             ) : (
               <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                <Text variant="bodyMedium">{i18n.t("lineup_empty")}</Text>
-                <AddAction openForm={hideAndShowPlayers} colors={colors} text={i18n.t("lineup_add")} />
+                <Text variant="bodyMedium">{t("lineup_empty")}</Text>
+                <AddAction openForm={hideAndShowPlayers} colors={colors} text={t("lineup_add")} />
               </View>
             )}
           </View>
@@ -366,7 +373,7 @@ const MatchMatchdayScreen = () => {
                   style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
                   labelStyle={{ color: "#ffffff" }}
                 >
-                  {i18n.t("statistics_add")}
+                  {t("statistics_add")}
                 </Button>
                 <FlatList
                   style={{ width: '100%', marginBottom: insets.bottom }}
@@ -379,8 +386,8 @@ const MatchMatchdayScreen = () => {
               </View>
             ) : (
               <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
-                <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
+                <Text variant="bodyMedium">{t("statistics_empty")}</Text>
+                <AddAction openForm={hideAndShowStatistics} colors={colors} text={t("statistics_add")} />
               </View>
             )}
           </View>

@@ -1,11 +1,11 @@
 import { Dimensions, View } from 'react-native'
 import { Card, Text } from 'react-native-paper'
-import { MD3Colors } from 'react-native-paper/lib/typescript/types'
-import i18n from '@/i18n';
 
 import { tentStyles } from '@/styles/tent.styles';
 
-const Benefits = ({ colors }: { colors: MD3Colors }) => {
+import { BenefitsPropsType } from '@/types/tent.types';
+
+const Benefits = ({ colors, t }: BenefitsPropsType) => {
     return (
         <Card style={{
             marginTop: Dimensions.get("window").height / 74,
@@ -17,15 +17,15 @@ const Benefits = ({ colors }: { colors: MD3Colors }) => {
         }}>
             <Card.Content>
                 <Text variant='titleLarge' style={{ fontFamily: 'Raleway_Bold' }}>
-                    {i18n.t("benefits")}
+                    {t("benefits")}
                 </Text>
                 <View style={[tentStyles.benefitContainer, { backgroundColor: colors.tertiary }]}>
                     {[
-                        i18n.t("benefit_remove_advertising"),
-                        i18n.t("unlimited_group_stages"),
-                        i18n.t("unlimited_teams"),
-                        i18n.t("unlimited_images"),
-                        i18n.t("unlimited_players")
+                        t("benefit_remove_advertising"),
+                        t("unlimited_group_stages"),
+                        t("unlimited_teams"),
+                        t("unlimited_images"),
+                        t("unlimited_players")
                     ].map((benefit, index) => (
                         <Text key={index}>• {benefit}</Text>
                     ))}

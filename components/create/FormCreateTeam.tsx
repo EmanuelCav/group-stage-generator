@@ -6,7 +6,6 @@ import * as ImagePicker from "expo-image-picker";
 import { TextInput, Card, Text, IconButton, MD3Colors, Button } from "react-native-paper";
 import Toast from 'react-native-toast-message';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
 import CustomDropdown from "../general/CustomDropdown";
@@ -24,10 +23,10 @@ import { teamSchema } from "@/schema/team.schema";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium }: FormCreateTeamPropsType) => {
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium, t }: FormCreateTeamPropsType) => {
 
-  const [plot, setPlot] = useState<string>(team.plot ? `${i18n.t("plot")} ${team.plot}` : `${i18n.t("plot")} 1`)
-  const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${i18n.t("group.title")} ${team.groupAssigned}` : "")
+  const [plot, setPlot] = useState<string>(team.plot ? `${t("plot")} ${team.plot}` : `${t("plot")} 1`)
+  const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${t("group.title")} ${team.groupAssigned}` : "")
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [picking, setPicking] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -47,8 +46,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     if (!premium && image_limit_count >= 8) {
       Toast.show({
         type: 'error',
-        text1: i18n.t("limit_images"),
-        text2: i18n.t("limit_images_description")
+        text1: t("limit_images"),
+        text2: t("limit_images_description")
       });
       return
     }
@@ -63,8 +62,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       if (status !== "granted") {
         Toast.show({
           type: 'error',
-          text1: i18n.t("permissions.galleryAccess.title"),
-          text2: i18n.t("permissions.galleryAccess.message")
+          text1: t("permissions.galleryAccess.title"),
+          text2: t("permissions.galleryAccess.message")
         })
         return
       }
@@ -84,8 +83,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
     } catch (error) {
       Toast.show({
         type: 'error',
-        text1: i18n.t("permissions.galleryAccess.title"),
-        text2: i18n.t("permissions.galleryAccess.message")
+        text1: t("permissions.galleryAccess.title"),
+        text2: t("permissions.galleryAccess.message")
       });
     } finally {
       setPicking(false)
@@ -100,8 +99,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       if (group.teams.find((t) => (t.name === teamCreated.name))) {
         Toast.show({
           type: 'error',
-          text1: i18n.t("errorTeamNameTitle"),
-          text2: i18n.t("errorTeamNameDescription")
+          text1: t("errorTeamNameTitle"),
+          text2: t("errorTeamNameDescription")
         });
         return
       }
@@ -109,8 +108,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       if (!premium && group.teams.length >= 48) {
         Toast.show({
           type: 'error',
-          text1: i18n.t("errorLimitTitle"),
-          text2: i18n.t("errorLimitDescription")
+          text1: t("errorLimitTitle"),
+          text2: t("errorLimitDescription")
         });
         return
       }
@@ -129,8 +128,8 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         } catch (error) {
           Toast.show({
             type: 'error',
-            text1: i18n.t("errorUploadImageTitle"),
-            text2: i18n.t("errorUploadImageDescription")
+            text1: t("errorUploadImageTitle"),
+            text2: t("errorUploadImageDescription")
           });
           setLoading(false)
           return
@@ -198,12 +197,12 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
   }
 
   const plotsData = useMemo(
-    () => dataPlots(group.teamsPerGroup!),
+    () => dataPlots(group.teamsPerGroup!, t),
     [group.teamsPerGroup]
   )
 
   const groupsData = useMemo(
-    () => dataGroupNumber(group.amountGroups!),
+    () => dataGroupNumber(group.amountGroups!, t),
     [group.amountGroups]
   )
 
@@ -238,7 +237,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       ) : (
         <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
           <Text variant="labelLarge">
-            {image ? i18n.t("teamForm.changeImage") : i18n.t("teamForm.selectShield")}
+            {image ? t("teamForm.changeImage") : t("teamForm.selectShield")}
           </Text>
           <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
         </TouchableOpacity>
@@ -246,7 +245,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
       {errors.name && (
         <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
-          {errors.name.message}
+          {t(errors.name.message!, { defaultValue: errors.name.message })}
         </Text>
       )}
 
@@ -259,7 +258,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
             onChangeText={onChange}
             autoCapitalize="none"
             onBlur={onBlur}
-            label={i18n.t("teamForm.teamName")}
+            label={t("teamForm.teamName")}
             mode="outlined"
             style={[createStyles.inputAdd, { backgroundColor: colors.tertiary }]}
             maxLength={25}
@@ -269,7 +268,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
       {group.isManualConfiguration && (
         <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
-          <Text variant="labelLarge">{i18n.t("teamForm.plotOptional")}</Text>
+          <Text variant="labelLarge">{t("teamForm.plotOptional")}</Text>
           <CustomDropdown
             data={plotsData}
             value={plot}
@@ -283,7 +282,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
       {group.isManualConfiguration && (
         <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
-          <Text variant="labelLarge">{i18n.t("teamForm.defineGroupOptional")}</Text>
+          <Text variant="labelLarge">{t("teamForm.defineGroupOptional")}</Text>
           <CustomDropdown
             data={groupsData}
             value={groupNumber}
@@ -303,7 +302,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         labelStyle={{ color: "#ffffff" }}
         onPress={handleSubmit((data) => handleAddTeam(data))}
       >
-        {team.id ? i18n.t("teamForm.update") : i18n.t("teamForm.add")}
+        {team.id ? t("teamForm.update") : t("teamForm.add")}
       </Button>
 
       {team.id && !group.isGenerated && (
@@ -314,7 +313,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           labelStyle={{ color: "#ffffff" }}
           onPress={() => openSure(team)}
         >
-          {i18n.t("teamForm.remove")}
+          {t("teamForm.remove")}
         </Button>
       )}
     </ContainerBackground>

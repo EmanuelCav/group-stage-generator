@@ -10,11 +10,13 @@ export type GenerateButtonPropsType = {
     colors: MD3Colors;
     generateGroups: () => void;
     loading: boolean;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type AddTeamPropsType = {
     colors: MD3Colors;
     openForm: (show: boolean) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type FormCreateTeamPropsType = {
@@ -26,11 +28,13 @@ export type FormCreateTeamPropsType = {
     group: IGroup;
     team: ITeam;
     premium: boolean;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type HeaderCreatePropsType = {
     colors: MD3Colors;
     router: Router;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type AddButtonPropsType = {
@@ -44,4 +48,5 @@ export type TeamAddedPropsType = {
     handleUpdateTeam: (data: ITeam) => void;
     colors: MD3Colors;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 }

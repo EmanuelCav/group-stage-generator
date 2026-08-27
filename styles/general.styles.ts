@@ -90,7 +90,7 @@ export const generalStyles = StyleSheet.create({
 
     containerDropdown: {
         width: "100%",
-        position: "relative"
+        position: "relative",
     },
 
     inputButtonDropdown: {
@@ -102,17 +102,73 @@ export const generalStyles = StyleSheet.create({
     },
 
     dropdownVisible: {
-        position: "absolute",
-        top: 55,
-        left: 0,
-        right: 0,
-        maxHeight: 220,
+        width: "100%",
+        maxHeight: 200,
+        marginTop: 5,
         borderRadius: 10,
         borderWidth: 1,
         elevation: 10,
         shadowOpacity: 0.2,
         shadowRadius: 5,
-        shadowOffset: { width: 0, height: 3 },
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+    },
+
+    picker: {
+        width: '100%',
+        minHeight: 48,
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 1,
+    },
+
+    selectedTextPick: {
+        flex: 1,
+        fontSize: 12,
+        marginRight: 8,
+    },
+
+    modalContainer: {
+        flex: 1,
+    },
+
+    headerPicker: {
+        minHeight: 64,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        paddingHorizontal: 8,
+    },
+
+    closeButtonPicker: {
+        width: 48,
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    titlePickElement: {
+        marginLeft: 8,
+    },
+
+    listElements: {
+        paddingBottom: 20,
+    },
+
+    optionContainer: {
+        width: '100%',
+    },
+
+    optionPick: {
+        minHeight: 58,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     }
 
 })

@@ -3,11 +3,11 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types"
 
 import { IPlayer, IStatistic, IValueStatistic } from "@/interface/Player";
 import { IGroup } from "@/interface/Group";
-import { Spacing } from "./props.types";
 
 export type AddPlayersPropsType = {
     colors: MD3Colors;
     router: Router;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type AddStatisticsPropsType = {
@@ -35,16 +35,19 @@ export type ShowStatisticsPropsType = {
     colors: MD3Colors;
     group: IGroup;
     statisticView: string;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type TableStatisticPropsType = {
     colors: MD3Colors;
     itemStatistic: IValueStatistic[];
     indexStatistic: number;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type StatisticsLabelPropsType = {
     colors: MD3Colors;
     statisticView: string;
     setStatisticView: (statisticView: string) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }

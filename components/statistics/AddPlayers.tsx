@@ -1,6 +1,5 @@
 import { View } from 'react-native'
 import { Icon, Text, Button } from 'react-native-paper'
-import i18n from '@/i18n'
 
 import { AddPlayersPropsType } from '@/types/statistics.types'
 
@@ -8,11 +7,11 @@ import { generalStyles } from '@/styles/general.styles'
 import { statisticsStyles } from '@/styles/statistics.styles'
 import { createStyles } from '@/styles/create.styles'
 
-const AddPlayers = ({ colors, router }: AddPlayersPropsType) => {
+const AddPlayers = ({ colors, router, t }: AddPlayersPropsType) => {
     return (
         <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
             <Text variant='titleLarge' style={{ color: colors.primary }}>
-                {i18n.t("statistics")}
+                {t("statistics")}
             </Text>
             <Icon
                 source="chart-bar"
@@ -20,16 +19,16 @@ const AddPlayers = ({ colors, router }: AddPlayersPropsType) => {
                 size={42}
             />
             <Text variant='bodyLarge' style={statisticsStyles.titleStatistics}>
-                {i18n.t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
+                {t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
             </Text>
             <Button
                 mode="contained"
                 icon="account-multiple-plus"
                 style={[{ backgroundColor: colors.primary }, createStyles.buttonAdd]}
                 labelStyle={{ color: "#ffffff" }}
-                onPress={() => router.replace('/players')}
+                onPress={() => router.replace('/(drawer)/teams')}
             >
-                {i18n.t("addPlayers")}
+                {t("addPlayers")}
             </Button>
         </View>
     );

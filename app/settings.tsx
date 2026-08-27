@@ -78,7 +78,7 @@ const Settings = () => {
                     labelButton={t("logout")}
                 />
             )}
-            <HeaderSettings colors={colors} router={router} />
+            <HeaderSettings colors={colors} router={router} t={t} />
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
 
                 <Text variant="labelLarge" style={{ marginVertical: spacing.h185 }}>

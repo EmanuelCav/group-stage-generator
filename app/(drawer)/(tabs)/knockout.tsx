@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
 import { Redirect, useRouter } from "expo-router"
 import { IconButton, Text, useTheme } from "react-native-paper"
-import i18n from '@/i18n'
 import Toast from 'react-native-toast-message';
 
 import MainScreen from "@/components/general/MainScreen"
@@ -22,6 +21,7 @@ import { columnTitle, detectChangesElimination, getElimationTeams } from "@/util
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 import { idMatch } from "@/utils/matchday";
 
@@ -30,8 +30,10 @@ const KnockoutScreen = () => {
     const { generateElimination, updateShuffledKnockout, updateCreateElimination, group, drawedElimination, sureRestartElimination, isSureRestartElimination, restartElimination, updateTeamMatchElimination } = useGroupStore()
     const { getMatchKnockout } = useMatchStore()
 
-    const router = useRouter()
     const { colors } = useTheme()
+    const { t } = useLanguage()
+
+    const router = useRouter()
     const spacing = useSpacing()
     const { isFullName } = useIsFullName()
 
@@ -52,11 +54,12 @@ const KnockoutScreen = () => {
         if (hasPendingMatch) {
             Toast.show({
                 type: 'error',
-                text1: `${i18n.t("updateknockout")} ${columnTitle(
+                text1: `${t("updateknockout")} ${columnTitle(
                     Number(data.round),
-                    group.eliminationMatches?.length!
+                    group.eliminationMatches?.length!,
+                    t
                 )}`,
-                text2: i18n.t("updateknockoutMessage")
+                text2: t("updateknockoutMessage")
             })
             return
         }
@@ -74,9 +77,9 @@ const KnockoutScreen = () => {
     useEffect(() => {
         if (group.isKnockoutGenerated) {
             if (group.eliminationMatches?.length! === 0) {
-                generateElimination(getElimationTeams(group, false))
+                generateElimination(getElimationTeams(group, false, t))
             } else {
-                const eliminationMatches = detectChangesElimination(group)
+                const eliminationMatches = detectChangesElimination(group, t)
                 updateShuffledKnockout(!eliminationMatches.areChanges)
                 generateElimination(eliminationMatches.eliminationMatches)
             }
@@ -91,7 +94,7 @@ const KnockoutScreen = () => {
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} title={i18n.t("knockout")} goBack={goBack} isEditMode={isEditMode} setIsEditMode={setIsEditMode}
+            <HeaderGeneral colors={colors} title={t("knockout")} goBack={goBack} isEditMode={isEditMode} setIsEditMode={setIsEditMode}
                 isMatchdaysScreen={group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated!} />
             <SureGeneral />
             {
@@ -101,8 +104,8 @@ const KnockoutScreen = () => {
                         restartElimination()
                         sureRestartElimination(false)
                     }}
-                    text={i18n.t("sure.restartKnockout")}
-                    labelButton={i18n.t("sure.restart")}
+                    text={t("sure.restartKnockout")}
+                    labelButton={t("sure.restart")}
                 />
             }
             <Toast />
@@ -111,7 +114,7 @@ const KnockoutScreen = () => {
                     <>
                         {
                             !group.isDrawed ?
-                                <ShuffleAgain colors={colors} updateShuffledKnockout={updateShuffledKnockout}
+                                <ShuffleAgain colors={colors} updateShuffledKnockout={updateShuffledKnockout} t={t}
                                     group={group} generateElimination={generateElimination} drawedElimination={drawedElimination} />
                                 : <IconButton
                                     icon="restore"
@@ -124,13 +127,13 @@ const KnockoutScreen = () => {
                                 />
                         }
                         {
-                            !group.isDrawed && <Text variant="bodySmall">{i18n.t("adviceUpdateMatch")}</Text>
+                            !group.isDrawed && <Text variant="bodySmall">{t("adviceUpdateMatch")}</Text>
                         }
                         <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} spacing={spacing} isFullName={isFullName}
-                            handleUpdateTeamMatch={handleUpdateTeamMatch} isEditMode={isEditMode} />
+                            handleUpdateTeamMatch={handleUpdateTeamMatch} isEditMode={isEditMode} t={t} />
                     </>
                 ) : (
-                    <CreateElimination colors={colors} updateCreateElimination={updateCreateElimination} spacing={spacing} />
+                    <CreateElimination colors={colors} updateCreateElimination={updateCreateElimination} spacing={spacing} t={t} />
                 )
             }
         </MainScreen>

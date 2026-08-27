@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, MD3Colors, Button } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
 
@@ -20,7 +19,7 @@ import { generateId } from "@/utils/defaultGroup";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venue, updateVenue, openSure, premium, spacing }: FormCreateVenuePropsType) => {
+const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venue, updateVenue, openSure, premium, spacing, t }: FormCreateVenuePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -38,8 +37,8 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
             if (group.stadiums!.find((s) => s.name === venueCreated.name)) {
                 Toast.show({
                     type: 'error',
-                    text1: i18n.t("stadium.name.title"),
-                    text2: i18n.t("stadium.name.existsError")
+                    text1: t("stadium.name.title"),
+                    text2: t("stadium.name.existsError")
                 });
                 return
             }
@@ -47,8 +46,8 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
             if (!premium && group.stadiums?.length! >= 48) {
                 Toast.show({
                     type: 'error',
-                    text1: i18n.t("limit_stadiums"),
-                    text2: i18n.t("limit_stadiums_description")
+                    text1: t("limit_stadiums"),
+                    text2: t("limit_stadiums_description")
                 });
                 return
             }
@@ -111,7 +110,7 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label={i18n.t("stadiumName")}
+                        label={t("stadiumName")}
                         mode="outlined"
                         style={[createStyles.inputGeneralCreate, { backgroundColor: colors.tertiary }]}
                         maxLength={30}
@@ -124,7 +123,7 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
                     variant="labelMedium"
                     style={{ color: MD3Colors.error50, marginTop: spacing.h106 }}
                 >
-                    {errors.name.message}
+                    {t(errors.name.message!, { defaultValue: errors.name.message })}
                 </Text>
             )}
 
@@ -136,7 +135,7 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
                 labelStyle={{ color: "#ffffff" }}
                 onPress={handleSubmit((data) => handleAddVenue(data))}
             >
-                {venue.name ? i18n.t("update") : i18n.t("add")}
+                {venue.name ? t("update") : t("add")}
             </Button>
 
             {venue.name && (
@@ -147,7 +146,7 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
                     labelStyle={{ color: "#ffffff" }}
                     onPress={() => openSure(venue)}
                 >
-                    {i18n.t("remove")}
+                    {t("remove")}
                 </Button>
             )}
 

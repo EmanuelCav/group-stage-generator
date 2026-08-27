@@ -2,7 +2,6 @@ import { memo, useMemo } from 'react';
 import { DataTable, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { FlatList, View } from 'react-native';
-import i18n from '@/i18n'
 
 import Match from './components/Match';
 
@@ -21,7 +20,7 @@ type RenderMatchday = {
     index: number;
 }
 
-const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditMode, setIsSureRemoveMatchday, handleUpdateTeamMatch, setIndexMatchday }: SchedulePropsType) => {
+const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditMode, setIsSureRemoveMatchday, handleUpdateTeamMatch, setIndexMatchday, t }: SchedulePropsType) => {
 
     const { isFullName } = useIsFullName()
 
@@ -52,7 +51,7 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
                     <Text variant='titleLarge'
                         style={[{ color: colors.primary }, generalStyles.titleDataTable]}
                     >
-                        {i18n.t("matchday")} {index + 1}
+                        {t("matchday")} {index + 1}
                     </Text>
                 }
             </View>
@@ -61,13 +60,13 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
                 marginTop: group.matchdayNumber === "all" ? 0 : spacing.h74
             }}>
                 <DataTable.Title style={groupStyles.rowStart}>
-                    {i18n.t("local")}
+                    {t("local")}
                 </DataTable.Title>
                 <DataTable.Title numeric style={groupStyles.rowContainer}>
-                    {i18n.t("score")}
+                    {t("score")}
                 </DataTable.Title>
                 <DataTable.Title style={groupStyles.rowEnd}>
-                    {i18n.t("visitant")}
+                    {t("visitant")}
                 </DataTable.Title>
             </DataTable.Header>
 
@@ -84,6 +83,7 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
                         handleGetMatch={handleGetMatch}
                         spacing={spacing}
                         handleUpdateTeamMatch={handleUpdateTeamMatch}
+                        t={t}
                         key={indexItem}
                     />
                 );
@@ -94,7 +94,7 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
     return (
         <>
             {!matchdays && (
-                <Text variant="bodyMedium">{i18n.t("tryRestoring")}</Text>
+                <Text variant="bodyMedium">{t("tryRestoring")}</Text>
             )}
             <FlatList
                 data={matchdays}

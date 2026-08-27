@@ -7,7 +7,6 @@ import * as ImagePicker from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import SwitchSettings from "@/components/config/SwitchSettings";
 import InputSettings from "@/components/config/InputSettings";
@@ -31,6 +30,7 @@ import { configSchema } from "@/schema/config.schema";
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const toastConfig = {
     error: (props: any) => (
@@ -49,6 +49,7 @@ const SettingsDrawerScreen = () => {
     const { group, updateGroup } = useGroupStore()
 
     const { colors } = useTheme()
+    const { t } = useLanguage()
 
     const spacing = useSpacing()
 
@@ -88,8 +89,8 @@ const SettingsDrawerScreen = () => {
             if (status !== "granted") {
                 Toast.show({
                     type: 'error',
-                    text1: i18n.t("permissions.galleryAccess.title"),
-                    text2: i18n.t("permissions.galleryAccess.message")
+                    text1: t("permissions.galleryAccess.title"),
+                    text2: t("permissions.galleryAccess.message")
                 })
                 return
             }
@@ -108,8 +109,8 @@ const SettingsDrawerScreen = () => {
         } catch (error) {
             Toast.show({
                 type: 'error',
-                text1: i18n.t("permissions.galleryAccess.title"),
-                text2: i18n.t("permissions.galleryAccess.message")
+                text1: t("permissions.galleryAccess.title"),
+                text2: t("permissions.galleryAccess.message")
             });
         } finally {
             setPicking(false)
@@ -135,8 +136,8 @@ const SettingsDrawerScreen = () => {
                 } catch (error) {
                     Toast.show({
                         type: 'error',
-                        text1: i18n.t("errorUploadImageTitle"),
-                        text2: i18n.t("errorUploadImageDescription")
+                        text1: t("errorUploadImageTitle"),
+                        text2: t("errorUploadImageDescription")
                     });
                 }
             }
@@ -225,7 +226,7 @@ const SettingsDrawerScreen = () => {
 
             <HeaderGeneral
                 colors={colors}
-                title={i18n.t('settings')}
+                title={t('settings')}
                 goBack={goBack}
                 isMatchdaysScreen={false}
             />
@@ -248,7 +249,7 @@ const SettingsDrawerScreen = () => {
                     ) : (
                         <TouchableOpacity onPress={pickImage} style={createStyles.cardShieldTeam}>
                             <Text variant="labelLarge">
-                                {image ? i18n.t("teamForm.changeImage") : i18n.t("teamForm.selectLogo")}
+                                {image ? t("teamForm.changeImage") : t("teamForm.selectLogo")}
                             </Text>
                             <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
                         </TouchableOpacity>
@@ -262,7 +263,7 @@ const SettingsDrawerScreen = () => {
                                 marginTop: spacing.h185,
                             }}
                         >
-                            {errors.title.message}
+                            {t(errors.title.message!, { defaultValue: errors.title.message })}
                         </Text>
                     )}
 
@@ -275,7 +276,7 @@ const SettingsDrawerScreen = () => {
                                 onChangeText={onChange}
                                 autoCapitalize="none"
                                 onBlur={onBlur}
-                                label={i18n.t('groupStageName')}
+                                label={t('groupStageName')}
                                 mode="outlined"
                                 maxLength={20}
                                 style={[createStyles.inputAdd, { backgroundColor: colors.tertiary }]}
@@ -284,7 +285,7 @@ const SettingsDrawerScreen = () => {
                     />
 
                     <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-                        <Text variant="bodyLarge">{i18n.t('manuallyTitle')}</Text>
+                        <Text variant="bodyLarge">{t('manuallyTitle')}</Text>
                         <Switch
                             style={{ marginTop: spacing.h192 }}
                             value={isManualConfiguration}
@@ -297,51 +298,54 @@ const SettingsDrawerScreen = () => {
                             <InputSettings
                                 handleFocus={handleFocus}
                                 colors={colors}
-                                text={i18n.t('numberOfGroups')}
+                                text={t('numberOfGroups')}
                                 name="amountGroups"
                                 control={control}
                                 error={errors.amountGroups?.message}
                                 defaultValue={String(group.amountGroups)}
                                 spacing={spacing}
+                                t={t}
                             />
                             <InputSettings
                                 handleFocus={handleFocus}
                                 colors={colors}
-                                text={i18n.t('teamsPerGroup')}
+                                text={t('teamsPerGroup')}
                                 name="teamsPerGroup"
                                 control={control}
                                 error={errors.teamsPerGroup?.message}
                                 defaultValue={String(group.teamsPerGroup)}
                                 spacing={spacing}
+                                t={t}
                             />
                             <InputSettings
                                 handleFocus={handleFocus}
                                 colors={colors}
-                                text={i18n.t('numberOfClassifieds')}
+                                text={t('numberOfClassifieds')}
                                 name="amountClassified"
                                 control={control}
                                 error={errors.amountClassified?.message}
                                 defaultValue={String(group.amountClassified)}
                                 spacing={spacing}
+                                t={t}
                             />
                         </>
                     )}
 
                     <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                        <Text variant="labelLarge">{i18n.t("selectMode")}</Text>
+                        <Text variant="labelLarge">{t("selectMode")}</Text>
                         <CustomDropdown
                             data={[{
                                 value: "points",
-                                label: i18n.t("points_earned")
+                                label: t("points_earned")
                             }, {
                                 value: "percentage",
-                                label: i18n.t("win_percentage")
+                                label: t("win_percentage")
                             }, {
                                 value: "wins",
-                                label: i18n.t("number_of_wins")
+                                label: t("number_of_wins")
                             }, {
                                 value: "scored",
-                                label: i18n.t("points_scored")
+                                label: t("points_scored")
                             }]}
                             value={pointsModeSelected}
                             colors={colors}
@@ -356,45 +360,48 @@ const SettingsDrawerScreen = () => {
                             <InputSettings
                                 handleFocus={handleFocus}
                                 colors={colors}
-                                text={i18n.t('pointsToTheWinner')}
+                                text={t('pointsToTheWinner')}
                                 name="pointsWin"
                                 control={control}
                                 error={errors.pointsWin?.message}
                                 defaultValue={String(group.pointsWin)}
                                 spacing={spacing}
+                                t={t}
                             />
                             <InputSettings
                                 handleFocus={handleFocus}
                                 colors={colors}
-                                text={i18n.t('pointsToTie')}
+                                text={t('pointsToTie')}
                                 name="pointsDraw"
                                 control={control}
                                 error={errors.pointsDraw?.message}
                                 defaultValue={String(group.pointsDraw)}
                                 spacing={spacing}
+                                t={t}
                             />
                             <InputSettings
                                 handleFocus={handleFocus}
                                 colors={colors}
-                                text={i18n.t('pointsToTheLoser')}
+                                text={t('pointsToTheLoser')}
                                 name="pointsLoss"
                                 control={control}
                                 error={errors.pointsLoss?.message}
                                 defaultValue={String(group.pointsLoss)}
                                 spacing={spacing}
+                                t={t}
                             />
                         </>
                     )}
 
                     <SwitchSettings
-                        text={i18n.t('roundTripGroupStage')}
+                        text={t('roundTripGroupStage')}
                         value={isRoundTripGroupStage}
                         setValue={setIsRoundTripGroupStage}
                         colors={colors}
                         spacing={spacing}
                     />
                     <SwitchSettings
-                        text={i18n.t('roundTripElimination')}
+                        text={t('roundTripElimination')}
                         value={isRoundTripElimination}
                         setValue={setIsRoundTripElimination}
                         colors={colors}
@@ -402,7 +409,7 @@ const SettingsDrawerScreen = () => {
                     />
 
                     <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-                        <Text variant="bodyLarge">{i18n.t("displayFullName")}</Text>
+                        <Text variant="bodyLarge">{t("displayFullName")}</Text>
                         <Switch
                             style={{ marginTop: spacing.h192 }}
                             value={isFullName}
@@ -422,6 +429,7 @@ const SettingsDrawerScreen = () => {
                 loading={loading}
                 handleSumbit={handleSubmit}
                 handleConfig={handleConfig}
+                t={t}
             />
 
         </MainScreen>

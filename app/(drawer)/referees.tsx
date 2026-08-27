@@ -3,7 +3,6 @@ import { FlatList, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { Redirect, useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import MainScreen from "@/components/general/MainScreen";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
@@ -24,6 +23,7 @@ import { useRefereeStore } from "@/store/referee.store";
 import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const toastConfig = {
     error: (props: any) => (
@@ -42,6 +42,7 @@ const RefereesScreen = () => {
     const { premium } = useUserStore()
 
     const { colors } = useTheme()
+    const { t } = useLanguage()
 
     const router = useRouter()
 
@@ -108,9 +109,9 @@ const RefereesScreen = () => {
                 isSure && (
                     <Sure
                         func={handleRemoveReferee}
-                        text={i18n.t("areYouSureDelete")}
+                        text={t("areYouSureDelete")}
                         close={close}
-                        labelButton={i18n.t("remove")}
+                        labelButton={t("remove")}
                     />
                 )
             }
@@ -126,11 +127,12 @@ const RefereesScreen = () => {
                         updateReferee={handleUpdate}
                         premium={premium}
                         spacing={spacing}
+                        t={t}
                     />
                 )
             }
 
-            <HeaderGeneral colors={colors} title={i18n.t("referees_title")} goBack={goBack} isMatchdaysScreen={false} />
+            <HeaderGeneral colors={colors} title={t("referees_title")} goBack={goBack} isMatchdaysScreen={false} />
 
             <SureGeneral />
 
@@ -144,7 +146,7 @@ const RefereesScreen = () => {
                         <AddAction
                             openForm={hideAndShowAddReferee}
                             colors={colors}
-                            text={i18n.t("add_referee")}
+                            text={t("add_referee")}
                         />
                     )
                 }
@@ -161,7 +163,7 @@ const RefereesScreen = () => {
                         />
                     ) : (
                         <Text variant="bodyMedium" style={createStyles.advideText}>
-                            {i18n.t("referees_empty")}
+                            {t("referees_empty")}
                         </Text>
                     )
                 }

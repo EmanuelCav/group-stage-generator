@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from "react"
 import { SectionList, View } from "react-native"
 import { Avatar, Divider, List, Text, useTheme } from "react-native-paper"
-import i18n from "@/i18n"
 
 import AddAction from "@/components/general/AddAction"
 import AddButton from "@/components/general/AddButton"
@@ -15,6 +14,7 @@ import { teamsStyles } from "@/styles/team.styles"
 import { createStyles } from "@/styles/create.styles"
 
 import { useSpacing } from "@/hooks/useSpacing"
+import { useLanguage } from "@/hooks/useLanguageContext"
 
 import { usePlayerStore } from "@/store/player.store"
 import { useTeamStore } from "@/store/team.store"
@@ -29,6 +29,8 @@ interface IPlayerSection {
 const PlayersTeamScreen = () => {
 
     const { colors } = useTheme()
+    const { t } = useLanguage()
+
     const { showForm, player, hideAndShowAddPlayer, getPlayer, sureRemovePlayer } = usePlayerStore()
     const { group, createPlayer, updatePlayer } = useGroupStore()
     const { premium } = useUserStore()
@@ -68,7 +70,7 @@ const PlayersTeamScreen = () => {
         const groups: { [key: string]: IPlayer[] } = {}
 
         teamPlayers.forEach((p) => {
-            const pos = p.position?.trim() ? p.position : i18n.t("without_position")
+            const pos = p.position?.trim() ? p.position : t("without_position")
             if (!groups[pos]) {
                 groups[pos] = []
             }
@@ -156,6 +158,7 @@ const PlayersTeamScreen = () => {
                     spacing={spacing}
                     updatePlayer={updatePlayer}
                     openSure={openSure}
+                    t={t}
                 />
             )}
 
@@ -190,10 +193,10 @@ const PlayersTeamScreen = () => {
                         <AddAction
                             openForm={hideAndShowAddPlayer}
                             colors={colors}
-                            text={i18n.t("add_player")}
+                            text={t("add_player")}
                         />
                         <Text variant="bodyMedium" style={createStyles.advideText}>
-                            {i18n.t("players_empty")}
+                            {t("players_empty")}
                         </Text>
                     </View>
                 )}

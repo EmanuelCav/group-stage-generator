@@ -3,16 +3,19 @@ import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { IGroup } from "@/interface/Group"
 import { IPoints } from "@/interface/Team";
 import { Spacing } from "./props.types";
+import { MatchResultType } from "./matchdays.props";
 
 export type GroupsListPropsType = {
     group: IGroup;
     colors: MD3Colors;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type GroupTeamPropsType = {
     group: IGroup;
     colors: MD3Colors;
     groupNumber: number;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type HeaderGroupPropsType = {
@@ -20,6 +23,7 @@ export type HeaderGroupPropsType = {
     groupNumber: number;
     colors: MD3Colors;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type CellPropsType = {
@@ -35,4 +39,9 @@ export type NameGroupPropsType = {
     isFullName: boolean;
     spacing: Spacing;
     group: IGroup;
+}
+
+export type FormBadgesPropsType = {
+    t: (scope: string, options?: object | undefined) => string;
+    form: MatchResultType[];
 }

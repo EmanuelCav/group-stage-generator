@@ -9,6 +9,7 @@ const ListItemButton = ({ colors, title, handleFunction, iconName, borderColor }
     return (
         <List.Item
             title={title}
+            background={colors.tertiary}
             style={[settingsStyles.listItemContain, { borderColor: borderColor, backgroundColor: colors.tertiary }]}
             onPress={handleFunction}
             left={() => (

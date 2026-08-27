@@ -3,7 +3,6 @@ import { FlatList, View } from "react-native";
 import { MD3Colors, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import TeamAdded from "@/components/create/TeamAdded";
 import AddTeam from "@/components/create/AddTeam";
@@ -29,6 +28,7 @@ import { powerRange } from "@/utils/defaultGroup";
 import { groupGenerator } from "@/utils/generator";
 
 import { useSpacing } from "@/hooks/useSpacing";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const toastConfig = {
   error: (props: any) => (
@@ -47,6 +47,8 @@ const TeamsScreen = () => {
   const { premium } = useUserStore()
 
   const { colors } = useTheme()
+  const { t } = useLanguage()
+
   const router = useRouter()
 
   const spacing = useSpacing()
@@ -86,6 +88,10 @@ const TeamsScreen = () => {
         teamsPerGroup: teamsPerGroupUpdate,
         amountGroups: amountGroupsUpdate,
       }, "NORMAL")
+
+      groupsMatches.groupsSorted = groupsMatches.groupsSorted.map(subGroup =>
+        subGroup.filter(team => Object.keys(team).length > 0)
+      );
 
       if (group.isManualConfiguration) {
         generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
@@ -169,6 +175,7 @@ const TeamsScreen = () => {
         handleUpdateTeam={handleUpdateTeam}
         colors={colors}
         spacing={spacing}
+        t={t}
       />
     ),
     [group.isManualConfiguration, group.teams, handleUpdateTeam, colors]
@@ -192,9 +199,9 @@ const TeamsScreen = () => {
       {isSure && (
         <Sure
           func={handleRemoveTeam}
-          text={i18n.t('areYouSureDelete')}
+          text={t('areYouSureDelete')}
           close={close}
-          labelButton={i18n.t('remove')}
+          labelButton={t('remove')}
         />
       )}
 
@@ -208,12 +215,14 @@ const TeamsScreen = () => {
           hideAndShowAddTeam={hideAndShowAddTeam}
           createTeam={createTeam}
           updateTeam={handleUpdate}
+          t={t}
         />
       )}
 
       <HeaderCreate
         colors={colors}
         router={router}
+        t={t}
       />
 
       {
@@ -226,7 +235,7 @@ const TeamsScreen = () => {
 
         {
           group.teams.length > 0 && <Text variant="bodyMedium" style={{ alignSelf: 'flex-start' }}>
-            {i18n.t("teamsAddedCount")}: {group.teams.length}
+            {t("teamsAddedCount")}: {group.teams.length}
           </Text>
         }
 
@@ -236,6 +245,7 @@ const TeamsScreen = () => {
           <AddTeam
             openForm={hideAndShowAddTeam}
             colors={colors}
+            t={t}
           />
         )}
 
@@ -254,7 +264,7 @@ const TeamsScreen = () => {
           />
         ) : (
           <Text variant="bodyMedium" style={createStyles.advideText}>
-            {i18n.t('addTeamsToGenerate')}
+            {t('addTeamsToGenerate')}
           </Text>
         )}
       </View>
@@ -264,7 +274,7 @@ const TeamsScreen = () => {
           variant="bodySmall"
           style={{ textAlign: 'center' }}
         >
-          {i18n.t('noteCreate')}
+          {t('noteCreate')}
         </Text>
       )}
 
@@ -273,7 +283,7 @@ const TeamsScreen = () => {
           variant="bodySmall"
           style={{ color: MD3Colors.error50, textAlign: 'center', marginTop: spacing.h106 }}
         >
-          {i18n.t('addAtLeastTwo')}
+          {t('addAtLeastTwo')}
         </Text>
       )}
 
@@ -282,6 +292,7 @@ const TeamsScreen = () => {
         colors={colors}
         loading={loading}
         generateGroups={generateGroups}
+        t={t}
       />
 
     </MainScreen>

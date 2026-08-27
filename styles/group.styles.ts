@@ -24,6 +24,13 @@ export const groupStyles = StyleSheet.create({
         color: "#ffffff"
     },
 
+    cellBadge: {
+        minWidth: 102,
+        textAlign: "center",
+        fontFamily: 'Raleway_Bold',
+        color: "#ffffff"
+    },
+
     row: {
         flexDirection: "row",
         paddingVertical: Dimensions.get("window").height / 185,
@@ -128,6 +135,23 @@ export const groupStyles = StyleSheet.create({
         flexGrow: 0,
         flexShrink: 0,
         justifyContent: 'center'
+    },
+
+    formBadgesContain: {
+        flexDirection: 'row',
+        gap: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 88,
+        paddingHorizontal: 4
+    },
+
+    badge: {
+        width: 18,
+        height: 18,
+        borderRadius: 9,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 
 })

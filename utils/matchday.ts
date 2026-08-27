@@ -1,9 +1,9 @@
 import { Router } from "expo-router"
-import i18n from "@/i18n"
 
 import { IMatch } from "@/interface/Match"
 import { ILineup, IPlayer } from "@/interface/Player"
 import { ITeam } from "@/interface/Team"
+import { MatchResultType } from "@/types/matchdays.props"
 
 export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, matchdayNumber: string, router: Router): IMatch[][] => {
 
@@ -67,25 +67,25 @@ export const iconEvent = (event: string): string => {
     }
 }
 
-export const labelSummaryEvent = (event: string): string => {
+export const labelSummaryEvent = (event: string, t: (scope: string, options?: object | undefined) => string): string => {
     switch (event) {
         case "goal":
-            return i18n.t("sumarry_select_player_goal")
+            return t("sumarry_select_player_goal")
 
         case "yellow card":
-            return i18n.t("sumarry_select_player_yellow")
+            return t("sumarry_select_player_yellow")
 
         case "red card":
-            return i18n.t("sumarry_select_player_red")
+            return t("sumarry_select_player_red")
 
         case "substitution":
-            return i18n.t("sumarry_select_player_change")
+            return t("sumarry_select_player_change")
 
         case "injury":
-            return i18n.t("sumarry_select_player_injury")
+            return t("sumarry_select_player_injury")
 
         default:
-            return i18n.t("sumarry_select_player")
+            return t("sumarry_select_player")
     }
 }
 
@@ -142,7 +142,13 @@ export const lineupPlayers = (playersLocal: IPlayer[], playersVisitant: IPlayer[
 }
 
 export const getGroupUpdateTeamMatch = (matches: IMatch[][][], match: IMatch, matchdayIndex: number): number => {
+
+    if (!matches) return 0
+
     for (let i = 0; i < matches.length; i++) {
+
+        if (!matches[i][matchdayIndex]) return 0
+
         for (let k = 0; k < matches[i][matchdayIndex].length; k++) {
             if (matches[i][matchdayIndex][k].local.team.id === match.local.team.id && matches[i][matchdayIndex][k].visitant.team.id === match.visitant.team.id) {
                 return i
@@ -154,6 +160,8 @@ export const getGroupUpdateTeamMatch = (matches: IMatch[][][], match: IMatch, ma
 }
 
 export const getIndexMatchGroup = (groupIndex: number, matchdayIndex: number, matches: IMatch[][][], match: IMatch): number => {
+
+    if (!matches[groupIndex][matchdayIndex]) return 0;
 
     for (let i = 0; i < matches[groupIndex][matchdayIndex].length; i++) {
         if (matches[groupIndex][matchdayIndex][i].local.team.id === match.local.team.id && matches[groupIndex][matchdayIndex][i].visitant.team.id === match.visitant.team.id) {
@@ -260,6 +268,21 @@ export const previousMatches = (matches: IMatch[][][], eliminationMatches: IMatc
     return listMatches.reverse()
 
 }
+
+export const getTeamForm = (matches: IMatch[][][], eliminationMatches: IMatch[][], team: ITeam): MatchResultType[] => {
+
+    const teamMatches = previousMatches(matches, eliminationMatches, team);
+
+    return teamMatches.slice(0, 5).map((match) => {
+        const isVisitant = match.visitant.team.name === team.name;
+        const teamScore = isVisitant ? match.visitant.score : match.local.score;
+        const rivalScore = isVisitant ? match.local.score : match.visitant.score;
+
+        if (teamScore! > rivalScore!) return "WIN";
+        if (teamScore! < rivalScore!) return "LOSS";
+        return "DRAW";
+    });
+};
 
 export const idMatch = (teams: string): string => {
 

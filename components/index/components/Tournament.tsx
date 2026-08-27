@@ -1,13 +1,12 @@
 import { memo } from "react";
 import { Card, IconButton, Text } from "react-native-paper";
 import { View, Image, Dimensions } from "react-native";
-import i18n from '@/i18n'
 
 import { TournamentPropsType } from "@/types/index.types";
 
 import { indexStyles } from "@/styles/index.styles";
 
-const Tournament = memo(({ group, colors, handleGroup }: TournamentPropsType) => {
+const Tournament = memo(({ group, colors, handleGroup, t }: TournamentPropsType) => {
     return (
         <Card style={{
             marginTop: Dimensions.get("window").height / 74,
@@ -41,7 +40,7 @@ const Tournament = memo(({ group, colors, handleGroup }: TournamentPropsType) =>
                             {group.title?.slice(0, 20)}
                         </Text>
                         <Text variant="labelLarge" style={[indexStyles.textTournament, { color: colors.primary }]}>
-                            {i18n.t('group.numberOfTeams', { count: group.teams.length })}
+                            {t('group.numberOfTeams', { count: group.teams.length })}
                         </Text>
                     </View>
                 </View>

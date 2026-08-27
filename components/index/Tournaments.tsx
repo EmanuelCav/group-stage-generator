@@ -6,10 +6,10 @@ import Tournament from './components/Tournament';
 import { IGroup } from '@/interface/Group';
 import { TournamentsPropsType } from '@/types/index.types';
 
-const Tournaments = memo(({ groups, colors, handleGroup }: TournamentsPropsType) => {
+const Tournaments = memo(({ groups, colors, handleGroup, t }: TournamentsPropsType) => {
 
   const renderTournaments = useCallback(({ item }: { item: IGroup }) => (
-    <Tournament group={item} colors={colors} handleGroup={handleGroup} />),
+    <Tournament group={item} colors={colors} handleGroup={handleGroup} t={t} />),
     [colors, handleGroup]
   )
 

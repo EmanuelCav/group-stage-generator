@@ -2,7 +2,6 @@ import { memo } from 'react'
 import { Pressable, View } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import { Avatar, DataTable, Text } from 'react-native-paper'
-import i18n from '@/i18n'
 
 import { MatchPropsType } from '@/types/props.types'
 
@@ -13,7 +12,7 @@ import { getGroupUpdateTeamMatch, getIndexMatchGroup } from '@/utils/matchday'
 
 import { useIsFullName } from '@/hooks/useIsFullName'
 
-const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item, group, spacing, isEditMode, handleUpdateTeamMatch }: MatchPropsType) => {
+const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item, group, spacing, isEditMode, handleUpdateTeamMatch, t }: MatchPropsType) => {
 
     const { isFullName } = useIsFullName()
 
@@ -24,13 +23,13 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
         }) : () => { }} style={{ backgroundColor: colors.tertiary }}>
             {
                 index === 0 && !isEditMode && group.matchdayView === "all" && <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
-                    {i18n.t("group.title")} {match.local.team.group}
+                    {t("group.title")} {match.local.team.group}
                 </Text>
             }
             {
                 index !== 0 && !isEditMode && item[index - 1].local.team.group !== match.local.team.group && group.matchdayView === "all" && group.matches?.length! > 1 &&
                 <Text variant='labelLarge' style={[groupStyles.textMatchGroup, { color: colors.primary }]}>
-                    {i18n.t("group.title")} {match.local.team.group}
+                    {t("group.title")} {match.local.team.group}
                 </Text>
             }
             <DataTable.Row style={{ borderBottomColor: colors.secondary }}>

@@ -1,5 +1,3 @@
-import i18n from "@/i18n";
-
 import { IPoints } from "@/interface/Team";
 import { IGroup } from "@/interface/Group";
 import { IDetectChanges, IMatch, IMatchTeam } from "@/interface/Match";
@@ -7,7 +5,7 @@ import { IDetectChanges, IMatch, IMatchTeam } from "@/interface/Match";
 import { generatePoints, getMaxGroup, orderPoints } from "./points";
 import { shuffle } from "./generator";
 
-export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][] => {
+export const getElimationTeams = (group: IGroup, isShuffled: boolean, t: (scope: string, options?: object | undefined) => string): IMatch[][] => {
 
     let pointsGroup: IPoints[][] = []
 
@@ -139,14 +137,14 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
                     local: {
                         score: null,
                         team: {
-                            name: `${i18n.t("winner")} ${winnerIndex}`,
+                            name: `${t("winner")} ${winnerIndex}`,
                             logo: ""
                         },
                     },
                     visitant: {
                         score: null,
                         team: {
-                            name: `${i18n.t("winner")} ${winnerIndex + 1}`,
+                            name: `${t("winner")} ${winnerIndex + 1}`,
                             logo: ""
                         },
                     },
@@ -169,15 +167,15 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean): IMatch[][
 
 }
 
-export const columnTitle = (index: number, length: number): string => {
+export const columnTitle = (index: number, length: number, t: (scope: string, options?: object | undefined) => string): string => {
 
-    if (index === length - 1) return i18n.t("final")
+    if (index === length - 1) return t("final")
 
-    if (index === length - 2) return i18n.t("semi_finals")
+    if (index === length - 2) return t("semi_finals")
 
-    if (index === length - 3) return i18n.t("quarter_finals")
+    if (index === length - 3) return t("quarter_finals")
 
-    return `${i18n.t("round_of")} ${Math.pow(2, length - index)}`
+    return `${t("round_of")} ${Math.pow(2, length - index)}`
 
 }
 
@@ -230,7 +228,7 @@ export const winner = (match: IMatch, isRoundTrip: boolean): IMatchTeam => {
 
 }
 
-export const detectChangesElimination = (group: IGroup): IDetectChanges => {
+export const detectChangesElimination = (group: IGroup, t: (scope: string, options?: object | undefined) => string): IDetectChanges => {
 
     let areChanges = false
 
@@ -374,14 +372,14 @@ export const detectChangesElimination = (group: IGroup): IDetectChanges => {
                     local: {
                         score: null,
                         team: {
-                            name: `${i18n.t("winner")} ${winnerIndex}`,
+                            name: `${t("winner")} ${winnerIndex}`,
                             logo: ""
                         },
                     },
                     visitant: {
                         score: null,
                         team: {
-                            name: `${i18n.t("winner")} ${winnerIndex + 1}`,
+                            name: `${t("winner")} ${winnerIndex + 1}`,
                             logo: ""
                         },
                     },

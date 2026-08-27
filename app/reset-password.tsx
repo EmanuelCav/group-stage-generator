@@ -2,7 +2,6 @@ import { useState } from "react";
 import { View, Alert, Dimensions } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 import { useRouter } from "expo-router";
-import i18n from "@/i18n";
 
 import MainScreen from "@/components/general/MainScreen";
 import Email from "@/components/auth/Email";
@@ -15,10 +14,12 @@ import { isValidEmail } from "@/utils/auth";
 import { supabase } from "@/lib/supabase";
 
 import { useSpacing } from "@/hooks/useSpacing";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const ResetPassword = () => {
 
     const { colors } = useTheme()
+    const { t } = useLanguage()
     const router = useRouter()
 
     const [email, setEmail] = useState<string>("");
@@ -38,12 +39,12 @@ const ResetPassword = () => {
             setLoading(true)
 
             if (!email) {
-                setErrorData(i18n.t("emptyFields"));
+                setErrorData(t("emptyFields"));
                 return;
             }
 
             if (!isValidEmail(email)) {
-                setErrorData(i18n.t("invalidEmail"));
+                setErrorData(t("invalidEmail"));
                 return;
             }
 
@@ -58,7 +59,7 @@ const ResetPassword = () => {
 
             if (data) {
                 setErrorData("")
-                Alert.alert(i18n.t("email_sent"), i18n.t("check_email"))
+                Alert.alert(t("email_sent"), t("check_email"))
             }
 
         } catch (error) {
@@ -75,7 +76,7 @@ const ResetPassword = () => {
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background, alignItems: "stretch" }]}>
 
                 <Text variant='titleMedium' style={authStyles.titleAuth}>
-                    {i18n.t("recover_account")}
+                    {t("recover_account")}
                 </Text>
 
                 <Email
@@ -96,7 +97,7 @@ const ResetPassword = () => {
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: Dimensions.get("window").height / 41 },
                     generalStyles.generateButton]}>
-                    {i18n.t("send_email")}
+                    {t("send_email")}
                 </Button>
 
                 <Button
@@ -106,7 +107,7 @@ const ResetPassword = () => {
                         fontSize: 15
                     }}
                 >
-                    {i18n.t("back")}
+                    {t("back")}
                 </Button>
 
             </View>

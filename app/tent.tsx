@@ -4,7 +4,6 @@ import Purchases, { PurchasesOffering, PurchasesPackage } from "react-native-pur
 import { Text, useTheme } from "react-native-paper";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import i18n from "@/i18n";
 
 import MainScreen from "@/components/general/MainScreen";
 import HeaderTent from "@/components/tent/HeaderTent";
@@ -17,15 +16,18 @@ import { tentStyles } from "@/styles/tent.styles";
 import { useUserStore } from "@/store/user.store";
 
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const Tent = () => {
 
     const [offerings, setOfferings] = useState<PurchasesOffering | null>(null)
     const [loading, setLoading] = useState<boolean>(true);
 
+    const { colors } = useTheme()
+    const { t } = useLanguage()
+
     const { user } = useAuth()
     const { setPremium, premium } = useUserStore()
-    const { colors } = useTheme()
     const router = useRouter()
 
     const { message } = useLocalSearchParams<{ message?: string }>();
@@ -64,7 +66,7 @@ const Tent = () => {
 
             if (customerInfo.entitlements.active["Premium Group Stage"]) {
                 setPremium(true)
-                Alert.alert(i18n.t("congrulations"), i18n.t("successSubscription"))
+                Alert.alert(t("congrulations"), t("successSubscription"))
             }
 
         } catch (error: any) {
@@ -83,7 +85,7 @@ const Tent = () => {
                 return;
             }
 
-            Alert.alert(i18n.t("error"), i18n.t("error_buy_tent"))
+            Alert.alert(t("error"), t("error_buy_tent"))
         }
     }
 
@@ -99,17 +101,18 @@ const Tent = () => {
                     </Text>
                 }
                 <Text variant="titleMedium" style={{ textAlign: "center" }}>
-                    {premium ? i18n.t("titleIsPremium") : i18n.t("titleTent")}
+                    {premium ? t("titleIsPremium") : t("titleTent")}
                 </Text>
                 {!premium && offerings?.availablePackages.map((pkg) => (
                     <Offering
                         pkg={pkg}
                         handlePurchase={handlePurchase}
                         colors={colors}
+                        t={t}
                         key={pkg.identifier}
                     />
                 ))}
-                <Benefits colors={colors} />
+                <Benefits colors={colors} t={t} />
             </View>
         </MainScreen>
     );

@@ -13,6 +13,7 @@ export type EliminationStagePropsType = {
     isFullName: boolean;
     isEditMode: boolean;
     handleUpdateTeamMatch: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type ColumnEliminationPropsType = {
@@ -47,6 +48,7 @@ export type ShuffleAgainPropsType = {
     generateElimination: (data: IMatch[][]) => void;
     drawedElimination: (data: boolean) => void;
     group: IGroup;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type FormEliminationMatchPropsType = {
@@ -60,10 +62,12 @@ export type FormEliminationMatchPropsType = {
     premium: boolean;
     isFullName: boolean;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type CreateEliminationPropsType = {
     colors: MD3Colors;
     updateCreateElimination: (data: boolean) => void;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 }

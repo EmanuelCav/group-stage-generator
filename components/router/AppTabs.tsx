@@ -1,11 +1,11 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import { useColorScheme } from 'react-native';
-import i18n from '@/i18n';
 
 import { Colors } from '@/constants/Colors';
 
 import { useThemeMode } from '@/hooks/useThemeContext';
+import { useLanguage } from '@/hooks/useLanguageContext';
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -17,6 +17,7 @@ function TabBarIcon(props: {
 const AppTabs = () => {
 
     const { themeMode } = useThemeMode();
+    const { t } = useLanguage()
     const systemScheme = useColorScheme();
 
     const resolvedTheme: keyof typeof Colors =
@@ -42,7 +43,7 @@ const AppTabs = () => {
                 name="groups"
                 options={{
                     headerShown: false,
-                    title: i18n.t("groups"),
+                    title: t("groups"),
                     tabBarIcon: ({ color }) => <TabBarIcon name="th-large" color={color} />,
                 }}
             />
@@ -51,7 +52,7 @@ const AppTabs = () => {
                 name="matchdays"
                 options={{
                     headerShown: false,
-                    title: i18n.t("matchdays"),
+                    title: t("matchdays"),
                     tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
                 }}
             />
@@ -60,7 +61,7 @@ const AppTabs = () => {
                 name="knockout"
                 options={{
                     headerShown: false,
-                    title: i18n.t("knockout"),
+                    title: t("knockout"),
                     tabBarIcon: ({ color }) => <TabBarIcon name="sitemap" color={color} />,
                 }}
             />
@@ -69,7 +70,7 @@ const AppTabs = () => {
                 name="statistics"
                 options={{
                     headerShown: false,
-                    title: i18n.t("statistics"),
+                    title: t("statistics"),
                     tabBarIcon: ({ color }) => <TabBarIcon name="bar-chart" color={color} />,
                 }}
             />

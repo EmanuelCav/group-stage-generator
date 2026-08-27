@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { Control, UseFormHandleSubmit } from "react-hook-form";
 
-import { IGroup, ISetting } from "@/interface/Group";
+import { ISetting } from "@/interface/Group";
 import { MD3Colors } from "react-native-paper/lib/typescript/types";
 import { Spacing } from "./props.types";
 
@@ -26,6 +26,7 @@ export type InputSettingsPropsType = {
     colors: MD3Colors;
     handleFocus: (v: number) => void;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 };
 
 export type SettingsButtonPropsType = {
@@ -33,9 +34,11 @@ export type SettingsButtonPropsType = {
     handleSumbit: UseFormHandleSubmit<ISetting>;
     handleConfig: (data: ISetting) => void;
     loading: boolean;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type HeaderConfigPropsType = {
     colors: MD3Colors;
     comeBack: () => void;
+    t: (scope: string, options?: object | undefined) => string;
 }

@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import i18n from '@/i18n'
 
 import Tournaments from '@/components/index/Tournaments';
 import AddGroupStage from '@/components/index/AddGroupStage';
@@ -22,6 +21,7 @@ import { useUserStore } from '@/store/user.store';
 import { groupValue } from '@/utils/defaultGroup';
 
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/hooks/useLanguageContext';
 
 import { saveGroupsToSupabase } from '@/lib/save';
 
@@ -30,6 +30,7 @@ import { interstitialService } from '@/services/interstitialService';
 const Home = () => {
 
   const { colors } = useTheme()
+  const { t } = useLanguage()
   const { user } = useAuth()
 
   const { groups, idGroup, createGroup, getGroup } = useGroupStore()
@@ -47,7 +48,7 @@ const Home = () => {
     if (!premium && (groups.length >= 1 && getAmountGroupsCount >= 1)) {
       router.navigate({
         pathname: "/tent",
-        params: { message: i18n.t("reachedTournament") }
+        params: { message: t("reachedTournament") }
       })
       return
     }
@@ -105,7 +106,7 @@ const Home = () => {
 
   return (
     <MainScreen colors={colors}>
-      <HeaderTournaments router={router} />
+      <HeaderTournaments router={router} t={t} />
       {
         !premium && <Banner />
       }
@@ -113,11 +114,11 @@ const Home = () => {
         {
           groups.length > 0 ?
             <>
-              <Text variant='titleLarge' style={{ color: colors.primary }}>{i18n.t("titleIndex")}</Text>
-              <Text variant='titleMedium'>{i18n.t("selectGroupStage")}</Text>
-              <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} />
+              <Text variant='titleLarge' style={{ color: colors.primary }}>{t("titleIndex")}</Text>
+              <Text variant='titleMedium'>{t("selectGroupStage")}</Text>
+              <Tournaments groups={groups} colors={colors} handleGroup={handleGroup} t={t} />
               <AddGroupStage colors={colors} handleCreateTournament={handleCreateTournament} />
-            </> : <AddTournament handleCreateTournament={handleCreateTournament} colors={colors} />
+            </> : <AddTournament handleCreateTournament={handleCreateTournament} colors={colors} t={t} />
         }
       </View>
     </MainScreen>

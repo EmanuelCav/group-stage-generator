@@ -3,7 +3,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter, Redirect } from "expo-router"
 import { FlatList, View } from "react-native"
 import { Button, IconButton, SegmentedButtons, Text, useTheme } from "react-native-paper"
-import i18n from '@/i18n'
 
 import ScoreTeams from "@/components/match/ScoreTeams"
 import Information from "@/components/match/Information"
@@ -32,10 +31,13 @@ import { columnTitle, isScoreElimination, winner } from "@/utils/elimination"
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const MatchKnockoutScreen = () => {
 
     const { colors } = useTheme()
+    const { t } = useLanguage()
+
     const router = useRouter()
     const { group, updateMatchKnockGroup, updateMatchGroup } = useGroupStore()
     const { matchknockout, segmentedButton, handleSegmented, showForm, hideAndShowUpdateMatch, statistic, getSummary,
@@ -247,13 +249,14 @@ const MatchKnockoutScreen = () => {
             <HeaderGetMatch
                 colors={colors}
                 router={router}
+                t={t}
             />
 
             {isSureSummary && (
                 <Sure
                     close={() => sureRemoveSummary(false)}
-                    text={i18n.t("areYouSureDelete")}
-                    labelButton={i18n.t("remove")}
+                    text={t("areYouSureDelete")}
+                    labelButton={t("remove")}
                     func={handleRemoveSummary}
                 />
             )}
@@ -261,14 +264,14 @@ const MatchKnockoutScreen = () => {
             {isSureStatistic && (
                 <Sure
                     close={() => sureRemoveStatistic(false)}
-                    text={i18n.t("areYouSureDelete")}
-                    labelButton={i18n.t("remove")}
+                    text={t("areYouSureDelete")}
+                    labelButton={t("remove")}
                     func={handleRemoveStatistic}
                 />
             )}
 
             {
-                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers}
+                showFormPlayers && <FormLineUp colors={colors} hideAndShowPlayers={hideAndShowPlayers} t={t}
                     match={matchknockout.match!} group={group} matchday={matchknockout.round!} spacing={spacing}
                     updateMatch={updateMatch} updateMatchGroup={updateMatchGroup} round={matchknockout.round!} isFullName={isFullName}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} />
@@ -276,14 +279,14 @@ const MatchKnockoutScreen = () => {
 
             {
                 showFormStatistics && <FormStatisticsMatch colors={colors} hideAndShowStatistics={hideAndShowStatistics} updateMatchGroup={updateMatchGroup}
-                    match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch} getStatistic={getStatistic}
+                    match={matchknockout.match!} group={group} statistic={statistic} updateMatch={updateMatch} getStatistic={getStatistic} t={t}
                     matchday={matchknockout.round!} sureRemoveStatistic={sureRemoveStatistic} round={matchknockout.round!} spacing={spacing}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} isFullName={isFullName} premium={premium} />
             }
 
             {
                 showFormSummary && <FormSummary colors={colors} hideAndShowSummary={hideAndShowSummary} updateMatchGroup={updateMatchGroup}
-                    summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch} getSummary={getSummary}
+                    summary={summary} match={matchknockout.match!} group={group} updateMatch={updateMatch} getSummary={getSummary} t={t}
                     matchday={matchknockout.round!} sureRemoveSummary={sureRemoveSummary} round={matchknockout.round!} spacing={spacing}
                     isKnockout={true} updateEliminationMatch={updateEliminationMatch} updateMatchKnockGroup={updateMatchKnockGroup} router={router} premium={premium} />
             }
@@ -297,13 +300,14 @@ const MatchKnockoutScreen = () => {
                     premium={premium}
                     spacing={spacing}
                     isFullName={isFullName}
+                    t={t}
                 />
             }
 
             <View style={[matchStyles.containerMatch, { backgroundColor: "transparent" }]}>
                 <View style={[matchStyles.titleMatch, { backgroundColor: colors.background }]}>
                     <Text variant='titleMedium' style={{ color: colors.primary }}>
-                        {columnTitle(matchknockout.round!, group.eliminationMatches?.length!)}
+                        {columnTitle(matchknockout.round!, group.eliminationMatches?.length!, t)}
                     </Text>
                     <IconButton
                         icon="pencil"
@@ -313,7 +317,7 @@ const MatchKnockoutScreen = () => {
                     />
                 </View>
                 <ScoreTeams match={matchknockout.match!} colors={colors} spacing={spacing} isFullName={isFullName} />
-                <Information match={matchknockout.match!} colors={colors} />
+                <Information match={matchknockout.match!} colors={colors} t={t} />
                 <SegmentedButtons
                     style={{ marginTop: spacing.h47 }}
                     value={segmentedButton}
@@ -321,19 +325,19 @@ const MatchKnockoutScreen = () => {
                     buttons={[
                         {
                             value: 'summary',
-                            label: i18n.t("summary_title"),
+                            label: t("summary_title"),
                             icon: 'file-document-outline',
                             checkedColor: "#ffffff"
                         },
                         {
                             value: 'players',
-                            label: i18n.t("lineup_title"),
+                            label: t("lineup_title"),
                             icon: 'account-group-outline',
                             checkedColor: "#ffffff"
                         },
                         {
                             value: 'statistics',
-                            label: i18n.t("statistics_title"),
+                            label: t("statistics_title"),
                             icon: 'chart-bar',
                             checkedColor: "#ffffff"
                         },
@@ -357,7 +361,7 @@ const MatchKnockoutScreen = () => {
                                     style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
                                     labelStyle={{ color: "#ffffff" }}
                                 >
-                                    {i18n.t("summary_add")}
+                                    {t("summary_add")}
                                 </Button>
                                 <FlatList
                                     style={{ width: '100%', marginBottom: insets.bottom }}
@@ -368,8 +372,8 @@ const MatchKnockoutScreen = () => {
                                 />
                             </View>
                             : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                                <Text variant="bodyMedium">{i18n.t("summary_empty")}</Text>
-                                <AddAction openForm={hideAndShowSummary} colors={colors} text={i18n.t("summary_add")} />
+                                <Text variant="bodyMedium">{t("summary_empty")}</Text>
+                                <AddAction openForm={hideAndShowSummary} colors={colors} text={t("summary_add")} />
                             </View>
                         }
                     </View>
@@ -385,8 +389,8 @@ const MatchKnockoutScreen = () => {
                                     keyExtractor={(_, index) => index.toString()}
                                     renderItem={({ item }) => <PlayersMatch player={item} colors={colors} hideAndShowPlayers={hideAndShowPlayers} />}
                                 /> : <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                                    <Text variant="bodyMedium">{i18n.t("lineup_empty")}</Text>
-                                    <AddAction openForm={hideAndShowPlayers} colors={colors} text={i18n.t("lineup_add")} />
+                                    <Text variant="bodyMedium">{t("lineup_empty")}</Text>
+                                    <AddAction openForm={hideAndShowPlayers} colors={colors} text={t("lineup_add")} />
                                 </View>
                         }
                     </View>
@@ -403,7 +407,7 @@ const MatchKnockoutScreen = () => {
                                         style={[{ backgroundColor: colors.primary, marginBottom: spacing.h74 }]}
                                         labelStyle={{ color: "#ffffff" }}
                                     >
-                                        {i18n.t("statistics_add")}
+                                        {t("statistics_add")}
                                     </Button>
                                     <FlatList
                                         style={{ width: '100%', marginBottom: insets.bottom }}
@@ -414,8 +418,8 @@ const MatchKnockoutScreen = () => {
                                 </View>
                             ) : (
                                 <View style={[matchStyles.containAdd, { backgroundColor: colors.background }]}>
-                                    <Text variant="bodyMedium">{i18n.t("statistics_empty")}</Text>
-                                    <AddAction openForm={hideAndShowStatistics} colors={colors} text={i18n.t("statistics_add")} />
+                                    <Text variant="bodyMedium">{t("statistics_empty")}</Text>
+                                    <AddAction openForm={hideAndShowStatistics} colors={colors} text={t("statistics_add")} />
                                 </View>
                             )
                         }

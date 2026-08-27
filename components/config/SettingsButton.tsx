@@ -1,13 +1,12 @@
 import { Button } from 'react-native-paper'
 import { View } from 'react-native'
-import i18n from '@/i18n'
 
 import { SettingsButtonPropsType } from '@/types/config.types'
 
 import { createStyles } from '@/styles/create.styles'
 import { generalStyles } from '@/styles/general.styles'
 
-const SettingsButton = ({ colors, handleSumbit, handleConfig, loading }: SettingsButtonPropsType) => {
+const SettingsButton = ({ colors, handleSumbit, handleConfig, loading, t }: SettingsButtonPropsType) => {
     return (
         <View style={[createStyles.containerGenerateButton, { backgroundColor: colors.background }]}>
             <Button
@@ -18,7 +17,7 @@ const SettingsButton = ({ colors, handleSumbit, handleConfig, loading }: Setting
                 labelStyle={{ color: "#ffffff" }}
                 onPress={handleSumbit((data) => handleConfig(data))}
             >
-                {i18n.t("general.applyChanges")}
+                {t("general.applyChanges")}
             </Button>
         </View>
     )

@@ -14,6 +14,7 @@ export type FormCreateVenuePropsType = {
     premium: boolean;
     group: IGroup;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type VenuePropsType = {

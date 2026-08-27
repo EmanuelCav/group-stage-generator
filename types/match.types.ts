@@ -10,6 +10,7 @@ export type TitleMatchPropsType = {
     match: IGetMatch;
     colors: MD3Colors;
     hideAndShowUpdateMatch: (show: boolean) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type ScoreTeamsPropsType = {
@@ -22,6 +23,7 @@ export type ScoreTeamsPropsType = {
 export type InformationPropsType = {
     match: IMatch;
     colors: MD3Colors;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type TagInformationPropsType = {
@@ -41,6 +43,7 @@ export type FormUpdateMatchPropsType = {
     premium: boolean;
     spacing: Spacing;
     isFullName: boolean;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type TeamUpdateScorePropsType = {
@@ -61,6 +64,7 @@ export type FormLineUpPropsType = {
     round: number;
     isKnockout: boolean;
     spacing: Spacing;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type FormStatisticsMatchPropsType = {
@@ -81,6 +85,7 @@ export type FormStatisticsMatchPropsType = {
     isKnockout: boolean;
     spacing: Spacing;
     premium: boolean;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type FormSummaryPropsType = {
@@ -101,6 +106,7 @@ export type FormSummaryPropsType = {
     isKnockout: boolean;
     router: Router;
     premium: boolean;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type SummaryPropsType = {
@@ -138,4 +144,5 @@ export type ScoreViewPropsType = {
 export type HeaderGetMatchPropsType = {
     colors: MD3Colors;
     router: Router;
+    t: (scope: string, options?: object | undefined) => string;
 }

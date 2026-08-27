@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import i18n from '@/i18n'
 
 import Sure from "./Sure"
 
 import { useGroupStore } from "@/store/group.store"
 
 import { useAuth } from "@/hooks/useAuth"
+import { useLanguage } from "@/hooks/useLanguageContext"
 
 import { deleteGroupFromSupabase } from "@/lib/save"
 
@@ -15,6 +15,7 @@ const SureGeneral = () => {
     const { isSureRemove, isSureRestart, sureRestartGroup, sureRemoveGroup, removeGroup, group, restartGroup } = useGroupStore()
     const router = useRouter()
     const { user } = useAuth()
+    const { t } = useLanguage()
 
     const handleRestart = () => {
         router.replace("/(create)/teams")
@@ -51,17 +52,17 @@ const SureGeneral = () => {
             {isSureRemove && (
                 <Sure
                     func={handleRemove}
-                    text={i18n.t("sure.removeGroupStage")}
+                    text={t("sure.removeGroupStage")}
                     close={close}
-                    labelButton={i18n.t("remove")}
+                    labelButton={t("remove")}
                 />
             )}
             {isSureRestart && (
                 <Sure
                     func={handleRestart}
-                    text={i18n.t("sure.restartGroupStage")}
+                    text={t("sure.restartGroupStage")}
                     close={close}
-                    labelButton={i18n.t("sure.restart")}
+                    labelButton={t("sure.restart")}
                 />
             )}
         </>

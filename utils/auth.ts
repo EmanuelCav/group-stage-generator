@@ -44,7 +44,7 @@ export const registerAttempt = async () => {
 }
 
 export const isStrongPassword = (password: string) => {
-  if (password.length < 8) return false;
+  if (password.length < 6) return false;
 
   return true
 }

@@ -8,10 +8,11 @@ export type TeamMatchesInformationPropsType = {
     matchesInformation: IMatch[];
     title: string;
     team: ITeam;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type MatchRowPropsType = {
     match: IMatch;
-    colors: MD3Colors;
     team: ITeam;
+    t: (scope: string, options?: object | undefined) => string;
 }

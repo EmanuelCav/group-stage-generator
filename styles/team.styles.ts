@@ -78,4 +78,12 @@ export const teamsStyles = StyleSheet.create({
     sectionHeaderText: {
         letterSpacing: 0.8,
     },
+
+    resultState: {
+        width: 22,
+        height: 22,
+        borderRadius: 11,
+        justifyContent: "center",
+        alignItems: "center"
+    }
 })

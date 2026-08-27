@@ -4,7 +4,6 @@ import { Avatar, Button, DefaultTheme, PaperProvider, Text, TextInput } from 're
 import { DatePickerModal, enGB, registerTranslation, TimePickerModal } from 'react-native-paper-dates';
 import { CalendarDate } from 'react-native-paper-dates/lib/typescript/Date/Calendar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from '@/i18n'
 
 import ContainerBackground from '../general/ContainerBackground'
 import CustomDropdown from '../general/CustomDropdown';
@@ -22,7 +21,7 @@ import { groupName, nameParticipant } from '@/utils/points';
 
 import { interstitialService } from '@/services/interstitialService';
 
-const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, premium, spacing, isFullName }: FormEliminationMatchPropsType) => {
+const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, premium, spacing, isFullName, t }: FormEliminationMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -169,7 +168,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
         <ContainerBackground zIndex={20} onClose={() => hideAndShowUpdateMatch(false)}>
 
             <Text variant="labelLarge" style={{ marginVertical: spacing.h28 }}>
-                {i18n.t("teamScores")}
+                {t("teamScores")}
             </Text>
 
             <ScrollView>
@@ -192,7 +191,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         {
                             group.isRoundTripElimination &&
                             <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
-                                {i18n.t("home")}
+                                {t("home")}
                             </Text>
                         }
                         <TextInput
@@ -209,7 +208,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         {group.isRoundTripElimination && (
                             <>
                                 <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
-                                    {i18n.t("away")}
+                                    {t("away")}
                                 </Text>
                                 <TextInput
                                     inputMode="numeric"
@@ -224,7 +223,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             </>
                         )}
                         <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
-                            {i18n.t("tiebreakerOptional")}
+                            {t("tiebreakerOptional")}
                         </Text>
                         <TextInput
                             inputMode="numeric"
@@ -257,7 +256,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         {
                             group.isRoundTripElimination &&
                             <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
-                                {i18n.t("home")}
+                                {t("home")}
                             </Text>
                         }
                         <TextInput
@@ -274,7 +273,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                         {group.isRoundTripElimination && (
                             <>
                                 <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
-                                    {i18n.t("away")}
+                                    {t("away")}
                                 </Text>
                                 <TextInput
                                     inputMode="numeric"
@@ -289,7 +288,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             </>
                         )}
                         <Text variant="labelMedium" style={{ marginVertical: spacing.h106 }}>
-                            {i18n.t("tiebreakerOptional")}
+                            {t("tiebreakerOptional")}
                         </Text>
                         <TextInput
                             inputMode="numeric"
@@ -307,14 +306,14 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
 
             <View style={[createStyles.selectInputDropdownContain,
             { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge">{i18n.t("select_match_date")}</Text>
+                <Text variant="labelLarge">{t("select_match_date")}</Text>
 
                 <Button onPress={() => setShowDatePicker(true)}>
-                    {date ?? i18n.t("select_date")}
+                    {date ?? t("select_date")}
                 </Button>
 
                 <Button onPress={() => setShowTimePicker(true)}>
-                    {time?.hours ? `${time.hours < 10 ? "0" : ""}${time.hours}:${time.minutes < 10 ? "0" : ""}${time.minutes}` : i18n.t("select_hour")}
+                    {time?.hours ? `${time.hours < 10 ? "0" : ""}${time.hours}:${time.minutes < 10 ? "0" : ""}${time.minutes}` : t("select_hour")}
                 </Button>
 
                 <PaperProvider theme={theme}>
@@ -344,7 +343,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_stadium")}</Text>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{t("select_stadium")}</Text>
                 <CustomDropdown
                     data={venuesData}
                     value={venueSelected}
@@ -356,7 +355,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             </View>
 
             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
-                <Text variant="labelLarge" style={{ color: colors.surface }}>{i18n.t("select_referee")}</Text>
+                <Text variant="labelLarge" style={{ color: colors.surface }}>{t("select_referee")}</Text>
                 <CustomDropdown
                     data={refereesData}
                     value={refereeSelected}
@@ -373,7 +372,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                 labelStyle={{ color: "#ffffff" }}
                 onPress={handleUpdateMatch}
             >
-                {i18n.t("updateButton")}
+                {t("updateButton")}
             </Button>
         </ContainerBackground>
     )

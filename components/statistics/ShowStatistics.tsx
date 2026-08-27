@@ -11,7 +11,7 @@ import { statisticTable } from '@/utils/statistics';
 
 import { useIsFullName } from '@/hooks/useIsFullName';
 
-const ShowStatistics = memo(({ group, colors, statisticView }: ShowStatisticsPropsType) => {
+const ShowStatistics = memo(({ group, colors, statisticView, t }: ShowStatisticsPropsType) => {
 
     const { isFullName } = useIsFullName()
 
@@ -32,6 +32,7 @@ const ShowStatistics = memo(({ group, colors, statisticView }: ShowStatisticsPro
                                 colors={colors}
                                 itemStatistic={item}
                                 indexStatistic={index}
+                                t={t}
                             /> : <></>
                         }
                     </>

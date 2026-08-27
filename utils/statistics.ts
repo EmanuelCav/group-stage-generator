@@ -1,9 +1,5 @@
-import i18n from '@/i18n'
-
 import { IGroup } from "@/interface/Group";
 import { IPlayer, IValueStatistic } from "@/interface/Player";
-
-export const playerStatistics: string[] = [i18n.t("goals"), i18n.t("yellow"), i18n.t("red"), i18n.t("assists")]
 
 export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic[] => {
 
@@ -74,24 +70,32 @@ export const statisticPlayer = (group: IGroup, player: IPlayer): IValueStatistic
         player: String(player.name),
         team: String(player.team?.name),
         value: goals,
+        logo: String(player.team?.logo),
+        color: String(player.team?.color)
     })
 
     summary.push({
         player: String(player.name),
         team: String(player.team?.name),
         value: yellow,
+        logo: String(player.team?.logo),
+        color: String(player.team?.color)
     })
 
     summary.push({
         player: String(player.name),
         team: String(player.team?.name),
         value: reds,
+        logo: String(player.team?.logo),
+        color: String(player.team?.color)
     })
 
     summary.push({
         player: String(player.name),
         team: String(player.team?.name),
         value: assists,
+        logo: String(player.team?.logo),
+        color: String(player.team?.color)
     })
 
     return summary
@@ -169,6 +173,8 @@ export const statisticTable = (group: IGroup, statisticView: string): IValueStat
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
                 value: goals,
+                logo: String(group.players![p].team?.logo),
+                color: String(group.players![p].team?.color)
             })
         }
 
@@ -177,6 +183,8 @@ export const statisticTable = (group: IGroup, statisticView: string): IValueStat
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
                 value: yellow,
+                logo: String(group.players![p].team?.logo),
+                color: String(group.players![p].team?.color)
             })
         }
 
@@ -185,6 +193,8 @@ export const statisticTable = (group: IGroup, statisticView: string): IValueStat
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
                 value: reds,
+                logo: String(group.players![p].team?.logo),
+                color: String(group.players![p].team?.color)
             })
         }
 
@@ -193,6 +203,8 @@ export const statisticTable = (group: IGroup, statisticView: string): IValueStat
                 player: String(group.players![p].name),
                 team: String(group.players![p].team?.name),
                 value: assists,
+                logo: String(group.players![p].team?.logo),
+                color: String(group.players![p].team?.color)
             })
         }
 
@@ -207,14 +219,14 @@ export const statisticTable = (group: IGroup, statisticView: string): IValueStat
     return summary
 }
 
-export const showEvents = (group: IGroup): { value: string, label: string }[] => {
+export const showEvents = (group: IGroup, t: (scope: string, options?: object | undefined) => string): { value: string, label: string }[] => {
 
     let events: string[] = []
     let eventsValue: { value: string, label: string }[] = []
 
     if (group.players?.length! > 0) {
-        for (let i = 0; i < playerStatistics.length; i++) {
-            events.push(playerStatistics[i])
+        for (let i = 0; i < [t("goals"), t("yellow"), t("red"), t("assists")].length; i++) {
+            events.push([t("goals"), t("yellow"), t("red"), t("assists")][i])
         }
     }
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { View } from "react-native";
 import { Card, Text, Button, IconButton, MD3Colors } from "react-native-paper";
-import { Picker } from "@react-native-picker/picker";
-import i18n from '@/i18n'
+
+import CustomDropdown from "./CustomDropdown";
 
 import { generalStyles } from "@/styles/general.styles";
 
@@ -13,9 +13,12 @@ import { useGroupStore } from "@/store/group.store";
 import { groupGenerator } from "@/utils/generator";
 import { powerRange } from "@/utils/defaultGroup";
 
+import { useLanguage } from "@/hooks/useLanguageContext";
+
 const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
 
     const { updateGenerateAgain, generateMatches, updateTeam, group } = useGroupStore()
+    const { t } = useLanguage()
 
     const [matchSchedule, setMatchSchedule] = useState<string>("NORMAL")
 
@@ -50,6 +53,10 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
                 teamsPerGroup: teamsPerGroupUpdate,
                 amountGroups: amountGroupsUpdate,
             }, matchSchedule)
+
+            groupsMatches.groupsSorted = groupsMatches.groupsSorted.map(subGroup =>
+                subGroup.filter(team => Object.keys(team).length > 0)
+            );
 
             if (group.isManualConfiguration) {
                 generateMatches(groupsMatches.groupsMatches, groupsMatches.groupsSorted[groupsMatches.groupsSorted.length - 1].length,
@@ -91,36 +98,41 @@ const GenerateAgain = ({ colors }: GenerateAgainPropsType) => {
             </View>
             <Card.Content style={generalStyles.showGenerateAgain}>
                 <Text variant="titleSmall" style={{ textAlign: 'center' }}>
-                    {i18n.t("generateGroupStageAgainQuestion")}
+                    {t("generateGroupStageAgainQuestion")}
                 </Text>
-                <View style={{ width: '100%', borderColor: colors.primary, borderWidth: 1, marginVertical: 7 }}>
-                    <Picker
-                        selectedValue={matchSchedule}
-                        onValueChange={(itemValue) => setMatchSchedule(itemValue)}
-                        mode="dropdown"
-                        dropdownIconColor={colors.primary}
-                        style={{
-                            color: colors.surface,
-                            backgroundColor: colors.tertiary
-                        }}
-                    >
-                        <Picker.Item label={i18n.t("perGroups")} value="NORMAL" style={{ fontSize: 13 }} />
-                        <Picker.Item label={i18n.t("allAgainstAll")} value="ALL" style={{ fontSize: 13 }} />
-                        <Picker.Item label={i18n.t("intergroups")} value="CROSS" style={{ fontSize: 13 }} />
-                    </Picker>
-                </View>
-                <Text style={{ textAlign: "center", marginTop: 8 }}>
-                    {matchSchedule === "NORMAL" && `${i18n.t("sameGroup")}`}
-                    {matchSchedule === "ALL" && `${i18n.t("allAgainstAllDescription")}`}
-                    {matchSchedule === "CROSS" && `${i18n.t("intergroupsCrossDescription")}`}
-                </Text>
+                <>
+                    <View style={{ width: '100%', borderColor: colors.primary, borderWidth: 1, marginVertical: 7 }}>
+                        <CustomDropdown
+                            data={[{
+                                label: t("perGroups"),
+                                value: "NORMAL"
+                            }, {
+                                label: t("allAgainstAll"),
+                                value: "ALL"
+                            }, {
+                                label: t("intergroups"),
+                                value: "CROSS"
+                            }]}
+                            value={matchSchedule}
+                            colors={colors}
+                            onChange={(item) => {
+                                setMatchSchedule(item.value);
+                            }}
+                        />
+                    </View>
+                    <Text style={{ textAlign: "center", marginTop: 8 }}>
+                        {matchSchedule === "NORMAL" && `${t("sameGroup")}`}
+                        {matchSchedule === "ALL" && `${t("allAgainstAllDescription")}`}
+                        {matchSchedule === "CROSS" && `${t("intergroupsCrossDescription")}`}
+                    </Text>
+                </>
                 <Button
                     mode="contained"
                     onPress={generateGroups}
                     style={[{ backgroundColor: colors.primary }, generalStyles.generateButton]}
                     labelStyle={{ color: "#ffffff" }}
                 >
-                    {i18n.t("generateAgainButton")}
+                    {t("generateAgainButton")}
                 </Button>
             </Card.Content>
         </Card >

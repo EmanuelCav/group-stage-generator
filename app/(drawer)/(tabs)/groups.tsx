@@ -4,7 +4,6 @@ import { useTheme } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast, { ErrorToast } from 'react-native-toast-message';
 import * as StoreReview from 'expo-store-review';
-import i18n from '@/i18n'
 
 import MainScreen from '@/components/general/MainScreen'
 import HeaderGeneral from '@/components/general/HeaderGeneral'
@@ -13,6 +12,7 @@ import GenerateAgain from '@/components/general/GenerateAgain'
 import SureGeneral from '@/components/general/SureGeneral'
 
 import { useGroupStore } from '@/store/group.store'
+import { useLanguage } from '@/hooks/useLanguageContext';
 
 const toastConfig = {
   error: (props: any) => (
@@ -27,9 +27,12 @@ const toastConfig = {
 const GroupsScreen = () => {
 
   const { colors } = useTheme()
-  const router = useRouter()
-  const { group } = useGroupStore()
+  const { t } = useLanguage()
 
+  const router = useRouter()
+  
+  const { group } = useGroupStore()
+  
   const goBack = useCallback(() => {
     router.replace("/home")
   }, [router])
@@ -77,13 +80,13 @@ const GroupsScreen = () => {
 
   return (
     <MainScreen colors={colors}>
-      <HeaderGeneral colors={colors} title={i18n.t("groups")} goBack={goBack} isMatchdaysScreen={false} />
+      <HeaderGeneral colors={colors} title={t("groups")} goBack={goBack} isMatchdaysScreen={false} />
       <SureGeneral />
       {
         group.isGeneratedAgain && <GenerateAgain colors={colors} />
       }
       <Toast config={toastConfig} />
-      <GroupsList group={group} colors={colors} />
+      <GroupsList group={group} colors={colors} t={t} />
     </MainScreen>
   )
 }

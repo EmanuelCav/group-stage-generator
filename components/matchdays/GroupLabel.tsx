@@ -6,9 +6,9 @@ import { GroupLabelPropsType } from "@/types/matchdays.props"
 
 import { useMatchdayDropdown } from "@/hooks/useMatchdayDropdown";
 
-const GroupLabel = memo(({ group, colors, matchdayViewUpdated }: GroupLabelPropsType) => {
+const GroupLabel = memo(({ group, colors, matchdayViewUpdated, t }: GroupLabelPropsType) => {
 
-    const { options } = useMatchdayDropdown(group.matches!, "group")
+    const { options } = useMatchdayDropdown(group.matches!, "group", t)
 
     return (
         <CustomDropdown

@@ -2,7 +2,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { Appbar, useTheme } from "react-native-paper";
-import i18n from "@/i18n";
 
 import HomeTeamScreen from "../../app/(teams)/[teamId]/index";
 import PlayersTeamScreen from "../../app/(teams)/[teamId]/players";
@@ -11,11 +10,14 @@ import { ITeam } from "@/interface/Team";
 
 import { useTeamStore } from "@/store/team.store";
 
+import { useLanguage } from "@/hooks/useLanguageContext";
+
 const Tab = createMaterialTopTabNavigator();
 
 export default function TopTabsLayout() {
 
     const { colors } = useTheme();
+    const { t } = useLanguage()
     const router = useRouter();
     const { team, getTeam, hideAndShowAddTeam } = useTeamStore()
 
@@ -54,13 +56,13 @@ export default function TopTabsLayout() {
                 <Tab.Screen
                     name="index"
                     component={HomeTeamScreen}
-                    options={{ title: i18n.t("information") }}
+                    options={{ title: t("information") }}
                 />
 
                 <Tab.Screen
                     name="players"
                     component={PlayersTeamScreen}
-                    options={{ title: i18n.t("players") }}
+                    options={{ title: t("players") }}
                 />
             </Tab.Navigator>
         </>

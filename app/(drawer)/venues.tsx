@@ -3,7 +3,6 @@ import { FlatList, View } from "react-native";
 import { Text, useTheme } from "react-native-paper";
 import { Redirect, useRouter } from "expo-router";
 import Toast, { ErrorToast } from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import MainScreen from "@/components/general/MainScreen";
 import HeaderGeneral from "@/components/general/HeaderGeneral";
@@ -24,6 +23,7 @@ import { useVenueStore } from "@/store/venue.store";
 import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const toastConfig = {
   error: (props: any) => (
@@ -42,6 +42,7 @@ const VenuesScreen = () => {
   const { premium } = useUserStore()
 
   const { colors } = useTheme()
+  const { t } = useLanguage()
 
   const router = useRouter()
 
@@ -108,9 +109,9 @@ const VenuesScreen = () => {
         isSure && (
           <Sure
             func={handleRemoveVenue}
-            text={i18n.t("areYouSureDelete")}
+            text={t("areYouSureDelete")}
             close={close}
-            labelButton={i18n.t("remove")}
+            labelButton={t("remove")}
           />
         )
       }
@@ -126,13 +127,14 @@ const VenuesScreen = () => {
             createVenue={createStadium}
             updateVenue={handleUpdate}
             spacing={spacing}
+            t={t}
           />
         )
       }
 
       <HeaderGeneral
         colors={colors}
-        title={i18n.t("stadiums_title")}
+        title={t("stadiums_title")}
         goBack={goBack}
         isMatchdaysScreen={false}
       />
@@ -149,7 +151,7 @@ const VenuesScreen = () => {
             <AddAction
               openForm={hideAndShowAddVenue}
               colors={colors}
-              text={i18n.t("add_stadium")}
+              text={t("add_stadium")}
             />
           )
         }
@@ -166,7 +168,7 @@ const VenuesScreen = () => {
             />
           ) : (
             <Text variant="bodyMedium" style={createStyles.advideText}>
-              {i18n.t("stadiums_empty")}
+              {t("stadiums_empty")}
             </Text>
           )
         }

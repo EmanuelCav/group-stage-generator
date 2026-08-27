@@ -134,24 +134,6 @@ function RootLayoutNav() {
         <PaperProvider theme={resolvedTheme === "dark" ? darkTheme : lightTheme}>
           <StatusBar barStyle={resolvedTheme === "dark" ? "light-content" : "dark-content"} />
           <AppStack />
-          {/* <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="index" options={{ title: "login", headerShown: false }} />
-            <Stack.Screen name="home" options={{ title: "home", headerShown: false }} />
-            <Stack.Screen name="create" options={{ title: "create", headerShown: false }} />
-            <Stack.Screen name="config" options={{ title: "config", headerShown: false }} />
-            <Stack.Screen name="stadiums" options={{ title: "stadiums", headerShown: false }} />
-            <Stack.Screen name="referees" options={{ title: "referees", headerShown: false }} />
-            <Stack.Screen name="players" options={{ title: "players", headerShown: false }} />
-            <Stack.Screen name="match" options={{ title: "match", headerShown: false }} />
-            <Stack.Screen name="matchknockout" options={{ title: "matchknockout", headerShown: false }} />
-            <Stack.Screen name="signup" options={{ title: "signup", headerShown: false }} />
-            <Stack.Screen name="tent" options={{ title: "tent", headerShown: false }} />
-            <Stack.Screen name="settings" options={{ title: "settings", headerShown: false }} />
-            <Stack.Screen name="reset-password" options={{ headerShown: false }} />
-            <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
-            <Stack.Screen name="auth/update" options={{ headerShown: false }} />
-          </Stack> */}
         </PaperProvider>
       </ThemeContext.Provider>
     </LanguageProvider>

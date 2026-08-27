@@ -1,14 +1,14 @@
 import { useState } from "react"
 import { View } from "react-native"
 import { Button, Card, Divider, Text } from "react-native-paper"
-import i18n from "@/i18n"
 
 import MatchRow from "./components/MatchRow"
 
 import { teamsStyles } from "@/styles/team.styles"
+
 import { TeamMatchesInformationPropsType } from "@/types/teams.types"
 
-const TeamMatchesInformation = ({ colors, matchesInformation, title, team }: TeamMatchesInformationPropsType) => {
+const TeamMatchesInformation = ({ colors, matchesInformation, title, team, t }: TeamMatchesInformationPropsType) => {
 
     const [showAll, setShowAll] = useState<boolean>(false)
 
@@ -33,12 +33,12 @@ const TeamMatchesInformation = ({ colors, matchesInformation, title, team }: Tea
                         variant="bodyMedium" 
                         style={teamsStyles.noMatches}
                     >
-                        {i18n.t("noMatches")}
+                        {t("noMatches")}
                     </Text>
                 ) : (
                     visibleMatches.map((match, index) => (
                         <View style={{ marginTop: 7 }} key={index}>
-                            <MatchRow colors={colors} match={match} team={team} />
+                            <MatchRow match={match} team={team} t={t} />
                             {index < visibleMatches.length - 1 && (
                                 <Divider style={{ marginTop: 7 }} />
                             )}
@@ -53,7 +53,7 @@ const TeamMatchesInformation = ({ colors, matchesInformation, title, team }: Tea
                         textColor={colors.primary}
                         style={{ marginTop: 8 }}
                     >
-                        {showAll ? i18n.t("seeLess") : i18n.t("seeMore")}
+                        {showAll ? t("seeLess") : t("seeMore")}
                     </Button>
                 )}
 

@@ -5,7 +5,6 @@ import { Button, Icon, MD3Colors, Text, TextInput } from "react-native-paper"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 import { View } from "react-native";
-import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground"
 import CustomDropdown from "../general/CustomDropdown";
@@ -26,7 +25,7 @@ import { getGroupUpdateTeamMatch, labelSummaryEvent } from "@/utils/matchday";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary, spacing, premium }: FormSummaryPropsType) => {
+const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, updateMatch, updateMatchGroup, matchday, sureRemoveSummary, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, router, getSummary, spacing, premium, t }: FormSummaryPropsType) => {
 
     const [statisticSelected, setStatisticSelected] = useState<string>(summary.title ?? "")
     const [teamSelected, setTeamSelected] = useState<string>(summary.player?.team?.name ?? "")
@@ -62,8 +61,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
         if (!statisticSelected) {
             Toast.show({
                 type: 'error',
-                text1: i18n.t("errorSummaryEventTitle"),
-                text2: i18n.t("errorSummaryEventDescription")
+                text1: t("errorSummaryEventTitle"),
+                text2: t("errorSummaryEventDescription")
             });
             return
         }
@@ -71,8 +70,8 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
         if (!playerSelected) {
             Toast.show({
                 type: 'error',
-                text1: i18n.t("errorSummaryPlayerTitle"),
-                text2: i18n.t("errorSummaryPlayerDescription")
+                text1: t("errorSummaryPlayerTitle"),
+                text2: t("errorSummaryPlayerDescription")
             });
             return
         }
@@ -247,15 +246,15 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                     <View style={{ marginTop: spacing.h28, backgroundColor: colors.background }}>
                         <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
-                                {i18n.t("sumarry_select_event")}
+                                {t("sumarry_select_event")}
                             </Text>
                             <CustomDropdown
                                 data={[
-                                    { value: "goal", label: i18n.t("goal") },
-                                    { value: "yellow card", label: i18n.t("yellows") },
-                                    { value: "red card", label: i18n.t("reds") },
-                                    { value: "injury", label: i18n.t("injury") },
-                                    { value: "substitution", label: i18n.t("substitution") },
+                                    { value: "goal", label: t("goal") },
+                                    { value: "yellow card", label: t("yellows") },
+                                    { value: "red card", label: t("reds") },
+                                    { value: "injury", label: t("injury") },
+                                    { value: "substitution", label: t("substitution") },
                                 ]}
                                 value={statisticSelected}
                                 colors={colors}
@@ -267,7 +266,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
                         <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
-                                {i18n.t("sumarry_select_team")}
+                                {t("sumarry_select_team")}
                             </Text>
                             <CustomDropdown
                                 data={teamsOptions}
@@ -282,7 +281,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
                         <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                             <Text variant="labelLarge">
-                                {labelSummaryEvent(statisticSelected)}
+                                {labelSummaryEvent(statisticSelected, t)}
                             </Text>
                             <CustomDropdown
                                 data={playerOptions}
@@ -298,7 +297,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             statisticSelected === "goal" &&
                             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                                 <Text variant="labelLarge">
-                                    {i18n.t("sumarry_select_secondaryPlayerAssist")}
+                                    {t("sumarry_select_secondaryPlayerAssist")}
                                 </Text>
                                 <CustomDropdown
                                     data={playerOptions}
@@ -315,7 +314,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             statisticSelected === "substitution" &&
                             <View style={[createStyles.selectInputDropdownContain, { backgroundColor: colors.background }]}>
                                 <Text variant="labelLarge">
-                                    {i18n.t("sumarry_select_secondaryPlayerAssist")}
+                                    {t("sumarry_select_secondaryPlayerAssist")}
                                 </Text>
                                 <CustomDropdown
                                     data={playerOptions}
@@ -330,7 +329,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
 
                         <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
                             <Text variant="bodyLarge">
-                                {i18n.t("sumarry_minute")}
+                                {t("sumarry_minute")}
                             </Text>
                             <Controller
                                 name="time"
@@ -356,7 +355,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                     variant="bodySmall"
                                     style={{ color: MD3Colors.error50, marginTop: spacing.h185 }}
                                 >
-                                    {errors.time.message}
+                                    {t(errors.time.message!, { defaultValue: errors.time.message })}
                                 </Text>
                             }
                         </View>
@@ -369,7 +368,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             labelStyle={{ color: "#ffffff" }}
                             onPress={handleSubmit((data) => handleAddSummary(data))}
                         >
-                            {summary.id ? i18n.t("general.update") : i18n.t("general.add")}
+                            {summary.id ? t("general.update") : t("general.add")}
                         </Button>
 
                         {
@@ -381,7 +380,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                                 labelStyle={{ color: "#ffffff" }}
                                 onPress={() => sureRemoveSummary(true)}
                             >
-                                {i18n.t("general.remove")}
+                                {t("general.remove")}
                             </Button>
                         }
 
@@ -392,7 +391,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                         alignItems: 'center', backgroundColor: colors.background
                     }}>
                         <Text variant='titleLarge' style={{ color: colors.primary }}>
-                            {i18n.t("statistics")}
+                            {t("statistics")}
                         </Text>
                         <Icon
                             source="chart-bar"
@@ -400,7 +399,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             size={42}
                         />
                         <Text variant='bodyLarge' style={statisticsStyles.titleStatistics}>
-                            {i18n.t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
+                            {t("addPlayersToDisplayAndVisualizeTournamentStatistics")}
                         </Text>
                         <Button
                             mode="contained"
@@ -409,7 +408,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             labelStyle={{ color: "#ffffff" }}
                             onPress={() => router.replace('/players')}
                         >
-                            {i18n.t("addPlayers")}
+                            {t("addPlayers")}
                         </Button>
                     </View>
             }

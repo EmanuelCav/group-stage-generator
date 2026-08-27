@@ -1,12 +1,12 @@
-import { matchStyles } from '@/styles/match.styles'
 import { View } from 'react-native'
-import i18n from '@/i18n'
 
 import TagInformation from './components/TagInformation'
 
 import { InformationPropsType } from '@/types/match.types'
 
-const Information = ({ match, colors }: InformationPropsType) => {
+import { matchStyles } from '@/styles/match.styles'
+
+const Information = ({ match, colors, t }: InformationPropsType) => {
 
     return (
         <View style={matchStyles.informationContain}>
@@ -14,17 +14,17 @@ const Information = ({ match, colors }: InformationPropsType) => {
                 colors={colors}
                 source="clock-time-four-outline"
                 info={(match.time?.hours && match.date) ? `${match.date} - ${match.time.hours < 10 ? "0" : ""}${match.time.hours}:${match.time.minutes < 10 ? "0" : ""}${match.time.minutes}` :
-                    i18n.t("not_defined")}
+                    t("not_defined")}
             />
             <TagInformation
                 colors={colors}
                 source="stadium"
-                info={match.stadium ? match.stadium : i18n.t("not_defined")}
+                info={match.stadium ? match.stadium : t("not_defined")}
             />
             <TagInformation
                 colors={colors}
                 source="whistle"
-                info={match.referee ? match.referee : i18n.t("not_defined")}
+                info={match.referee ? match.referee : t("not_defined")}
             />
         </View>
     )

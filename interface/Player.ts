@@ -38,4 +38,6 @@ export interface IValueStatistic {
     player: string;
     team: string;
     value: number;
+    logo: string;
+    color: string;
 }

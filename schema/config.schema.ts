@@ -1,47 +1,34 @@
 import { number, object, string } from "yup";
-import i18n from '@/i18n'
 
 export const configSchema = object().shape({
-  title: string().trim().required(i18n.t("validation.config.title.required")),
+  title: string().trim().required("Title field is required"),
   teamsPerGroup: number()
-    .typeError(i18n.t("validation.config.teamsPerGroup.typeError"))
-    .min(2, i18n.t("validation.config.teamsPerGroup.min"))
-    .required(i18n.t("validation.config.teamsPerGroup.required")),
+    .typeError("Please complete with a number value")
+    .min(2, "Number of teams per group must be higher than 1")
+    .required("This field is required"),
   amountGroups: number()
-    .typeError(i18n.t("validation.config.amountGroups.typeError"))
-    .min(1, i18n.t("validation.config.amountGroups.min"))
-    .required(i18n.t("validation.config.amountGroups.required")),
+    .typeError("Please complete with a number value")
+    .min(1, "Write the number of groups")
+    .required("This field is required"),
   amountClassified: number()
-    .typeError(i18n.t("validation.config.amountClassified.typeError"))
-    .min(2, i18n.t("validation.config.amountClassified.min"))
-    .required(i18n.t("validation.config.amountClassified.required"))
+    .typeError("Please complete with a number value")
+    .min(2, "The total number of qualified participants must be greater than 1")
+    .required("This field is required")
     .test(
       "power-of-two",
-      i18n.t("validation.config.amountClassified.powerOfTwo"),
+      "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)",
       value => {
         if (!value || value < 1) return false;
         return (value & (value - 1)) === 0;
       }
     ),
   pointsWin: number()
-    .min(0, i18n.t("validation.config.pointsWin.min"))
-    .required(i18n.t("validation.config.pointsWin.required")),
+    .min(0, "Write the number of points to the winner")
+    .required("This field is required"),
   pointsDraw: number()
-    .min(0, i18n.t("validation.config.pointsDraw.min"))
-    .required(i18n.t("validation.config.pointsDraw.required")),
+    .min(0, "Write the number of points to tie")
+    .required("This field is required"),
   pointsLoss: number()
-    .min(0, i18n.t("validation.config.pointsLoss.min"))
-    .required(i18n.t("validation.config.pointsLoss.required")),
-});
-
-export const avoidingSchema = object().shape({
-  title: string()
-    .trim()
-    .matches(/^[^<>'\"/;`%]*$/, i18n.t("validation.avoiding.title.invalid"))
-    .max(22, i18n.t("validation.avoiding.title.max"))
-    .required(i18n.t("validation.avoiding.title.required")),
-  max: number()
-    .typeError(i18n.t("validation.avoiding.max.typeError"))
-    .min(1, i18n.t("validation.avoiding.max.min"))
-    .required(i18n.t("validation.avoiding.max.required")),
+    .min(0, "Write the number of points to the loser")
+    .required("This field is required"),
 });

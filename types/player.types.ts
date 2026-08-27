@@ -16,6 +16,7 @@ export type FormCreatePlayerPropsType = {
     premium: boolean;
     spacing: Spacing;
     team: ITeam;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type PlayerPropsType = {

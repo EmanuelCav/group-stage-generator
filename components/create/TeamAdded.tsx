@@ -1,13 +1,12 @@
 import { memo } from "react"
 import { Pressable, View } from "react-native"
 import { Avatar, Text } from "react-native-paper"
-import i18n from "@/i18n"
 
 import { TeamAddedPropsType } from "@/types/create.types"
 
 import { createStyles } from "@/styles/create.styles"
 
-const TeamAdded = memo(({ team, handleUpdateTeam, colors, isManualConfiguration, spacing }: TeamAddedPropsType) => {
+const TeamAdded = memo(({ team, handleUpdateTeam, colors, isManualConfiguration, spacing, t }: TeamAddedPropsType) => {
   return (
     <View style={{ backgroundColor: colors.background }}>
       <Pressable
@@ -62,14 +61,14 @@ const TeamAdded = memo(({ team, handleUpdateTeam, colors, isManualConfiguration,
               color: colors.surface,
             }}
           >
-            {i18n.t("group.title")}: {team.group ?? team.groupAssigned ?? i18n.t("random")}
+            {t("group.title")}: {team.group ?? team.groupAssigned ?? t("random")}
           </Text>
 
           <Text
             variant="bodySmall"
             style={{ color: colors.surface }}
           >
-            {i18n.t("plot")}: {isManualConfiguration ? team.plot : i18n.t("random")}
+            {t("plot")}: {isManualConfiguration ? team.plot : t("random")}
           </Text>
         </View>
       </Pressable>

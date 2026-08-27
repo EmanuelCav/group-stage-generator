@@ -1,24 +1,23 @@
 import { date, number, object, string } from "yup";
-import i18n from '@/i18n'
 
 export const matchSchema = object().shape({
-  scoreLocal: number().min(0, i18n.t("validation.match.score.min")),
-  scoreVisitant: number().min(0, i18n.t("validation.match.score.min")),
+  scoreLocal: number().min(0, "Score minimum value is 0"),
+  scoreVisitant: number().min(0, "Score minimum value is 0"),
   date: date()
 });
 
 export const summarySchema = object().shape({
   time: string()
     .trim()
-    .matches(/[0-9]*$/, i18n.t("validation.summary.time.invalid"))
-    .max(5, i18n.t("validation.summary.time.max"))
-    .required(i18n.t("validation.summary.time.required"))
+    .matches(/[0-9]*$/, "Only numbers are allowed")
+    .max(5, "Minute of play must have less than 5 characters")
+    .required("Write the minute of play")
 });
 
 export const statisticMatchSchema = object().shape({
   title: string()
     .trim()
-    .matches(/^[^<>'\"/;`%]*$/, i18n.t("validation.statisticMatch.title.invalid"))
-    .max(20, i18n.t("validation.statisticMatch.title.max"))
-    .required(i18n.t("validation.statisticMatch.title.required"))
+    .matches(/^[^<>'\"/;`%]*$/, "Check special characters")
+    .max(20, "Title must have less than 20 characters")
+    .required("Write a statistic title")
 });

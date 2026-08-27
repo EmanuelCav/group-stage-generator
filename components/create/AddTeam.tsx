@@ -1,12 +1,11 @@
 import { Button } from "react-native-paper"
 import { View } from "react-native"
-import i18n from '@/i18n'
 
 import { AddTeamPropsType } from "@/types/create.types"
 
 import { createStyles } from "@/styles/create.styles"
 
-const AddTeam = ({ openForm, colors }: AddTeamPropsType) => {
+const AddTeam = ({ openForm, colors, t }: AddTeamPropsType) => {
 
     return (
         <View style={[createStyles.containerAddTeam, { backgroundColor: colors.background }]}>
@@ -17,7 +16,7 @@ const AddTeam = ({ openForm, colors }: AddTeamPropsType) => {
                 labelStyle={{ color: "#ffffff" }}
                 onPress={() => openForm(true)}
             >
-                {i18n.t("groupStage.addTeam")}
+                {t("groupStage.addTeam")}
             </Button>
         </View>
     )

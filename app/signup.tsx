@@ -3,7 +3,6 @@ import { Dimensions, View, Alert } from 'react-native';
 import { Button, Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from '@/i18n';
 
 import MainScreen from '@/components/general/MainScreen';
 import Password from '@/components/auth/Password';
@@ -22,11 +21,14 @@ import { signInWithGoogle } from '../lib/providerAuth';
 import { getGroupsFromSupabase } from '@/lib/save';
 
 import { useSpacing } from '@/hooks/useSpacing';
+import { useLanguage } from '@/hooks/useLanguageContext';
 
 const SignUp = () => {
 
-    const router = useRouter()
+    const { t } = useLanguage()
     const { colors } = useTheme()
+
+    const router = useRouter()
     const { setGroups } = useGroupStore()
 
     const [email, setEmail] = useState<string>('');
@@ -52,33 +54,33 @@ const SignUp = () => {
             const isBlocked = await checkRateLimit(setBlockedUntil)
 
             if (isBlocked) {
-                setErrorData(i18n.t("manyAttempts"));
+                setErrorData(t("manyAttempts"));
                 return;
             }
 
             if (!email || !password || !confirmPassword) {
-                setErrorData(i18n.t("emptyFields"));
+                setErrorData(t("emptyFields"));
                 return;
             }
 
             if (!isValidEmail(email)) {
-                setErrorData(i18n.t("invalidEmail"));
+                setErrorData(t("invalidEmail"));
                 return;
             }
 
             if (!isStrongPassword(password)) {
-                setErrorData(i18n.t("sixCharacters"));
+                setErrorData(t("sixCharacters"));
                 return;
+            }
+            
+            if (password !== confirmPassword) {
+                setErrorData(t("passwordDontMatch"))
+                return
             }
 
             if (!isWeakPassword(password)) {
-                setErrorData(i18n.t("weakPassword"));
+                setErrorData(t("weakPassword"));
                 return;
-            }
-
-            if (password !== confirmPassword) {
-                setErrorData(i18n.t("passwordDontMatch"))
-                return
             }
 
             const { error, data } = await supabase.auth.signUp({
@@ -98,7 +100,7 @@ const SignUp = () => {
             if (data.user) {
 
                 setErrorData("")
-                Alert.alert(i18n.t("successfullyRegister"), i18n.t("checkToVerify"));
+                Alert.alert(t("successfullyRegister"), t("checkToVerify"));
                 await AsyncStorage.setItem("amount_groups_general", "0")
 
                 setTimeout(() => {
@@ -142,7 +144,7 @@ const SignUp = () => {
         <MainScreen colors={colors}>
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background, alignItems: "stretch" }]}>
                 <Text variant='titleMedium' style={authStyles.titleAuth}>
-                    {i18n.t("startNow")}
+                    {t("startNow")}
                 </Text>
 
                 <Email
@@ -153,7 +155,7 @@ const SignUp = () => {
                 />
 
                 <Password
-                    label={i18n.t("password")}
+                    label={t("password")}
                     setValue={setPassword}
                     value={password}
                     colors={colors}
@@ -161,7 +163,7 @@ const SignUp = () => {
                 />
 
                 <Password
-                    label={i18n.t("confirmPassword")}
+                    label={t("confirmPassword")}
                     setValue={setConfirmPassword}
                     value={confirmPassword}
                     colors={colors}
@@ -180,26 +182,26 @@ const SignUp = () => {
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: Dimensions.get("window").height / 41 },
                     generalStyles.generateButton]}>
-                    {i18n.t("register")}
+                    {t("register")}
                 </Button>
 
                 <ChangeAuth
-                    text={i18n.t("already_account")}
-                    buttonText={i18n.t("login")}
+                    text={t("already_account")}
+                    buttonText={t("login")}
                     navigate={() => router.replace("/")}
                     colors={colors}
                     spacing={spacing}
                 />
 
                 <Button icon="google" mode="outlined" onPress={handleSignInWithGoogle} disabled={loading} loading={loading}>
-                    {i18n.t("google_signin")}
+                    {t("google_signin")}
                 </Button>
 
                 <Button
                     onPress={continueWithoutLogin}
                     style={authStyles.textContinueWithoutLogin}
                 >
-                    {i18n.t("title_without_account")}
+                    {t("title_without_account")}
                 </Button>
 
             </View>

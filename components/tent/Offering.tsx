@@ -1,19 +1,18 @@
 import { Button, Card, Text } from "react-native-paper";
 import { View, Dimensions } from "react-native";
-import i18n from "@/i18n";
 
 import { OfferingPropsType } from "@/types/tent.types";
 
 import { tentStyles } from "@/styles/tent.styles";
 
-const getPeriodLabel = (period: string | null) => {
-    if (!period) return i18n.t("one-time_purchase");
-    if (period.includes("P1M")) return i18n.t("monthly");
-    if (period.includes("P1Y")) return i18n.t("annual");
-    return "";
-};
+const Offering = ({ pkg, handlePurchase, colors, t }: OfferingPropsType) => {
 
-const Offering = ({ pkg, handlePurchase, colors }: OfferingPropsType) => {
+    const getPeriodLabel = (period: string | null) => {
+        if (!period) return t("one-time_purchase");
+        if (period.includes("P1M")) return t("monthly");
+        if (period.includes("P1Y")) return t("annual");
+        return "";
+    };
 
     const periodLabel = getPeriodLabel(pkg.product.subscriptionPeriod);
 
@@ -48,7 +47,7 @@ const Offering = ({ pkg, handlePurchase, colors }: OfferingPropsType) => {
                     style={{ backgroundColor: colors.primary }}
                     labelStyle={{ color: "#ffffff" }}
                 >
-                    {i18n.t("subscribe")}
+                    {t("subscribe")}
                 </Button>
             </Card.Actions>
         </Card>

@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { useRouter, useFocusEffect, Redirect } from 'expo-router'
 import { Button, Text, useTheme } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import i18n from '@/i18n'
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
 import MainScreen from '@/components/general/MainScreen'
@@ -25,6 +24,7 @@ import { useUserStore } from '@/store/user.store';
 import { evaluateGenerateAgain, idMatch } from '@/utils/matchday'
 
 import { useSpacing } from '@/hooks/useSpacing';
+import { useLanguage } from '@/hooks/useLanguageContext';
 
 import { interstitialService } from '@/services/interstitialService';
 
@@ -45,6 +45,8 @@ const MatchdaysScreen = () => {
     const { getMatch } = useMatchStore()
 
     const { colors } = useTheme()
+    const { t } = useLanguage()
+
     const router = useRouter()
 
     const spacing = useSpacing()
@@ -121,18 +123,18 @@ const MatchdaysScreen = () => {
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} title={i18n.t("matchdays")} goBack={goBack} isMatchdaysScreen={true} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+            <HeaderGeneral colors={colors} title={t("matchdays")} goBack={goBack} isMatchdaysScreen={true} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
             <SureGeneral />
             {
                 isClearAllMatches && <Sure close={() => setIsClearAllMatches(false)} func={() => {
                     removeMatches()
                     setIsClearAllMatches(false)
                 }}
-                    text={i18n.t("sureRemoveAllMatches")} labelButton={i18n.t("clearAll")} />
+                    text={t("sureRemoveAllMatches")} labelButton={t("clearAll")} />
             }
             {
                 isSureRemoveMatchday && <Sure close={() => setIsSureRemoveMatchday(false)} func={handleRemoveMatchday}
-                    text={i18n.t("sureRemoveMatchday")} labelButton={i18n.t("remove")} />
+                    text={t("sureRemoveMatchday")} labelButton={t("remove")} />
             }
             {
                 (group.isGeneratedAgain && evaluateGenerateAgain(group.matches!)) && <GenerateAgain colors={colors} />
@@ -141,9 +143,10 @@ const MatchdaysScreen = () => {
             <View style={{ padding: spacing.h106, flex: 1, backgroundColor: colors.background }}>
                 {
                     group.matches?.length! > 1 && !isEditMode &&
-                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} />
+                    <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} t={t} />
                 }
-                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} />
+                <View style={{ marginTop: 7 }} />
+                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} t={t} />
                 {
                     isEditMode && (
                         <View style={{ backgroundColor: colors.background, flexDirection: 'row', marginVertical: 7, justifyContent: 'space-around', alignItems: 'center' }}>
@@ -154,7 +157,7 @@ const MatchdaysScreen = () => {
                                     onPress={() => setIsClearAllMatches(true)}
                                     textColor={colors.error}
                                 >
-                                    {i18n.t("clearAllButton")}
+                                    {t("clearAllButton")}
                                 </Button>
                             }
                             <Button
@@ -162,17 +165,17 @@ const MatchdaysScreen = () => {
                                 onPress={handleAddMatchday}
                                 textColor={colors.primary}
                             >
-                                {i18n.t("addNewRound")}
+                                {t("addNewRound")}
                             </Button>
                         </View>
                     )
                 }
                 {
                     (evaluateGenerateAgain(group.matches!) && !isEditMode) && <Text variant='bodySmall' style={{ marginVertical: spacing.h106 }}>
-                        {i18n.t("adviceUpdateMatch")}
+                        {t("adviceUpdateMatch")}
                     </Text>
                 }
-                <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} handleUpdateTeamMatch={handleUpdateTeamMatch}
+                <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} handleUpdateTeamMatch={handleUpdateTeamMatch} t={t}
                     router={router} spacing={spacing} isEditMode={isEditMode} setIsSureRemoveMatchday={setIsSureRemoveMatchday} setIndexMatchday={setIndexMatchday} />
             </View>
         </MainScreen>

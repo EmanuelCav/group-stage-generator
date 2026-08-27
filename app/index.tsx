@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { ActivityIndicator, Button, Text, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Redirect, useRouter } from 'expo-router';
-import i18n from '@/i18n';
 
 import MainScreen from '@/components/general/MainScreen';
 import Password from '@/components/auth/Password';
@@ -23,12 +22,15 @@ import { getGroupsFromSupabase } from '@/lib/save';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useSpacing } from '@/hooks/useSpacing';
+import { useLanguage } from '@/hooks/useLanguageContext';
 
 const Index = () => {
 
+    const { colors } = useTheme()
+    const { t } = useLanguage()
+
     const router = useRouter()
     const { setGroups } = useGroupStore()
-    const { colors } = useTheme()
     const { user, loadingUser } = useAuth()
 
     const [email, setEmail] = useState<string>('');
@@ -45,12 +47,12 @@ const Index = () => {
             setLoading(true);
 
             if (!email || !password) {
-                setErrorData(i18n.t("emptyFields"));
+                setErrorData(t("emptyFields"));
                 return;
             }
 
             if (!isValidEmail(email)) {
-                setErrorData(i18n.t("invalidEmail"));
+                setErrorData(t("invalidEmail"));
                 return;
             }
 
@@ -130,7 +132,7 @@ const Index = () => {
         <MainScreen colors={colors}>
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background, alignItems: "stretch" }]}>
                 <Text variant='titleMedium' style={authStyles.titleAuth}>
-                    {i18n.t("title_login")}
+                    {t("title_login")}
                 </Text>
 
                 <Email
@@ -141,7 +143,7 @@ const Index = () => {
                 />
 
                 <Password
-                    label={i18n.t("password")}
+                    label={t("password")}
                     setValue={setPassword}
                     value={password}
                     colors={colors}
@@ -159,24 +161,24 @@ const Index = () => {
                     labelStyle={{ color: "#ffffff" }}
                     style={[{ marginTop: spacing.h41 },
                     generalStyles.generateButton]}>
-                    {i18n.t("login")}
+                    {t("login")}
                 </Button>
 
                 <View style={[authStyles.anotherAccountContain, { backgroundColor: colors.background }]}>
                     <Text>
-                        {i18n.t("forgot_password")}
+                        {t("forgot_password")}
                     </Text>
                     <Button
                         style={{ marginLeft: spacing.w72 }}
                         onPress={() => router.replace("/reset-password")}
                     >
-                        {i18n.t("restart")}
+                        {t("restart")}
                     </Button>
                 </View>
 
                 <ChangeAuth
-                    text={i18n.t("not_account")}
-                    buttonText={i18n.t("register")}
+                    text={t("not_account")}
+                    buttonText={t("register")}
                     navigate={() => router.replace("/signup")}
                     colors={colors}
                     spacing={spacing}
@@ -184,7 +186,7 @@ const Index = () => {
 
                 <Button icon="google" mode="outlined" loading={loading} disabled={loading}
                     onPress={handleSignInWithGoogle}>
-                    {i18n.t("google_signin")}
+                    {t("google_signin")}
                 </Button>
 
                 <Button
@@ -194,7 +196,7 @@ const Index = () => {
                         fontSize: 15
                     }}
                 >
-                    {i18n.t("title_without_account")}
+                    {t("title_without_account")}
                 </Button>
 
             </View>

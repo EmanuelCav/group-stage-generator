@@ -4,7 +4,6 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Avatar, Button, MD3Colors, Text, TextInput } from "react-native-paper"
-import i18n from '@/i18n'
 
 import { FormStatisticsMatchPropsType } from "@/types/match.types"
 
@@ -25,7 +24,7 @@ import { getGroupUpdateTeamMatch } from "@/utils/matchday";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, getStatistic, spacing, isFullName, premium }: FormStatisticsMatchPropsType) => {
+const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, statistic, matchday, updateMatch, updateMatchGroup, sureRemoveStatistic, isKnockout, round, updateEliminationMatch, updateMatchKnockGroup, getStatistic, spacing, isFullName, premium, t }: FormStatisticsMatchPropsType) => {
 
     const [valueLocal, setValueLocal] = useState<string>(statistic.teamLocal?.value !== undefined ? String(statistic.teamLocal.value) : "")
     const [valueVisitant, setValueVisitant] = useState<string>(statistic.teamVisitant?.value !== undefined ? String(statistic.teamVisitant.value) : "")
@@ -222,7 +221,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label={i18n.t('statistic.title')}
+                        label={t('statistic.title')}
                         mode="outlined"
                         style={[createStyles.inputGeneralCreate,
                         { backgroundColor: colors.tertiary }]}
@@ -239,7 +238,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                         marginTop: spacing.h106,
                     }}
                 >
-                    {errors.title.message}
+                    {t(errors.title.message, { defaultValue: errors.title.message })}
                 </Text>
             )}
 
@@ -247,7 +246,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 variant="labelLarge"
                 style={{ marginVertical: spacing.h74 }}
             >
-                {i18n.t('statistic.value')}
+                {t('statistic.value')}
             </Text>
 
             <View style={[matchStyles.scoreTeamForm, { backgroundColor: colors.background }]}>
@@ -316,7 +315,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                 labelStyle={{ color: '#ffffff' }}
                 onPress={handleSubmit((data) => handleAddStatistic(data))}
             >
-                {statistic.id ? i18n.t('statistic.update') : i18n.t('statistic.add')}
+                {statistic.id ? t('statistic.update') : t('statistic.add')}
             </Button>
 
             {statistic.id && (
@@ -327,7 +326,7 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
                     labelStyle={{ color: '#ffffff' }}
                     onPress={() => sureRemoveStatistic(true)}
                 >
-                    {i18n.t('statistic.remove')}
+                    {t('statistic.remove')}
                 </Button>
             )}
         </ContainerBackground>

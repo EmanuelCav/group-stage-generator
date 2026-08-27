@@ -3,17 +3,22 @@ import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, Drawe
 import { useRouter } from "expo-router";
 import { View } from "react-native";
 import { useTheme } from "react-native-paper";
-import i18n from "@/i18n";
 
 import { useGroupStore } from "@/store/group.store";
 import { useUserStore } from "@/store/user.store";
 
+import { useLanguage } from "@/hooks/useLanguageContext";
+
+import { duplicateGroup } from "@/utils/defaultGroup";
+
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
     const { colors } = useTheme();
+    const { t } = useLanguage()
+
     const router = useRouter();
 
-    const { sureRemoveGroup, sureRestartGroup } = useGroupStore();
+    const { sureRemoveGroup, sureRestartGroup, group, createGroup } = useGroupStore();
     const { premium } = useUserStore()
 
     return (
@@ -50,7 +55,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             {
                 premium &&
                 <DrawerItem
-                    label={i18n.t("duplicate")}
+                    label={t("duplicate")}
                     labelStyle={{ color: colors.primary }}
                     icon={({ size }) => (
                         <MaterialCommunityIcons
@@ -59,13 +64,19 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                             color={colors.primary}
                         />
                     )}
-                    onPress={() => sureRestartGroup(true)}
-                />
+                    onPress={() => {
+                        setTimeout(() => {
+                            const duplicatedGroup = duplicateGroup(group)
+                            createGroup(duplicatedGroup)
+                        }, 0);
 
+                        router.replace("/home")
+                    }}
+                />
             }
 
             <DrawerItem
-                label={i18n.t("restartRoute")}
+                label={t("restartRoute")}
                 labelStyle={{ color: colors.primary }}
                 icon={({ size }) => (
                     <MaterialCommunityIcons
@@ -78,7 +89,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             />
 
             <DrawerItem
-                label={i18n.t("deleteRoute")}
+                label={t("deleteRoute")}
                 labelStyle={{ color: colors.primary }}
                 icon={({ size }) => (
                     <MaterialCommunityIcons
@@ -91,7 +102,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             />
 
             <DrawerItem
-                label={i18n.t("back")}
+                label={t("back")}
                 labelStyle={{ color: colors.primary }}
                 icon={({ size }) => (
                     <MaterialCommunityIcons
@@ -100,7 +111,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                         color={colors.primary}
                     />
                 )}
-                onPress={() => router.back()}
+                onPress={() => router.replace("/home")}
             />
         </DrawerContentScrollView>
     );

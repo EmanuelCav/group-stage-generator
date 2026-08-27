@@ -1,6 +1,5 @@
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from "uuid";
-import i18n from '@/i18n'
 
 import { IGroup } from "@/interface/Group";
 import { IPlayer } from "@/interface/Player";
@@ -59,13 +58,13 @@ export const teamValue = (id: string, logo: string | undefined, name: string, pl
 
 }
 
-export const dataPlots = (teamsPerGroup: number): IDropdown[] => {
+export const dataPlots = (teamsPerGroup: number, t: (scope: string, options?: object | undefined) => string): IDropdown[] => {
 
     let plots: IDropdown[] = []
 
     for (let i = 1; i <= teamsPerGroup; i++) {
         plots.push({
-            label: `${i18n.t("plot")} ${i}`,
+            label: `${t("plot")} ${i}`,
             value: String(i)
         })
     }
@@ -74,13 +73,13 @@ export const dataPlots = (teamsPerGroup: number): IDropdown[] => {
 
 }
 
-export const dataGroupNumber = (amountGroups: number): IDropdown[] => {
+export const dataGroupNumber = (amountGroups: number, t: (scope: string, options?: object | undefined) => string): IDropdown[] => {
 
     let groups: IDropdown[] = []
 
     for (let i = 1; i <= amountGroups; i++) {
         groups.push({
-            label: `${i18n.t("group.title")} ${i}`,
+            label: `${t("group.title")} ${i}`,
             value: String(i)
         })
     }

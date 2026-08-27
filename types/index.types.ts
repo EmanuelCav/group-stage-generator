@@ -7,12 +7,14 @@ export type TournamentsPropsType = {
     groups: IGroup[];
     colors: MD3Colors;
     handleGroup: (group: IGroup) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type TournamentPropsType = {
     colors: MD3Colors;
     group: IGroup;
     handleGroup: (group: IGroup) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type AddGroupStagePropsType = {
@@ -22,9 +24,11 @@ export type AddGroupStagePropsType = {
 
 export type HeaderTournamentsPropsType = {
     router: Router;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type AddTournamentPropsType = {
     colors: MD3Colors;
     handleCreateTournament: () => void;
+    t: (scope: string, options?: object | undefined) => string;
 }

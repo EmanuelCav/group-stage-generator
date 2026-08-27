@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { TextInput, Text, MD3Colors, Button } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
-import i18n from '@/i18n'
 
 import ContainerBackground from "../general/ContainerBackground";
 
@@ -20,7 +19,7 @@ import { generateId } from "@/utils/defaultGroup";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, premium, spacing }: FormCreateRefereePropsType) => {
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, premium, spacing, t }: FormCreateRefereePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -38,8 +37,8 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             if (group.referees!.find((r) => r.name === refereeCreated.name)) {
                 Toast.show({
                     type: 'error',
-                    text1: i18n.t("referee.name.title"),
-                    text2: i18n.t("referee.name.existsError")
+                    text1: t("referee.name.title"),
+                    text2: t("referee.name.existsError")
                 });
                 return
             }
@@ -47,8 +46,8 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
             if (!premium && group.referees?.length! >= 15) {
                 Toast.show({
                     type: 'error',
-                    text1: i18n.t("limit_referees"),
-                    text2: i18n.t("limit_referees_description")
+                    text1: t("limit_referees"),
+                    text2: t("limit_referees_description")
                 });
                 return
             }
@@ -114,7 +113,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                         onChangeText={onChange}
                         autoCapitalize="none"
                         onBlur={onBlur}
-                        label={i18n.t("refereeName")}
+                        label={t("refereeName")}
                         mode="outlined"
                         style={[createStyles.inputGeneralCreate,
                         { backgroundColor: colors.tertiary }]}
@@ -128,7 +127,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                     variant="labelMedium"
                     style={{ color: MD3Colors.error50, marginTop: spacing.h106 }}
                 >
-                    {errors.name.message}
+                    {t(errors.name.message!, { defaultValue: errors.name.message })}
                 </Text>
             )}
 
@@ -140,7 +139,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                 labelStyle={{ color: "#ffffff" }}
                 onPress={handleSubmit((data) => handleAddReferee(data))}
             >
-                {referee.id ? i18n.t("update") : i18n.t("add")}
+                {referee.id ? t("update") : t("add")}
             </Button>
 
             {referee.id && (
@@ -151,7 +150,7 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                     labelStyle={{ color: "#ffffff" }}
                     onPress={() => openSure(referee)}
                 >
-                    {i18n.t("remove")}
+                    {t("remove")}
                 </Button>
             )}
 

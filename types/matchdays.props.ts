@@ -6,6 +6,8 @@ import { IGetMatch } from "@/interface/Match";
 import { Spacing } from "./props.types";
 import { ITeam } from "@/interface/Team";
 
+export type MatchResultType = "WIN" | "DRAW" | "LOSS";
+
 export type SchedulePropsType = {
     group: IGroup;
     colors: MD3Colors;
@@ -15,6 +17,7 @@ export type SchedulePropsType = {
     isEditMode: boolean;
     setIsSureRemoveMatchday: (isSureRemoveMatch: boolean) => void;
     handleUpdateTeamMatch: (indexGroup: number, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
+    t: (scope: string, options?: object | undefined) => string;
     setIndexMatchday: (indexMatchday: number) => void;
 }
 
@@ -22,12 +25,14 @@ export type GroupLabelPropsType = {
     colors: MD3Colors;
     group: IGroup;
     matchdayViewUpdated: (data: string) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type MatchdayLabelPropsType = {
     colors: MD3Colors;
     group: IGroup;
     matchdayNumber: (data: string) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type ManualFixtureCardPropsType = {

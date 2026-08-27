@@ -1,13 +1,15 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Drawer } from "expo-router/drawer";
 import { useTheme } from "react-native-paper";
-import i18n from "@/i18n";
 
 import CustomDrawerContent from "./components/CustomAppDrawer";
+
+import { useLanguage } from "@/hooks/useLanguageContext";
 
 const AppDrawer = () => {
 
     const { colors } = useTheme();
+    const { t } = useLanguage()
 
     return (
         <Drawer
@@ -43,7 +45,7 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="teams"
                 options={{
-                    title: i18n.t("teams"),
+                    title: t("teams"),
                     drawerIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="shield"
@@ -57,7 +59,7 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="settings"
                 options={{
-                    title: i18n.t("settings"),
+                    title: t("settings"),
                     drawerIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="cog"
@@ -71,7 +73,7 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="referees"
                 options={{
-                    title: i18n.t("referees"),
+                    title: t("referees"),
                     drawerIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="whistle"
@@ -85,7 +87,7 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="venues"
                 options={{
-                    title: i18n.t("venues"),
+                    title: t("venues"),
                     drawerIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="stadium"
@@ -99,7 +101,7 @@ const AppDrawer = () => {
             {/* <Drawer.Screen
                 name="access"
                 options={{
-                    title: i18n.t("access"),
+                    title: t("access"),
                     drawerIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="shield-lock"
@@ -113,7 +115,7 @@ const AppDrawer = () => {
             <Drawer.Screen
                 name="users"
                 options={{
-                    title: i18n.t("users"),
+                    title: t("users"),
                     drawerIcon: ({ color, size }) => (
                         <MaterialCommunityIcons
                             name="account-group"

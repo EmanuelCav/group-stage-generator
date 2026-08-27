@@ -11,4 +11,10 @@ export type OfferingPropsType = {
     pkg: PurchasesPackage;
     handlePurchase: (pkg: PurchasesPackage) => void
     colors: MD3Colors;
+    t: (scope: string, options?: object | undefined) => string;
+}
+
+export type BenefitsPropsType = {
+    colors: MD3Colors;
+    t: (scope: string, options?: object | undefined) => string;
 }
