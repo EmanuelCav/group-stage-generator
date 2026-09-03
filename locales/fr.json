@@ -6,7 +6,7 @@
     "manuallyTitle": "Générer la phase de groupes manuellement",
     "numberOfGroups": "Nombre de groupes",
     "teamsPerGroup": "Nombre d'équipes par groupe",
-    "numberOfClassifieds": "Nombre total de qualifiés",
+    "numberOfClassifieds": "Nombre total de qualifiés pour la phase à élimination directe",
     "showPoints": "Afficher les points",
     "pointsToTheWinner": "Points pour le vainqueur",
     "pointsToTie": "Points pour un match nul",
@@ -37,9 +37,6 @@
     "referees_title": "Arbitres",
     "add_referee": "AJOUTER UN ARBITRE",
     "referees_empty": "Ajoutez des arbitres pour les matchs",
-    "stadiums_title": "Stades",
-    "add_stadium": "AJOUTER UN STADE",
-    "stadiums_empty": "Ajoutez des stades pour les matchs",
     "groups": "Groupes",
     "statistics": "Statistiques",
     "matchdays": "Journées",
@@ -92,23 +89,12 @@
     "selectMatchDateLabel": "Sélectionnez la date du match",
     "matchDateLabel": "Date du match",
     "selectDatePlaceholder": "Sélectionnez une date",
-    "selectMatchStadiumLabel": "Sélectionnez le stade du match",
     "selectMatchRefereeLabel": "Sélectionnez l'arbitre du match",
     "updateButton": "METTRE À JOUR",
     "drawKnockoutQuestion": "Souhaitez-vous tirer au sort la phase éliminatoire ?",
     "drawButton": "TIRER AU SORT",
     "generateGroupStageAgainQuestion": "Souhaitez-vous régénérer la phase de groupes ?",
     "generateAgainButton": "GÉNÉRER À NOUVEAU",
-    "menu": {
-        "teams": "Équipes",
-        "referees": "Arbitres",
-        "stadiums": "Stades",
-        "players": "Joueurs",
-        "settings": "Paramètres",
-        "restart": "Redémarrer",
-        "remove": "Supprimer",
-        "goBack": "Retour"
-    },
     "sure": {
         "removeGroupStage": "Êtes-vous sûr de vouloir supprimer la phase de groupes ?",
         "restartGroupStage": "Êtes-vous sûr de vouloir redémarrer la phase de groupes ?",
@@ -155,7 +141,6 @@
     "select_match_date": "Sélectionner la date du match",
     "match_date": "Date du match",
     "select_date": "Sélectionner la date",
-    "select_stadium": "Sélectionner le stade du match",
     "select_referee": "Sélectionner l'arbitre du match",
     "update": "METTRE À JOUR",
     "not_defined": "Non défini",
@@ -163,7 +148,6 @@
     "score": "Score",
     "visitant": "Visiteur",
     "refereeName": "Nom de l'arbitre",
-    "stadiumName": "Nom du stade",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "Ajoutez des joueurs pour visualiser les statistiques du tournoi",
     "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Ajoutez des statistiques pour visualiser les données du tournoi",
     "addPlayers": "Ajouter des joueurs",
@@ -186,138 +170,10 @@
     "all_fixture": "Toutes les journées",
     "titleIndex": "Phases de groupes",
     "selectGroupStage": "Sélectionner une phase de groupes",
-    "validation": {
-        "team": {
-            "name": {
-                "required": "Écrivez un nom d'équipe",
-                "max": "Le nom de l'équipe doit contenir moins de 35 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            }
-        },
-        "statistic": {
-            "title": {
-                "required": "Écrivez un titre de statistique",
-                "max": "Le titre doit contenir moins de 20 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            }
-        },
-        "stadium": {
-            "name": {
-                "required": "Écrivez un nom de stade",
-                "max": "Le nom du stade doit contenir moins de 30 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            }
-        },
-        "referee": {
-            "name": {
-                "required": "Écrivez un nom d'arbitre",
-                "max": "Le nom de l'arbitre doit contenir moins de 30 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            }
-        },
-        "player": {
-            "name": {
-                "required": "Écrivez un nom de joueur",
-                "max": "Le nom du joueur doit contenir moins de 30 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            },
-            "position": {
-                "max": "La position doit contenir moins de 16 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            }
-        },
-        "match": {
-            "score": {
-                "min": "La valeur minimale du score est 0"
-            }
-        },
-        "summary": {
-            "title": {
-                "required": "Écrivez un titre de résumé",
-                "max": "Le titre du résumé doit contenir moins de 20 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            },
-            "time": {
-                "required": "Écrivez la minute de jeu",
-                "max": "La minute de jeu doit contenir moins de 20 caractères",
-                "invalid": "Seuls les chiffres sont autorisés"
-            }
-        },
-        "statisticMatch": {
-            "title": {
-                "required": "Écrivez un titre de statistique",
-                "max": "Le titre doit contenir moins de 20 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            }
-        },
-        "config": {
-            "title": {
-                "required": "Le champ titre est requis"
-            },
-            "teamsPerGroup": {
-                "typeError": "Veuillez saisir une valeur numérique",
-                "min": "Le nombre d'équipes par groupe doit être supérieur à 1",
-                "required": "Ce champ est requis"
-            },
-            "amountGroups": {
-                "typeError": "Veuillez saisir une valeur numérique",
-                "min": "Indiquez le nombre de groupes",
-                "required": "Ce champ est requis"
-            },
-            "amountClassified": {
-                "typeError": "Veuillez saisir une valeur numérique",
-                "min": "Le nombre total de qualifiés doit être supérieur à 1",
-                "required": "Ce champ est requis",
-                "powerOfTwo": "Le nombre de qualifiés doit être une puissance de 2 (ex : 2, 4, 8, 16, 32...)"
-            },
-            "pointsWin": {
-                "min": "Indiquez le nombre de points pour une victoire",
-                "required": "Ce champ est requis"
-            },
-            "pointsDraw": {
-                "min": "Indiquez le nombre de points pour un match nul",
-                "required": "Ce champ est requis"
-            },
-            "pointsLoss": {
-                "min": "Indiquez le nombre de points pour une défaite",
-                "required": "Ce champ est requis"
-            }
-        },
-        "avoiding": {
-            "title": {
-                "required": "Écrivez un titre pour les matchs à éviter",
-                "max": "Le titre doit contenir moins de 22 caractères",
-                "invalid": "Vérifiez les caractères spéciaux"
-            },
-            "max": {
-                "typeError": "Veuillez saisir une valeur numérique",
-                "min": "Le nombre d'équipes par groupe doit être supérieur à 0",
-                "required": "Ce champ est requis"
-            }
-        },
-        "teamsPerGroup": {
-            "title": "Équipes par groupe",
-            "message": "Il doit y avoir au moins 2 équipes par groupe"
-        },
-        "numberOfGroups": {
-            "title": "Nombre de groupes",
-            "message": "La moitié du nombre de groupes doit être inférieure au nombre d'équipes"
-        },
-        "numberOfTeams": {
-            "title": "Nombre d'équipes",
-            "message": "Le nombre d'équipes par groupe multiplié par le nombre de groupes doit être inférieur ou égal au nombre total d'équipes"
-        }
-    },
     "permissions": {
         "galleryAccess": {
             "title": "Permission requise",
             "message": "L'accès à la galerie est requis"
-        }
-    },
-    "stadium": {
-        "name": {
-            "title": "Nom du stade",
-            "existsError": "Le nom du stade existe déjà"
         }
     },
     "referee": {
@@ -402,8 +258,6 @@
     "limit_players_description": "Vous avez atteint la limite de 15 joueurs pour cette équipe",
     "limit_referees": "Limite d'arbitres",
     "limit_referees_description": "Vous avez atteint la limite de 15 arbitres",
-    "limit_stadiums": "Limite de stades",
-    "limit_stadiums_description": "Vous avez atteint la limite de 15 stades",
     "limit_images": "Limite d'images",
     "limit_images_description": "Vous avez atteint la limite de 8 images",
     "benefits": "Avantages",
@@ -416,7 +270,6 @@
     "unlimited_group_stages": "Créer un nombre illimité de phases de groupes",
     "unlimited_teams": "Créer un nombre illimité d'équipes",
     "unlimited_images": "Téléverser un nombre illimité d'images",
-    "unlimited_players": "Joueurs, arbitres et stades illimités",
     "duplicate": "Dupliquer",
     "titleTent": "Abonnez-vous à Premium et accédez à tous les avantages",
     "titleIsPremium": "Félicitations ! Vous êtes maintenant membre Premium",
@@ -447,5 +300,75 @@
     "sameGroup": "Les équipes jouent dans leur groupe",
     "allAgainstAllDescription": "Toutes les équipes s'affrontent entre elles",
     "intergroupsCrossDescription": "Les équipes jouent contre d'autres groupes",
-    "allStatistics": "Toutes les statistiques"
+    "allStatistics": "Toutes les statistiques",
+    "select": "SÉLECTIONNER",
+    "no_winner": "Il n'y a pas encore de vainqueur",
+    "general_statistics": "Statistiques générales",
+    "victories": "Victoires",
+    "referees": "Arbitres",
+    "venues": "Lieux",
+    "deleteRoute": "Supprimer",
+    "restartRoute": "Redémarrer",
+    "nextMatches": "Prochains matchs",
+    "previousMatches": "Matchs précédents",
+    "noMatches": "Aucun match trouvé",
+    "seeMore": "Voir plus",
+    "seeLess": "Voir moins",
+    "information": "Informations",
+    "players_empty": "Ajoutez des joueurs pour les attribuer aux équipes participantes et afficher les statistiques",
+    "without_position": "Sans position",
+    "select_team": "Sélectionnez une équipe",
+    "streak": "Série",
+    "Title field is required": "Le titre est obligatoire",
+    "Please complete with a number value": "Veuillez saisir un nombre",
+    "Number of teams per group must be higher than 1": "Le nombre d'équipes par groupe doit être supérieur à 1",
+    "This field is required": "Ce champ est obligatoire",
+    "Write the number of groups": "Saisissez le nombre de groupes",
+    "The total number of qualified participants must be greater than 1": "Le nombre de participants qualifiés doit être supérieur à 1",
+    "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)": "Le nombre de participants qualifiés doit être une puissance de 2 (par exemple, 2, 4, 8, 16, 32...)",
+    "Write the number of points to the winner": "Saisissez les points attribués pour une victoire",
+    "Write the number of points to tie": "Saisissez les points attribués pour un match nul",
+    "Write the number of points to the loser": "Saisissez les points attribués pour une défaite",
+    "Score minimum value is 0": "Le score minimum est de 0",
+    "Only numbers are allowed": "Seuls les chiffres sont autorisés",
+    "Minute of play must have less than 5 characters": "Le temps de jeu doit comporter au maximum 5 caractères",
+    "Write the minute of play": "Saisissez le temps de jeu",
+    "Check special characters": "Veuillez vérifier les caractères invalides",
+    "Title must have less than 20 characters": "Le titre doit comporter au maximum 20 caractères",
+    "Write a statistic title": "Saisissez le nom d'une statistique",
+    "Player name must have less than 30 characters": "Le nom du joueur doit comporter au maximum 30 caractères",
+    "Write a player name": "Saisissez le nom d'un joueur",
+    "Position must have less than 16 characters": "La position doit comporter au maximum 16 caractères",
+    "Referee name must have less than 30 characters": "Le nom de l'arbitre doit comporter au maximum 30 caractères",
+    "Write a referee name": "Saisissez le nom d'un arbitre",
+    "Statistic title must have less than 20 characters": "Le nom de la statistique doit comporter au maximum 20 caractères",
+    "Team name must have less than 35 characters": "Le nom de l'équipe doit comporter au maximum 35 caractères",
+    "Write a team name": "Saisissez le nom d'une équipe",
+    "Stadium name must have less than 30 characters": "Le nom du lieu doit comporter au maximum 30 caractères",
+    "Write a stadium name": "Saisissez le nom d'un lieu",
+    "unlimited_players": "Joueurs, arbitres et lieux illimités",
+    "limit_stadiums": "Limite de lieux",
+    "limit_stadiums_description": "Vous avez atteint la limite de 15 lieux",
+    "stadium": {
+        "name": {
+            "title": "Nom du lieu",
+            "existsError": "Un lieu portant ce nom existe déjà"
+        }
+    },
+    "select_stadium": "Sélectionnez un lieu pour le match",
+    "stadiumName": "Nom du lieu",
+    "menu": {
+        "teams": "Équipes",
+        "referees": "Arbitres",
+        "stadiums": "Lieux",
+        "players": "Joueurs",
+        "settings": "Paramètres",
+        "restart": "Redémarrer",
+        "remove": "Supprimer",
+        "goBack": "Retour"
+    },
+    "selectMatchStadiumLabel": "Sélectionnez un lieu pour le match",
+    "stadiums_title": "Lieux",
+    "add_stadium": "AJOUTER UN LIEU",
+    "stadiums_empty": "Ajoutez des lieux pour les attribuer aux matchs"
 }

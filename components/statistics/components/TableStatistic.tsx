@@ -9,13 +9,10 @@ import { statisticsStyles } from "@/styles/statistics.styles";
 import { namePlayerStatistic } from "@/utils/statistics";
 import { nameParticipant } from "@/utils/points";
 
-import { useIsFullName } from "@/hooks/useIsFullName";
-
 const INITIAL_LIMIT = 5;
 
 const TableStatistic = memo(({ colors, itemStatistic, indexStatistic, t }: TableStatisticPropsType) => {
 
-  const { isFullName } = useIsFullName();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const currentStat = [t("goals"), t("yellow"), t("red"), t("assists")];

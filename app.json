@@ -68,7 +68,15 @@
         }
       ],
       "@sentry/react-native",
-      "expo-build-properties",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ],
       "expo-font",
       "expo-secure-store",
       "expo-web-browser"

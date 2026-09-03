@@ -10,7 +10,7 @@ const HeaderGetMatch = ({ colors, router, t }: HeaderGetMatchPropsType) => {
                 onPress={() => router.back()}
             />
             <Appbar.Content
-                title={t("match")}
+                title={t("match_title")}
                 color="#ffffff"
             />
         </Appbar.Header>

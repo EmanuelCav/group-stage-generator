@@ -6,7 +6,7 @@
   "manuallyTitle": "Grup aşamasını manuel oluştur",
   "numberOfGroups": "Grup sayısı",
   "teamsPerGroup": "Her gruptaki takım sayısı",
-  "numberOfClassifieds": "Toplam eleme sayısı",
+  "numberOfClassifieds": "Eleme aşamasına yükselen toplam takım sayısı",
   "showPoints": "Puanları göster",
   "pointsToTheWinner": "Kazanana puan",
   "pointsToTie": "Berabereye puan",
@@ -37,9 +37,6 @@
   "referees_title": "Hakemler",
   "add_referee": "HAKEM EKLE",
   "referees_empty": "Maçlara eklemek için hakem ekleyin",
-  "stadiums_title": "Stadyumlar",
-  "add_stadium": "STADYUM EKLE",
-  "stadiums_empty": "Maçlara eklemek için stadyum ekleyin",
   "groups": "Gruplar",
   "statistics": "İstatistikler",
   "matchdays": "Maç Günleri",
@@ -92,23 +89,12 @@
   "selectMatchDateLabel": "Maç tarihini seç",
   "matchDateLabel": "Maç Tarihi",
   "selectDatePlaceholder": "Tarih seç",
-  "selectMatchStadiumLabel": "Maçın stadyumunu seç",
   "selectMatchRefereeLabel": "Maçın hakemini seç",
   "updateButton": "GÜNCELLE",
   "drawKnockoutQuestion": "Eleme aşamasını kura ile belirlemek ister misiniz?",
   "drawButton": "ÇEK",
   "generateGroupStageAgainQuestion": "Grup aşamasını yeniden oluşturmak ister misiniz?",
   "generateAgainButton": "YENİDEN OLUŞTUR",
-  "menu": {
-    "teams": "Takımlar",
-    "referees": "Hakemler",
-    "stadiums": "Stadyumlar",
-    "players": "Oyuncular",
-    "settings": "Ayarlar",
-    "restart": "Yeniden başlat",
-    "remove": "Kaldır",
-    "goBack": "Geri dön"
-  },
   "sure": {
     "removeGroupStage": "Grup aşamasını silmek istediğinizden emin misiniz?",
     "restartGroupStage": "Grup aşamasını yeniden başlatmak istediğinizden emin misiniz?",
@@ -155,7 +141,6 @@
   "select_match_date": "Maç tarihini seç",
   "match_date": "Maç Tarihi",
   "select_date": "Tarih seç",
-  "select_stadium": "Maçın stadyumunu seç",
   "select_referee": "Maçın hakemini seç",
   "update": "GÜNCELLE",
   "not_defined": "Tanımsız",
@@ -163,7 +148,6 @@
   "score": "Skor",
   "visitant": "Deplasman",
   "refereeName": "Hakem adı",
-  "stadiumName": "Stadyum adı",
   "addPlayersToDisplayAndVisualizeTournamentStatistics": "Turnuva istatistiklerini görüntülemek ve analiz etmek için oyuncu ekle",
   "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Turnuva istatistiklerini görüntülemek ve analiz etmek için istatistik ekle",
   "addPlayers": "Oyuncuları ekle",
@@ -186,138 +170,10 @@
   "all_fixture": "Tüm maç günleri",
   "titleIndex": "Grup Aşamaları",
   "selectGroupStage": "Bir grup aşaması seç",
-  "validation": {
-    "team": {
-      "name": {
-        "required": "Takım adı yazın",
-        "max": "Takım adı 35 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      }
-    },
-    "statistic": {
-      "title": {
-        "required": "İstatistik başlığı yazın",
-        "max": "İstatistik başlığı 20 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      }
-    },
-    "stadium": {
-      "name": {
-        "required": "Stadyum adı yazın",
-        "max": "Stadyum adı 30 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      }
-    },
-    "referee": {
-      "name": {
-        "required": "Hakem adı yazın",
-        "max": "Hakem adı 30 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      }
-    },
-    "player": {
-      "name": {
-        "required": "Oyuncu adı yazın",
-        "max": "Oyuncu adı 30 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      },
-      "position": {
-        "max": "Pozisyon 16 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      }
-    },
-    "match": {
-      "score": {
-        "min": "Skorun minimum değeri 0 olmalı"
-      }
-    },
-    "summary": {
-      "title": {
-        "required": "Özet başlığı yazın",
-        "max": "Özet başlığı 20 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      },
-      "time": {
-        "required": "Oyun dakikasını yazın",
-        "max": "Oyun dakikası 20 karakterden az olmalı",
-        "invalid": "Sadece sayılar olmalı"
-      }
-    },
-    "statisticMatch": {
-      "title": {
-        "required": "İstatistik başlığı yazın",
-        "max": "Başlık 20 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      }
-    },
-    "config": {
-      "title": {
-        "required": "Başlık alanı zorunludur"
-      },
-      "teamsPerGroup": {
-        "typeError": "Lütfen sayı değeri girin",
-        "min": "Her grup için takım sayısı 1’den büyük olmalı",
-        "required": "Bu alan zorunludur"
-      },
-      "amountGroups": {
-        "typeError": "Lütfen sayı değeri girin",
-        "min": "Grup sayısını yazın",
-        "required": "Bu alan zorunludur"
-      },
-      "amountClassified": {
-        "typeError": "Lütfen sayı değeri girin",
-        "min": "Toplam eleme sayısı 1'den fazla olmalıdır",
-        "required": "Bu alan zorunludur",
-        "powerOfTwo": "Eleme sayısı 2‑nin katı olmalıdır (ör. 2, 4, 8, 16, 32...)"
-      },
-      "pointsWin": {
-        "min": "Kazanana verilecek puanı yazın",
-        "required": "Bu alan zorunludur"
-      },
-      "pointsDraw": {
-        "min": "Berabereye verilecek puanı yazın",
-        "required": "Bu alan zorunludur"
-      },
-      "pointsLoss": {
-        "min": "Kaybedene verilecek puanı yazın",
-        "required": "Bu alan zorunludur"
-      }
-    },
-    "avoiding": {
-      "title": {
-        "required": "Kaçınma eşleşmesi başlığı yazın",
-        "max": "Başlık 22 karakterden az olmalı",
-        "invalid": "Özel karakterleri kontrol edin"
-      },
-      "max": {
-        "typeError": "Lütfen sayı değeri girin",
-        "min": "Her grup için takım sayısı 0’dan büyük olmalı",
-        "required": "Bu alan zorunludur"
-      }
-    },
-    "teamsPerGroup": {
-      "title": "Her gruptaki takım sayısı",
-      "message": "Her grupta en az 2 takım olmalı"
-    },
-    "numberOfGroups": {
-      "title": "Grup sayısı",
-      "message": "Grup sayısının yarısı, takım sayısından az olmalı"
-    },
-    "numberOfTeams": {
-      "title": "Takım sayısı",
-      "message": "Her gruptaki takım sayısı × grup sayısı takım sayısından fazla olmamalı"
-    }
-  },
   "permissions": {
     "galleryAccess": {
       "title": "İzin Gerekiyor",
       "message": "Galeriyi erişim izni gereklidir"
-    }
-  },
-  "stadium": {
-    "name": {
-      "title": "Stadyum adı",
-      "existsError": "Stadyum adı zaten var"
     }
   },
   "referee": {
@@ -402,8 +258,6 @@
   "limit_players_description": "Bu takım için 15 oyuncu sınırına ulaştınız",
   "limit_referees": "Hakem sınırı",
   "limit_referees_description": "15 hakem sınırına ulaştınız",
-  "limit_stadiums": "Stadyum sınırı",
-  "limit_stadiums_description": "15 stadyum sınırına ulaştınız",
   "limit_images": "Görsel sınırı",
   "limit_images_description": "8 görsel sınırına ulaştınız",
   "benefits": "Avantajlar",
@@ -416,7 +270,6 @@
   "unlimited_group_stages": "Sınırsız grup aşaması oluştur",
   "unlimited_teams": "Sınırsız takım oluştur",
   "unlimited_images": "Sınırsız görsel yükle",
-  "unlimited_players": "Sınırsız oyuncu, hakem ve stadyum",
   "duplicate": "Kopyala",
   "titleTent": "Premium’a abone olun ve tüm avantajlara erişin",
   "titleIsPremium": "Tebrikler! Artık Premium üyesisiniz",
@@ -447,5 +300,75 @@
   "sameGroup": "Takımlar kendi gruplarında oynar",
   "allAgainstAllDescription": "Tüm takımlar birbirine karşı oynar",
   "intergroupsCrossDescription": "Diğer gruplara karşı oynarlar",
-  "allStatistics": "Tüm istatistikler"
+  "allStatistics": "Tüm istatistikler",
+  "select": "SEÇ",
+  "no_winner": "Henüz bir kazanan yok",
+  "general_statistics": "Genel İstatistikler",
+  "victories": "Galibiyetler",
+  "referees": "Hakemler",
+  "venues": "Oyun Alanları",
+  "deleteRoute": "Sil",
+  "restartRoute": "Yeniden Başlat",
+  "nextMatches": "Yaklaşan Maçlar",
+  "previousMatches": "Geçmiş Maçlar",
+  "noMatches": "Maç bulunamadı",
+  "seeMore": "Daha fazla göster",
+  "seeLess": "Daha az göster",
+  "information": "Bilgi",
+  "players_empty": "Oyuncuları katılımcı takımlara atamak ve istatistikleri görüntülemek için oyuncu ekleyin",
+  "without_position": "Pozisyon yok",
+  "select_team": "Bir takım seçin",
+  "streak": "Seri",
+  "Title field is required": "Başlık zorunludur",
+  "Please complete with a number value": "Lütfen bir sayı girin",
+  "Number of teams per group must be higher than 1": "Grup başına takım sayısı 1'den fazla olmalıdır",
+  "This field is required": "Bu alan zorunludur",
+  "Write the number of groups": "Grup sayısını girin",
+  "The total number of qualified participants must be greater than 1": "Kalifiye olan katılımcı sayısı 1'den fazla olmalıdır",
+  "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)": "Kalifiye olan katılımcı sayısı 2'nin kuvveti olmalıdır (ör. 2, 4, 8, 16, 32...)",
+  "Write the number of points to the winner": "Galibiyet için verilecek puanı girin",
+  "Write the number of points to tie": "Beraberlik için verilecek puanı girin",
+  "Write the number of points to the loser": "Mağlubiyet için verilecek puanı girin",
+  "Score minimum value is 0": "Minimum skor 0'dır",
+  "Only numbers are allowed": "Yalnızca sayılara izin verilir",
+  "Minute of play must have less than 5 characters": "Oyun süresi en fazla 5 karakter olmalıdır",
+  "Write the minute of play": "Oyun süresini girin",
+  "Check special characters": "Lütfen geçersiz karakterleri kontrol edin",
+  "Title must have less than 20 characters": "Başlık en fazla 20 karakter olmalıdır",
+  "Write a statistic title": "Bir istatistik adı girin",
+  "Player name must have less than 30 characters": "Oyuncu adı en fazla 30 karakter olmalıdır",
+  "Write a player name": "Bir oyuncu adı girin",
+  "Position must have less than 16 characters": "Pozisyon en fazla 16 karakter olmalıdır",
+  "Referee name must have less than 30 characters": "Hakem adı en fazla 30 karakter olmalıdır",
+  "Write a referee name": "Bir hakem adı girin",
+  "Statistic title must have less than 20 characters": "İstatistik adı en fazla 20 karakter olmalıdır",
+  "Team name must have less than 35 characters": "Takım adı en fazla 35 karakter olmalıdır",
+  "Write a team name": "Bir takım adı girin",
+  "Stadium name must have less than 30 characters": "Oyun alanı adı en fazla 30 karakter olmalıdır",
+  "Write a stadium name": "Bir oyun alanı adı girin",
+  "unlimited_players": "Sınırsız oyuncu, hakem ve oyun alanı",
+  "limit_stadiums": "Oyun alanı sınırı",
+  "limit_stadiums_description": "15 oyun alanı sınırına ulaştınız",
+  "stadium": {
+    "name": {
+      "title": "Oyun alanı adı",
+      "existsError": "Bu ada sahip bir oyun alanı zaten mevcut"
+    }
+  },
+  "select_stadium": "Maç için bir oyun alanı seçin",
+  "stadiumName": "Oyun alanı adı",
+  "menu": {
+    "teams": "Takımlar",
+    "referees": "Hakemler",
+    "stadiums": "Oyun Alanları",
+    "players": "Oyuncular",
+    "settings": "Ayarlar",
+    "restart": "Yeniden Başlat",
+    "remove": "Kaldır",
+    "goBack": "Geri Dön"
+  },
+  "selectMatchStadiumLabel": "Maç için bir oyun alanı seçin",
+  "stadiums_title": "Oyun Alanları",
+  "add_stadium": "OYUN ALANI EKLE",
+  "stadiums_empty": "Maçlara atamak için oyun alanları ekleyin"
 }

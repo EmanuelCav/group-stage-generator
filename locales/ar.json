@@ -37,9 +37,6 @@
     "referees_title": "الحكام",
     "add_referee": "إضافة حكم",
     "referees_empty": "أضف حكاماً لتعيينهم للمباريات",
-    "stadiums_title": "الملاعب",
-    "add_stadium": "إضافة ملعب",
-    "stadiums_empty": "أضف ملاعب لتعيينها للمباريات",
     "groups": "المجموعات",
     "statistics": "الإحصائيات",
     "matchdays": "الجولات",
@@ -92,23 +89,12 @@
     "selectMatchDateLabel": "اختر تاريخ المباراة",
     "matchDateLabel": "تاريخ المباراة",
     "selectDatePlaceholder": "اختر التاريخ",
-    "selectMatchStadiumLabel": "اختر ملعب المباراة",
     "selectMatchRefereeLabel": "اختر حكم المباراة",
     "updateButton": "تحديث",
     "drawKnockoutQuestion": "هل تريد سحب قرعة الأدوار الإقصائية؟",
     "drawButton": "قرعة",
     "generateGroupStageAgainQuestion": "هل تريد إعادة إنشاء مرحلة المجموعات؟",
     "generateAgainButton": "إعادة الإنشاء",
-    "menu": {
-        "teams": "الفرق",
-        "referees": "الحكام",
-        "stadiums": "الملاعب",
-        "players": "اللاعبون",
-        "settings": "الإعدادات",
-        "restart": "إعادة تشغيل",
-        "remove": "إزالة",
-        "goBack": "رجوع"
-    },
     "sure": {
         "removeGroupStage": "هل أنت متأكد أنك تريد حذف مرحلة المجموعات؟",
         "restartGroupStage": "هل أنت متأكد أنك تريد إعادة ضبط مرحلة المجموعات؟",
@@ -155,7 +141,6 @@
     "select_match_date": "اختر تاريخ المباراة",
     "match_date": "تاريخ المباراة",
     "select_date": "اختر التاريخ",
-    "select_stadium": "اختر ملعب المباراة",
     "select_referee": "اختر حكم المباراة",
     "update": "تحديث",
     "not_defined": "غير محدد",
@@ -163,7 +148,6 @@
     "score": "النتيجة",
     "visitant": "الضيف",
     "refereeName": "اسم الحكم",
-    "stadiumName": "اسم الملعب",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "أضف لاعبين لعرض وتصور إحصائيات البطولة",
     "addStatisticsToDisplayAndVisualizeTournamentStatistics": "أضف إحصائيات لعرض وتصور إحصائيات البطولة",
     "addPlayers": "إضافة لاعبين",
@@ -186,138 +170,10 @@
     "all_fixture": "جميع الجولات",
     "titleIndex": "مراحل المجموعات",
     "selectGroupStage": "اختر مرحلة مجموعات",
-    "validation": {
-        "team": {
-            "name": {
-                "required": "اكتب اسم الفريق",
-                "max": "يجب أن يكون اسم الفريق أقل من 35 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            }
-        },
-        "statistic": {
-            "title": {
-                "required": "اكتب عنوان الإحصائية",
-                "max": "يجب أن يكون عنوان الإحصائية أقل من 20 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            }
-        },
-        "stadium": {
-            "name": {
-                "required": "اكتب اسم الملعب",
-                "max": "يجب أن يكون اسم الملعب أقل من 30 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            }
-        },
-        "referee": {
-            "name": {
-                "required": "اكتب اسم الحكم",
-                "max": "يجب أن يكون اسم الحكم أقل من 30 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            }
-        },
-        "player": {
-            "name": {
-                "required": "اكتب اسم اللاعب",
-                "max": "يجب أن يكون اسم اللاعب أقل من 30 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            },
-            "position": {
-                "max": "يجب أن يكون المركز أقل من 16 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            }
-        },
-        "match": {
-            "score": {
-                "min": "أقل قيمة للنتيجة هي 0"
-            }
-        },
-        "summary": {
-            "title": {
-                "required": "اكتب عنوان الملخص",
-                "max": "يجب أن يكون عنوان الملخص أقل من 20 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            },
-            "time": {
-                "required": "اكتب دقيقة اللعب",
-                "max": "يجب أن تكون دقيقة اللعب أقل من 20 حرفاً",
-                "invalid": "يُسمح بالأرقام فقط"
-            }
-        },
-        "statisticMatch": {
-            "title": {
-                "required": "اكتب عنوان الإحصائية",
-                "max": "يجب أن يكون العنوان أقل من 20 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            }
-        },
-        "config": {
-            "title": {
-                "required": "حقل العنوان مطلوب"
-            },
-            "teamsPerGroup": {
-                "typeError": "يرجى الإكمال بقيمة عددية",
-                "min": "يجب أن يكون عدد الفرق في كل مجموعة أكبر من 1",
-                "required": "هذا الحقل مطلوب"
-            },
-            "amountGroups": {
-                "typeError": "يرجى الإكمال بقيمة عددية",
-                "min": "اكتب عدد المجموعات",
-                "required": "هذا الحقل مطلوب"
-            },
-            "amountClassified": {
-                "typeError": "يرجى الإكمال بقيمة عددية",
-                "min": "إجمالي عدد المتأهلين يجب أن يكون أكبر من 1",
-                "required": "هذا الحقل مطلوب",
-                "powerOfTwo": "يجب أن يكون عدد المتأهلين من مضاعفات العدد 2 (مثل 2، 4، 8، 16...)"
-            },
-            "pointsWin": {
-                "min": "اكتب عدد نقاط الفائز",
-                "required": "هذا الحقل مطلوب"
-            },
-            "pointsDraw": {
-                "min": "اكتب عدد نقاط التعادل",
-                "required": "هذا الحقل مطلوب"
-            },
-            "pointsLoss": {
-                "min": "اكتب عدد نقاط الخاسر",
-                "required": "هذا الحقل مطلوب"
-            }
-        },
-        "avoiding": {
-            "title": {
-                "required": "اكتب عنواناً لتجنب المواجهات",
-                "max": "يجب أن يكون العنوان أقل من 22 حرفاً",
-                "invalid": "تحقق من الرموز الخاصة"
-            },
-            "max": {
-                "typeError": "يرجى الإكمال بقيمة عددية",
-                "min": "يجب أن يكون عدد الفرق في كل مجموعة أكبر من 0",
-                "required": "هذا الحقل مطلوب"
-            }
-        },
-        "teamsPerGroup": {
-            "title": "الفرق في كل مجموعة",
-            "message": "يجب أن يكون هناك فريقان على الأقل في كل مجموعة"
-        },
-        "numberOfGroups": {
-            "title": "عدد المجموعات",
-            "message": "يجب أن يكون نصف عدد المجموعات أقل من عدد الفرق"
-        },
-        "numberOfTeams": {
-            "title": "عدد الفرق",
-            "message": "حاصل ضرب عدد الفرق في كل مجموعة في عدد المجموعات يجب أن يكون أقل من أو يساوي إجمالي عدد الفرق"
-        }
-    },
     "permissions": {
         "galleryAccess": {
             "title": "الإذن مطلوب",
             "message": "مطلوب إذن للوصول إلى معرض الصور"
-        }
-    },
-    "stadium": {
-        "name": {
-            "title": "اسم الملعب",
-            "existsError": "اسم الملعب موجود بالفعل"
         }
     },
     "referee": {
@@ -402,8 +258,6 @@
     "limit_players_description": "لقد وصلت إلى الحد الأقصى وهو 15 لاعباً لهذا الفريق",
     "limit_referees": "حد الحكام",
     "limit_referees_description": "لقد وصلت إلى الحد الأقصى وهو 15 حكماً",
-    "limit_stadiums": "حد الملاعب",
-    "limit_stadiums_description": "لقد وصلت إلى الحد الأقصى وهو 15 ملعباً",
     "limit_images": "حد الصور",
     "limit_images_description": "لقد وصلت إلى الحد الأقصى وهو 8 صورة",
     "benefits": "المميزات",
@@ -416,7 +270,6 @@
     "unlimited_group_stages": "إنشاء مراحل مجموعات غير محدودة",
     "unlimited_teams": "إنشاء فرق غير محدودة",
     "unlimited_images": "رفع صور غير محدودة",
-    "unlimited_players": "عدد غير محدود من اللاعبين والحكام والملاعب",
     "duplicate": "تكرار",
     "titleTent": "اشترك في النسخة المميزة واستمتع بجميع المزايا",
     "titleIsPremium": "تهانينا! أنت الآن عضو مميز",
@@ -447,5 +300,75 @@
     "sameGroup": "تلعب الفرق داخل مجموعتها",
     "allAgainstAllDescription": "تتواجه جميع الفرق مع بعضها البعض",
     "intergroupsCrossDescription": "تلعب الفرق ضد فرق من مجموعات أخرى",
-    "allStatistics": "جميع الإحصائيات"
+    "allStatistics": "جميع الإحصائيات",
+    "select": "اختيار",
+    "no_winner": "لا يوجد فائز حتى الآن",
+    "general_statistics": "الإحصائيات العامة",
+    "victories": "الانتصارات",
+    "referees": "الحكام",
+    "venues": "الملاعب",
+    "deleteRoute": "حذف",
+    "restartRoute": "إعادة البدء",
+    "nextMatches": "المباريات القادمة",
+    "previousMatches": "المباريات السابقة",
+    "noMatches": "لم يتم العثور على مباريات",
+    "seeMore": "عرض المزيد",
+    "seeLess": "عرض أقل",
+    "information": "معلومات",
+    "players_empty": "أضف لاعبين لتعيينهم في الفرق المشاركة وعرض الإحصائيات",
+    "without_position": "بدون مركز",
+    "select_team": "اختر فريقًا",
+    "streak": "سلسلة",
+    "Title field is required": "العنوان مطلوب",
+    "Please complete with a number value": "يرجى إدخال رقم",
+    "Number of teams per group must be higher than 1": "يجب أن يكون عدد الفرق في كل مجموعة أكبر من 1",
+    "This field is required": "هذا الحقل مطلوب",
+    "Write the number of groups": "أدخل عدد المجموعات",
+    "The total number of qualified participants must be greater than 1": "يجب أن يكون عدد المشاركين المتأهلين أكبر من 1",
+    "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)": "يجب أن يكون عدد المشاركين المتأهلين قوة للعدد 2 (مثل 2، 4، 8، 16، 32...)",
+    "Write the number of points to the winner": "أدخل عدد النقاط الممنوحة للفوز",
+    "Write the number of points to tie": "أدخل عدد النقاط الممنوحة للتعادل",
+    "Write the number of points to the loser": "أدخل عدد النقاط الممنوحة للخسارة",
+    "Score minimum value is 0": "الحد الأدنى للنتيجة هو 0",
+    "Only numbers are allowed": "يسمح بالأرقام فقط",
+    "Minute of play must have less than 5 characters": "يجب ألا يتجاوز وقت اللعب 5 أحرف",
+    "Write the minute of play": "أدخل وقت اللعب",
+    "Check special characters": "يرجى التحقق من وجود أحرف غير صالحة",
+    "Title must have less than 20 characters": "يجب ألا يتجاوز العنوان 20 حرفًا",
+    "Write a statistic title": "أدخل اسم الإحصائية",
+    "Player name must have less than 30 characters": "يجب ألا يتجاوز اسم اللاعب 30 حرفًا",
+    "Write a player name": "أدخل اسم اللاعب",
+    "Position must have less than 16 characters": "يجب ألا يتجاوز المركز 16 حرفًا",
+    "Referee name must have less than 30 characters": "يجب ألا يتجاوز اسم الحكم 30 حرفًا",
+    "Write a referee name": "أدخل اسم الحكم",
+    "Statistic title must have less than 20 characters": "يجب ألا يتجاوز اسم الإحصائية 20 حرفًا",
+    "Team name must have less than 35 characters": "يجب ألا يتجاوز اسم الفريق 35 حرفًا",
+    "Write a team name": "أدخل اسم الفريق",
+    "Stadium name must have less than 30 characters": "يجب ألا يتجاوز اسم الملعب 30 حرفًا",
+    "Write a stadium name": "أدخل اسم الملعب",
+    "unlimited_players": "عدد غير محدود من اللاعبين والحكام والملاعب",
+    "limit_stadiums": "حد الملاعب",
+    "limit_stadiums_description": "لقد وصلت إلى الحد الأقصى البالغ 15 ملعبًا",
+    "stadium": {
+        "name": {
+            "title": "اسم الملعب",
+            "existsError": "يوجد ملعب بهذا الاسم بالفعل"
+        }
+    },
+    "select_stadium": "اختر ملعبًا للمباراة",
+    "stadiumName": "اسم الملعب",
+    "menu": {
+        "teams": "الفرق",
+        "referees": "الحكام",
+        "stadiums": "الملاعب",
+        "players": "اللاعبون",
+        "settings": "الإعدادات",
+        "restart": "إعادة البدء",
+        "remove": "إزالة",
+        "goBack": "رجوع"
+    },
+    "selectMatchStadiumLabel": "اختر ملعبًا للمباراة",
+    "stadiums_title": "الملاعب",
+    "add_stadium": "إضافة ملعب",
+    "stadiums_empty": "أضف ملاعب لتعيينها إلى المباريات"
 }

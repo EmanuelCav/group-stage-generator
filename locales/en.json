@@ -37,9 +37,6 @@
     "referees_title": "Referees",
     "add_referee": "ADD REFEREE",
     "referees_empty": "Add referees to add to matches",
-    "stadiums_title": "Stadiums",
-    "add_stadium": "ADD STADIUM",
-    "stadiums_empty": "Add stadiums to add to matches",
     "groups": "Groups",
     "statistics": "Statistics",
     "matchdays": "Matchdays",
@@ -92,23 +89,12 @@
     "selectMatchDateLabel": "Select the date's match",
     "matchDateLabel": "Match Date",
     "selectDatePlaceholder": "Select date",
-    "selectMatchStadiumLabel": "Select the stadium's match",
     "selectMatchRefereeLabel": "Select the referee's match",
     "updateButton": "UPDATE",
     "drawKnockoutQuestion": "Do you want to draw the knockout stage?",
     "drawButton": "DRAW",
     "generateGroupStageAgainQuestion": "Do you want to generate the group stage again?",
     "generateAgainButton": "GENERATE AGAIN",
-    "menu": {
-        "teams": "Teams",
-        "referees": "Referees",
-        "stadiums": "Stadiums",
-        "players": "Players",
-        "settings": "Settings",
-        "restart": "Restart",
-        "remove": "Remove",
-        "goBack": "Go back"
-    },
     "sure": {
         "removeGroupStage": "Are you sure you want to delete group stage?",
         "restartGroupStage": "Are you sure you want to restart group stage?",
@@ -155,7 +141,6 @@
     "select_match_date": "Select the date's match",
     "match_date": "Match Date",
     "select_date": "Select date",
-    "select_stadium": "Select the stadium's match",
     "select_referee": "Select the referee's match",
     "update": "UPDATE",
     "not_defined": "Not defined",
@@ -163,7 +148,6 @@
     "score": "Score",
     "visitant": "Away",
     "refereeName": "Referee name",
-    "stadiumName": "Stadium name",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "Add players to display and visualize tournament statistics",
     "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Add statistics to display and visualize tournament statistics",
     "addPlayers": "Add Players",
@@ -186,138 +170,10 @@
     "all_fixture": "All matchdays",
     "titleIndex": "Group Stages",
     "selectGroupStage": "Select a group stage",
-    "validation": {
-        "team": {
-            "name": {
-                "required": "Write a team name",
-                "max": "Team name must have less than 35 characters",
-                "invalid": "Check special characters"
-            }
-        },
-        "statistic": {
-            "title": {
-                "required": "Write a statistic title",
-                "max": "Statistic title must have less than 20 characters",
-                "invalid": "Check special characters"
-            }
-        },
-        "stadium": {
-            "name": {
-                "required": "Write a stadium name",
-                "max": "Stadium name must have less than 30 characters",
-                "invalid": "Check special characters"
-            }
-        },
-        "referee": {
-            "name": {
-                "required": "Write a referee name",
-                "max": "Referee name must have less than 30 characters",
-                "invalid": "Check special characters"
-            }
-        },
-        "player": {
-            "name": {
-                "required": "Write a player name",
-                "max": "Player name must have less than 30 characters",
-                "invalid": "Check special characters"
-            },
-            "position": {
-                "max": "Position must have less than 16 characters",
-                "invalid": "Check special characters"
-            }
-        },
-        "match": {
-            "score": {
-                "min": "Score minimum value is 0"
-            }
-        },
-        "summary": {
-            "title": {
-                "required": "Write a summary title",
-                "max": "Summary title must have less than 20 characters",
-                "invalid": "Check special characters"
-            },
-            "time": {
-                "required": "Write the minute of play",
-                "max": "Minute of play must have less than 20 characters",
-                "invalid": "Only numbers are allowed"
-            }
-        },
-        "statisticMatch": {
-            "title": {
-                "required": "Write a statistic title",
-                "max": "Title must have less than 20 characters",
-                "invalid": "Check special characters"
-            }
-        },
-        "config": {
-            "title": {
-                "required": "Title field is required"
-            },
-            "teamsPerGroup": {
-                "typeError": "Please complete with a number value",
-                "min": "Number of teams per group must be higher than 1",
-                "required": "This field is required"
-            },
-            "amountGroups": {
-                "typeError": "Please complete with a number value",
-                "min": "Write the number of groups",
-                "required": "This field is required"
-            },
-            "amountClassified": {
-                "typeError": "Please complete with a number value",
-                "min": "The total number of qualified participants must be greater than 1",
-                "required": "This field is required",
-                "powerOfTwo": "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)"
-            },
-            "pointsWin": {
-                "min": "Write the number of points to the winner",
-                "required": "This field is required"
-            },
-            "pointsDraw": {
-                "min": "Write the number of points to tie",
-                "required": "This field is required"
-            },
-            "pointsLoss": {
-                "min": "Write the number of points to the loser",
-                "required": "This field is required"
-            }
-        },
-        "avoiding": {
-            "title": {
-                "required": "Write an avoiding matches title",
-                "max": "Avoiding matches title must have less than 22 characters",
-                "invalid": "Check special characters"
-            },
-            "max": {
-                "typeError": "Please complete with a number value",
-                "min": "Number of teams per group must be higher than 0",
-                "required": "This field is required"
-            }
-        },
-        "teamsPerGroup": {
-            "title": "Teams per group",
-            "message": "There must be at least 2 teams per group"
-        },
-        "numberOfGroups": {
-            "title": "Number of groups",
-            "message": "Half the number of groups must be less than the number of teams"
-        },
-        "numberOfTeams": {
-            "title": "Number of teams",
-            "message": "The number of teams per group multiplied by the number of groups must be less than or equal to the number of teams"
-        }
-    },
     "permissions": {
         "galleryAccess": {
             "title": "Permission Required",
             "message": "Permission to access the gallery is required"
-        }
-    },
-    "stadium": {
-        "name": {
-            "title": "Stadium's name",
-            "existsError": "The name of the stadium already exists"
         }
     },
     "referee": {
@@ -402,8 +258,6 @@
     "limit_players_description": "You have reached the limit of 15 players for this team",
     "limit_referees": "Referee limit",
     "limit_referees_description": "You have reached the limit of 15 referees",
-    "limit_stadiums": "Stadium limit",
-    "limit_stadiums_description": "You have reached the limit of 15 stadiums",
     "limit_images": "Image limit",
     "limit_images_description": "You have reached the limit of 8 images",
     "benefits": "Benefits",
@@ -416,7 +270,6 @@
     "unlimited_group_stages": "Create unlimited group stages",
     "unlimited_teams": "Create unlimited teams",
     "unlimited_images": "Upload unlimited images",
-    "unlimited_players": "Unlimited players, referees and stadiums",
     "duplicate": "Duplicate",
     "titleTent": "Subscribe to Premium and access all the benefits",
     "titleIsPremium": "Congratulations! You are now a premium member",
@@ -447,5 +300,75 @@
     "sameGroup": "Teams play within their group",
     "allAgainstAllDescription": "All teams play against each other",
     "intergroupsCrossDescription": "Teams play against other groups",
-    "allStatistics": "All statistics"
+    "allStatistics": "All statistics",
+    "select": "SELECT",
+    "no_winner": "There is no winner yet",
+    "general_statistics": "General Statistics",
+    "victories": "Victories",
+    "referees": "Referees",
+    "venues": "Venues",
+    "deleteRoute": "Delete",
+    "restartRoute": "Restart",
+    "nextMatches": "Upcoming Matches",
+    "previousMatches": "Past Matches",
+    "noMatches": "No matches found",
+    "seeMore": "See more",
+    "seeLess": "Show less",
+    "information": "Information",
+    "players_empty": "Add players to assign them to participating teams and display statistics",
+    "without_position": "No position",
+    "select_team": "Select a team",
+    "streak": "Streak",
+    "Title field is required": "The title is required",
+    "Please complete with a number value": "Please enter a number",
+    "Number of teams per group must be higher than 1": "The number of teams per group must be greater than 1",
+    "This field is required": "This field is required",
+    "Write the number of groups": "Enter the number of groups",
+    "The total number of qualified participants must be greater than 1": "The number of qualified participants must be greater than 1",
+    "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)": "The number of qualified participants must be a power of 2 (e.g., 2, 4, 8, 16, 32...)",
+    "Write the number of points to the winner": "Enter the number of points awarded for a win",
+    "Write the number of points to tie": "Enter the number of points awarded for a draw",
+    "Write the number of points to the loser": "Enter the number of points awarded for a loss",
+    "Score minimum value is 0": "The minimum score is 0",
+    "Only numbers are allowed": "Only numbers are allowed",
+    "Minute of play must have less than 5 characters": "The playing time must be 5 characters or fewer",
+    "Write the minute of play": "Enter the playing time",
+    "Check special characters": "Please check for invalid characters",
+    "Title must have less than 20 characters": "The title must be 20 characters or fewer",
+    "Write a statistic title": "Enter a statistic name",
+    "Player name must have less than 30 characters": "The player name must be 30 characters or fewer",
+    "Write a player name": "Enter a player name",
+    "Position must have less than 16 characters": "The position must be 16 characters or fewer",
+    "Referee name must have less than 30 characters": "The referee name must be 30 characters or fewer",
+    "Write a referee name": "Enter a referee name",
+    "Statistic title must have less than 20 characters": "The statistic name must be 20 characters or fewer",
+    "Team name must have less than 35 characters": "The team name must be 35 characters or fewer",
+    "Write a team name": "Enter a team name",
+    "Stadium name must have less than 30 characters": "The venue name must be 30 characters or fewer",
+    "Write a stadium name": "Enter a venue name",
+    "unlimited_players": "Unlimited players, referees, and venues",
+    "limit_stadiums": "Venue limit",
+    "limit_stadiums_description": "You have reached the limit of 15 venues",
+    "stadium": {
+        "name": {
+            "title": "Venue name",
+            "existsError": "A venue with this name already exists"
+        }
+    },
+    "select_stadium": "Select a venue for the match",
+    "stadiumName": "Venue name",
+    "menu": {
+        "teams": "Teams",
+        "referees": "Referees",
+        "stadiums": "Venues",
+        "players": "Players",
+        "settings": "Settings",
+        "restart": "Restart",
+        "remove": "Remove",
+        "goBack": "Go back"
+    },
+    "selectMatchStadiumLabel": "Select a venue for the match",
+    "stadiums_title": "Venues",
+    "add_stadium": "ADD VENUE",
+    "stadiums_empty": "Add venues to assign them to matches"
 }

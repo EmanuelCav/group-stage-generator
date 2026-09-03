@@ -1,7 +1,8 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 import { Pressable, View } from "react-native";
 import { Avatar, Text } from "react-native-paper";
-import { Picker } from "@react-native-picker/picker";
+
+import CustomPicker from "@/components/general/CustomPicker";
 
 import { MatchEliminationPropsType } from "@/types/elimination.types";
 
@@ -19,24 +20,36 @@ const MatchElimination = memo(({ match, colors, handleGetMatch, indexElimination
         handleGetMatch({ match, round: indexElimination })
     }, [handleGetMatch, match, indexElimination])
 
+    const teams = useMemo(
+        () => group.teams.map(team => ({
+            label: team.name!,
+            value: team.name!,
+        })),
+        [group.teams]
+    )
+
     return (
         <Pressable style={[eliminationStyles.match, { borderColor: colors.primary, backgroundColor: colors.tertiary }]}
             onPress={(isEditMode && !hasPendingMatch) ? () => { } : onPressMatch}>
             <View style={[eliminationStyles.teamRow, { backgroundColor: colors.tertiary }]}>
                 {
                     (isEditMode && !hasPendingMatch) ? <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary, borderColor: colors.primary, borderWidth: 1 }}>
-                        <Picker
-                            style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
-                            selectedValue={match.local.team.name}
-                            onValueChange={(teamValue) => handleUpdateTeamMatch(indexElimination, index, true, group.teams.find((tn => tn.name === teamValue))!)}
-                            dropdownIconColor={colors.primary}
-                        >
-                            {
-                                group.teams.map((team) => {
-                                    return <Picker.Item label={team.name} value={team.name} key={team.id} style={{ fontSize: 12 }} />
-                                })
-                            }
-                        </Picker>
+                        <CustomPicker
+                            value={match.local.team.name!}
+                            colors={colors}
+                            title="Select team"
+                            items={teams}
+                            onChange={(teamValue) => {
+                                handleUpdateTeamMatch(
+                                    indexElimination,
+                                    index,
+                                    true,
+                                    group.teams.find(
+                                        team => team.name === teamValue
+                                    )!
+                                )
+                            }}
+                        />
                     </View> : <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
                         {match.local.team.logo ? (
                             <Avatar.Image source={{ uri: match.local.team.logo }} size={24} />
@@ -76,18 +89,22 @@ const MatchElimination = memo(({ match, colors, handleGetMatch, indexElimination
             <View style={[eliminationStyles.teamRow, { backgroundColor: colors.tertiary }]}>
                 {
                     (isEditMode && !hasPendingMatch) ? <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary, borderColor: colors.primary, borderWidth: 1 }}>
-                        <Picker
-                            style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
-                            selectedValue={match.visitant.team.name}
-                            onValueChange={(teamValue) => handleUpdateTeamMatch(indexElimination, index, false, group.teams.find((tn => tn.name === teamValue))!)}
-                            dropdownIconColor={colors.primary}
-                        >
-                            {
-                                group.teams.map((team) => {
-                                    return <Picker.Item label={team.name} value={team.name} key={team.id} style={{ fontSize: 12 }} />
-                                })
-                            }
-                        </Picker>
+                        <CustomPicker
+                            value={match.visitant.team.name!}
+                            colors={colors}
+                            title="Select team"
+                            items={teams}
+                            onChange={(teamValue) => {
+                                handleUpdateTeamMatch(
+                                    indexElimination,
+                                    index,
+                                    false,
+                                    group.teams.find(
+                                        team => team.name === teamValue
+                                    )!
+                                )
+                            }}
+                        />
                     </View> : <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
                         {match.visitant.team.logo ? (
                             <Avatar.Image source={{ uri: match.visitant.team.logo }} size={24} />

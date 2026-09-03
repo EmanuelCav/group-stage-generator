@@ -62,7 +62,7 @@ export default function TopTabsLayout() {
                 <Tab.Screen
                     name="players"
                     component={PlayersTeamScreen}
-                    options={{ title: t("players") }}
+                    options={{ title: t("players_title") }}
                 />
             </Tab.Navigator>
         </>

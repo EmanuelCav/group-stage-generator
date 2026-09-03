@@ -187,15 +187,30 @@ export const groupGenerator = (group: IGroup, matchSchedule: string): IGenerateM
 
         if (group.teamsPerGroup! * group.amountGroups! < group.teams.length) {
 
-            let indexGroup = 0
+            let indexGroup = 0;
 
-            for (let i = 0; i < (group.teams.length - (group.teamsPerGroup! * group.amountGroups!)); i++) {
-                groupsSorted[indexGroup].push({ ...plotsSet[0][plotsSet[0].length - i - 1], group: indexGroup + 1 })
+            const plotSetFlat = plotsSet.flat();
+
+            const assignedTeamIds = new Set(
+                groupsSorted
+                    .flat()
+                    .map(team => team.id)
+            );
+
+            const availableTeams = plotSetFlat.filter(
+                team => !assignedTeamIds.has(team.id)
+            );
+
+            for (let i = 0; i < group.teams.length - (group.teamsPerGroup! * group.amountGroups!); i++) {
+                groupsSorted[indexGroup].push({
+                    ...availableTeams[availableTeams.length - i - 1],
+                    group: indexGroup + 1
+                });
 
                 if (indexGroup === groupsSorted.length - 1) {
-                    indexGroup = 0
+                    indexGroup = 0;
                 } else {
-                    indexGroup++
+                    indexGroup++;
                 }
             }
         }

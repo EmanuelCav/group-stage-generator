@@ -4,9 +4,9 @@
     "settings": "Ajustes",
     "groupStageName": "Nombre de la fase de grupos",
     "manuallyTitle": "Generar la fase de grupos manualmente",
-    "numberOfGroups": "Número de grupos",
-    "teamsPerGroup": "Número de equipos por grupo",
-    "numberOfClassifieds": "Número total de clasificados",
+    "numberOfGroups": "Cantidad de grupos",
+    "teamsPerGroup": "Cantidad de equipos por grupo",
+    "numberOfClassifieds": "Número total de clasificados a eliminatorias",
     "showPoints": "Mostrar puntos",
     "pointsToTheWinner": "Puntos por ganar",
     "pointsToTie": "Puntos por empate",
@@ -37,9 +37,6 @@
     "referees_title": "Árbitros",
     "add_referee": "AGREGAR ÁRBITRO",
     "referees_empty": "Agrega árbitros para añadir a los partidos",
-    "stadiums_title": "Estadios",
-    "add_stadium": "AGREGAR ESTADIO",
-    "stadiums_empty": "Agrega estadios para añadir a los partidos",
     "groups": "Grupos",
     "statistics": "Estadísticas",
     "matchdays": "Jornadas",
@@ -92,23 +89,12 @@
     "selectMatchDateLabel": "Selecciona la fecha del partido",
     "matchDateLabel": "Fecha del partido",
     "selectDatePlaceholder": "Seleccionar fecha",
-    "selectMatchStadiumLabel": "Selecciona el estadio del partido",
     "selectMatchRefereeLabel": "Selecciona el árbitro del partido",
     "updateButton": "ACTUALIZAR",
     "drawKnockoutQuestion": "¿Deseas sortear la fase eliminatoria?",
     "drawButton": "SORTEAR",
     "generateGroupStageAgainQuestion": "¿Deseas generar la fase de grupos nuevamente?",
     "generateAgainButton": "GENERAR NUEVAMENTE",
-    "menu": {
-        "teams": "Equipos",
-        "referees": "Árbitros",
-        "stadiums": "Estadios",
-        "players": "Jugadores",
-        "settings": "Configuración",
-        "restart": "Reiniciar",
-        "remove": "Eliminar",
-        "goBack": "Volver"
-    },
     "sure": {
         "removeGroupStage": "¿Estás seguro de que deseas eliminar la fase de grupos?",
         "restartGroupStage": "¿Estás seguro de que deseas reiniciar la fase de grupos?",
@@ -155,7 +141,6 @@
     "select_match_date": "Selecciona la fecha del partido",
     "match_date": "Fecha del partido",
     "select_date": "Seleccionar fecha",
-    "select_stadium": "Selecciona el estadio del partido",
     "select_referee": "Selecciona el árbitro del partido",
     "update": "ACTUALIZAR",
     "not_defined": "No definido",
@@ -163,7 +148,6 @@
     "score": "Marcador",
     "visitant": "Visitante",
     "refereeName": "Nombre del árbitro",
-    "stadiumName": "Nombre del estadio",
     "addPlayersToDisplayAndVisualizeTournamentStatistics": "Agrega jugadores para mostrar y visualizar estadísticas del torneo",
     "addStatisticsToDisplayAndVisualizeTournamentStatistics": "Agrega estadísticas para mostrar y visualizar estadísticas del torneo",
     "addPlayers": "Agregar jugadores",
@@ -186,138 +170,10 @@
     "all_fixture": "Todas las jornadas",
     "titleIndex": "Fases de Grupo",
     "selectGroupStage": "Selecciona una fase de grupo",
-    "validation": {
-        "team": {
-            "name": {
-                "required": "Escribe un nombre de equipo",
-                "max": "El nombre del equipo debe tener menos de 35 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            }
-        },
-        "statistic": {
-            "title": {
-                "required": "Escribe un título para la estadística",
-                "max": "El título de la estadística debe tener menos de 20 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            }
-        },
-        "stadium": {
-            "name": {
-                "required": "Escribe un nombre para el estadio",
-                "max": "El nombre del estadio debe tener menos de 30 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            }
-        },
-        "referee": {
-            "name": {
-                "required": "Escribe un nombre para el árbitro",
-                "max": "El nombre del árbitro debe tener menos de 30 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            }
-        },
-        "player": {
-            "name": {
-                "required": "Escribe un nombre para el jugador",
-                "max": "El nombre del jugador debe tener menos de 30 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            },
-            "position": {
-                "max": "La posición debe tener menos de 16 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            }
-        },
-        "match": {
-            "score": {
-                "min": "El puntaje mínimo es 0"
-            }
-        },
-        "summary": {
-            "title": {
-                "required": "Escribe un título para el resumen",
-                "max": "El título del resumen debe tener menos de 20 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            },
-            "time": {
-                "required": "Escribe el minuto de juego",
-                "max": "El minuto de juego debe tener menos de 20 caracteres",
-                "invalid": "Solo se permiten números"
-            }
-        },
-        "statisticMatch": {
-            "title": {
-                "required": "Escribe un título para la estadística",
-                "max": "El título debe tener menos de 20 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            }
-        },
-        "config": {
-            "title": {
-                "required": "El campo título es obligatorio"
-            },
-            "teamsPerGroup": {
-                "typeError": "Por favor completa con un valor numérico",
-                "min": "El número de equipos por grupo debe ser mayor a 1",
-                "required": "Este campo es obligatorio"
-            },
-            "amountGroups": {
-                "typeError": "Por favor completa con un valor numérico",
-                "min": "Escribe el número de grupos",
-                "required": "Este campo es obligatorio"
-            },
-            "amountClassified": {
-                "typeError": "Por favor completa con un valor numérico",
-                "min": "El número total de clasificados debe ser mayor a 1",
-                "required": "Este campo es obligatorio",
-                "powerOfTwo": "El número de clasificados debe ser una potencia de 2 (por ejemplo, 2, 4, 8, 16, 32...)"
-            },
-            "pointsWin": {
-                "min": "Escribe el número de puntos para el ganador",
-                "required": "Este campo es obligatorio"
-            },
-            "pointsDraw": {
-                "min": "Escribe el número de puntos para el empate",
-                "required": "Este campo es obligatorio"
-            },
-            "pointsLoss": {
-                "min": "Escribe el número de puntos para el perdedor",
-                "required": "Este campo es obligatorio"
-            }
-        },
-        "avoiding": {
-            "title": {
-                "required": "Escribe un título para evitar partidos",
-                "max": "El título para evitar partidos debe tener menos de 22 caracteres",
-                "invalid": "Revisa los caracteres especiales"
-            },
-            "max": {
-                "typeError": "Por favor completa con un valor numérico",
-                "min": "El número de equipos por grupo debe ser mayor a 0",
-                "required": "Este campo es obligatorio"
-            }
-        },
-        "teamsPerGroup": {
-            "title": "Equipos por grupo",
-            "message": "Debe haber al menos 2 equipos por grupo"
-        },
-        "numberOfGroups": {
-            "title": "Número de grupos",
-            "message": "La mitad del número de grupos debe ser menor que la cantidad de equipos"
-        },
-        "numberOfTeams": {
-            "title": "Número de equipos",
-            "message": "La cantidad de equipos por grupo multiplicada por el número de grupos debe ser menor o igual al total de equipos"
-        }
-    },
     "permissions": {
         "galleryAccess": {
             "title": "Permiso requerido",
             "message": "Se requiere permiso para acceder a la galería"
-        }
-    },
-    "stadium": {
-        "name": {
-            "title": "Nombre del estadio",
-            "existsError": "El nombre del estadio ya existe"
         }
     },
     "referee": {
@@ -402,8 +258,6 @@
     "limit_players_description": "Haz alcanzado el límite de 15 jugadores en este equipo",
     "limit_referees": "Límite de referees",
     "limit_referees_description": "Haz alcanzado el límite de 15 referres",
-    "limit_stadiums": "Límite de estadios",
-    "limit_stadiums_description": "Haz alcanzado el límite de 15 estadios",
     "limit_images": "Límite de imágenes",
     "limit_images_description": "Haz alcanzado el límite de 8 imágenes",
     "benefits": "Beneficios",
@@ -416,7 +270,6 @@
     "unlimited_group_stages": "Crear grupos ilimitados",
     "unlimited_teams": "Crear equipos ilimitados",
     "unlimited_images": "Subir imágenes ilimitadas",
-    "unlimited_players": "Jugadores, árbitros y estadios ilimitados",
     "duplicate": "Duplicar",
     "titleTent": "Suscribite a Premium y accede a todos los beneficios",
     "titleIsPremium": "¡Felicidades! Ya eres premium",
@@ -447,5 +300,75 @@
     "sameGroup": "Equipos juegan dentro de su grupo",
     "allAgainstAllDescription": "Todos los equipos se enfrentan entre sí",
     "intergroupsCrossDescription": "Juegan contra otros grupos",
-    "allStatistics": "Todas las estadísticas"
+    "allStatistics": "Todas las estadísticas",
+    "select": "SELECCIONAR",
+    "no_winner": "Todavía no hay un ganador",
+    "general_statistics": "Estadísticas generales",
+    "victories": "Victorias",
+    "referees": "Árbitros",
+    "venues": "Sedes",
+    "deleteRoute": "Eliminar",
+    "restartRoute": "Reiniciar",
+    "nextMatches": "Próximos partidos",
+    "previousMatches": "Partidos anteriores",
+    "noMatches": "No se encontraron partidos",
+    "seeMore": "Ver más",
+    "seeLess": "Ver menos",
+    "information": "Información",
+    "players_empty": "Añade jugadores para asignarlos a los equipos participantes y mostrar estadísticas",
+    "without_position": "Sin posición",
+    "select_team": "Selecciona un equipo",
+    "streak": "Racha",
+    "Title field is required": "El título es obligatorio",
+    "Please complete with a number value": "Introduce un número",
+    "Number of teams per group must be higher than 1": "El número de equipos por grupo debe ser mayor que 1",
+    "This field is required": "Este campo es obligatorio",
+    "Write the number of groups": "Introduce el número de grupos",
+    "The total number of qualified participants must be greater than 1": "El número de participantes clasificados debe ser mayor que 1",
+    "The number of classifieds must be a power of 2 (e.g., 2, 4, 8, 16, 32...)": "El número de participantes clasificados debe ser una potencia de 2 (por ejemplo, 2, 4, 8, 16, 32...)",
+    "Write the number of points to the winner": "Introduce los puntos otorgados por una victoria",
+    "Write the number of points to tie": "Introduce los puntos otorgados por un empate",
+    "Write the number of points to the loser": "Introduce los puntos otorgados por una derrota",
+    "Score minimum value is 0": "El marcador mínimo es 0",
+    "Only numbers are allowed": "Solo se permiten números",
+    "Minute of play must have less than 5 characters": "El tiempo de juego debe tener 5 caracteres o menos",
+    "Write the minute of play": "Introduce el tiempo de juego",
+    "Check special characters": "Comprueba que no haya caracteres no válidos",
+    "Title must have less than 20 characters": "El título debe tener 20 caracteres o menos",
+    "Write a statistic title": "Introduce el nombre de una estadística",
+    "Player name must have less than 30 characters": "El nombre del jugador debe tener 30 caracteres o menos",
+    "Write a player name": "Introduce el nombre de un jugador",
+    "Position must have less than 16 characters": "La posición debe tener 16 caracteres o menos",
+    "Referee name must have less than 30 characters": "El nombre del árbitro debe tener 30 caracteres o menos",
+    "Write a referee name": "Introduce el nombre de un árbitro",
+    "Statistic title must have less than 20 characters": "El nombre de la estadística debe tener 20 caracteres o menos",
+    "Team name must have less than 35 characters": "El nombre del equipo debe tener 35 caracteres o menos",
+    "Write a team name": "Introduce el nombre de un equipo",
+    "Stadium name must have less than 30 characters": "El nombre de la sede debe tener 30 caracteres o menos",
+    "Write a stadium name": "Introduce el nombre de una sede",
+    "unlimited_players": "Jugadores, árbitros y sedes ilimitados",
+    "limit_stadiums": "Límite de sedes",
+    "limit_stadiums_description": "Has alcanzado el límite de 15 sedes",
+    "stadium": {
+        "name": {
+            "title": "Nombre de la sede",
+            "existsError": "Ya existe una sede con este nombre"
+        }
+    },
+    "select_stadium": "Selecciona una sede para el partido",
+    "stadiumName": "Nombre de la sede",
+    "menu": {
+        "teams": "Equipos",
+        "referees": "Árbitros",
+        "stadiums": "Sedes",
+        "players": "Jugadores",
+        "settings": "Configuración",
+        "restart": "Reiniciar",
+        "remove": "Eliminar",
+        "goBack": "Volver"
+    },
+    "selectMatchStadiumLabel": "Selecciona una sede para el partido",
+    "stadiums_title": "Sedes",
+    "add_stadium": "AÑADIR SEDE",
+    "stadiums_empty": "Añade sedes para asignarlas a los partidos"
 }

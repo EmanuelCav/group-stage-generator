@@ -46,7 +46,7 @@ const TeamsDrawerScreen = () => {
 
   const handleUpdateTeam = useCallback((data: ITeam) => {
     getTeam(data)
-    hideAndShowAddTeam(true)
+    router.navigate(`/(teams)/${data.id}`)
   }, [])
 
   const goBack = useCallback(() => {

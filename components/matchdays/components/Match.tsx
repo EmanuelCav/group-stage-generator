@@ -1,7 +1,8 @@
 import { memo } from 'react'
 import { Pressable, View } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
 import { Avatar, DataTable, Text } from 'react-native-paper'
+
+import CustomPicker from '@/components/general/CustomPicker'
 
 import { MatchPropsType } from '@/types/props.types'
 
@@ -37,19 +38,35 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
                     {
                         isEditMode ?
                             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary, borderColor: colors.primary, borderWidth: 1 }}>
-                                <Picker
-                                    style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
-                                    selectedValue={match.local.team.name}
-                                    dropdownIconColor={colors.primary}
-                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber,
-                                        getIndexMatchGroup(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, group.matches!, match), true,
-                                        group.teams.find((tn => tn.name === teamValue))!)}>
-                                    {
-                                        group.teams.map((team) => {
-                                            return <Picker.Item label={team.name} value={team.name} key={team.id} style={{ fontSize: 12 }} />
-                                        })
-                                    }
-                                </Picker>
+                                <CustomPicker
+                                    title={t('select_team')}
+                                    value={match.local.team.name!}
+                                    colors={colors}
+                                    items={group.teams.map(team => ({
+                                        label: team.name!,
+                                        value: team.name!,
+                                    }))}
+                                    onChange={(teamValue) => {
+                                        const updatedMatch = getGroupUpdateTeamMatch(
+                                            group.matches!,
+                                            match,
+                                            matchdayNumber
+                                        )
+
+                                        handleUpdateTeamMatch(
+                                            updatedMatch,
+                                            matchdayNumber,
+                                            getIndexMatchGroup(
+                                                updatedMatch,
+                                                matchdayNumber,
+                                                group.matches!,
+                                                match
+                                            ),
+                                            true,
+                                            group.teams.find(team => team.name === teamValue)!
+                                        )
+                                    }}
+                                />
                             </View>
                             :
                             <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>
@@ -94,20 +111,35 @@ const Match = memo(({ match, colors, index, handleGetMatch, matchdayNumber, item
                     {
                         isEditMode ?
                             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary, borderColor: colors.primary, borderWidth: 1 }}>
-                                <Picker
-                                    style={{ width: '100%', color: colors.surface, backgroundColor: colors.tertiary }}
-                                    selectedValue={match.visitant.team.name}
-                                    onValueChange={(teamValue) => handleUpdateTeamMatch(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber),
-                                        matchdayNumber, getIndexMatchGroup(getGroupUpdateTeamMatch(group.matches!, match, matchdayNumber), matchdayNumber, group.matches!, match), false,
-                                        group.teams.find((tn => tn.name === teamValue))!)}
-                                    dropdownIconColor={colors.primary}
-                                >
-                                    {
-                                        group.teams.map((team) => {
-                                            return <Picker.Item label={team.name} value={team.name} key={team.id} style={{ fontSize: 12 }} />
-                                        })
-                                    }
-                                </Picker>
+                                <CustomPicker
+                                    title={t('select_team')}
+                                    value={match.visitant.team.name!}
+                                    colors={colors}
+                                    items={group.teams.map(team => ({
+                                        label: team.name!,
+                                        value: team.name!,
+                                    }))}
+                                    onChange={(teamValue) => {
+                                        const updatedMatch = getGroupUpdateTeamMatch(
+                                            group.matches!,
+                                            match,
+                                            matchdayNumber
+                                        )
+
+                                        handleUpdateTeamMatch(
+                                            updatedMatch,
+                                            matchdayNumber,
+                                            getIndexMatchGroup(
+                                                updatedMatch,
+                                                matchdayNumber,
+                                                group.matches!,
+                                                match
+                                            ),
+                                            false,
+                                            group.teams.find(team => team.name === teamValue)!
+                                        )
+                                    }}
+                                />
                             </View>
                             :
                             <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.tertiary }}>

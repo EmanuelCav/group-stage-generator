@@ -8,7 +8,8 @@ export const createStyles = StyleSheet.create({
     },
 
     advideText: {
-        marginBottom: Dimensions.get("window").height / 74
+        marginBottom: Dimensions.get("window").height / 74,
+        textAlign: 'center'
     },
 
     containerAddTeam: {

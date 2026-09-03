@@ -25,8 +25,8 @@ import { interstitialService } from "@/services/interstitialService";
 
 const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium, t }: FormCreateTeamPropsType) => {
 
-  const [plot, setPlot] = useState<string>(team.plot ? `${t("plot")} ${team.plot}` : `${t("plot")} 1`)
-  const [groupNumber, setGroupNumber] = useState<string>(team.groupAssigned ? `${t("group.title")} ${team.groupAssigned}` : "")
+  const [plot, setPlot] = useState<number>(team.plot ?? 1)
+  const [groupNumber, setGroupNumber] = useState<number>(team.groupAssigned ?? 0)
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [picking, setPicking] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -71,7 +71,6 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ["images"],
         allowsEditing: Platform.OS === 'ios',
-        // aspect: [4, 3],
         quality: 0.8
       });
 
@@ -136,8 +135,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         }
       }
 
-      const plotSelected: number = isNaN(Number(plot)) ? Number(plot[plot.length - 1]) : Number(plot)
-      const groupSelected: number = isNaN(Number(groupNumber)) ? Number(groupNumber[groupNumber.length - 1]) : Number(groupNumber)
+      const groupSelected = groupNumber === 0 ? undefined : groupNumber
 
       if (team.id) {
 
@@ -148,16 +146,16 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         updateTeam({
           id: team.id,
           group: team.group,
-          groupAssigned: groupSelected === 0 ? undefined : groupSelected,
+          groupAssigned: groupSelected,
           color: team.color,
           logo: imageUrl || "",
           name: teamCreated.name.trim(),
-          plot: plotSelected
+          plot
         })
       } else {
         createTeam(
           teamValue(
-            generateId(), imageUrl || "", teamCreated.name.trim(), plotSelected, groupSelected === 0 ? undefined : groupSelected
+            generateId(), imageUrl || "", teamCreated.name.trim(), plot, groupSelected
           )
         )
 
@@ -271,10 +269,10 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           <Text variant="labelLarge">{t("teamForm.plotOptional")}</Text>
           <CustomDropdown
             data={plotsData}
-            value={plot}
+            value={String(plot)}
             colors={colors}
             onChange={(item) => {
-              setPlot(item.value);
+              setPlot(Number(item.value));
             }}
           />
         </View>
@@ -285,10 +283,10 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           <Text variant="labelLarge">{t("teamForm.defineGroupOptional")}</Text>
           <CustomDropdown
             data={groupsData}
-            value={groupNumber}
+            value={String(groupNumber)}
             colors={colors}
             onChange={(item) => {
-              setGroupNumber((item.value));
+              setGroupNumber(Number(item.value));
             }}
           />
         </View>

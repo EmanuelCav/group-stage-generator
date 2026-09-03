@@ -406,7 +406,7 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
                             icon="account-multiple-plus"
                             style={[{ backgroundColor: colors.primary }, createStyles.buttonAdd]}
                             labelStyle={{ color: "#ffffff" }}
-                            onPress={() => router.replace('/players')}
+                            onPress={() => router.replace(`/(drawer)/teams`)}
                         >
                             {t("addPlayers")}
                         </Button>
