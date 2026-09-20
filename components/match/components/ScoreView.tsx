@@ -10,14 +10,14 @@ const ScoreView = ({ match, colors, spacing }: ScoreViewPropsType) => {
         <View style={[matchStyles.scoreView, { backgroundColor: colors.background }]}>
             {
                 match.local.score !== null &&
-                <Text variant="bodyLarge">{match.local.score + (match.local.scoreTrip ?? 0)}</Text>
+                <Text variant="titleMedium">{match.local.score + (match.local.scoreTrip ?? 0)}</Text>
             }
             {
                 (match.local.scoreTieBreaker !== null && match.local.scoreTieBreaker !== undefined) && <Text variant="bodyLarge" style={{ marginHorizontal: spacing.w120 }}>
                     ({match.local.scoreTieBreaker})
                 </Text>
             }
-            <Text style={{ marginHorizontal: spacing.w72 }}>-</Text>
+            <Text variant="titleMedium" style={{ marginHorizontal: spacing.w72 }}>-</Text>
             {
                 (match.visitant.scoreTieBreaker !== null && match.visitant.scoreTieBreaker !== undefined) && <Text variant="bodyLarge" style={{ marginHorizontal: spacing.w120 }}>
                     ({match.visitant.scoreTieBreaker})
@@ -25,7 +25,7 @@ const ScoreView = ({ match, colors, spacing }: ScoreViewPropsType) => {
             }
             {
                 match.visitant.score !== null &&
-                <Text variant="bodyLarge">{match.visitant.score + (match.visitant.scoreTrip ?? 0)}</Text>
+                <Text variant="titleMedium">{match.visitant.score + (match.visitant.scoreTrip ?? 0)}</Text>
             }
         </View>
     )

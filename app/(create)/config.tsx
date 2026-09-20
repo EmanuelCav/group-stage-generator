@@ -5,7 +5,6 @@ import { useRouter } from "expo-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as ImagePicker from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
 import HeaderConfig from "@/components/config/HeaderConfig";
@@ -190,10 +189,6 @@ const ConfigScreen = () => {
     setIsManuelConfiguration(v)
   }
 
-  const handleFullName = async (v: boolean) => {
-    await AsyncStorage.setItem("isFullName", v ? "yes" : "no");
-  }
-
   const comeBack = () => {
     router.back()
   }
@@ -277,7 +272,7 @@ const ConfigScreen = () => {
           />
 
           <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-            <Text variant="bodyLarge">{t('manuallyTitle')}</Text>
+            <Text variant="bodyLarge" style={{ textAlign: 'center' }}>{t('manuallyTitle')}</Text>
             <Switch
               style={{ marginTop: spacing.h192 }}
               value={isManualConfiguration}
@@ -401,13 +396,12 @@ const ConfigScreen = () => {
           />
 
           <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-            <Text variant="bodyLarge">{t("displayFullName")}</Text>
+            <Text variant="bodyLarge" style={{ textAlign: 'center' }}>{t("displayFullName")}</Text>
             <Switch
               style={{ marginTop: spacing.h192 }}
               value={isFullName}
               onValueChange={(v) => {
                 setIsFullName(v)
-                handleFullName(v)
               }}
             />
           </View>

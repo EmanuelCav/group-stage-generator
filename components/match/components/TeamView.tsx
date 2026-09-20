@@ -11,9 +11,9 @@ const TeamView = ({ team, colors, spacing, isFullName }: TeamViewPropsType) => {
     return (
         <View style={[matchStyles.teamView, { backgroundColor: colors.background }]}>
             {team.team.logo ? (
-                <Avatar.Image source={{ uri: team.team.logo }} size={32} />
+                <Avatar.Image source={{ uri: team.team.logo }} size={52} />
             ) : (
-                <Avatar.Icon icon="shield-outline" color="#ffffff" size={32} style={{ backgroundColor: team.team.color }} />
+                <Avatar.Icon icon="shield-outline" color="#ffffff" size={52} style={{ backgroundColor: team.team.color }} />
             )}
             <Text variant="bodyMedium" style={{ marginTop: spacing.h106 }}>
                 {

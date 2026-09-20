@@ -28,7 +28,7 @@ const HeaderGroup = ({ group, groupNumber, colors, spacing, t }: HeaderGroupProp
                 group={group}
             />
         ),
-        [colors, isFullName]
+        [colors, isFullName, group.amountClassified]
     )
 
     return (

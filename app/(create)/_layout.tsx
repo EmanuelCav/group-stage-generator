@@ -12,6 +12,7 @@ export default function CreateLayout() {
         <Stack
             screenOptions={{
                 headerShown: false,
+                animation: "slide_from_right"
             }}
         />
     );

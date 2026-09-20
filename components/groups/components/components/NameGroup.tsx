@@ -9,11 +9,14 @@ import { groupStyles } from '@/styles/group.styles'
 import { groupName, nameParticipant } from '@/utils/points'
 
 const NameGroup = memo(({ colors, index, item, isFullName, spacing, group }: NameGroupPropsType) => {
+
+    const isOneGroup = group.amountGroups === 1 ? (index + 1) : (group.amountGroups! * (index + 1))
+
     return (
         <View style={[groupStyles.row, { backgroundColor: colors.tertiary }]}>
             <View style={[groupStyles.cellPosition, {
                 backgroundColor: colors.tertiary,
-                borderLeftColor: (group.amountGroups! * (index + 1)) <= group.amountClassified! ? colors.primary : colors.background,
+                borderLeftColor: isOneGroup <= group.amountClassified! ? colors.primary : colors.tertiary,
                 borderLeftWidth: 2
             }]}>
                 <Text variant="bodyMedium">{index + 1}</Text>

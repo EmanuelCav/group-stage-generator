@@ -97,7 +97,7 @@ const TableStatistic = memo(({ colors, itemStatistic, indexStatistic, t }: Table
           )}
         </View>
       ) : (
-        <View style={[statisticsStyles.noPlayers, { backgroundColor: colors.surfaceVariant }]}>
+        <View style={[statisticsStyles.noPlayers, { backgroundColor: colors.tertiary }]}>
           <Text variant="bodyMedium" style={{ color: colors.outline }}>
             {t("noPlayers")}
           </Text>

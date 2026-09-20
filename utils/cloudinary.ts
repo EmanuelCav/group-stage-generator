@@ -32,7 +32,7 @@ export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
     }
 }
 
-export const normalizeUri = async (uri: string) => {
+export const normalizeUri = async (uri: string): Promise<string> => {
 
     if (!uri) return "";
 
@@ -47,9 +47,8 @@ export const normalizeUri = async (uri: string) => {
         }
 
         const fileName = `image_${Date.now()}_${Math.random()}.jpg`;
-        const newPath = `${Paths.cache}/${fileName}`;
 
-        const newFile = new File(newPath);
+        const newFile = new File(Paths.cache, fileName);
 
         await file.copy(newFile);
 
@@ -59,7 +58,7 @@ export const normalizeUri = async (uri: string) => {
         console.log("FileSystem copy error:", error);
         return "";
     }
-};
+}
 
 export const updateImageLimit = async (increment: number) => {
 

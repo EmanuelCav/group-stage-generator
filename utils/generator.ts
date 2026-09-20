@@ -112,8 +112,51 @@ export const groupGenerator = (group: IGroup, matchSchedule: string): IGenerateM
                     break;
                 }
 
-                const matchesCross = generateMatchesInterGroup(shuffle(group.teams), group.isRoundTripGroupStage!)
+                const matchesCross = fixtureGenerate(shuffle([...groupsSorted.flat()]), group.isRoundTripGroupStage!)
                 groupsMatches.push(matchesCross)
+
+                for (let i = 0; i < groupsMatches.length; i++) {
+                    for (let j = 0; j < groupsMatches[i].length; j++) {
+                        for (let k = 0; k < groupsMatches[i][j].length; k++) {
+                            if (groupsMatches[i][j][k].local.team.group === groupsMatches[i][j][k].visitant.team.group) {
+                                groupsMatches[i][j].splice(k, 1);
+                                k--;
+                            }
+                        }
+                    }
+                }
+
+                for (let i = 0; i < groupsMatches.length; i++) {
+                    for (let j = 0; j < groupsMatches[i].length; j++) {
+                        if (groupsMatches[i][j].length < Math.floor(group.teams.length / 2)) {
+                            for (let k = groupsMatches[i].length - 1; k >= 0; k--) {
+                                for (let h = 0; h < groupsMatches[i][k].length; h++) {
+                                    const localFound = groupsMatches[i][j].find(gm => (gm.local.team.name === groupsMatches![i][k][h].local.team.name) || (gm.visitant.team.name === groupsMatches![i][k][h].local.team.name))
+                                    const visitantFound = groupsMatches[i][j].find(gm => (gm.local.team.name === groupsMatches![i][k][h].visitant.team.name) || (gm.visitant.team.name === groupsMatches![i][k][h].visitant.team.name))
+                                    if (!localFound && !visitantFound) {
+                                        groupsMatches[i][j].push(groupsMatches[i][k][h])
+                                        groupsMatches[i][k].splice(h, 1)
+                                        h--;
+                                        if (groupsMatches[i][j].length >= Math.floor(group.teams.length / 2)) break;
+                                    }
+                                }
+
+                                if (groupsMatches[i][j].length >= Math.floor(group.teams.length / 2)) break;
+                            }
+                        }
+                    }
+
+                }
+
+                for (let i = 0; i < groupsMatches.length; i++) {
+                    for (let j = 0; j < groupsMatches[i].length; j++) {
+                        if (groupsMatches[i][j].length === 0) {
+                            groupsMatches[i].splice(j, 1)
+                            j--
+                        }
+                    }
+                }
+
                 break;
 
             default:
@@ -253,8 +296,51 @@ export const groupGenerator = (group: IGroup, matchSchedule: string): IGenerateM
                     break;
                 }
 
-                const matchesCross = generateMatchesInterGroup(shuffle(group.teams), group.isRoundTripGroupStage!)
+                const matchesCross = fixtureGenerate(shuffle([...groupsSorted.flat()]), group.isRoundTripGroupStage!)
                 groupsMatches.push(matchesCross)
+
+                for (let i = 0; i < groupsMatches.length; i++) {
+                    for (let j = 0; j < groupsMatches[i].length; j++) {
+                        for (let k = 0; k < groupsMatches[i][j].length; k++) {
+                            if (groupsMatches[i][j][k].local.team.group === groupsMatches[i][j][k].visitant.team.group) {
+                                groupsMatches[i][j].splice(k, 1);
+                                k--;
+                            }
+                        }
+                    }
+                }
+
+                for (let i = 0; i < groupsMatches.length; i++) {
+                    for (let j = 0; j < groupsMatches[i].length; j++) {
+                        if (groupsMatches[i][j].length < Math.floor(group.teams.length / 2)) {
+                            for (let k = groupsMatches[i].length - 1; k >= 0; k--) {
+                                for (let h = 0; h < groupsMatches[i][k].length; h++) {
+                                    const localFound = groupsMatches[i][j].find(gm => (gm.local.team.name === groupsMatches![i][k][h].local.team.name) || (gm.visitant.team.name === groupsMatches![i][k][h].local.team.name))
+                                    const visitantFound = groupsMatches[i][j].find(gm => (gm.local.team.name === groupsMatches![i][k][h].visitant.team.name) || (gm.visitant.team.name === groupsMatches![i][k][h].visitant.team.name))
+                                    if (!localFound && !visitantFound) {
+                                        groupsMatches[i][j].push(groupsMatches[i][k][h])
+                                        groupsMatches[i][k].splice(h, 1)
+                                        h--;
+                                        if (groupsMatches[i][j].length >= Math.floor(group.teams.length / 2)) break;
+                                    }
+                                }
+
+                                if (groupsMatches[i][j].length >= Math.floor(group.teams.length / 2)) break;
+                            }
+                        }
+                    }
+
+                }
+
+                for (let i = 0; i < groupsMatches.length; i++) {
+                    for (let j = 0; j < groupsMatches[i].length; j++) {
+                        if (groupsMatches[i][j].length === 0) {
+                            groupsMatches[i].splice(j, 1)
+                            j--
+                        }
+                    }
+                }
+
                 break;
 
             default:
@@ -406,110 +492,6 @@ const fixtureGenerate = (array: ITeam[], isTrip: boolean) => {
 
     return matches
 
-}
-
-export const generateMatchesInterGroup = (teams: ITeam[], isTrip: boolean) => {
-
-    const groups: Record<number, ITeam[]> = {}
-
-    teams.forEach(team => {
-        const g = team.group!
-        if (!groups[g]) groups[g] = []
-        groups[g].push(team)
-    })
-
-    const groupKeys = Object.keys(groups).map(Number)
-
-    const allMatches: IMatch[] = []
-
-    for (let i = 0; i < groupKeys.length; i++) {
-        for (let j = i + 1; j < groupKeys.length; j++) {
-
-            const groupA = groups[groupKeys[i]]
-            const groupB = groups[groupKeys[j]]
-
-            for (const teamA of groupA) {
-                for (const teamB of groupB) {
-                    allMatches.push({
-                        local: {
-                            score: null,
-                            team: teamA
-                        },
-                        visitant: {
-                            score: null,
-                            team: teamB
-                        },
-                        referee: "",
-                        stadium: "",
-                        isEdit: false,
-                        statistics: [],
-                        summary: [],
-                        players: []
-                    })
-                }
-            }
-        }
-    }
-
-    const totalTeams = teams.length
-    const matchesPerDay = Math.floor(totalTeams / 2)
-
-    const matchdays: IMatch[][] = []
-    const usedMatches = new Set<number>()
-
-    const teamUsed = (teamId: string, matches: IMatch[]) => {
-        return matches.some(m =>
-            m.local.team?.id === teamId ||
-            m.visitant.team?.id === teamId
-        )
-    }
-
-    while (usedMatches.size < allMatches.length) {
-
-        const currentMatchday: IMatch[] = []
-
-        for (let i = 0; i < allMatches.length; i++) {
-
-            if (usedMatches.has(i)) continue
-
-            const match = allMatches[i]
-
-            const localId = match.local.team?.id!
-            const visitantId = match.visitant.team?.id!
-
-            if (
-                !teamUsed(localId, currentMatchday) &&
-                !teamUsed(visitantId, currentMatchday)
-            ) {
-                currentMatchday.push(match)
-                usedMatches.add(i)
-            }
-
-            if (currentMatchday.length === matchesPerDay) break
-        }
-
-        matchdays.push(currentMatchday)
-    }
-
-    if (isTrip) {
-        const secondLeg = matchdays.map((matchday) =>
-            matchday.map((match) => ({
-                ...match,
-                local: {
-                    ...match.visitant,
-                    score: null
-                },
-                visitant: {
-                    ...match.local,
-                    score: null
-                }
-            }))
-        )
-
-        return [...matchdays, ...secondLeg]
-    }
-
-    return matchdays
 }
 
 export const shuffle = (array: any[]): any[] => {
