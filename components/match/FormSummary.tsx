@@ -86,23 +86,27 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             if (summary.id) {
 
                 const editMatch: IMatch = {
-                    isEdit: match.isEdit,
-                    local: match.local,
-                    referee: match.referee!,
-                    stadium: match.stadium!,
-                    summary: match.summary.map((s) => s.id === summary.id ?
-                        {
-                            ...summary, title: statisticSelected, time: summaryCreated.time, player: playerSelected ?
-                                group.players?.find((p) => p.name === playerSelected) : s.player,
-                            secondaryPlayer: secondaryPlayerSelected ?
-                                group.players?.find((p) => p.name === secondaryPlayerSelected) : s.secondaryPlayer
-                        } : s),
-                    players: match.players,
-                    statistics: match.statistics,
-                    visitant: match.visitant,
-                    time: match.time,
-                    date: match.date
-                }
+                    ...match,
+                    summary: match.summary.map((s) =>
+                        s.id === summary.id
+                            ? {
+                                ...s,
+                                title: statisticSelected,
+                                time: summaryCreated.time,
+                                player: playerSelected
+                                    ? group.players?.find(
+                                        (p) => p.name === playerSelected
+                                    )
+                                    : s.player,
+                                secondaryPlayer: secondaryPlayerSelected
+                                    ? group.players?.find(
+                                        (p) => p.name === secondaryPlayerSelected
+                                    )
+                                    : s.secondaryPlayer
+                            }
+                            : s
+                    )
+                };
 
                 if (isKnockout) {
 
@@ -147,23 +151,22 @@ const FormSummary = ({ colors, hideAndShowSummary, summary, match, group, update
             } else {
 
                 const createMatch: IMatch = {
-                    isEdit: match.isEdit,
-                    local: match.local,
-                    referee: match.referee!,
-                    stadium: match.stadium!,
-                    summary: [...match.summary, {
-                        id: generateId(),
-                        title: statisticSelected,
-                        player: group.players?.find((p) => p.name === playerSelected),
-                        time: summaryCreated.time,
-                        secondaryPlayer: group.players?.find((p) => p.name === secondaryPlayerSelected),
-                    }],
-                    players: match.players,
-                    statistics: match.statistics,
-                    visitant: match.visitant,
-                    time: match.time,
-                    date: match.date
-                }
+                    ...match,
+                    summary: [
+                        ...match.summary,
+                        {
+                            id: generateId(),
+                            title: statisticSelected,
+                            player: group.players?.find(
+                                (p) => p.name === playerSelected
+                            ),
+                            time: summaryCreated.time,
+                            secondaryPlayer: group.players?.find(
+                                (p) => p.name === secondaryPlayerSelected
+                            )
+                        }
+                    ]
+                };
 
                 if (isKnockout) {
 

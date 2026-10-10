@@ -142,38 +142,43 @@ const SettingsDrawerScreen = () => {
             }
 
             const updateData: IGroup = {
-                id: group.id,
-                user_id: group.user_id,
-                eliminationMatches: group.eliminationMatches,
-                isDrawed: group.isDrawed,
-                isKnockoutGenerated: group.isKnockoutGenerated,
+                ...group,
                 title: data.title,
                 logo: imageUrl || "",
-                matches: group.matches,
-                teams: (group.amountGroups !== data.amountGroups || group.teamsPerGroup !== data.teamsPerGroup) ? group.teams.map(t => ({ ...t, groupAssigned: undefined })) : group.teams,
+                teams:
+                    group.amountGroups !== data.amountGroups ||
+                        group.teamsPerGroup !== data.teamsPerGroup
+                        ? group.teams.map((t) => ({
+                            ...t,
+                            groupAssigned: undefined
+                        }))
+                        : group.teams,
                 pointsWin: data.pointsWin,
                 pointsDraw: data.pointsDraw,
                 pointsLoss: data.pointsLoss,
-                isGenerated: group.isGenerated,
                 pointsMode: pointsModeSelected,
-                isRoundTripElimination: isRoundTripElimination,
-                isRoundTripGroupStage: isRoundTripGroupStage,
+                isRoundTripElimination,
+                isRoundTripGroupStage,
                 isManualConfiguration,
-                avoidingMatches: group.avoidingMatches,
-                isGeneratedAgain: group.isGeneratedAgain,
-                players: group.players,
-                referees: group.referees,
-                stadiums: group.stadiums,
-                tie_breakCriteria: group.tie_breakCriteria,
                 amountGroups: data.amountGroups,
-                isGroupStageEliminationDrawed: group.isGroupStageEliminationDrawed,
-                amountClassified: group.teams.length >= 2 ? data.amountClassified > group.teams.length ? Math.pow(2, powerRange(group.teams.length >= 2 ? group.teams.length : 2)) : data.amountClassified : 2,
+                amountClassified:
+                    group.teams.length >= 2
+                        ? data.amountClassified > group.teams.length
+                            ? Math.pow(
+                                2,
+                                powerRange(
+                                    group.teams.length >= 2
+                                        ? group.teams.length
+                                        : 2
+                                )
+                            )
+                            : data.amountClassified
+                        : 2,
                 teamsPerGroup: data.teamsPerGroup,
                 matchdayNumber: "all",
                 matchdayView: "all",
-                createdAt: group.createdAt,
                 updatedAt: new Date()
-            }
+            };
 
             updateGroup!(updateData)
 
@@ -224,6 +229,7 @@ const SettingsDrawerScreen = () => {
                 title={t('settings')}
                 goBack={goBack}
                 isMatchdaysScreen={false}
+                isCalendar={false}
             />
 
             <SureGeneral />

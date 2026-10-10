@@ -152,6 +152,19 @@ export const groupStyles = StyleSheet.create({
         borderRadius: 9,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+
+    content: {
+        paddingVertical: 5,
+        gap: 8,
+    },
+
+    dateContainer: {
+        width: 60,
+        height: 70,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+    },
 
 })

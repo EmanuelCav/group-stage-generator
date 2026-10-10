@@ -10,6 +10,7 @@ import HeaderGeneral from '@/components/general/HeaderGeneral'
 import Schedule from '@/components/matchdays/Schedule'
 import GenerateAgain from '@/components/general/GenerateAgain'
 import SureGeneral from '@/components/general/SureGeneral'
+import Calendar from '@/components/matchdays/Calendar';
 import GroupLabel from '@/components/matchdays/GroupLabel'
 import MatchdayLabel from '@/components/matchdays/MatchdayLabel';
 import Sure from '@/components/general/Sure';
@@ -46,15 +47,24 @@ const MatchdaysScreen = () => {
 
     const { colors } = useTheme()
     const { t } = useLanguage()
-
     const router = useRouter()
-
     const spacing = useSpacing()
 
     const [isEditMode, setIsEditMode] = useState<boolean>(false)
+    const [isCalendarMode, setIsCalendarMode] = useState<boolean>(false)
     const [isClearAllMatches, setIsClearAllMatches] = useState<boolean>(false)
     const [isSureRemoveMatchday, setIsSureRemoveMatchday] = useState<boolean>(false)
     const [indexMatchday, setIndexMatchday] = useState<number>(0)
+    const [dateMatches, setDateMatches] = useState(() => {
+
+        const today = new Date();
+
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    });
 
     const handleRemoveMatchday = () => {
 
@@ -123,7 +133,8 @@ const MatchdaysScreen = () => {
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} title={t("matchdays")} goBack={goBack} isMatchdaysScreen={true} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+            <HeaderGeneral colors={colors} title={t("matchdays")} goBack={goBack} isMatchdaysScreen={true} isCalendar={true}
+                isEditMode={isEditMode} setIsEditMode={setIsEditMode} isCalendarMode={isCalendarMode} setIsCalendarMode={setIsCalendarMode} />
             <SureGeneral />
             {
                 isClearAllMatches && <Sure close={() => setIsClearAllMatches(false)} func={() => {
@@ -142,11 +153,16 @@ const MatchdaysScreen = () => {
             <Toast config={toastConfig} />
             <View style={{ padding: spacing.h106, flex: 1, backgroundColor: colors.background }}>
                 {
-                    group.matches?.length! > 1 && !isEditMode &&
+                    group.matches?.length! > 1 && !isEditMode && !isCalendarMode &&
                     <GroupLabel colors={colors} group={group} matchdayViewUpdated={matchdayViewUpdated} t={t} />
                 }
                 <View style={{ marginTop: 7 }} />
-                <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} t={t} />
+                {
+                    !isCalendarMode && <MatchdayLabel colors={colors} group={group} matchdayNumber={matchdayNumber} t={t} />
+                }
+                {
+                    isCalendarMode && <Calendar dateMatches={dateMatches} setDateMatches={setDateMatches} colors={colors} />
+                }
                 {
                     isEditMode && (
                         <View style={{ backgroundColor: colors.background, flexDirection: 'row', marginVertical: 7, justifyContent: 'space-around', alignItems: 'center' }}>
@@ -171,12 +187,12 @@ const MatchdaysScreen = () => {
                     )
                 }
                 {
-                    (evaluateGenerateAgain(group.matches!) && !isEditMode) && <Text variant='bodySmall' style={{ marginVertical: spacing.h106 }}>
+                    (evaluateGenerateAgain(group.matches!) && !isEditMode && !isCalendarMode) && <Text variant='bodySmall' style={{ marginVertical: spacing.h106 }}>
                         {t("adviceUpdateMatch")}
                     </Text>
                 }
-                <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} handleUpdateTeamMatch={handleUpdateTeamMatch} t={t}
-                    router={router} spacing={spacing} isEditMode={isEditMode} setIsSureRemoveMatchday={setIsSureRemoveMatchday} setIndexMatchday={setIndexMatchday} />
+                <Schedule group={group} colors={colors} handleGetMatch={handleGetMatch} handleUpdateTeamMatch={handleUpdateTeamMatch} t={t} setIsCalendarMode={setIsCalendarMode}
+                    router={router} spacing={spacing} isEditMode={isEditMode} setIsSureRemoveMatchday={setIsSureRemoveMatchday} setIndexMatchday={setIndexMatchday} isCalendarMode={isCalendarMode} dateMatches={dateMatches} />
             </View>
         </MainScreen>
     )

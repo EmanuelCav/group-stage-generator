@@ -19,6 +19,9 @@ export type SchedulePropsType = {
     handleUpdateTeamMatch: (indexGroup: number, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
     t: (scope: string, options?: object | undefined) => string;
     setIndexMatchday: (indexMatchday: number) => void;
+    isCalendarMode: boolean;
+    dateMatches: string;
+    setIsCalendarMode: (isCalendarMode: boolean) => void;
 }
 
 export type GroupLabelPropsType = {
@@ -39,4 +42,17 @@ export type ManualFixtureCardPropsType = {
     colors: MD3Colors;
     setIsSureClearFixture: (isSureClearFixture: boolean) => void;
     setIsCardClear: (isCardClear: boolean) => void;
+}
+
+export type CalendarPropsType = {
+    dateMatches: string;
+    setDateMatches: (date: string) => void;
+    colors: MD3Colors;
+}
+
+export type CalendarDatePropsType = {
+    date: Date;
+    selected: boolean;
+    onPress: (date: string) => void;
+    colors: MD3Colors;
 }

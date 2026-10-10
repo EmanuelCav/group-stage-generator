@@ -5,7 +5,7 @@ import { Appbar } from "react-native-paper";
 
 import { HeaderGeneralPropsTypes } from "@/types/props.types";
 
-const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMode, setIsEditMode }: HeaderGeneralPropsTypes) => {
+const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMode, setIsEditMode, isCalendarMode, setIsCalendarMode, isCalendar }: HeaderGeneralPropsTypes) => {
 
     const navigation = useNavigation();
 
@@ -13,6 +13,15 @@ const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMo
         <Appbar.Header style={{ backgroundColor: colors.primary }}>
             <Appbar.BackAction color="#ffffff" onPress={goBack} />
             <Appbar.Content title={title} color="#ffffff" />
+
+            {
+                isCalendar && <Appbar.Action
+                    icon={isCalendarMode ? "calendar-multiple" : "calendar-month"}
+                    color="#ffffff"
+                    onPress={() => setIsCalendarMode!(!isCalendarMode)}
+                />
+            }
+
             {
                 isMatchdaysScreen && <Appbar.Action
                     icon={isEditMode ? "eye" : "square-edit-outline"}
@@ -20,6 +29,7 @@ const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMo
                     onPress={() => setIsEditMode!(!isEditMode)}
                 />
             }
+
             <Appbar.Action
                 icon="menu"
                 color="#ffffff"

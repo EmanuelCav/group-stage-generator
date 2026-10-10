@@ -44,7 +44,7 @@ const TableStatistic = memo(({ colors, itemStatistic, indexStatistic, t }: Table
                   { backgroundColor: colors.tertiary }
                 ]}
               >
-                <Text style={[statisticsStyles.rankText, { color: colors.outline }]}>
+                <Text style={statisticsStyles.rankText}>
                   {idx + 1}
                 </Text>
 
@@ -66,7 +66,7 @@ const TableStatistic = memo(({ colors, itemStatistic, indexStatistic, t }: Table
                     )
                   }
                   <View style={statisticsStyles.namesContainer}>
-                    <Text variant="bodyMedium" numberOfLines={1} style={[statisticsStyles.playerName, { color: colors.onSurface }]}>
+                    <Text variant="bodyMedium" numberOfLines={1}>
                       {namePlayerStatistic(item.player)}
                     </Text>
                     <Text variant="bodySmall" numberOfLines={1} style={{ color: colors.outline }}>
@@ -76,7 +76,7 @@ const TableStatistic = memo(({ colors, itemStatistic, indexStatistic, t }: Table
                 </View>
 
                 <View style={statisticsStyles.valueContainer}>
-                  <Text variant="titleSmall" style={[statisticsStyles.valueText, { color: colors.primary }]}>
+                  <Text variant="titleSmall" style={{ color: colors.primary }}>
                     {item.value}
                   </Text>
                 </View>
@@ -98,7 +98,7 @@ const TableStatistic = memo(({ colors, itemStatistic, indexStatistic, t }: Table
         </View>
       ) : (
         <View style={[statisticsStyles.noPlayers, { backgroundColor: colors.tertiary }]}>
-          <Text variant="bodyMedium" style={{ color: colors.outline }}>
+          <Text variant="bodyMedium">
             {t("noPlayers")}
           </Text>
         </View>

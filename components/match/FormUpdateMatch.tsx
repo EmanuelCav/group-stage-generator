@@ -40,19 +40,35 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
             setLoading(true)
 
             const dataUpdated: IMatch = {
-                isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
-                local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null },
+                ...match,
+                isEdit: scoreLocal !== "" || scoreVisitant !== "",
+                local: {
+                    ...match.local,
+                    score:
+                        scoreLocal !== ""
+                            ? Number(scoreLocal)
+                            : scoreVisitant !== ""
+                                ? 0
+                                : null
+                },
                 referee: refereeSelected,
                 stadium: venueSelected,
-                statistics: match.statistics,
-                players: match.players,
-                summary: match.summary,
-                visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : scoreLocal !== "" ? 0 : null },
+                visitant: {
+                    ...match.visitant,
+                    score:
+                        scoreVisitant !== ""
+                            ? Number(scoreVisitant)
+                            : scoreLocal !== ""
+                                ? 0
+                                : null
+                },
                 date,
-                time: time?.hours ? {
-                    hours: time.hours,
-                    minutes: time.minutes
-                } : undefined
+                time: time?.hours
+                    ? {
+                        hours: time.hours,
+                        minutes: time.minutes
+                    }
+                    : undefined
             };
 
             const matchdayIndex = matchday - 1;

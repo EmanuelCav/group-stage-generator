@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
+import { AppState, Platform } from 'react-native';
 import 'react-native-url-polyfill/auto';
 
-const ExpoWebSecureStoreAdapter = {
+const ExpoWebAdapter = {
     getItem: (key: string) => {
         return AsyncStorage.getItem(key)
     },
@@ -22,10 +23,20 @@ export const supabase = createClient(
     supabaseAnonKey,
     {
         auth: {
-            storage: ExpoWebSecureStoreAdapter,
+            storage: ExpoWebAdapter,
             autoRefreshToken: true,
             persistSession: true,
             detectSessionInUrl: false
         },
     },
 );
+
+if (Platform.OS !== 'web') {
+    AppState.addEventListener('change', (state) => {
+        if (state === 'active') {
+            supabase.auth.startAutoRefresh();
+        } else {
+            supabase.auth.stopAutoRefresh();
+        }
+    });
+}

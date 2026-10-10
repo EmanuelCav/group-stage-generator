@@ -49,27 +49,24 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
             if (statistic.id) {
 
                 const editMatch: IMatch = {
-                    isEdit: match.isEdit,
-                    local: match.local,
-                    referee: match.referee!,
-                    stadium: match.stadium!,
-                    statistics: match.statistics.map((s) => s.id === statistic.id ?
-                        {
-                            ...statistic, title: statisticCreated.title, teamLocal: {
-                                team: match.local.team,
-                                value: valueLocal ? Number(valueLocal) : 0
-                            },
-                            teamVisitant: {
-                                team: match.visitant.team,
-                                value: valueVisitant ? Number(valueVisitant) : 0
+                    ...match,
+                    statistics: match.statistics.map((s) =>
+                        s.id === statistic.id
+                            ? {
+                                ...s,
+                                title: statisticCreated.title,
+                                teamLocal: {
+                                    team: match.local.team,
+                                    value: valueLocal ? Number(valueLocal) : 0
+                                },
+                                teamVisitant: {
+                                    team: match.visitant.team,
+                                    value: valueVisitant ? Number(valueVisitant) : 0
+                                }
                             }
-                        } : s),
-                    players: match.players,
-                    summary: match.summary,
-                    visitant: match.visitant,
-                    time: match.time,
-                    date: match.date
-                }
+                            : s
+                    )
+                };
 
                 if (isKnockout) {
 
@@ -114,28 +111,23 @@ const FormStatisticsMatch = ({ colors, hideAndShowStatistics, match, group, stat
             } else {
 
                 const createMatch: IMatch = {
-                    isEdit: match.isEdit,
-                    local: match.local,
-                    referee: match.referee!,
-                    stadium: match.stadium!,
-                    summary: match.summary,
-                    players: match.players,
-                    statistics: [...match.statistics, {
-                        id: generateId(),
-                        title: statisticCreated.title,
-                        teamLocal: {
-                            team: match.local.team,
-                            value: valueLocal ? Number(valueLocal) : 0
-                        },
-                        teamVisitant: {
-                            team: match.visitant.team,
-                            value: valueVisitant ? Number(valueVisitant) : 0
+                    ...match,
+                    statistics: [
+                        ...match.statistics,
+                        {
+                            id: generateId(),
+                            title: statisticCreated.title,
+                            teamLocal: {
+                                team: match.local.team,
+                                value: valueLocal ? Number(valueLocal) : 0
+                            },
+                            teamVisitant: {
+                                team: match.visitant.team,
+                                value: valueVisitant ? Number(valueVisitant) : 0
+                            }
                         }
-                    }],
-                    visitant: match.visitant,
-                    time: match.time,
-                    date: match.date
-                }
+                    ]
+                };
 
                 if (isKnockout) {
 

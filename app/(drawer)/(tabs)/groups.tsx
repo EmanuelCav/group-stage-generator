@@ -81,7 +81,7 @@ const GroupsScreen = () => {
 
   return (
     <MainScreen colors={colors}>
-      <HeaderGeneral colors={colors} title={t("groups")} goBack={goBack} isMatchdaysScreen={false} />
+      <HeaderGeneral colors={colors} title={t("groups")} goBack={goBack} isMatchdaysScreen={false} isCalendar={false} />
       <SureGeneral />
       {
         group.isGeneratedAgain && <GenerateAgain colors={colors} />

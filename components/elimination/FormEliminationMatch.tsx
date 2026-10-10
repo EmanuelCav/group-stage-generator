@@ -40,20 +40,60 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
     const handleUpdateMatch = async () => {
 
         const dataUpdated: IMatch = {
-            isEdit: (scoreLocal !== "" || scoreVisitant !== ""),
-            local: { ...match.local, score: scoreLocal !== "" ? Number(scoreLocal) : scoreVisitant !== "" ? 0 : null, scoreTrip: scoreLocalTrip !== "" ? Number(scoreLocalTrip) : scoreVisitantTrip !== "" ? 0 : null, scoreTieBreaker: scoreLocalTieBreaker !== "" ? Number(scoreLocalTieBreaker) : scoreVisitantTieBreaker !== "" ? 0 : null },
+            ...match,
+            isEdit: scoreLocal !== "" || scoreVisitant !== "",
+            local: {
+                ...match.local,
+                score:
+                    scoreLocal !== ""
+                        ? Number(scoreLocal)
+                        : scoreVisitant !== ""
+                            ? 0
+                            : null,
+                scoreTrip:
+                    scoreLocalTrip !== ""
+                        ? Number(scoreLocalTrip)
+                        : scoreVisitantTrip !== ""
+                            ? 0
+                            : null,
+                scoreTieBreaker:
+                    scoreLocalTieBreaker !== ""
+                        ? Number(scoreLocalTieBreaker)
+                        : scoreVisitantTieBreaker !== ""
+                            ? 0
+                            : null
+            },
             referee: refereeSelected,
             stadium: venueSelected,
-            statistics: match.statistics,
-            players: match.players,
-            summary: match.summary,
-            visitant: { ...match.visitant, score: scoreVisitant !== "" ? Number(scoreVisitant) : scoreLocal !== "" ? 0 : null, scoreTrip: scoreVisitantTrip !== "" ? Number(scoreVisitantTrip) : scoreLocalTrip !== "" ? 0 : null, scoreTieBreaker: scoreVisitantTieBreaker !== "" ? Number(scoreVisitantTieBreaker) : scoreLocalTieBreaker !== "" ? 0 : null },
+            visitant: {
+                ...match.visitant,
+                score:
+                    scoreVisitant !== ""
+                        ? Number(scoreVisitant)
+                        : scoreLocal !== ""
+                            ? 0
+                            : null,
+                scoreTrip:
+                    scoreVisitantTrip !== ""
+                        ? Number(scoreVisitantTrip)
+                        : scoreLocalTrip !== ""
+                            ? 0
+                            : null,
+                scoreTieBreaker:
+                    scoreVisitantTieBreaker !== ""
+                        ? Number(scoreVisitantTieBreaker)
+                        : scoreLocalTieBreaker !== ""
+                            ? 0
+                            : null
+            },
             date,
-            time: time?.hours ? {
-                hours: time.hours,
-                minutes: time.minutes
-            } : undefined
-        }
+            time: time?.hours
+                ? {
+                    hours: time.hours,
+                    minutes: time.minutes
+                }
+                : undefined
+        };
 
         let indexMatch: number;
 
@@ -78,21 +118,15 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                     score: null,
                                 },
                                 players: [],
-                                referee: m.referee,
-                                stadium: m.stadium,
                                 statistics: [],
-                                summary: [],
-                                visitant: m.visitant
+                                summary: []
                             }
                             : m
                         : Math.floor(indexMatch / 2) === mi
                             ? {
                                 ...m,
                                 isEdit: false,
-                                local: m.local,
                                 players: [],
-                                referee: m.referee,
-                                stadium: m.stadium,
                                 statistics: [],
                                 summary: [],
                                 visitant: {
@@ -219,6 +253,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                     }}
                                     value={scoreLocalTrip}
                                     style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
+                                    maxLength={3}
                                 />
                             </>
                         )}
@@ -284,6 +319,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                                     }}
                                     value={scoreVisitantTrip}
                                     style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
+                                    maxLength={3}
                                 />
                             </>
                         )}
@@ -299,6 +335,7 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
                             }}
                             value={scoreVisitantTieBreaker}
                             style={[createStyles.inputNumberCreate, { backgroundColor: colors.tertiary }]}
+                            maxLength={3}
                         />
                     </View>
                 </View>

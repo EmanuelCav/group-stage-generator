@@ -137,6 +137,7 @@ const VenuesScreen = () => {
         title={t("stadiums_title")}
         goBack={goBack}
         isMatchdaysScreen={false}
+        isCalendar={false}
       />
 
       <SureGeneral />

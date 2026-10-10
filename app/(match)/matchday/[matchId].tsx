@@ -78,16 +78,10 @@ const MatchMatchdayScreen = () => {
     const groupIndex = getGroupUpdateTeamMatch(group.matches!, match.match!, matchdayIndex)
 
     const editMatch: IMatch = {
-      isEdit: match.match!.isEdit,
-      local: match.match!.local,
-      time: match.match?.time,
-      referee: match.match!.referee!,
-      stadium: match.match!.stadium!,
-      statistics: match.match!.statistics,
-      players: match.match!.players,
-      summary: match.match!.summary.filter((s) => s.id !== summary.id),
-      visitant: match.match!.visitant,
-      date: match.match!.date
+      ...match.match!,
+      summary: match.match!.summary.filter(
+        (s) => s.id !== summary.id
+      )
     }
 
     const updatedMatches = group.matches!.map((g, gi) =>
@@ -122,17 +116,11 @@ const MatchMatchdayScreen = () => {
     const groupIndex = getGroupUpdateTeamMatch(group.matches!, match.match!, matchdayIndex)
 
     const editMatch: IMatch = {
-      isEdit: match.match!.isEdit,
-      local: match.match!.local,
-      time: match.match?.time,
-      referee: match.match!.referee,
-      stadium: match.match!.stadium,
-      statistics: match.match!.statistics.filter((s) => s.id !== statistic.id),
-      players: match.match!.players,
-      summary: match.match!.summary,
-      visitant: match.match!.visitant,
-      date: match.match!.date
-    }
+      ...match.match!,
+      statistics: match.match!.statistics.filter(
+        (s) => s.id !== statistic.id
+      )
+    };
 
     const updatedMatches = group.matches!.map((g, gi) =>
       gi === groupIndex

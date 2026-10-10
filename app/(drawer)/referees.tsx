@@ -132,7 +132,7 @@ const RefereesScreen = () => {
                 )
             }
 
-            <HeaderGeneral colors={colors} title={t("referees_title")} goBack={goBack} isMatchdaysScreen={false} />
+            <HeaderGeneral colors={colors} title={t("referees_title")} goBack={goBack} isMatchdaysScreen={false} isCalendar={false} />
 
             <SureGeneral />
 

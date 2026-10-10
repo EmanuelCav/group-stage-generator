@@ -22,7 +22,10 @@ export type HeaderGeneralPropsTypes = {
     isMatchdaysScreen: boolean;
     isEditMode?: boolean;
     setIsEditMode?: (isEditMode: boolean) => void;
+    isCalendarMode?: boolean;
+    setIsCalendarMode?: (isCalendarMode: boolean) => void;
     goBack: () => void;
+    isCalendar: boolean;
 }
 
 export type SurePropsType = {

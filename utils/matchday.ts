@@ -5,7 +5,7 @@ import { ILineup, IPlayer } from "@/interface/Player"
 import { ITeam } from "@/interface/Team"
 import { MatchResultType } from "@/types/matchdays.props"
 
-export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, matchdayNumber: string, router: Router): IMatch[][] => {
+export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: string, matchdayNumber: string, router: Router, isCalendarMode: boolean, dateMatches: string): IMatch[][] => {
 
     let schedule: IMatch[][] = []
 
@@ -36,12 +36,19 @@ export const getMatchdaysGroupState = (matches: IMatch[][][], matchdayView: stri
             }
         }
 
-        schedule.push(matchday)
+        if (isCalendarMode) {
+            const matchsFiltered = matchday.filter(matchs => matchs.date === dateMatches)
+            schedule.push(matchsFiltered)
+        } else {
+            schedule.push(matchday)
+        }
     }
 
-    if (matchdayNumber === "all") return schedule
+    const scheduleFiltered = schedule.filter(sch => sch.length > 0)
 
-    return [[...schedule[Number(matchdayNumber.split(" ")[1]) - 1]]]
+    if (matchdayNumber === "all") return scheduleFiltered
+
+    return [[...scheduleFiltered[Number(matchdayNumber.split(" ")[1]) - 1]]]
 
 }
 

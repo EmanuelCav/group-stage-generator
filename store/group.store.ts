@@ -239,10 +239,6 @@ export const useGroupStore = create(
                         return groupMatches.filter((_, mIndex) => mIndex !== matchdayIndex)
                     })
 
-                    if (updatedMatches?.length === 0) {
-                        updatedMatches[groupIndex].push(emptyMatchday(state.group.teams))
-                    }
-
                     return {
                         group: {
                             ...state.group,

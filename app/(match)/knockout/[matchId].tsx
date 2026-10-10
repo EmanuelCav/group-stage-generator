@@ -73,17 +73,11 @@ const MatchKnockoutScreen = () => {
     const handleRemoveSummary = () => {
 
         const editMatch: IMatch = {
-            isEdit: matchknockout.match!.isEdit,
-            local: matchknockout.match!.local,
-            time: matchknockout.match?.time,
-            referee: matchknockout.match!.referee!,
-            stadium: matchknockout.match!.stadium!,
-            statistics: matchknockout.match!.statistics,
-            players: matchknockout.match!.players,
-            summary: matchknockout.match!.summary.filter((s) => s.id !== summary.id),
-            visitant: matchknockout.match!.visitant,
-            date: matchknockout.match!.date
-        }
+            ...matchknockout.match!,
+            summary: matchknockout.match!.summary.filter(
+                (s) => s.id !== summary.id
+            )
+        };
 
         let indexMatch: number;
 
@@ -109,21 +103,15 @@ const MatchKnockoutScreen = () => {
                                     score: null,
                                 },
                                 players: [],
-                                referee: m.referee,
-                                stadium: m.stadium,
                                 statistics: [],
                                 summary: [],
-                                visitant: m.visitant
                             }
                             : m
                         : Math.floor(indexMatch / 2) === mi
                             ? {
                                 ...m,
                                 isEdit: false,
-                                local: m.local,
                                 players: [],
-                                referee: m.referee,
-                                stadium: m.stadium,
                                 statistics: [],
                                 summary: [],
                                 visitant: {
@@ -153,17 +141,11 @@ const MatchKnockoutScreen = () => {
     const handleRemoveStatistic = () => {
 
         const editMatch: IMatch = {
-            isEdit: matchknockout.match!.isEdit,
-            local: matchknockout.match!.local,
-            time: matchknockout.match?.time,
-            referee: matchknockout.match!.referee,
-            stadium: matchknockout.match!.stadium,
-            statistics: matchknockout.match!.statistics.filter((s) => s.id !== statistic.id),
-            players: matchknockout.match!.players,
-            summary: matchknockout.match!.summary,
-            visitant: matchknockout.match!.visitant,
-            date: matchknockout.match!.date
-        }
+            ...matchknockout.match!,
+            statistics: matchknockout.match!.statistics.filter(
+                (s) => s.id !== statistic.id
+            )
+        };
 
         let indexMatch: number;
 
@@ -189,21 +171,15 @@ const MatchKnockoutScreen = () => {
                                     score: null,
                                 },
                                 players: [],
-                                referee: m.referee,
-                                stadium: m.stadium,
                                 statistics: [],
-                                summary: [],
-                                visitant: m.visitant
+                                summary: []
                             }
                             : m
                         : Math.floor(indexMatch / 2) === mi
                             ? {
                                 ...m,
                                 isEdit: false,
-                                local: m.local,
                                 players: [],
-                                referee: m.referee,
-                                stadium: m.stadium,
                                 statistics: [],
                                 summary: [],
                                 visitant: {

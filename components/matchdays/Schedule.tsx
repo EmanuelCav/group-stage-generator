@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react';
-import { DataTable, Text } from 'react-native-paper';
+import { Button, DataTable, Text } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { FlatList, View } from 'react-native';
 
@@ -20,7 +20,7 @@ type RenderMatchday = {
     index: number;
 }
 
-const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditMode, setIsSureRemoveMatchday, handleUpdateTeamMatch, setIndexMatchday, t }: SchedulePropsType) => {
+const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditMode, setIsSureRemoveMatchday, handleUpdateTeamMatch, setIndexMatchday, t, dateMatches, isCalendarMode, setIsCalendarMode }: SchedulePropsType) => {
 
     const { isFullName } = useIsFullName()
 
@@ -30,12 +30,14 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
                 group.matches!,
                 group.matchdayView!,
                 group.matchdayNumber!,
-                router
+                router,
+                isCalendarMode,
+                dateMatches
             )
         } catch {
             return null
         }
-    }, [group.matches, group.matchdayView, group.matchdayNumber, router, isFullName])
+    }, [group.matches, group.matchdayView, group.matchdayNumber, router, isFullName, isCalendarMode, dateMatches])
 
     const renderMatchday = ({ item, index }: RenderMatchday) => (
         <DataTable key={index}>
@@ -90,6 +92,16 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
             })}
         </DataTable>
     );
+
+    if (matchdays !== null && matchdays.length === 0) {
+        return <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+            <Text variant='titleMedium'>{t("no_matches")}</Text>
+            <Text variant='bodySmall'>{t("description_date_matchs")}</Text>
+            <Button mode='text' labelStyle={{ color: colors.primary }} onPress={() => setIsCalendarMode(false)}>
+                {t("see_all_matchs")}
+            </Button>
+        </View>
+    }
 
     return (
         <>

@@ -42,7 +42,6 @@ export const statisticsStyles = StyleSheet.create({
     },
 
     headerTitle: {
-        fontWeight: 'bold',
         textAlign: 'center',
     },
 
@@ -65,7 +64,6 @@ export const statisticsStyles = StyleSheet.create({
 
     rankText: {
         width: 24,
-        fontWeight: 'bold',
         textAlign: 'center',
         fontSize: 12,
     },
@@ -96,18 +94,10 @@ export const statisticsStyles = StyleSheet.create({
         marginLeft: 7
     },
 
-    playerName: {
-        fontWeight: '600',
-    },
-
     valueContainer: {
         paddingLeft: 10,
         alignItems: 'flex-end',
         minWidth: 40,
-    },
-
-    valueText: {
-        fontWeight: 'bold',
     },
 
     expandButton: {

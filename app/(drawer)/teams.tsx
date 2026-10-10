@@ -93,6 +93,7 @@ const TeamsDrawerScreen = () => {
         title={t('teams')}
         goBack={goBack}
         isMatchdaysScreen={false}
+        isCalendar={false}
       />
 
       <SureGeneral />

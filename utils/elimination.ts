@@ -404,3 +404,17 @@ export const detectChangesElimination = (group: IGroup, t: (scope: string, optio
     }
 
 }
+
+export const isMatchKnockoutEdit = (eliminationMatches: IMatch[][]) => {
+
+    for (let i = 0; i < eliminationMatches.length; i++) {
+        for (let j = 0; j < eliminationMatches[i].length; j++) {
+            if ((eliminationMatches[i][j].local.score !== null) &&
+                eliminationMatches[i][j].visitant.score !== null) {
+                return true
+            }
+        }
+    }
+
+    return false
+}

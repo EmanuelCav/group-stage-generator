@@ -370,5 +370,8 @@
     "selectMatchStadiumLabel": "Select a venue for the match",
     "stadiums_title": "Venues",
     "add_stadium": "ADD VENUE",
-    "stadiums_empty": "Add venues to assign them to matches"
+    "stadiums_empty": "Add venues to assign them to matches",
+    "see_all_matchs": "View all matches",
+    "description_date_matchs": "Select another date or view all matches again",
+    "no_matches": "No matches here"
 }

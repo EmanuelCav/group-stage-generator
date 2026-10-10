@@ -5,20 +5,20 @@ const listeners = new Set<(value: boolean) => void>();
 
 export const useIsFullName = () => {
 
-    const [isFullName, setFullNameState] = useState<boolean>(false);
+    const [isFullName, setFullNameState] = useState<boolean>(true);
 
     useEffect(() => {
         const loadIsFullName = async () => {
             try {
                 const value = await AsyncStorage.getItem("isFullName");
                 if (value === null) {
-                    setFullNameState(false);
+                    setFullNameState(true);
                 } else {
                     setFullNameState(value === "yes");
                 }
             } catch (error) {
                 console.error("Error loading isFullName", error);
-                setFullNameState(false);
+                setFullNameState(true);
             }
         };
 

@@ -103,15 +103,12 @@ const TeamsScreen = () => {
 
       for (let i = 0; i < groupsMatches.groupsSorted.length; i++) {
         for (let j = 0; j < groupsMatches.groupsSorted[i].length; j++) {
+          const teamTournament = groupsMatches.groupsSorted[i][j];
+
           updateTeam({
-            id: groupsMatches.groupsSorted[i][j].id,
-            group: groupsMatches.groupsSorted[i][j].group,
-            logo: groupsMatches.groupsSorted[i][j].logo,
-            groupAssigned: groupsMatches.groupsSorted[i][j].groupAssigned,
-            plot: group.teams.find(t => t.id === groupsMatches.groupsSorted[i][j].id)?.plot,
-            name: groupsMatches.groupsSorted[i][j].name,
-            color: groupsMatches.groupsSorted[i][j].color
-          })
+            ...teamTournament,
+            plot: group.teams.find((t) => t.id === teamTournament.id)?.plot
+          });
         }
       }
 

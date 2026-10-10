@@ -370,5 +370,8 @@
     "selectMatchStadiumLabel": "Selecciona una sede para el partido",
     "stadiums_title": "Sedes",
     "add_stadium": "AÑADIR SEDE",
-    "stadiums_empty": "Añade sedes para asignarlas a los partidos"
+    "stadiums_empty": "Añade sedes para asignarlas a los partidos",
+    "see_all_matchs": "Visualizar todos los partidos",
+    "description_date_matchs": "Selecciona otra fecha o vuelve a ver todos los partidos",
+    "no_matches": "No hay partidos aquí"
 }

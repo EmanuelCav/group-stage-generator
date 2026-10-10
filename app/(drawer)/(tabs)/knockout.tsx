@@ -17,7 +17,7 @@ import { ITeam } from "@/interface/Team";
 import { useGroupStore } from "@/store/group.store"
 import { useMatchStore } from "@/store/match.store"
 
-import { columnTitle, detectChangesElimination, getElimationTeams } from "@/utils/elimination"
+import { columnTitle, detectChangesElimination, getElimationTeams, isMatchKnockoutEdit } from "@/utils/elimination"
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
@@ -94,7 +94,7 @@ const KnockoutScreen = () => {
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} title={t("knockout")} goBack={goBack} isEditMode={isEditMode} setIsEditMode={setIsEditMode}
+            <HeaderGeneral colors={colors} title={t("knockout")} goBack={goBack} isEditMode={isEditMode} setIsEditMode={setIsEditMode} isCalendar={false}
                 isMatchdaysScreen={group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated!} />
             <SureGeneral />
             {
@@ -113,7 +113,7 @@ const KnockoutScreen = () => {
                 (group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated) ? (
                     <>
                         {
-                            !group.isDrawed ?
+                            (!group.isDrawed && !isMatchKnockoutEdit(group.eliminationMatches!)) ?
                                 <ShuffleAgain colors={colors} updateShuffledKnockout={updateShuffledKnockout} t={t}
                                     group={group} generateElimination={generateElimination} drawedElimination={drawedElimination} />
                                 : <IconButton
@@ -127,7 +127,7 @@ const KnockoutScreen = () => {
                                 />
                         }
                         {
-                            !group.isDrawed && <Text variant="bodySmall">{t("adviceUpdateMatch")}</Text>
+                            (!group.isDrawed && !isMatchKnockoutEdit(group.eliminationMatches!)) && <Text variant="bodySmall">{t("adviceUpdateMatch")}</Text>
                         }
                         <EliminationStage group={group} colors={colors} handleGetMatch={handleGetMatch} spacing={spacing} isFullName={isFullName}
                             handleUpdateTeamMatch={handleUpdateTeamMatch} isEditMode={isEditMode} t={t} />

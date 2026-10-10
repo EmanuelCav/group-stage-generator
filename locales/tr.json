@@ -370,5 +370,8 @@
   "selectMatchStadiumLabel": "Maç için bir oyun alanı seçin",
   "stadiums_title": "Oyun Alanları",
   "add_stadium": "OYUN ALANI EKLE",
-  "stadiums_empty": "Maçlara atamak için oyun alanları ekleyin"
+  "stadiums_empty": "Maçlara atamak için oyun alanları ekleyin",
+  "see_all_matchs": "Tüm maçları görüntüle",
+  "description_date_matchs": "Başka bir tarih seçin veya tüm maçları tekrar görün",
+  "no_matches": "Burada maç yok"
 }

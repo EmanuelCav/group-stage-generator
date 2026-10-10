@@ -370,5 +370,8 @@
     "selectMatchStadiumLabel": "اختر ملعبًا للمباراة",
     "stadiums_title": "الملاعب",
     "add_stadium": "إضافة ملعب",
-    "stadiums_empty": "أضف ملاعب لتعيينها إلى المباريات"
+    "stadiums_empty": "أضف ملاعب لتعيينها إلى المباريات",
+    "see_all_matchs": "عرض جميع المباريات",
+    "description_date_matchs": "اختر تاريخًا آخر أو عرض جميع المباريات مرة أخرى",
+    "no_matches": "لا توجد مباريات هنا"
 }

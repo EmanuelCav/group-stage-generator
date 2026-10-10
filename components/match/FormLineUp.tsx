@@ -76,17 +76,9 @@ const FormLineUp = ({ colors, hideAndShowPlayers, group, match, matchday, update
             }
 
             const editMatch: IMatch = {
-                isEdit: match.isEdit,
-                local: match.local,
-                referee: match.referee!,
-                stadium: match.stadium!,
-                statistics: match.statistics,
-                players: [...updatePlayers],
-                summary: match.summary,
-                visitant: match.visitant,
-                time: match.time,
-                date: match.date
-            }
+                ...match,
+                players: [...updatePlayers]
+            };
 
             if (isKnockout) {
 

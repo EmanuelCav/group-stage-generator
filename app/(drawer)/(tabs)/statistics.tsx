@@ -35,7 +35,7 @@ const StatisticsScreen = () => {
 
     return (
         <MainScreen colors={colors}>
-            <HeaderGeneral colors={colors} title={t("statistics")} goBack={goBack} isMatchdaysScreen={false} />
+            <HeaderGeneral colors={colors} title={t("statistics")} goBack={goBack} isMatchdaysScreen={false} isCalendar={false} />
             <SureGeneral />
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {

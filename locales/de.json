@@ -370,5 +370,8 @@
     "selectMatchStadiumLabel": "Wähle eine Spielstätte für das Spiel",
     "stadiums_title": "Spielstätten",
     "add_stadium": "SPIELSTÄTTE HINZUFÜGEN",
-    "stadiums_empty": "Füge Spielstätten hinzu, um sie Spielen zuzuweisen"
+    "stadiums_empty": "Füge Spielstätten hinzu, um sie Spielen zuzuweisen",
+    "see_all_matchs": "Alle Spiele anzeigen",
+    "description_date_matchs": "Wählen Sie ein anderes Datum oder zeigen Sie wieder alle Spiele an",
+    "no_matches": "Keine Spiele hier"
 }
