@@ -373,5 +373,6 @@
     "stadiums_empty": "Añade sedes para asignarlas a los partidos",
     "see_all_matchs": "Visualizar todos los partidos",
     "description_date_matchs": "Selecciona otra fecha o vuelve a ver todos los partidos",
-    "no_matches": "No hay partidos aquí"
+    "no_matches": "No hay partidos aquí",
+    "edit": "EDITAR"
 }

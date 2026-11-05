@@ -373,5 +373,6 @@
   "stadiums_empty": "Maçlara atamak için oyun alanları ekleyin",
   "see_all_matchs": "Tüm maçları görüntüle",
   "description_date_matchs": "Başka bir tarih seçin veya tüm maçları tekrar görün",
-  "no_matches": "Burada maç yok"
+  "no_matches": "Burada maç yok",
+  "edit": "DÜZENLEMEK"
 }

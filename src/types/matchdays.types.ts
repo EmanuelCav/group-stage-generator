@@ -1,0 +1,58 @@
+import { MD3Colors } from "react-native-paper/lib/typescript/types";
+import { ImperativeRouter } from "expo-router";
+
+import { IGroup } from "@/interface/Group"
+import { IGetMatch } from "@/interface/Match";
+import { Spacing } from "./props.types";
+import { ITeam } from "@/interface/Team";
+
+export type MatchResultType = "WIN" | "DRAW" | "LOSS";
+
+export type SchedulePropsType = {
+    group: IGroup;
+    colors: MD3Colors;
+    handleGetMatch: (data: IGetMatch) => void;
+    router: ImperativeRouter;
+    spacing: Spacing;
+    isEditMode: boolean;
+    setIsSureRemoveMatchday: (isSureRemoveMatch: boolean) => void;
+    handleUpdateTeamMatch: (indexGroup: number, indexMatchday: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
+    t: (scope: string, options?: object | undefined) => string;
+    setIndexMatchday: (indexMatchday: number) => void;
+    isCalendarMode: boolean;
+    dateMatches: string;
+    setIsCalendarMode: (isCalendarMode: boolean) => void;
+}
+
+export type GroupLabelPropsType = {
+    colors: MD3Colors;
+    group: IGroup;
+    matchdayViewUpdated: (data: string) => void;
+    t: (scope: string, options?: object | undefined) => string;
+}
+
+export type MatchdayLabelPropsType = {
+    colors: MD3Colors;
+    group: IGroup;
+    matchdayNumber: (data: string) => void;
+    t: (scope: string, options?: object | undefined) => string;
+}
+
+export type ManualFixtureCardPropsType = {
+    colors: MD3Colors;
+    setIsSureClearFixture: (isSureClearFixture: boolean) => void;
+    setIsCardClear: (isCardClear: boolean) => void;
+}
+
+export type CalendarPropsType = {
+    dateMatches: string;
+    setDateMatches: (date: string) => void;
+    colors: MD3Colors;
+}
+
+export type CalendarDatePropsType = {
+    date: Date;
+    selected: boolean;
+    onPress: (date: string) => void;
+    colors: MD3Colors;
+}
