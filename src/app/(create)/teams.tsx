@@ -14,6 +14,7 @@ import SettingsFAB from "@/components/general/SettingsFAB";
 import Sure from "@/components/general/Sure";
 import MainScreen from "@/components/general/MainScreen";
 import Banner from "@/components/general/Banner";
+import LimitToast from "@/components/general/LimitToast";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -29,6 +30,7 @@ import { groupGenerator } from "@/utils/generator";
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useLanguage } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 const toastConfig = {
   error: (props: any) => (
@@ -48,6 +50,7 @@ const TeamsScreen = () => {
 
   const { colors } = useTheme()
   const { t } = useLanguage()
+  const isConnection = useConnection()
 
   const router = useRouter()
 
@@ -213,6 +216,8 @@ const TeamsScreen = () => {
           createTeam={createTeam}
           updateTeam={handleUpdate}
           t={t}
+          isConnection={isConnection}
+          router={router}
         />
       )}
 
@@ -236,8 +241,21 @@ const TeamsScreen = () => {
           </Text>
         }
 
+        {
+          (!premium && group.teams.length >= 48) && <LimitToast
+            colors={colors}
+            router={router}
+            title={t("teams_limit_title")}
+            t={t}
+          />
+        }
+
         {group.teams.length > 0 ? (
-          <AddButton colors={colors} handleAdd={openCreateTeam} />
+          <AddButton
+            colors={colors}
+            handleAdd={openCreateTeam}
+            isDisabled={!premium && group.teams.length >= 48}
+          />
         ) : (
           <AddTeam
             openForm={hideAndShowAddTeam}

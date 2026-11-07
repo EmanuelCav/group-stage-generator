@@ -131,6 +131,24 @@ export const createStyles = StyleSheet.create({
         justifyContent: 'space-around',
         width: '100%',
         marginBottom: Dimensions.get("window").height / 106,
+    },
+
+    warningTeams: {
+        backgroundColor: '#FFF9C4',
+        borderColor: '#FBC02D',
+        borderWidth: 1,
+        borderRadius: 12,
+        padding: 16,
+        width: '100%',
+        marginVertical: 12,
+        marginHorizontal: 16,
+    },
+
+    contentWarningTeams: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 12,
+        gap: 12
     }
 
 })

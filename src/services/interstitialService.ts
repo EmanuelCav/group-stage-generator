@@ -7,6 +7,7 @@ class InterstitialService {
 
     private ad: InterstitialAd | null = null
     private loaded: boolean = false
+    private retryTimeout: ReturnType<typeof setTimeout> | null = null
 
     initialize(adUnitId: string) {
         if (this.ad) return
@@ -24,6 +25,11 @@ class InterstitialService {
 
         this.ad.addAdEventListener(AdEventType.ERROR, () => {
             this.loaded = false
+
+            if (this.retryTimeout) clearTimeout(this.retryTimeout)
+            this.retryTimeout = setTimeout(() => {
+                this.ad?.load()
+            }, 30000)
         })
 
         this.ad.load()

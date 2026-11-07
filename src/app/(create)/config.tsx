@@ -29,6 +29,7 @@ import { configSchema } from "@/schema/config.schema";
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
 import { useLanguage } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 const toastConfig = {
   error: (props: any) => (
@@ -48,6 +49,7 @@ const ConfigScreen = () => {
 
   const { colors } = useTheme()
   const { t } = useLanguage()
+  const isConnection = useConnection()
 
   const spacing = useSpacing()
 
@@ -78,6 +80,15 @@ const ConfigScreen = () => {
   const pickImage = async () => {
 
     if (picking) return;
+
+    if (!isConnection) {
+      Toast.show({
+        type: 'error',
+        text1: t("permissions.galleryAccess.title"),
+        text2: t("image_connection")
+      })
+      return
+    }
 
     setPicking(true)
 
@@ -149,7 +160,8 @@ const ConfigScreen = () => {
             group.teamsPerGroup !== data.teamsPerGroup
             ? group.teams.map((t) => ({
               ...t,
-              groupAssigned: undefined
+              groupAssigned: undefined,
+              plot: 1
             }))
             : group.teams,
         pointsWin: data.pointsWin,

@@ -96,7 +96,7 @@ const Schedule = memo(({ group, colors, handleGetMatch, router, spacing, isEditM
     if (matchdays !== null && matchdays.length === 0) {
         return <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center', gap: 5 }}>
             <Text variant='titleMedium'>{t("no_matches")}</Text>
-            <Text variant='bodySmall'>{t("description_date_matchs")}</Text>
+            <Text variant='bodySmall' style={{ textAlign: 'center' }}>{t("description_date_matchs")}</Text>
             <Button mode='text' labelStyle={{ color: colors.primary }} onPress={() => setIsCalendarMode(false)}>
                 {t("see_all_matchs")}
             </Button>

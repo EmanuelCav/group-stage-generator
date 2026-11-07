@@ -196,33 +196,3 @@ export const duplicateGroup = (group: IGroup): IGroup => {
     }
 
 }
-
-export const emptyMatchday = (teams: ITeam[]): IMatch[] => {
-
-    let matchesOfMatchday: IMatch[] = []
-
-    const allTeamsSorted = [...teams].sort((a, b) => {
-        return (a.group! - b.group! || a.plot! - b.plot!)
-    })
-
-    for (let i = 0; i < teams.length - 1; i+=2) {
-        matchesOfMatchday.push({
-            local: {
-                score: null,
-                team: allTeamsSorted[i]
-            },
-            visitant: {
-                score: null,
-                team: allTeamsSorted[i + 1]
-            },
-            referee: "",
-            stadium: "",
-            isEdit: false,
-            statistics: [],
-            summary: [],
-            players: []
-        })
-    }
-
-    return matchesOfMatchday
-}

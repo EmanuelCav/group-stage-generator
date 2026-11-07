@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Image, Platform, TouchableOpacity, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ContainerBackground from "../general/ContainerBackground";
 import CustomDropdown from "../general/CustomDropdown";
+import LimitToast from "../general/LimitToast";
 
 import { FormCreateTeamPropsType } from "@/types/create.types";
 import { ICreate } from "@/interface/Team";
@@ -21,15 +22,14 @@ import { normalizeUri, updateImageLimit, uploadImageToCloudinary } from "@/utils
 
 import { teamSchema } from "@/schema/team.schema";
 
-import { interstitialService } from "@/services/interstitialService";
-
-const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium, t }: FormCreateTeamPropsType) => {
+const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, updateTeam, openSure, premium, t, isConnection, router }: FormCreateTeamPropsType) => {
 
   const [plot, setPlot] = useState<number>(team.plot ?? 1)
   const [groupNumber, setGroupNumber] = useState<number>(team.groupAssigned ?? 0)
   const [image, setImage] = useState<string>(team.logo ?? "")
   const [picking, setPicking] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
+  const [isLimitImages, setLimitImages] = useState<boolean>(false)
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(teamSchema),
@@ -49,6 +49,16 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         text1: t("limit_images"),
         text2: t("limit_images_description")
       });
+      setLimitImages(true)
+      return
+    }
+
+    if (!isConnection) {
+      Toast.show({
+        type: 'error',
+        text1: t("permissions.galleryAccess.title"),
+        text2: t("image_connection")
+      })
       return
     }
 
@@ -159,23 +169,6 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           )
         )
 
-        try {
-
-          const storedCount = await AsyncStorage.getItem("reviewCount");
-          const count = storedCount ? parseInt(storedCount, 10) : 0;
-
-          if (group.teams.length !== 0) {
-            if (group.teams.length === 1 || group.teams.length % 7 === 0) {
-              if (interstitialService.isLoaded() && count > 3 && !premium) {
-                interstitialService.show()
-              }
-            }
-          }
-
-        } catch (error) {
-          console.log(error);
-        }
-
         if (image) {
           await updateImageLimit(1);
         }
@@ -228,6 +221,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
 
   return (
     <ContainerBackground zIndex={20} onClose={() => hideAndShowAddTeam(false)}>
+
       {image ? (
         <Card style={[createStyles.cardAddTeam, { backgroundColor: colors.tertiary }]} onPress={pickImage}>
           <Image source={{ uri: image }} style={createStyles.imageCard} />
@@ -240,6 +234,15 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
           <IconButton icon="shield-outline" iconColor={MD3Colors.neutral50} size={50} />
         </TouchableOpacity>
       )}
+
+      {
+        !premium && isLimitImages && <LimitToast
+          colors={colors}
+          router={router}
+          title={t("images_limit_title")}
+          t={t}
+        />
+      }
 
       {errors.name && (
         <Text variant="labelMedium" style={{ color: MD3Colors.error50 }}>
@@ -264,7 +267,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         )}
       />
 
-      {group.isManualConfiguration && (
+      {(group.isManualConfiguration && !group.isGenerated) && (
         <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
           <Text variant="labelLarge">{t("teamForm.plotOptional")}</Text>
           <CustomDropdown
@@ -278,7 +281,7 @@ const FormCreateTeam = ({ colors, hideAndShowAddTeam, createTeam, group, team, u
         </View>
       )}
 
-      {group.isManualConfiguration && (
+      {(group.isManualConfiguration && !group.isGenerated) && (
         <View style={[createStyles.selectInputContain, { backgroundColor: colors.background, flexDirection: 'column' }]}>
           <Text variant="labelLarge">{t("teamForm.defineGroupOptional")}</Text>
           <CustomDropdown

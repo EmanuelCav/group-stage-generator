@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo } from "react"
 import { SectionList, View } from "react-native"
+import { useRouter } from "expo-router"
 import { Avatar, Divider, List, Text, useTheme } from "react-native-paper"
 
 import AddAction from "@/components/general/AddAction"
 import AddButton from "@/components/general/AddButton"
 import MainScreen from "@/components/general/MainScreen"
 import FormCreatePlayer from "@/components/teams/FormCreatePlayer"
+import LimitToast from "@/components/general/LimitToast"
 
 import { IPlayer } from "@/interface/Player"
 
@@ -15,6 +17,7 @@ import { createStyles } from "@/styles/create.styles"
 
 import { useSpacing } from "@/hooks/useSpacing"
 import { useLanguage } from "@/hooks/useLanguageContext"
+import { useConnection } from "@/hooks/useConnection"
 
 import { usePlayerStore } from "@/store/player.store"
 import { useTeamStore } from "@/store/team.store"
@@ -30,12 +33,13 @@ const PlayersTeamScreen = () => {
 
     const { colors } = useTheme()
     const { t } = useLanguage()
+    const isConnection = useConnection()
 
     const { showForm, player, hideAndShowAddPlayer, getPlayer, sureRemovePlayer } = usePlayerStore()
     const { group, createPlayer, updatePlayer } = useGroupStore()
     const { premium } = useUserStore()
     const { team } = useTeamStore()
-
+    const router = useRouter()
     const spacing = useSpacing()
 
     const openSure = (data: IPlayer) => {
@@ -159,6 +163,7 @@ const PlayersTeamScreen = () => {
                     updatePlayer={updatePlayer}
                     openSure={openSure}
                     t={t}
+                    isConnection={isConnection}
                 />
             )}
 
@@ -172,9 +177,23 @@ const PlayersTeamScreen = () => {
                     },
                 ]}
             >
+
+                {
+                    !premium && totalTeamPlayers >= 15 && <LimitToast
+                        colors={colors}
+                        router={router}
+                        title={t("players_limit_title")}
+                        t={t}
+                    />
+                }
+
                 {totalTeamPlayers > 0 ? (
                     <>
-                        <AddButton colors={colors} handleAdd={openCreatePlayer} />
+                        <AddButton
+                            colors={colors}
+                            handleAdd={openCreatePlayer}
+                            isDisabled={!premium && totalTeamPlayers >= 15}
+                        />
                         <SectionList
                             sections={playerSections}
                             keyExtractor={(item, idx) => item.id ?? String(idx)}

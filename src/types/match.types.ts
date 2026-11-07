@@ -43,6 +43,7 @@ export type FormUpdateMatchPropsType = {
     spacing: Spacing;
     isFullName: boolean;
     t: (scope: string, options?: object | undefined) => string;
+    isConnection: boolean;
 }
 
 export type TeamUpdateScorePropsType = {

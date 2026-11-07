@@ -10,6 +10,7 @@ import AddAction from "@/components/general/AddAction";
 import FormCreateReferee from "@/components/referees/FormCreateReferee";
 import Referee from "@/components/referees/Referee";
 import AddButton from "@/components/general/AddButton";
+import LimitToast from "@/components/general/LimitToast";
 import Sure from "@/components/general/Sure";
 import SureGeneral from "@/components/general/SureGeneral";
 
@@ -24,6 +25,7 @@ import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useLanguage } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 const toastConfig = {
     error: (props: any) => (
@@ -43,6 +45,7 @@ const RefereesScreen = () => {
 
     const { colors } = useTheme()
     const { t } = useLanguage()
+    const isConnection = useConnection()
 
     const router = useRouter()
 
@@ -127,6 +130,7 @@ const RefereesScreen = () => {
                         updateReferee={handleUpdate}
                         premium={premium}
                         spacing={spacing}
+                        isConnection={isConnection}
                         t={t}
                     />
                 )
@@ -140,8 +144,20 @@ const RefereesScreen = () => {
 
             <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
                 {
+                    !premium && group.referees!.length >= 15 && <LimitToast
+                        colors={colors}
+                        router={router}
+                        t={t}
+                        title={t("referees_limit_title")}
+                    />
+                }
+                {
                     group.referees!.length > 0 ? (
-                        <AddButton colors={colors} handleAdd={openCreateReferee} />
+                        <AddButton
+                            colors={colors}
+                            handleAdd={openCreateReferee}
+                            isDisabled={!premium && group.referees!.length >= 15}
+                        />
                     ) : (
                         <AddAction
                             openForm={hideAndShowAddReferee}

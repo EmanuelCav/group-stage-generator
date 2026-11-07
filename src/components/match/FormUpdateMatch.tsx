@@ -21,7 +21,7 @@ import { getGroupUpdateTeamMatch } from '@/utils/matchday';
 
 import { interstitialService } from '@/services/interstitialService';
 
-const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, spacing, isFullName, t }: FormUpdateMatchPropsType) => {
+const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateMatch, updateMatchGroup, matchday, premium, spacing, isFullName, t, isConnection }: FormUpdateMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -104,8 +104,8 @@ const FormUpdateMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateM
                 const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
 
                 if (countMatch !== 0) {
-                    if (countMatch === 1 || countMatch % 7 === 0) {
-                        if (count > 3 && interstitialService.isLoaded() && !premium) {
+                    if (countMatch % 3 === 0) {
+                        if (count > 3 && interstitialService.isLoaded() && !premium && isConnection) {
                             interstitialService.show()
                         }
                     }

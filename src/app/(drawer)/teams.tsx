@@ -20,6 +20,7 @@ import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useLanguage } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 const toastConfig = {
   error: (props: any) => (
@@ -39,6 +40,7 @@ const TeamsDrawerScreen = () => {
 
   const { colors } = useTheme()
   const { t } = useLanguage()
+  const isConnection = useConnection()
 
   const router = useRouter()
 
@@ -99,7 +101,7 @@ const TeamsDrawerScreen = () => {
       <SureGeneral />
 
       {
-        !premium && <Banner />
+        !premium && isConnection && <Banner />
       }
 
       <Toast config={toastConfig} />

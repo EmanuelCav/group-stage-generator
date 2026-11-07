@@ -374,5 +374,15 @@
   "see_all_matchs": "Tüm maçları görüntüle",
   "description_date_matchs": "Başka bir tarih seçin veya tüm maçları tekrar görün",
   "no_matches": "Burada maç yok",
-  "edit": "DÜZENLEMEK"
+  "edit": "DÜZENLEMEK",
+  "offlineTitle": "Çevrimdışı",
+  "noConnectionOfferings": "Premium planlara abone olmak için internete bağlanın",
+  "noConnectionWarning": "İnternet bağlantısı yok. Bağlantı yeniden sağlanana kadar değişiklikler kaydedilmeyecek",
+  "image_connection": "Görsel yüklemek için internet bağlantısı gereklidir",
+  "teams_limit_title": "48 takım olan maksimum sınıra ulaştınız. Sınırsız takım eklemek için Premium'a geçin",
+  "images_limit_title": "8 görsel olan maksimum sınıra ulaştınız. Sınırsız görsel eklemek için Premium'a geçin",
+  "teams_limit_button": "Premium Planları Görüntüle",
+  "players_limit_title": "15 oyuncu olan maksimum sınıra ulaştınız. Sınırsız oyuncu eklemek için Premium'a geçin",
+  "referees_limit_title": "15 hakem olan maksimum sınıra ulaştınız. Sınırsız hakem eklemek için Premium'a geçin",
+  "venues_limit_title": "15 saha olan maksimum sınıra ulaştınız. Sınırsız saha eklemek için Premium'a geçin"
 }

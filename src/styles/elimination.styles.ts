@@ -8,8 +8,8 @@ export const eliminationStyles = StyleSheet.create({
     },
 
     column: {
-        marginRight: Dimensions.get("window").width / 9,
-        alignItems: 'center'
+        marginRight: Dimensions.get("window").width / 13,
+        alignItems: 'center',
     },
 
     roundTitle: {
@@ -20,11 +20,10 @@ export const eliminationStyles = StyleSheet.create({
     match: {
         width: Dimensions.get("window").width / 1.44,
         padding: Dimensions.get("window").height / 61,
-        marginVertical: Dimensions.get("window").height / 29,
+        height: 120,
         borderWidth: 2,
         borderRadius: 8,
         justifyContent: 'center',
-        backgroundColor: "#ffffff",
         gap: 10,
     },
 

@@ -5,13 +5,14 @@ import { AddButtonPropsType } from "@/types/create.types";
 
 import { generalStyles } from "@/styles/general.styles";
 
-const AddButton = ({ handleAdd, colors }: AddButtonPropsType) => {
+const AddButton = ({ handleAdd, colors, isDisabled }: AddButtonPropsType) => {
   return (
     <View style={generalStyles.addButtonContain}>
       <FAB
         icon="plus"
         size="medium"
         color="#ffffff"
+        disabled={isDisabled}
         onPress={handleAdd}
         style={{
           backgroundColor: colors.primary,

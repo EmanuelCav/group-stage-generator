@@ -18,7 +18,10 @@ const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMo
                 isCalendar && <Appbar.Action
                     icon={isCalendarMode ? "calendar-multiple" : "calendar-month"}
                     color="#ffffff"
-                    onPress={() => setIsCalendarMode!(!isCalendarMode)}
+                    onPress={() => {
+                        setIsEditMode!(false)
+                        setIsCalendarMode!(!isCalendarMode)
+                    }}
                 />
             }
 
@@ -26,7 +29,12 @@ const HeaderGeneral = memo(({ colors, title, goBack, isMatchdaysScreen, isEditMo
                 isMatchdaysScreen && <Appbar.Action
                     icon={isEditMode ? "eye" : "square-edit-outline"}
                     color="#ffffff"
-                    onPress={() => setIsEditMode!(!isEditMode)}
+                    onPress={() => {
+                        setIsEditMode!(!isEditMode)
+                        if (isCalendar) {
+                            setIsCalendarMode!(false)
+                        }
+                    }}
                 />
             }
 

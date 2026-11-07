@@ -88,7 +88,7 @@ const CustomPicker = ({ items, value, onChange, colors, title }: CustomPickerPro
                             <Icon
                                 source="arrow-left"
                                 size={26}
-                                color={colors.surface}
+                                color={"#ffffff"}
                             />
                         </Pressable>
 
@@ -97,8 +97,8 @@ const CustomPicker = ({ items, value, onChange, colors, title }: CustomPickerPro
                             style={[
                                 generalStyles.titlePickElement,
                                 {
-                                    color: colors.surface,
-                                },
+                                    color: "#ffffff",
+                                }
                             ]}
                         >
                             {title}

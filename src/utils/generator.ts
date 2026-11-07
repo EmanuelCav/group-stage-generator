@@ -509,6 +509,36 @@ export const shuffle = (array: any[]): any[] => {
     return array
 }
 
+export const generateMatchday = (teams: ITeam[], matchesGroup: IMatch[][]): IMatch[][][] => {
+
+    const teamsPlots = [...teams].sort((a, b) => {
+        return (a.group! - b.group! || a.plot! - b.plot!)
+    });
+
+    const groupedTeams: ITeam[][] = []
+    let groupsMatches: IMatch[][][] = []
+
+    for (const team of teamsPlots) {
+        const groupIndex = team.group ?? 1
+
+        if (!groupedTeams[groupIndex]) {
+            groupedTeams[groupIndex] = []
+        }
+
+        groupedTeams[groupIndex].push(team)
+    }
+
+    const groupsSorted = groupedTeams.filter(Boolean)
+
+    for (let i = 0; i < groupsSorted.length; i++) {
+        const fixtureGenerated = fixtureGenerate(groupsSorted[i], true)
+        const matches = fixtureGenerated.slice(matchesGroup.length % fixtureGenerated.length, (matchesGroup.length % fixtureGenerated.length) + 1)
+        groupsMatches.push(matches)
+    }
+
+    return groupsMatches
+}
+
 const isEmptyObject = (obj: ITeam) => {
 
     if (typeof obj === 'object' && obj !== null) {

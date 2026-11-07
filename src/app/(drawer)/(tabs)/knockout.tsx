@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react"
-import { Redirect, useRouter } from "expo-router"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { Redirect, useFocusEffect, useRouter } from "expo-router"
 import { IconButton, Text, useTheme } from "react-native-paper"
 import Toast from 'react-native-toast-message';
 
@@ -37,13 +37,31 @@ const KnockoutScreen = () => {
     const spacing = useSpacing()
     const { isFullName } = useIsFullName()
 
+    const isNavigating = useRef(false);
+
     const [isEditMode, setIsEditMode] = useState<boolean>(false)
 
     const handleUpdateTeamMatch = (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => {
         updateTeamMatchElimination(indexRound, indexMatch, isLocal, team)
     }
 
+    useFocusEffect(
+        useCallback(() => {
+
+            isNavigating.current = false;
+
+            return () => {
+                isNavigating.current = true;
+            };
+
+        }, [])
+    );
+
     const handleGetMatch = useCallback((data: IGetMatchKnockout) => {
+
+        if (isNavigating.current) return;
+
+        isNavigating.current = true;
 
         const roundIndex = Number(data.round) - 1
 
@@ -61,6 +79,7 @@ const KnockoutScreen = () => {
                 )}`,
                 text2: t("updateknockoutMessage")
             })
+            isNavigating.current = false;
             return
         }
 
@@ -113,7 +132,7 @@ const KnockoutScreen = () => {
                 (group.eliminationMatches?.length! > 0 && group.isKnockoutGenerated) ? (
                     <>
                         {
-                            (!group.isDrawed && !isMatchKnockoutEdit(group.eliminationMatches!)) ?
+                            (!group.isDrawed && !isMatchKnockoutEdit(group.eliminationMatches!) && group.matches?.length! > 1) ?
                                 <ShuffleAgain colors={colors} updateShuffledKnockout={updateShuffledKnockout} t={t}
                                     group={group} generateElimination={generateElimination} drawedElimination={drawedElimination} />
                                 : <IconButton

@@ -21,7 +21,7 @@ import { groupName, nameParticipant } from '@/utils/points';
 
 import { interstitialService } from '@/services/interstitialService';
 
-const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, premium, spacing, isFullName, t }: FormEliminationMatchPropsType) => {
+const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, updateEliminationMatch, updateMatchKnockGroup, round, premium, spacing, isFullName, t, isConnection }: FormEliminationMatchPropsType) => {
 
     const [scoreLocal, setScoreLocal] = useState<string>(match.local.score !== null ? String(match.local.score) : "")
     const [scoreVisitant, setScoreVisitant] = useState<string>(match.visitant.score !== null ? String(match.visitant.score) : "")
@@ -157,8 +157,8 @@ const FormEliminationMatch = ({ colors, hideAndShowUpdateMatch, match, group, up
             const countMatch = storedCountMatch ? parseInt(storedCountMatch, 10) : 0;
 
             if (countMatch !== 0) {
-                if (countMatch === 1 || countMatch % 7 === 0) {
-                    if (count > 3 && interstitialService.isLoaded() && !premium) {
+                if (countMatch % 3 === 0) {
+                    if (count > 3 && interstitialService.isLoaded() && !premium && isConnection) {
                         interstitialService.show()
                     }
                 }

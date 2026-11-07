@@ -10,7 +10,7 @@ import { eliminationStyles } from "@/styles/elimination.styles";
 
 import { groupName, nameParticipant } from "@/utils/points";
 
-const MatchElimination = memo(({ match, colors, handleGetMatch, indexElimination, group, spacing, isFullName, handleUpdateTeamMatch, isEditMode, index }: MatchEliminationPropsType) => {
+const MatchElimination = memo(({ match, colors, handleGetMatch, indexElimination, group, spacing, isFullName, handleUpdateTeamMatch, isEditMode, index, t }: MatchEliminationPropsType) => {
 
     const hasPendingMatch = group.eliminationMatches?.[indexElimination - 1]?.some(
         match => match.local.score === null || match.visitant.score === null
@@ -37,7 +37,7 @@ const MatchElimination = memo(({ match, colors, handleGetMatch, indexElimination
                         <CustomPicker
                             value={match.local.team.name!}
                             colors={colors}
-                            title="Select team"
+                            title={t("select_team")}
                             items={teams}
                             onChange={(teamValue) => {
                                 handleUpdateTeamMatch(
@@ -92,7 +92,7 @@ const MatchElimination = memo(({ match, colors, handleGetMatch, indexElimination
                         <CustomPicker
                             value={match.visitant.team.name!}
                             colors={colors}
-                            title="Select team"
+                            title={t("select_team")}
                             items={teams}
                             onChange={(teamValue) => {
                                 handleUpdateTeamMatch(

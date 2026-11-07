@@ -374,5 +374,15 @@
     "see_all_matchs": "Alle Spiele anzeigen",
     "description_date_matchs": "Wählen Sie ein anderes Datum oder zeigen Sie wieder alle Spiele an",
     "no_matches": "Keine Spiele hier",
-    "edit": "BEARBEITEN"
+    "edit": "BEARBEITEN",
+    "offlineTitle": "Keine Verbindung",
+    "noConnectionOfferings": "Stelle eine Internetverbindung her, um Premium-Abos abzuschließen",
+    "noConnectionWarning": "Keine Internetverbindung. Änderungen werden erst gespeichert, wenn die Verbindung wiederhergestellt ist",
+    "image_connection": "Zum Hochladen von Bildern ist eine Internetverbindung erforderlich",
+    "teams_limit_title": "Du hast das Maximum von 48 Teams erreicht. Wechsle zu Premium, um unbegrenzt viele Teams hinzuzufügen",
+    "images_limit_title": "Du hast das Maximum von 8 Bildern erreicht. Wechsle zu Premium, um unbegrenzt viele Bilder hinzuzufügen",
+    "teams_limit_button": "Premium-Abos ansehen",
+    "players_limit_title": "Du hast das Maximum von 15 Spielern erreicht. Wechsle zu Premium, um unbegrenzt viele Spieler hinzuzufügen",
+    "referees_limit_title": "Du hast das Maximum von 15 Schiedsrichtern erreicht. Wechsle zu Premium, um unbegrenzt viele Schiedsrichter hinzuzufügen",
+    "venues_limit_title": "Du hast das Maximum von 15 Spielstätten erreicht. Wechsle zu Premium, um unbegrenzt viele Spielstätten hinzuzufügen"
 }

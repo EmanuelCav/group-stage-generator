@@ -27,6 +27,7 @@ export type ColumnEliminationPropsType = {
     isFullName: boolean;
     isEditMode: boolean;
     handleUpdateTeamMatch: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type MatchEliminationPropsType = {
@@ -40,6 +41,7 @@ export type MatchEliminationPropsType = {
     isEditMode: boolean;
     handleUpdateTeamMatch: (indexRound: number, indexMatch: number, isLocal: boolean, team: ITeam) => void;
     index: number;
+    t: (scope: string, options?: object | undefined) => string;
 }
 
 export type ShuffleAgainPropsType = {
@@ -63,6 +65,7 @@ export type FormEliminationMatchPropsType = {
     isFullName: boolean;
     spacing: Spacing;
     t: (scope: string, options?: object | undefined) => string;
+    isConnection: boolean;
 }
 
 export type CreateEliminationPropsType = {

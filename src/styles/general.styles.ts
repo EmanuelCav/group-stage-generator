@@ -11,7 +11,7 @@ export const generalStyles = StyleSheet.create({
     },
 
     containerBanner: {
-        height: '8%',
+        height: '6%',
         width: '100%',
         justifyContent: 'flex-start',
         alignItems: 'center'
@@ -118,7 +118,7 @@ export const generalStyles = StyleSheet.create({
 
     picker: {
         width: '100%',
-        minHeight: 48,
+        minHeight: 30,
         paddingHorizontal: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -169,6 +169,21 @@ export const generalStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+
+    warningConnection: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#FFF9C4',
+        borderColor: '#FBC02D',
+        borderWidth: 1,
+        borderRadius: 8,
+        width: '100%',
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        marginHorizontal: 16,
+        marginTop: 10,
+        gap: 10,
     }
 
 })

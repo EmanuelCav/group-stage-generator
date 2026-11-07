@@ -43,6 +43,7 @@ export const statisticsStyles = StyleSheet.create({
 
     headerTitle: {
         textAlign: 'center',
+        color: "#ffffff"
     },
 
     editButton: {

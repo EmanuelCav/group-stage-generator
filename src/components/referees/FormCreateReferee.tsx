@@ -19,7 +19,7 @@ import { generateId } from "@/utils/defaultGroup";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, premium, spacing, t }: FormCreateRefereePropsType) => {
+const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee, referee, updateReferee, openSure, premium, spacing, t, isConnection }: FormCreateRefereePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -74,10 +74,12 @@ const FormCreateReferee = ({ colors, group, hideAndShowAddReferee, createReferee
                     const storedCount = await AsyncStorage.getItem("reviewCount");
                     const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                    if (group.referees?.length !== 0) {
-                        if (group.referees?.length === 1 || group.referees!.length % 7 === 0) {
-                            if (interstitialService.isLoaded() && count > 3 && !premium) {
-                                interstitialService.show()
+                    if (!referee.id) {
+                        if (group.referees?.length !== 0) {
+                            if (group.referees?.length === 1 || group.referees!.length % 3 === 0) {
+                                if (interstitialService.isLoaded() && count > 3 && !premium && isConnection) {
+                                    interstitialService.show()
+                                }
                             }
                         }
                     }

@@ -12,7 +12,7 @@ export default function MatchLayout() {
         <Stack
             screenOptions={{
                 headerShown: false,
-                animation: "slide_from_right",
+                animation: "none",
             }}
         />
     );

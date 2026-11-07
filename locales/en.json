@@ -374,5 +374,15 @@
     "see_all_matchs": "View all matches",
     "description_date_matchs": "Select another date or view all matches again",
     "no_matches": "No matches here",
-    "edit": "EDIT"
+    "edit": "EDIT",
+    "offlineTitle": "Offline",
+    "noConnectionOfferings": "Connect to the internet to subscribe to Premium plans",
+    "noConnectionWarning": "No internet connection. Changes won't be saved until your connection is restored",
+    "image_connection": "You need an internet connection to upload images",
+    "teams_limit_title": "You've reached the maximum limit of 48 teams. Upgrade to Premium to add unlimited teams",
+    "images_limit_title": "You've reached the maximum limit of 8 images. Upgrade to Premium to add unlimited images",
+    "teams_limit_button": "View Premium Plans",
+    "players_limit_title": "You've reached the maximum limit of 15 players. Upgrade to Premium to add unlimited players",
+    "referees_limit_title": "You've reached the maximum limit of 15 referees. Upgrade to Premium to add unlimited referees",
+    "venues_limit_title": "You've reached the maximum limit of 15 venues. Upgrade to Premium to add unlimited venues"
 }

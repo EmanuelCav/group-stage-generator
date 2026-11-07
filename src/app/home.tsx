@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { ActivityIndicator, Text, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Text, useTheme, Icon } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { AdsConsent, AdsConsentStatus } from 'react-native-google-mobile-ads';
 
 import Tournaments from '@/components/index/Tournaments';
 import AddGroupStage from '@/components/index/AddGroupStage';
@@ -22,6 +23,7 @@ import { groupValue } from '@/utils/defaultGroup';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/hooks/useLanguageContext';
+import { useConnection } from '@/hooks/useConnection';
 
 import { saveGroupsToSupabase } from '@/lib/save';
 
@@ -32,6 +34,7 @@ const Home = () => {
   const { colors } = useTheme()
   const { t } = useLanguage()
   const { user } = useAuth()
+  const isConnection = useConnection()
 
   const { groups, idGroup, createGroup, getGroup } = useGroupStore()
   const { premium } = useUserStore()
@@ -70,7 +73,7 @@ const Home = () => {
     try {
 
       if (count > 3) {
-        if (interstitialService.isLoaded() && !premium && count % 3 === 0) {
+        if (interstitialService.isLoaded() && !premium && isConnection) {
           interstitialService.show()
         }
       }
@@ -96,11 +99,30 @@ const Home = () => {
 
   useEffect(() => {
     if (groups) {
-      if (isMounted && groups.length > 0 && user) {
+      if (isMounted && groups.length > 0 && user && isConnection) {
         saveGroupsToSupabase(groups, user.id);
       }
     }
   }, [isMounted, groups]);
+
+  useEffect(() => {
+
+    const consentAd = async () => {
+      try {
+        const consentInfo = await AdsConsent.requestInfoUpdate();
+
+        if (consentInfo.isConsentFormAvailable && consentInfo.status === AdsConsentStatus.REQUIRED) {
+          await AdsConsent.showForm();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (isConnection) {
+      consentAd();
+    }
+  }, [isConnection]);
 
   if (!isMounted) return <ActivityIndicator style={{ flex: 1, backgroundColor: colors.background }} size="large" />
 
@@ -108,7 +130,17 @@ const Home = () => {
     <MainScreen colors={colors}>
       <HeaderTournaments router={router} t={t} />
       {
-        !premium && <Banner />
+        !isConnection && (
+          <View style={generalStyles.warningConnection}>
+            <Icon source="wifi-off" size={24} color="#F57F17" />
+            <Text style={{ flex: 1, color: '#5D4037' }} variant="bodyMedium">
+              {t("noConnectionWarning")}
+            </Text>
+          </View>
+        )
+      }
+      {
+        !premium && isConnection && <Banner />
       }
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {

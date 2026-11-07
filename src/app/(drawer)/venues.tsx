@@ -12,6 +12,7 @@ import Venue from "@/components/venues/Venue";
 import AddButton from "@/components/general/AddButton";
 import Sure from "@/components/general/Sure";
 import SureGeneral from "@/components/general/SureGeneral";
+import LimitToast from "@/components/general/LimitToast";
 
 import { generalStyles } from "@/styles/general.styles";
 import { createStyles } from "@/styles/create.styles";
@@ -24,6 +25,7 @@ import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useLanguage } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 const toastConfig = {
   error: (props: any) => (
@@ -43,6 +45,7 @@ const VenuesScreen = () => {
 
   const { colors } = useTheme()
   const { t } = useLanguage()
+  const isConnection = useConnection()
 
   const router = useRouter()
 
@@ -127,6 +130,7 @@ const VenuesScreen = () => {
             createVenue={createStadium}
             updateVenue={handleUpdate}
             spacing={spacing}
+            isConnection={isConnection}
             t={t}
           />
         )
@@ -146,8 +150,20 @@ const VenuesScreen = () => {
 
       <View style={[generalStyles.containerGeneral, { backgroundColor: colors.background }]}>
         {
+          !premium && group.stadiums!.length >= 15 && <LimitToast
+            colors={colors}
+            router={router}
+            t={t}
+            title={t("venues_limit_title")}
+          />
+        }
+        {
           group.stadiums!.length > 0 ? (
-            <AddButton colors={colors} handleAdd={openCreateVenue} />
+            <AddButton
+              colors={colors}
+              handleAdd={openCreateVenue}
+              isDisabled={!premium && group.stadiums!.length >= 15}
+            />
           ) : (
             <AddAction
               openForm={hideAndShowAddVenue}

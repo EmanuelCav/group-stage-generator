@@ -3,33 +3,39 @@ import { File, Paths } from "expo-file-system";
 
 export const uploadImageToCloudinary = async (uri: string): Promise<string> => {
 
-    const data = new FormData()
+    const data = new FormData();
 
-    data.append("file", {
-        uri,
-        name: `photo_${Date.now()}.jpg`,
-        type: "image/jpeg"
-    } as any)
+    const file = new File(uri)
 
-    data.append("upload_preset", `${process.env.EXPO_PUBLIC_UPLOAD_PRESET}`)
-    data.append("cloud_name", `${process.env.EXPO_PUBLIC_CLOUD_NAME}`)
+    data.append("file", file)
+
+    data.append("upload_preset", process.env.EXPO_PUBLIC_UPLOAD_PRESET || "")
 
     try {
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.EXPO_PUBLIC_CLOUD_NAME}/image/upload`, {
-            method: "POST",
-            body: data,
-        })
+        
+        const res = await fetch(
+            `https://api.cloudinary.com/v1_1/${process.env.EXPO_PUBLIC_CLOUD_NAME}/image/upload`,
+            {
+                method: "POST",
+                body: data,
+            }
+        );
 
-        const result = await res.json()
+        const result = await res.json();
 
-        if (!res.ok) throw new Error(result.error?.message || "Upload failed");
+        if (!res.ok) {
+            throw new Error(
+                result.error?.message || "Upload failed"
+            );
+        }
 
-        return result.secure_url
+        return result.secure_url;
 
     } catch (error) {
-        console.error("Cloudinary upload error:", error)
-        throw error
+        console.error("Cloudinary upload error:", error);
+        throw error;
     }
+
 }
 
 export const normalizeUri = async (uri: string): Promise<string> => {

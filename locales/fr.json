@@ -374,5 +374,15 @@
     "see_all_matchs": "Voir tous les matchs",
     "description_date_matchs": "Sélectionnez une autre date ou réaffichez tous les matchs",
     "no_matches": "Aucun match ici",
-    "edit": "MODIFIER"
+    "edit": "MODIFIER",
+    "offlineTitle": "Hors ligne",
+    "noConnectionOfferings": "Connectez-vous à Internet pour souscrire aux offres Premium",
+    "noConnectionWarning": "Aucune connexion Internet. Les modifications ne seront pas enregistrées tant que la connexion ne sera pas rétablie",
+    "image_connection": "Une connexion Internet est nécessaire pour envoyer des images",
+    "teams_limit_title": "Vous avez atteint la limite maximale de 48 équipes. Passez à Premium pour ajouter un nombre illimité d'équipes",
+    "images_limit_title": "Vous avez atteint la limite maximale de 8 images. Passez à Premium pour ajouter un nombre illimité d'images",
+    "teams_limit_button": "Voir les offres Premium",
+    "players_limit_title": "Vous avez atteint la limite maximale de 15 joueurs. Passez à Premium pour ajouter un nombre illimité de joueurs",
+    "referees_limit_title": "Vous avez atteint la limite maximale de 15 arbitres. Passez à Premium pour ajouter un nombre illimité d'arbitres",
+    "venues_limit_title": "Vous avez atteint la limite maximale de 15 sites. Passez à Premium pour ajouter un nombre illimité de sites"
 }

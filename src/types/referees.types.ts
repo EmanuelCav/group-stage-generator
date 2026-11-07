@@ -15,6 +15,7 @@ export type FormCreateRefereePropsType = {
     group: IGroup;
     spacing: Spacing;
     t: (scope: string, options?: object | undefined) => string;
+    isConnection: boolean;
 }
 
 export type RefereePropsType = {

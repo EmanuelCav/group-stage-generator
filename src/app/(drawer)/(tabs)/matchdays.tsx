@@ -1,8 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { View } from 'react-native';
-import { useRouter, useFocusEffect, Redirect } from 'expo-router'
+import { useRouter, Redirect, useFocusEffect } from 'expo-router'
 import { Button, Text, useTheme } from 'react-native-paper'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast, { ErrorToast } from 'react-native-toast-message';
 
 import MainScreen from '@/components/general/MainScreen'
@@ -20,14 +19,11 @@ import { ITeam } from '@/interface/Team';
 
 import { useGroupStore } from '@/store/group.store'
 import { useMatchStore } from '@/store/match.store'
-import { useUserStore } from '@/store/user.store';
 
 import { evaluateGenerateAgain, idMatch } from '@/utils/matchday'
 
 import { useSpacing } from '@/hooks/useSpacing';
 import { useLanguage } from '@/hooks/useLanguageContext';
-
-import { interstitialService } from '@/services/interstitialService';
 
 const toastConfig = {
     error: (props: any) => (
@@ -42,8 +38,9 @@ const toastConfig = {
 const MatchdaysScreen = () => {
 
     const { group, matchdayViewUpdated, matchdayNumber, removeMatches, removeMatchday, addMatchday, updateTeamMatch } = useGroupStore()
-    const { premium } = useUserStore()
     const { getMatch } = useMatchStore()
+
+    const isNavigating = useRef(false);
 
     const { colors } = useTheme()
     const { t } = useLanguage()
@@ -91,43 +88,37 @@ const MatchdaysScreen = () => {
         updateTeamMatch(indexGroup, indexMatchday, indexMatch, isLocal, team)
     }
 
+    useFocusEffect(
+        useCallback(() => {
+
+            isNavigating.current = false;
+
+            return () => {
+                isNavigating.current = true;
+            };
+
+        }, [])
+    );
+
     const handleGetMatch = useCallback((data: IGetMatch) => {
+
+        if (isNavigating.current) return;
+
+        isNavigating.current = true;
+
         getMatch(data)
-        router.navigate(`/(match)/matchday/${idMatch(`${data.match?.visitant.team.name}-${data.match?.local.team.name}`)}`)
+
+        router.navigate(
+            `/(match)/matchday/${idMatch(
+                `${data.match?.visitant.team.name}-${data.match?.local.team.name}`
+            )}`
+        )
+
     }, [getMatch, router])
 
     const goBack = useCallback(() => {
         router.replace("/home")
     }, [router])
-
-    useFocusEffect(
-        useCallback(() => {
-            const handleCount = async () => {
-
-                try {
-
-                    const storedCount = await AsyncStorage.getItem("reviewCount");
-                    const count = storedCount ? parseInt(storedCount, 10) : 0;
-
-                    const storedCountMatchdaysScreen = await AsyncStorage.getItem("matchdaysScreenViews");
-                    const countMatchdaysScreen = storedCountMatchdaysScreen ? parseInt(storedCountMatchdaysScreen, 10) : 0;
-
-                    if (countMatchdaysScreen !== 0 && countMatchdaysScreen % 7 === 0) {
-                        if (count > 3 && interstitialService.isLoaded() && !premium) {
-                            interstitialService.show()
-                        }
-                    }
-
-                    await AsyncStorage.setItem("matchdaysScreenViews", (countMatchdaysScreen + 1).toString());
-
-                } catch (error) {
-                    console.error("Error checking review count:", error);
-                }
-            };
-
-            handleCount();
-        }, [])
-    );
 
     if (!group.isGenerated) return <Redirect href="/home" />
 

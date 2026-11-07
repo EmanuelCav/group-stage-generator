@@ -29,6 +29,8 @@ export type FormCreateTeamPropsType = {
     team: ITeam;
     premium: boolean;
     t: (scope: string, options?: object | undefined) => string;
+    isConnection: boolean;
+    router: ImperativeRouter;
 }
 
 export type HeaderCreatePropsType = {
@@ -40,6 +42,7 @@ export type HeaderCreatePropsType = {
 export type AddButtonPropsType = {
     colors: MD3Colors;
     handleAdd: () => void;
+    isDisabled: boolean;
 }
 
 export type TeamAddedPropsType = {
@@ -49,4 +52,11 @@ export type TeamAddedPropsType = {
     colors: MD3Colors;
     spacing: Spacing;
     t: (scope: string, options?: object | undefined) => string;
+}
+
+export type LimitTeamsPropsType = {
+    colors: MD3Colors;
+    router: ImperativeRouter;
+    t: (scope: string, options?: object | undefined) => string;
+    title: string;
 }

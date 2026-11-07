@@ -11,7 +11,7 @@ const Banner = () => {
             <BannerAd
                 key={adUnitId}
                 unitId={adUnitId}
-                size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+                size={BannerAdSize.BANNER}
             />
         </View>
     )

@@ -19,7 +19,7 @@ import { generateId } from "@/utils/defaultGroup";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venue, updateVenue, openSure, premium, spacing, t }: FormCreateVenuePropsType) => {
+const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venue, updateVenue, openSure, premium, spacing, t, isConnection }: FormCreateVenuePropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -74,10 +74,12 @@ const FormCreateVenue = ({ colors, group, hideAndShowAddVenue, createVenue, venu
                     const storedCount = await AsyncStorage.getItem("reviewCount");
                     const count = storedCount ? parseInt(storedCount, 10) : 0;
 
-                    if (group.stadiums?.length !== 0) {
-                        if (group.stadiums?.length === 1 || group.stadiums!.length % 8 === 0) {
-                            if (interstitialService.isLoaded() && count > 3 && !premium) {
-                                interstitialService.show()
+                    if (!venue.id) {
+                        if (group.stadiums?.length !== 0) {
+                            if (group.stadiums?.length === 1 || group.stadiums!.length % 3 === 0) {
+                                if (interstitialService.isLoaded() && count > 3 && !premium && isConnection) {
+                                    interstitialService.show()
+                                }
                             }
                         }
                     }

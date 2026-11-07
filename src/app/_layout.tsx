@@ -20,6 +20,7 @@ import { darkTheme, lightTheme } from '@/utils/theme';
 
 import { ThemeContext } from '@/hooks/useThemeContext';
 import { LanguageProvider } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 import { interstitialService } from '@/services/interstitialService';
 
@@ -32,10 +33,10 @@ const adUnitId = __DEV__
 function RootLayout() {
 
   const [loaded] = useFonts({
-    Raleway_Regular: require('../assets/fonts/Raleway-Regular.ttf'),
-    Raleway_Medium: require('../assets/fonts/Raleway-Medium.ttf'),
-    Raleway_SemiBold: require('../assets/fonts/Raleway-SemiBold.ttf'),
-    Raleway_Bold: require('../assets/fonts/Raleway-Bold.ttf'),
+    Raleway_Regular: require('@/assets/fonts/Raleway-Regular.ttf'),
+    Raleway_Medium: require('@/assets/fonts/Raleway-Medium.ttf'),
+    Raleway_SemiBold: require('@/assets/fonts/Raleway-SemiBold.ttf'),
+    Raleway_Bold: require('@/assets/fonts/Raleway-Bold.ttf'),
     ...FontAwesome.font,
   });
 
@@ -56,6 +57,7 @@ function RootLayoutNav() {
 
   const systemScheme = useColorScheme();
   const { setPremium, premium } = useUserStore();
+  const isConnection = useConnection()
 
   const [themeMode, setThemeMode] = useState<"light" | "dark" | "system">("system");
   const [ready, setReady] = useState(false);
@@ -85,7 +87,7 @@ function RootLayoutNav() {
 
   useEffect(() => {
 
-    if (!ready) return;
+    if (!ready || !isConnection) return;
 
     requestIdleCallback(async () => {
 
@@ -112,16 +114,12 @@ function RootLayoutNav() {
 
     });
 
-  }, [ready]);
+  }, [ready, isConnection]);
 
   useEffect(() => {
-
-    if (!ready) return;
-    if (premium) return;
-
+    if (!ready || !isConnection || premium) return;
     interstitialService.initialize(adUnitId);
-
-  }, [premium, ready]);
+  }, [premium, ready, isConnection]);
 
   const resolvedTheme =
     themeMode === "system" ? systemScheme : themeMode;

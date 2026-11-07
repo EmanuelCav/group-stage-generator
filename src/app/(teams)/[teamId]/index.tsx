@@ -1,5 +1,6 @@
 import { useMemo } from "react"
 import { Dimensions, ScrollView } from "react-native"
+import { useRouter } from "expo-router"
 import { useTheme } from "react-native-paper"
 
 import MainScreen from "@/components/general/MainScreen"
@@ -15,15 +16,18 @@ import { useUserStore } from "@/store/user.store"
 import { nextMatches, previousMatches } from "@/utils/matchday"
 
 import { useLanguage } from "@/hooks/useLanguageContext"
+import { useConnection } from "@/hooks/useConnection"
 
 const HomeTeamScreen = () => {
 
     const { group, updateTeam, createTeam } = useGroupStore()
     const { team, showForm, hideAndShowAddTeam, getTeam, sureRemoveTeam } = useTeamStore()
     const { premium } = useUserStore()
+    const isConnection = useConnection()
 
     const { t } = useLanguage()
     const { colors } = useTheme()
+    const router = useRouter()
 
     const openSure = (data: ITeam) => {
         getTeam(data)
@@ -56,6 +60,8 @@ const HomeTeamScreen = () => {
                     createTeam={createTeam}
                     updateTeam={handleUpdate}
                     t={t}
+                    isConnection={isConnection}
+                    router={router}
                 />
             )}
             <ScrollView style={{ flex: 1, width: '100%', backgroundColor: colors.background, paddingHorizontal: Dimensions.get("window").height / 106 }}

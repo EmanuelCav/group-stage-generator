@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, ActivityIndicator, Alert } from "react-native";
 import Purchases, { PurchasesOffering, PurchasesPackage } from "react-native-purchases";
-import { Text, useTheme } from "react-native-paper";
+import { Icon, Text, useTheme } from "react-native-paper";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -17,6 +17,7 @@ import { useUserStore } from "@/store/user.store";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguageContext";
+import { useConnection } from "@/hooks/useConnection";
 
 const Tent = () => {
 
@@ -29,12 +30,18 @@ const Tent = () => {
     const { user } = useAuth()
     const { setPremium, premium } = useUserStore()
     const router = useRouter()
+    const isConnection = useConnection();
 
     const { message } = useLocalSearchParams<{ message?: string }>();
 
     useEffect(() => {
 
         const fetchOfferings = async () => {
+
+            if (!isConnection) {
+                setLoading(false);
+                return;
+            }
 
             try {
 
@@ -50,9 +57,14 @@ const Tent = () => {
 
         fetchOfferings();
 
-    }, []);
+    }, [isConnection]);
 
     const handlePurchase = async (packageToBuy: PurchasesPackage) => {
+
+        if (!isConnection) {
+            Alert.alert(t("offlineTitle"), t("noConnectionOfferings"));
+            return;
+        }
 
         if (!user) {
             await AsyncStorage.removeItem("without_account");
@@ -100,9 +112,24 @@ const Tent = () => {
                         {message}
                     </Text>
                 }
+
                 <Text variant="titleMedium" style={{ textAlign: "center" }}>
                     {premium ? t("titleIsPremium") : t("titleTent")}
                 </Text>
+
+                {
+                    !isConnection && (
+                        <View
+                            style={generalStyles.warningConnection}
+                        >
+                            <Icon source="wifi-off" size={24} color="#F57F17" />
+                            <Text style={{ flex: 1, color: '#5D4037' }} variant="bodyMedium">
+                                {t("noConnectionOfferings")}
+                            </Text>
+                        </View>
+                    )
+                }
+
                 {!premium && offerings?.availablePackages.map((pkg) => (
                     <Offering
                         pkg={pkg}

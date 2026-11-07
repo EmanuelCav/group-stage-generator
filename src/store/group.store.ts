@@ -9,7 +9,7 @@ import { IReferee } from "@/interface/Referee";
 import { IVenue } from "@/interface/Venue";
 import { IPlayer } from "@/interface/Player";
 
-import { emptyMatchday } from "@/utils/defaultGroup";
+import { generateMatchday } from "@/utils/generator";
 
 export const useGroupStore = create(
     persist<IGroupStore>(
@@ -211,12 +211,20 @@ export const useGroupStore = create(
                 group: { ...state.group, isGroupStageEliminationDrawed: data },
                 groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, isGroupStageEliminationDrawed: data } : g)
             })),
-            addMatchday: (groupIndex: number) =>
+            addMatchday: () =>
                 set((state) => {
 
-                    const updatedMatches = state.group.matches?.map((groupMatches, gIndex) => {
-                        if (gIndex !== groupIndex) return groupMatches
-                        return [...groupMatches, emptyMatchday(state.group.teams)]
+                    const newMatchdays = generateMatchday(state.group.teams, state.group.matches![state.group.matches?.length! - 1])
+
+                    const currentMatches = state.group.matches ?? []
+
+                    const maxGroups = Math.max(currentMatches.length, newMatchdays.length)
+
+                    const updatedMatches: IMatch[][][] = Array.from({ length: maxGroups }, (_, gIndex) => {
+                        const existingGroupMatches = currentMatches[gIndex] ?? []
+                        const newGroupMatches = newMatchdays[gIndex] ?? []
+
+                        return [...existingGroupMatches, ...newGroupMatches]
                     })
 
                     return {
@@ -252,10 +260,17 @@ export const useGroupStore = create(
                         )
                     }
                 }),
-            removeMatches: () => set((state) => ({
-                group: { ...state.group, matches: [[emptyMatchday(state.group.teams)]], matchdayView: "all", matchdayNumber: "all" },
-                groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: [[emptyMatchday(state.group.teams)]], matchdayView: "all", matchdayNumber: "all" } : g)
-            })),
+            removeMatches: () => set((state) => {
+
+                const updatedMatches = state.group.matches?.map((groupMatches) => {
+                    return [groupMatches[0]]
+                })
+
+                return {
+                    group: { ...state.group, matches: updatedMatches, matchdayView: "all", matchdayNumber: "all" },
+                    groups: state.groups.map((g) => g.id === state.group.id ? { ...state.group, matches: updatedMatches, matchdayView: "all", matchdayNumber: "all" } : g)
+                }
+            }),
             updateTeamMatch: (groupIndex: number, matchdayIndex: number, matchIndex: number, isLocal: boolean, teamData: ITeam) =>
                 set((state) => {
 

@@ -67,62 +67,124 @@ export const getElimationTeams = (group: IGroup, isShuffled: boolean, t: (scope:
     const flat = positionGroup.flat().filter(pg => pg !== undefined);
 
     const result = [];
+
     for (let i = 0; i < flat.length; i += (Number(group.amountClassified) / 2)) {
         result.push(flat.slice(i, i + (Number(group.amountClassified) / 2)));
     }
 
     positionGroup = result;
 
-    let first = 0
-    let second = 1
-
-    let matchFirst = 0
-    let matchSecond = group.amountClassified === 2 ? 0 : 1
-
     let match: IMatch[] = []
-
     let indexPositionGroupMatch = positionGroup[0].length
 
-    for (let i = 0; i < indexPositionGroupMatch; i++) {
-        match.push({
-            local: {
-                score: null,
-                team: {
-                    id: positionGroup[first][matchFirst].id,
-                    logo: positionGroup[first][matchFirst].logo,
-                    name: positionGroup[first][matchFirst].name,
-                    color: positionGroup[first][matchFirst].color,
-                }
-            },
-            visitant: {
-                score: null,
-                team: {
-                    id: positionGroup[second][matchSecond].id,
-                    logo: positionGroup[second][matchSecond].logo,
-                    name: positionGroup[second][matchSecond].name,
-                    color: positionGroup[second][matchSecond].color,
-                }
-            },
-            isEdit: false,
-            referee: "",
-            stadium: "",
-            statistics: [],
-            summary: [],
-            players: []
-        })
+    if (group.matches?.length! > 1) {
 
-        if (matchSecond === positionGroup[0].length - 1) {
-            matchFirst = 1
-            matchSecond = 0
-        } else {
-            matchFirst += 2
-            matchSecond += 2
+        let matchFirst = 0
+        let matchSecond = group.amountClassified === 2 ? 0 : 1
+
+        for (let i = 0; i < indexPositionGroupMatch; i++) {
+            match.push({
+                local: {
+                    score: null,
+                    team: {
+                        id: positionGroup[0][matchFirst].id,
+                        logo: positionGroup[0][matchFirst].logo,
+                        name: positionGroup[0][matchFirst].name,
+                        color: positionGroup[0][matchFirst].color,
+                        group: positionGroup[0][matchFirst].group
+                    }
+                },
+                visitant: {
+                    score: null,
+                    team: {
+                        id: positionGroup[1][matchSecond].id,
+                        logo: positionGroup[1][matchSecond].logo,
+                        name: positionGroup[1][matchSecond].name,
+                        color: positionGroup[1][matchSecond].color,
+                        group: positionGroup[1][matchSecond].group,
+                    }
+                },
+                isEdit: false,
+                referee: "",
+                stadium: "",
+                statistics: [],
+                summary: [],
+                players: []
+            })
+
+            if (matchSecond === positionGroup[0].length - 1) {
+                matchFirst = 1
+                matchSecond = 0
+            } else {
+                matchFirst += 2
+                matchSecond += 2
+            }
+
         }
 
+    } else {
+
+        let matchFirst = 0
+        let matchSecond = positionGroup[1].length - 1
+
+        for (let i = 0; i < indexPositionGroupMatch; i++) {
+
+            match.push({
+                local: {
+                    score: null,
+                    team: {
+                        id: positionGroup[0][matchFirst].id,
+                        logo: positionGroup[0][matchFirst].logo,
+                        name: positionGroup[0][matchFirst].name,
+                        color: positionGroup[0][matchFirst].color,
+                        group: positionGroup[0][matchFirst].group
+                    }
+                },
+                visitant: {
+                    score: null,
+                    team: {
+                        id: positionGroup[1][matchSecond].id,
+                        logo: positionGroup[1][matchSecond].logo,
+                        name: positionGroup[1][matchSecond].name,
+                        color: positionGroup[1][matchSecond].color,
+                        group: positionGroup[1][matchSecond].group,
+                    }
+                },
+                isEdit: false,
+                referee: "",
+                stadium: "",
+                statistics: [],
+                summary: [],
+                players: []
+            })
+
+            if (i % 2 === 0) {
+                matchFirst = positionGroup[0].length - 1 - ((i / 2))
+                matchSecond = 0 + (i / 2)
+            } else {
+                matchFirst = 0 + ((i + 1) / 2)
+                matchSecond = positionGroup[0].length - 1 - ((i + 1) / 2)
+            }
+
+        }
+    }
+
+    if (amount < 0) {
+        for (let i = 0; i < match.length; i++) {
+            if (match[i].local.team.group === match[i].visitant.team.group) {
+                for (let j = i + 1; j < match.length; j++) {
+                    if (match[j].local.team.group === match[j].visitant.team.group) {
+                        let auxLocal = match[i].local
+                        match[i].local = match[j].local
+                        match[j].local = auxLocal
+                        break
+                    }
+                }
+            }
+        }
     }
 
     let matches: IMatch[][] = []
-
     let winnerIndex = 1
 
     for (let i = 0; i < Math.log(group.amountClassified!) / Math.log(2); i++) {
@@ -198,6 +260,10 @@ export const isScoreElimination = (match: IMatch, isRoundTrip: boolean): boolean
         if (match.local.scoreTieBreaker === match.visitant.scoreTieBreaker) return false
     }
 
+    if ((match.local.scoreTieBreaker !== undefined && match.local.scoreTieBreaker !== null) && (match.visitant.scoreTieBreaker !== undefined && match.visitant.scoreTieBreaker !== null)) {
+        if (match.local.scoreTieBreaker === match.visitant.scoreTieBreaker) return false
+    }
+
     return true
 
 }
@@ -207,7 +273,9 @@ export const winner = (match: IMatch, isRoundTrip: boolean): IMatchTeam => {
     if ((match.local.scoreTieBreaker !== undefined && match.local.scoreTieBreaker !== null) && (match.visitant.scoreTieBreaker !== undefined && match.visitant.scoreTieBreaker !== null)) {
         if (match.local.scoreTieBreaker > match.visitant.scoreTieBreaker) {
             return match.local
-        } else {
+        }
+
+        if (match.visitant.scoreTieBreaker > match.local.scoreTieBreaker) {
             return match.visitant
         }
     }
@@ -215,16 +283,23 @@ export const winner = (match: IMatch, isRoundTrip: boolean): IMatchTeam => {
     if (isRoundTrip) {
         if ((match.local.score! + match.local.scoreTrip!) > (match.visitant.score! + match.visitant.scoreTrip!)) {
             return match.local
-        } else {
+        }
+
+        if ((match.visitant.score! + match.visitant.scoreTrip!) > (match.local.score! + match.local.scoreTrip!)) {
             return match.visitant
         }
+        
     } else {
         if ((match.local.score!) > (match.visitant.score!)) {
             return match.local
-        } else {
+        }
+
+        if ((match.visitant.score!) > (match.local.score!)) {
             return match.visitant
         }
     }
+
+    return match.local
 
 }
 
@@ -302,62 +377,124 @@ export const detectChangesElimination = (group: IGroup, t: (scope: string, optio
     const flat = positionGroup.flat().filter(pg => pg !== undefined);
 
     const result = [];
+
     for (let i = 0; i < flat.length; i += (Number(group.amountClassified) / 2)) {
         result.push(flat.slice(i, i + (Number(group.amountClassified) / 2)));
     }
 
     positionGroup = result;
 
-    let first = 0
-    let second = 1
-
-    let matchFirst = 0
-    let matchSecond = group.amountClassified === 2 ? 0 : 1
-
     let match: IMatch[] = []
-
     let indexPositionGroupMatch = positionGroup[0].length
 
-    for (let i = 0; i < indexPositionGroupMatch; i++) {
-        match.push({
-            local: {
-                score: null,
-                team: {
-                    id: positionGroup[first][matchFirst].id,
-                    logo: positionGroup[first][matchFirst].logo,
-                    name: positionGroup[first][matchFirst].name,
-                    color: positionGroup[first][matchFirst].color,
-                }
-            },
-            visitant: {
-                score: null,
-                team: {
-                    id: positionGroup[second][matchSecond].id,
-                    logo: positionGroup[second][matchSecond].logo,
-                    name: positionGroup[second][matchSecond].name,
-                    color: positionGroup[second][matchSecond].color,
-                }
-            },
-            isEdit: false,
-            referee: "",
-            stadium: "",
-            statistics: [],
-            summary: [],
-            players: []
-        })
+    if (group.matches?.length! > 1) {
 
-        if (matchSecond === positionGroup[0].length - 1) {
-            matchFirst = 1
-            matchSecond = 0
-        } else {
-            matchFirst += 2
-            matchSecond += 2
+        let matchFirst = 0
+        let matchSecond = group.amountClassified === 2 ? 0 : 1
+
+        for (let i = 0; i < indexPositionGroupMatch; i++) {
+            match.push({
+                local: {
+                    score: null,
+                    team: {
+                        id: positionGroup[0][matchFirst].id,
+                        logo: positionGroup[0][matchFirst].logo,
+                        name: positionGroup[0][matchFirst].name,
+                        color: positionGroup[0][matchFirst].color,
+                        group: positionGroup[0][matchFirst].group
+                    }
+                },
+                visitant: {
+                    score: null,
+                    team: {
+                        id: positionGroup[1][matchSecond].id,
+                        logo: positionGroup[1][matchSecond].logo,
+                        name: positionGroup[1][matchSecond].name,
+                        color: positionGroup[1][matchSecond].color,
+                        group: positionGroup[1][matchSecond].group,
+                    }
+                },
+                isEdit: false,
+                referee: "",
+                stadium: "",
+                statistics: [],
+                summary: [],
+                players: []
+            })
+
+            if (matchSecond === positionGroup[0].length - 1) {
+                matchFirst = 1
+                matchSecond = 0
+            } else {
+                matchFirst += 2
+                matchSecond += 2
+            }
+
         }
 
+    } else {
+
+        let matchFirst = 0
+        let matchSecond = positionGroup[1].length - 1
+
+        for (let i = 0; i < indexPositionGroupMatch; i++) {
+
+            match.push({
+                local: {
+                    score: null,
+                    team: {
+                        id: positionGroup[0][matchFirst].id,
+                        logo: positionGroup[0][matchFirst].logo,
+                        name: positionGroup[0][matchFirst].name,
+                        color: positionGroup[0][matchFirst].color,
+                        group: positionGroup[0][matchFirst].group
+                    }
+                },
+                visitant: {
+                    score: null,
+                    team: {
+                        id: positionGroup[1][matchSecond].id,
+                        logo: positionGroup[1][matchSecond].logo,
+                        name: positionGroup[1][matchSecond].name,
+                        color: positionGroup[1][matchSecond].color,
+                        group: positionGroup[1][matchSecond].group,
+                    }
+                },
+                isEdit: false,
+                referee: "",
+                stadium: "",
+                statistics: [],
+                summary: [],
+                players: []
+            })
+
+            if (i % 2 === 0) {
+                matchFirst = positionGroup[0].length - 1 - ((i / 2))
+                matchSecond = 0 + (i / 2)
+            } else {
+                matchFirst = 0 + ((i + 1) / 2)
+                matchSecond = positionGroup[0].length - 1 - ((i + 1) / 2)
+            }
+
+        }
+    }
+
+    if (amount < 0) {
+        for (let i = 0; i < match.length; i++) {
+            if (match[i].local.team.group === match[i].visitant.team.group) {
+                for (let j = i + 1; j < match.length; j++) {
+                    if (match[j].local.team.group === match[j].visitant.team.group) {
+                        let auxLocal = match[i].local
+                        match[i].local = match[j].local
+                        match[j].local = auxLocal
+                        break
+                    }
+                }
+            }
+        }
     }
 
     let matches: IMatch[][] = []
-
     let winnerIndex = 1
 
     for (let i = 0; i < Math.log(group.amountClassified!) / Math.log(2); i++) {
