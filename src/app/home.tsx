@@ -73,7 +73,7 @@ const Home = () => {
     try {
 
       if (count > 3) {
-        if (interstitialService.isLoaded() && !premium && isConnection) {
+        if (interstitialService.isLoaded() && !premium) {
           interstitialService.show()
         }
       }
@@ -119,7 +119,7 @@ const Home = () => {
       }
     };
 
-    if (isConnection) {
+    if (isConnection && !premium) {
       consentAd();
     }
   }, [isConnection]);

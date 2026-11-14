@@ -117,9 +117,10 @@ function RootLayoutNav() {
   }, [ready, isConnection]);
 
   useEffect(() => {
-    if (!ready || !isConnection || premium) return;
+    if (!ready || premium) return;
+
     interstitialService.initialize(adUnitId);
-  }, [premium, ready, isConnection]);
+  }, [premium, ready]);
 
   const resolvedTheme =
     themeMode === "system" ? systemScheme : themeMode;

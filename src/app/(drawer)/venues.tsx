@@ -25,7 +25,6 @@ import { useUserStore } from "@/store/user.store";
 
 import { useSpacing } from "@/hooks/useSpacing";
 import { useLanguage } from "@/hooks/useLanguageContext";
-import { useConnection } from "@/hooks/useConnection";
 
 const toastConfig = {
   error: (props: any) => (
@@ -45,7 +44,6 @@ const VenuesScreen = () => {
 
   const { colors } = useTheme()
   const { t } = useLanguage()
-  const isConnection = useConnection()
 
   const router = useRouter()
 
@@ -130,7 +128,6 @@ const VenuesScreen = () => {
             createVenue={createStadium}
             updateVenue={handleUpdate}
             spacing={spacing}
-            isConnection={isConnection}
             t={t}
           />
         )

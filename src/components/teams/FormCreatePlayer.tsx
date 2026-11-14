@@ -22,7 +22,7 @@ import { playerSchema } from "@/schema/player.schema";
 
 import { interstitialService } from "@/services/interstitialService";
 
-const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, premium, spacing, team, t, isConnection }: FormCreatePlayerPropsType) => {
+const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, player, updatePlayer, openSure, premium, spacing, team, t }: FormCreatePlayerPropsType) => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -76,11 +76,9 @@ const FormCreatePlayer = ({ colors, group, hideAndShowAddPlayer, createPlayer, p
                     const count = storedCount ? parseInt(storedCount, 10) : 0;
 
                     if (!player.id) {
-                        if (group.players?.length !== 0) {
-                            if (group.players?.length === 1 || group.players!.length % 3 === 0) {
-                                if (!premium && interstitialService.isLoaded() && count > 3 && isConnection) {
-                                    interstitialService.show()
-                                }
+                        if (group.players!.length % 3 === 0) {
+                            if (!premium && interstitialService.isLoaded() && count > 3) {
+                                interstitialService.show()
                             }
                         }
                     }

@@ -47,9 +47,9 @@ const MatchRow = memo(({ match, team, t }: MatchRowPropsType) => {
 
     const matchResult = useMemo(() => {
         if (!hasScore) return null
-        if (scoreTeam > scoreRival) return { status: "WIN", label: t("group.wins"), color: "#2e7d32", bgColor: "#e8f5e9" }
-        if (scoreTeam < scoreRival) return { status: "LOSS", label: t("group.losses"), color: "#d32f2f", bgColor: "#ffebee" }
-        return { status: "DRAW", label: t("group.draws"), color: "#757575", bgColor: "#f5f5f5" }
+        if (scoreTeam > scoreRival) return { status: "WIN", label: '✓', color: '#ffffff', bgColor: '#2e7d32' }
+        if (scoreTeam < scoreRival) return { status: "LOSS", label: '✕', color: '#ffffff', bgColor: '#d32f2f' }
+        return { status: "DRAW", label: '—', color: '#ffffff', bgColor: '#757575' }
     }, [hasScore, scoreTeam, scoreRival])
 
     const dateFormatted = useMemo(() => formatDateBadge(match.date), [match.date])

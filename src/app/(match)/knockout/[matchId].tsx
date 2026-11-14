@@ -32,13 +32,11 @@ import { columnTitle, isScoreElimination, winner } from "@/utils/elimination"
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
 import { useLanguage } from "@/hooks/useLanguageContext";
-import { useConnection } from "@/hooks/useConnection";
 
 const MatchKnockoutScreen = () => {
 
     const { colors } = useTheme()
     const { t } = useLanguage()
-    const isConnection = useConnection()
 
     const router = useRouter()
     const { group, updateMatchKnockGroup, updateMatchGroup } = useGroupStore()
@@ -280,7 +278,6 @@ const MatchKnockoutScreen = () => {
                     spacing={spacing}
                     isFullName={isFullName}
                     t={t}
-                    isConnection={isConnection}
                 />
             }
 

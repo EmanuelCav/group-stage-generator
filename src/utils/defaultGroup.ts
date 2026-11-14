@@ -6,7 +6,6 @@ import { IPlayer } from "@/interface/Player";
 import { IReferee } from "@/interface/Referee";
 import { IVenue } from "@/interface/Venue";
 import { IDropdown, ITeam } from "@/interface/Team";
-import { IMatch } from '@/interface/Match';
 
 export const groupValue = (id: number, user_id: string | null): IGroup => {
 

@@ -8,7 +8,7 @@ import { configStyles } from '@/styles/config.styles';
 const SwitchSettings = ({ text, setValue, value, colors, spacing }: SwitchSettingsPropsType) => {
     return (
         <View style={[configStyles.labelSettings, { backgroundColor: colors.background }]}>
-            <Text variant="bodyLarge">{text}</Text>
+            <Text variant="bodyLarge" style={{ textAlign: 'center' }}>{text}</Text>
             <Switch style={{ marginTop: spacing.h192 }}
                 value={value} onValueChange={(val) => setValue(val)} />
         </View>

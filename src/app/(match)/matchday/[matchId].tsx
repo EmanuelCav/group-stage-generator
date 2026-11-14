@@ -32,13 +32,11 @@ import { getGroupUpdateTeamMatch, lineupPlayers } from "@/utils/matchday"
 import { useSpacing } from "@/hooks/useSpacing";
 import { useIsFullName } from "@/hooks/useIsFullName";
 import { useLanguage } from "@/hooks/useLanguageContext";
-import { useConnection } from "@/hooks/useConnection";
 
 const MatchMatchdayScreen = () => {
 
   const { colors } = useTheme()
   const { t } = useLanguage()
-  const isConnection = useConnection()
 
   const router = useRouter()
   const { group, updateMatchGroup, updateMatchKnockGroup } = useGroupStore()
@@ -262,7 +260,6 @@ const MatchMatchdayScreen = () => {
           spacing={spacing}
           isFullName={isFullName}
           t={t}
-          isConnection={isConnection}
         />
       )}
 

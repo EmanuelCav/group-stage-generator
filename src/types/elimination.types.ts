@@ -65,7 +65,6 @@ export type FormEliminationMatchPropsType = {
     isFullName: boolean;
     spacing: Spacing;
     t: (scope: string, options?: object | undefined) => string;
-    isConnection: boolean;
 }
 
 export type CreateEliminationPropsType = {

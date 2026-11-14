@@ -25,7 +25,7 @@ export const groupStyles = StyleSheet.create({
     },
 
     cellBadge: {
-        minWidth: 102,
+        minWidth: 140,
         textAlign: "center",
         fontFamily: 'Raleway_Bold',
         color: "#ffffff"
@@ -142,7 +142,7 @@ export const groupStyles = StyleSheet.create({
         gap: 3,
         alignItems: 'center',
         justifyContent: 'center',
-        minWidth: 88,
+        minWidth: 140,
         paddingHorizontal: 4
     },
 

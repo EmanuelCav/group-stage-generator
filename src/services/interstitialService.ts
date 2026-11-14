@@ -1,51 +1,137 @@
 import {
     InterstitialAd,
     AdEventType,
-} from 'react-native-google-mobile-ads'
+} from 'react-native-google-mobile-ads';
 
 class InterstitialService {
 
-    private ad: InterstitialAd | null = null
-    private loaded: boolean = false
-    private retryTimeout: ReturnType<typeof setTimeout> | null = null
+    private ad: InterstitialAd | null = null;
+    private adUnitId = '';
+
+    private loaded = false;
+    private isLoading = false;
+    private isShowing = false;
+
+    private retryTimeout: ReturnType<typeof setTimeout> | null = null;
+    private retryAttempt = 0;
+
+    private unsubscribe: (() => void)[] = [];
 
     initialize(adUnitId: string) {
-        if (this.ad) return
 
-        this.ad = InterstitialAd.createForAdRequest(adUnitId)
+        if (this.ad && this.adUnitId === adUnitId) return;
 
-        this.ad.addAdEventListener(AdEventType.LOADED, () => {
-            this.loaded = true
-        })
-
-        this.ad.addAdEventListener(AdEventType.CLOSED, () => {
-            this.loaded = false
-            this.ad?.load()
-        })
-
-        this.ad.addAdEventListener(AdEventType.ERROR, () => {
-            this.loaded = false
-
-            if (this.retryTimeout) clearTimeout(this.retryTimeout)
-            this.retryTimeout = setTimeout(() => {
-                this.ad?.load()
-            }, 30000)
-        })
-
-        this.ad.load()
+        this.adUnitId = adUnitId;
+        this.loadAd();
     }
 
-    show() {
-        if (this.ad) {
-            if (this.ad.loaded || this.loaded) {
-                this.ad.show()
-            }
+    private loadAd() {
+
+        if (!this.adUnitId) return;
+        if (this.isLoading || this.loaded || this.isShowing) return;
+
+        if (this.retryTimeout) {
+            clearTimeout(this.retryTimeout);
+            this.retryTimeout = null;
+        }
+
+        this.isLoading = true;
+
+        this.unsubscribe.forEach(unsubscribe => unsubscribe());
+        this.unsubscribe = [];
+
+        this.ad = InterstitialAd.createForAdRequest(this.adUnitId);
+
+        this.unsubscribe.push(
+            this.ad.addAdEventListener(AdEventType.LOADED, () => {
+                this.loaded = true;
+                this.isLoading = false;
+                this.retryAttempt = 0;
+            })
+        );
+
+        this.unsubscribe.push(
+            this.ad.addAdEventListener(AdEventType.OPENED, () => {
+                this.loaded = false;
+                this.isShowing = true;
+            })
+
+        );
+
+        this.unsubscribe.push(
+            this.ad.addAdEventListener(AdEventType.CLOSED, () => {
+
+                this.loaded = false;
+                this.isShowing = false;
+
+                this.unsubscribe.forEach(unsubscribe => unsubscribe());
+                this.unsubscribe = [];
+
+                this.loadAd();
+            })
+        );
+
+        this.unsubscribe.push(
+            this.ad.addAdEventListener(AdEventType.ERROR, (error) => {
+                console.warn("Interstitial error:", error);
+
+                this.loaded = false;
+                this.isLoading = false;
+                this.isShowing = false;
+
+                this.unsubscribe.forEach(unsubscribe => unsubscribe());
+                this.unsubscribe = [];
+
+                this.scheduleRetry();
+            })
+        );
+
+        this.ad.load();
+    }
+
+    private scheduleRetry() {
+
+        if (this.retryTimeout) return;
+
+        const delay = Math.min(
+            15000 * Math.pow(2, this.retryAttempt),
+            120000
+        );
+
+        this.retryAttempt++;
+
+        this.retryTimeout = setTimeout(() => {
+            this.retryTimeout = null;
+            this.loadAd();
+        }, delay);
+    }
+
+    async show(): Promise<boolean> {
+        if (!this.ad || !this.loaded || this.isShowing) {
+            this.loadAd();
+            return false;
+        }
+
+        try {
+            await this.ad.show();
+            return true;
+        } catch (error) {
+
+            console.warn("Error showing interstitial:", error);
+
+            this.loaded = false;
+            this.isLoading = false;
+            this.isShowing = false;
+            this.scheduleRetry();
+
+            return false;
         }
     }
 
-    isLoaded() {
-        return (this.loaded || this.ad?.loaded)
+    isLoaded(): boolean {
+        return this.loaded && (this.ad?.loaded ?? false) && !this.isShowing;
     }
+
 }
 
-export const interstitialService = new InterstitialService()
+export const interstitialService = new InterstitialService();

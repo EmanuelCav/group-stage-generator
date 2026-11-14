@@ -14,9 +14,9 @@ import { useGroupPoints } from '@/hooks/useGroupPoints'
 const FormBadges = ({ form, t }: FormBadgesPropsType) => {
 
     const FORM_CONFIG = {
-        WIN: { label: t('group.wins'), color: '#2e7d32', bgColor: '#e8f5e9' },
-        LOSS: { label: t('group.losses'), color: '#d32f2f', bgColor: '#ffebee' },
-        DRAW: { label: t('group.draws'), color: '#757575', bgColor: '#f5f5f5' },
+        WIN: { label: '✓', color: '#ffffff', bgColor: '#2e7d32' },
+        LOSS: { label: '✕', color: '#ffffff', bgColor: '#d32f2f' },
+        DRAW: { label: '—', color: '#ffffff', bgColor: '#757575' },
     }
 
     return (

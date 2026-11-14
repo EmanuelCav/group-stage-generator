@@ -8,6 +8,7 @@ import AddButton from "@/components/general/AddButton"
 import MainScreen from "@/components/general/MainScreen"
 import FormCreatePlayer from "@/components/teams/FormCreatePlayer"
 import LimitToast from "@/components/general/LimitToast"
+import Sure from "@/components/general/Sure"
 
 import { IPlayer } from "@/interface/Player"
 
@@ -17,7 +18,6 @@ import { createStyles } from "@/styles/create.styles"
 
 import { useSpacing } from "@/hooks/useSpacing"
 import { useLanguage } from "@/hooks/useLanguageContext"
-import { useConnection } from "@/hooks/useConnection"
 
 import { usePlayerStore } from "@/store/player.store"
 import { useTeamStore } from "@/store/team.store"
@@ -33,10 +33,9 @@ const PlayersTeamScreen = () => {
 
     const { colors } = useTheme()
     const { t } = useLanguage()
-    const isConnection = useConnection()
 
-    const { showForm, player, hideAndShowAddPlayer, getPlayer, sureRemovePlayer } = usePlayerStore()
-    const { group, createPlayer, updatePlayer } = useGroupStore()
+    const { showForm, player, hideAndShowAddPlayer, getPlayer, sureRemovePlayer, isSure } = usePlayerStore()
+    const { group, createPlayer, updatePlayer, removePlayer } = useGroupStore()
     const { premium } = useUserStore()
     const { team } = useTeamStore()
     const router = useRouter()
@@ -45,6 +44,17 @@ const PlayersTeamScreen = () => {
     const openSure = (data: IPlayer) => {
         getPlayer(data)
         sureRemovePlayer(true)
+    }
+
+    const handleRemovePlayer = () => {
+        sureRemovePlayer(false)
+        hideAndShowAddPlayer(false)
+        removePlayer(player)
+        getPlayer({})
+    }
+
+    const close = () => {
+        sureRemovePlayer(false)
     }
 
     const openCreatePlayer = () => {
@@ -140,7 +150,7 @@ const PlayersTeamScreen = () => {
                     { backgroundColor: colors.primary },
                 ]}
             >
-                <Text variant="titleSmall" style={teamsStyles.sectionHeaderText}>
+                <Text variant="titleSmall" style={[teamsStyles.sectionHeaderText, { color: "#ffffff" }]}>
                     {title}
                 </Text>
             </View>
@@ -150,6 +160,16 @@ const PlayersTeamScreen = () => {
 
     return (
         <MainScreen colors={colors}>
+            {
+                isSure && (
+                    <Sure
+                        func={handleRemovePlayer}
+                        text={t("areYouSureDelete")}
+                        close={close}
+                        labelButton={t("remove")}
+                    />
+                )
+            }
             {showForm && (
                 <FormCreatePlayer
                     team={team}
@@ -163,7 +183,6 @@ const PlayersTeamScreen = () => {
                     updatePlayer={updatePlayer}
                     openSure={openSure}
                     t={t}
-                    isConnection={isConnection}
                 />
             )}
 

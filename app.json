@@ -2,7 +2,7 @@
   "expo": {
     "name": "Group Stage Maker",
     "slug": "GroupStageGenerator",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "icon": "./assets/images/icon.png",
     "scheme": "groupstagegenerator",
     "userInterfaceStyle": "automatic",
@@ -11,7 +11,7 @@
     },
     "android": {
       "package": "com.emanlogic.groupstagegenerator",
-      "versionCode": 22,
+      "versionCode": 23,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#007AFF"
@@ -52,8 +52,6 @@
           "autoUploadSourceMaps": false
         }
       ],
-      "./withMediation",
-      "./withGmaConfig",
       [
         "react-native-google-mobile-ads",
         {

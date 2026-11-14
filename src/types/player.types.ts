@@ -17,7 +17,6 @@ export type FormCreatePlayerPropsType = {
     spacing: Spacing;
     team: ITeam;
     t: (scope: string, options?: object | undefined) => string;
-    isConnection: boolean;
 }
 
 export type PlayerPropsType = {
